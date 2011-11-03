@@ -1,0 +1,155 @@
+*{
+	margin:		0;
+	padding:	0;
+	border:		0;
+}
+
+img{
+	max-width:100%;
+	max-height:100%;
+}
+
+a{
+	text-decoration: none;
+	color:#aaa;
+}
+
+a:visited{
+	color: #ccc;
+}
+
+/**
+ * Main area 
+ */
+
+#container{
+	position:	absolute;
+	left:		0;
+	right:		0;
+	top:		0;
+	bottom:		0;
+	overflow:	hidden;
+	background:	#333;
+}
+
+/**
+ * Displaying of the boards
+ */
+
+#menu{
+	position:	absolute;
+	left:		0;
+	width:		200px;
+	top:		0;
+	bottom:		0;
+	background:	black;
+	border-right:1px solid white;
+	overflow-x:	hidden;
+	overflow-y:	auto;
+}
+
+div.box.blue{
+	background:rgb(0,160,232);
+}
+
+div.box.red{
+	background:red;
+}
+
+div.box.orange{
+	background:rgb(255,143,0);
+}
+
+div.box.green{
+	background:rgb(0,164,52);
+}
+
+.menu_dir{
+	padding:		10px;
+	border-bottom:	1px solid #555;
+	cursor:			pointer;
+	font-family: 	Century Gothic, sans-serif;
+}
+
+.menu_dir:hover{
+	background:	#444;
+}
+
+.menu_subdir{
+	padding:		5px;
+	border-bottom:	1px solid #333;
+	cursor:			pointer;
+}
+
+.menu_subdir:hover{
+	background:	#444;
+}
+
+.selected{
+	border-right:	5px solid rgb(0,160,232);
+}
+
+.selected a{
+	color:		#eee;
+}
+
+
+#boards_panel{
+	position:	absolute;
+	left:		200px;
+	right:		0;
+	top:		0;
+	bottom:		0;
+	overflow-x:	hidden;
+	overflow-y:	auto;
+}
+
+.board{
+	margin:			10px;
+	background:		rgba(100,100,100,50);
+	border-radius:	5px;
+	padding:		5px;
+}
+
+.board_title{
+	font-family: 	'Quicksand', sans-serif;
+	font-size:		35pt;
+	margin:			5px;
+	color:			white;
+}
+
+.board_item{
+	display:	inline-block;
+}
+
+
+/**
+ * Displaying of an image
+ */
+
+#exif{
+	position:	absolute;
+	left:		1%;
+	width:		20%;
+	top:		120px;
+	bottom:		200px;
+	background:	#eee;
+}
+
+#image_big{
+	position:	absolute;
+	left:		22%;
+	top:		100px;
+	right:		22%;
+	bottom:		200px;
+	text-align:	center;
+	}
+
+#comments{
+	position:	absolute;
+	right:		1%;
+	width:		20%;
+	top:		120px;
+	bottom:		200px;
+	background:	#eee;
+}
