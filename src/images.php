@@ -42,7 +42,7 @@ function gener_thumb($file){
 	/// Set destination
 	$dest=get_thumb($file);
 
-	mkdir(dirname($dest));
+	mkdir(dirname($dest),0750,true);
 	
 	$thumb = PhpThumbFactory::create($file);
 	$thumb->resize(200, 200);
