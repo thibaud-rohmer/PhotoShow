@@ -17,7 +17,7 @@
 */
 
 if(file_exists('secu.php')) chdir('..');
-//echo getcwd();
+
 require_once 'src/secu.php';
 require_once 'src/listings.php';
 require_once 'src/settings.php';
@@ -25,7 +25,7 @@ require_once 'src/images.php';
 
 $settings=get_settings();
 
-$file = $settings['photos_dir'].urldecode($_GET['file']);
+$file = $settings['photos_dir']."/".urldecode($_GET['file']);
 
 if(!right_path($file)) {
 	echo "bad boy";
@@ -33,7 +33,7 @@ if(!right_path($file)) {
 }
 
 if(isset($_GET['t']) && $_GET['t']=="thumb"){
-	$file = $settings['thumbs_dir'].urldecode($_GET['file']);
+	$file = $settings['thumbs_dir']."/".urldecode($_GET['file']);
 }
 
 header('Content-type: image/jpeg');
@@ -41,7 +41,7 @@ if (file_exists($file))
 {
 	readfile($file);
 }else{
-	gener_thumb($settings['photos_dir'].urldecode($_GET['file']));	
+	gener_thumb($settings['photos_dir']."/".urldecode($_GET['file']));	
 }
 
 ?>
