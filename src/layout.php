@@ -115,9 +115,12 @@ function board($dir){
 		echo "<div class='board_line $numitems-items'>";
 		foreach($line as $item){
 			$file=$filelist[$i];
-			$rp2f	=	relative_path($file,$settings['photos_dir']);
+			$rp2f	=	"t=thumb&file=".relative_path($file,$settings['photos_dir']);
 			$width=$item*90/$sumitems;
-			echo 	("<div class='board_item' style=\" width:$width%; background: url('src/getfile.php?t=thumb&file=$rp2f') no-repeat center center; background-size: cover;\">");
+			if($width>25)
+				$rp2f	=	"file=".relative_path($file,$settings['photos_dir']);
+				
+			echo 	("<div class='board_item' style=\" width:$width%; background: url('src/getfile.php?$rp2f') no-repeat center center; background-size: cover;\">");
 			echo 	"<a href='?f=$rp2f'><img src='./inc/img.png' width='100%' height='100%'></a></div>\n";
 			$i++;
 		}

@@ -68,10 +68,12 @@ function analyze_images($images,$images_per_line){
 		list($x,$y)=getimagesize($image);
 		
 		if($y>$x){  			/// Portrait
-			$ratio[]=1;
+			$r=1;
 		}else{		/// Large landscape
-			$ratio[]=floor($x/$y)+1;
+			$r=floor($x/$y)+1;
 		}
+		if($r>3) $r=3;
+		$ratio[]=$r;
 	}
 	
 	// Create the grid 
