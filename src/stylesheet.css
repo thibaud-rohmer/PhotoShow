@@ -5,8 +5,9 @@
 }
 
 img{
-	max-width:100%;
-	max-height:100%;
+	max-width:	100%;
+	max-height:	100%;
+	margin:		0;
 }
 
 a{
@@ -119,9 +120,14 @@ div.box.green{
 }
 
 .board_item{
-	display:	inline-block;
+	display:		inline-block;
+	border:			5px solid #ccc;
+	padding:		0;
 }
 
+.board_item:hover{
+	border-color:	rgb(255,143,0);
+}
 
 /**
  * Displaying of an image
