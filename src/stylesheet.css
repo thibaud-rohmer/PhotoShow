@@ -12,15 +12,16 @@ img{
 
 body{
 	font-family: 	Century Gothic, sans-serif;
+	background:		#ddd;
 }
 
 a{
 	text-decoration: none;
-	color:#aaa;
+	color:#333;
 }
 
 a:visited{
-	color: #ccc;
+	color: #333;
 }
 
 /**
@@ -34,7 +35,6 @@ a:visited{
 	top:		0;
 	bottom:		0;
 	overflow:	hidden;
-	background:	#333;
 }
 
 /**
@@ -44,47 +44,49 @@ a:visited{
 #menu{
 	position:	absolute;
 	left:		0;
-	width:		200px;
+	width:		250px;
 	top:		0;
 	bottom:		0;
-	background:	black;
-	border-right:1px solid white;
+	background:	white;
 	overflow-x:	hidden;
 	overflow-y:	auto;
+	border-right:	1px solid rgba(0,0,0,.3);
+	z-index:	5;
 }
 
 .menu_dir{
-	padding:		10px;
-	border-bottom:	1px solid #555;
+	margin:			10px;
+	padding:		5px;
 	cursor:			pointer;
 }
 
 .menu_dir:hover{
-	background:	#444;
+	background:	#ddd;
 }
 
 .menu_subdir{
-	padding:		5px;
-	border-bottom:	1px solid #333;
+	margin:			0px 15px 3px 15px;
+	padding:		3px;
 	cursor:			pointer;
+	font-size:		10pt;
 }
 
 .menu_subdir:hover{
-	background:	#444;
+	background:	#ddd;
 }
 
 .selected{
-	border-right:	5px solid rgb(0,160,232);
+	border-left:	5px solid rgb(0,160,232);
 }
 
 .selected a{
-	color:		#eee;
+	color:		rgb(0,160,232);
 }
 
 
 #boards_panel{
 	position:	absolute;
-	left:		200px;
+	left:		270px;
 	right:		0;
 	top:		0;
 	bottom:		0;
@@ -93,30 +95,69 @@ a:visited{
 }
 
 .board{
-	margin:			10px;
-	background:		rgba(100,100,100,50);
-	border-radius:	5px;
-	padding:		5px;
+}
+
+.board_header{
+	width:			100%;
+	vertical-align:	center;
+	margin-bottom:	20px;
 }
 
 .board_title{
-	font-family: 	'Quicksand', sans-serif;
-	font-size:		35pt;
-	margin:			5px;
+	font-family: 	'Open Sans', sans-serif;
+	font-size:		20pt;
+	margin:			10px;
+	color:			black;
+	//text-shadow: 	rgb(50,50,50) 1px 1px 2px;
+	display:		inline-block;
+}
+
+.button{
+	padding:		7px;
+	border-radius:	3px;
+	font-size:		10pt;
 	color:			white;
+	border:			1px solid;
+	cursor:			pointer;
+	min-width:		80px;
+	text-align:		center;
+	display:		inline-block;
+}
+
+.button.blue{
+	background-color:	rgb(0,160,232);
+	border-color:		rgb(0,140,200);
+}
+
+.button.blue:hover{
+	background-color:	rgb(0,120,222);
+	border-color:		rgb(0,140,200);
+}
+
+.button a{
+	color:			white;
+}
+
+.board_header .button{
+	margin:			0px 0px 0px 0px;
+}
+
+.board_line{
+	text-align:		center;
 }
 
 .board_item{
 	display:		inline-block;
-	border:			4px solid black;
 	padding:		0;
-	max-width:		200px;
-	height:			110px;
-	margin:			3px;
+	height:			130px;
+	margin:			0;
 }
 
-.board_item:hover{
-	border-color:	rgb(160,232,0);
+.board_item img{
+	opacity:		0;
+}
+.board_item:hover img{
+	opacity:		.5;
 }
 
 /**

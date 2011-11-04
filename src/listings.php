@@ -27,7 +27,9 @@
  */
 function list_dirs($dir,$fullpath=false){
 	$list=array();
+	$settings=get_settings();
 	/// Scanning the directory
+	if(!file_exists($dir)|| !is_dir($dir)) $dir=$settings['photos_dir'];
 	$dir_content = scandir($dir);					
 	foreach ($dir_content as $content){
 		/// We are not listing hidden directories, or '.' and '..'
@@ -50,7 +52,9 @@ function list_dirs($dir,$fullpath=false){
  */
 function list_files($dir,$fullpath=false){
 	$list=array();
+	$settings=get_settings();
 	/// Scanning the directory
+	if(!file_exists($dir)|| !is_dir($dir)) $dir=$settings['photos_dir'];
 	$dir_content = scandir($dir);					
 	foreach ($dir_content as $content){
 		/// We are not listing hidden directories, or '.' and '..'

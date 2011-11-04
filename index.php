@@ -25,7 +25,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>NewPhoto</title>
 	<meta name="author" content="Thibaud Rohmer">
-	<link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="src/stylesheet.css" type="text/css" media="screen" charset="utf-8">
 	
 <?php

@@ -92,31 +92,51 @@ function board($dir){
 	$settings	=	get_settings();
 	
 	echo 	"<div class='board'>\n";
+	echo 	"<div class='board_header'>";
 	echo 	"<div class='board_title'>";
 	echo 	basename($dir);
 	echo 	"</div>\n";
+	echo 	"<div class='button blue'><a href='?f=";
+	echo 	relative_path($dir,$settings['photos_dir']);
+	echo 	"'>URL</a></div>\n";
+	echo 	"</div>\n";
+	
+
+	// Let's analyze the images
+	$analyzed = analyze_images($filelist,8);
+	
 	
 	// First, we display the thumbs
-	foreach ( $filelist as $file ){
-	//	$thumb = get_thumb($file);
-		echo 	"<div class='board_item'>";
-		echo 	"<a href='?f=";
-		echo 	relative_path($file,$settings['photos_dir']);
-		echo 	"'>";
-		echo 	"<img src='src/getfile.php?t=thumb&file=";
-		echo 	relative_path($file,$settings['photos_dir']);
-		echo 	"'>";
-		echo 	"</a></div>\n";
+	echo 	"<div class='board_items'>";
+	$i=0;
+	foreach ($analyzed as $line){
+		$numitems=sizeof($line);
+		$sumitems=array_sum($line);
+		echo "<div class='board_line $numitems-items'>";
+		foreach($line as $item){
+			$file=$filelist[$i];
+			$rp2f	=	relative_path($file,$settings['photos_dir']);
+			$width=$item*90/$sumitems;
+			echo 	("<div class='board_item' style=\" width:$width%; background: url('src/getfile.php?t=thumb&file=$rp2f') no-repeat center center; background-size: cover;\">");
+			echo 	"<a href='?f=$rp2f'><img src='./inc/img.png' width='100%' height='100%'></a></div>\n";
+			$i++;
+		}
+		echo "</div>";		
 	}
+
+	echo 	"</div>";
 
 	// Then, we display the sub-boards
 	foreach ( $dirlist as $subdir ){
+		board($subdir);
+	/*
 		echo 	"<div class='sub_board'>";
 		echo 	"<a href='?f=";
 		echo 	relative_path($subdir,$settings['photos_dir']);
 		echo 	"'>";
 		echo 	basename($subdir);
 		echo 	"</a></div>\n";
+	*/
 	}
 	
 	echo 	"</div>\n";

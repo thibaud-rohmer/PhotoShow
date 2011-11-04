@@ -23,7 +23,7 @@ require_once 'src/phpthumb/ThumbLib.inc.php';
 /**
  * Returns the path to the thumb corresponding to $file
  *
- * \param $file
+ * \param string $file
  * 		The file we need a thumb of.
  */
 function get_thumb($file){
@@ -35,7 +35,7 @@ function get_thumb($file){
 /**
  *	Generates a thumb, returns it and saves it
  * 
- * \param $file
+ * \param string $file
  * 		The file we generate a thumb of.
  */
 function gener_thumb($file){
@@ -48,6 +48,43 @@ function gener_thumb($file){
 	$thumb->resize(200, 200);
 	$thumb->save($dest);
 	$thumb->show($dest);
+}
+
+/**
+ *  Detects the ratio width/height of the images. Returns the list of the information.
+ * 	\param array $images
+ * 			List of the images to analyze
+ * 	\param int $images_per_line
+ * 			Number of images per line
+ */
+function analyze_images($images,$images_per_line){
+	$ratio		=	array();
+	$list		=	array();
+	$line		=	0;
+	$line_value	=	0;
+	
+	// Calculate the ratio width/height of each image 
+	foreach ( $images as $image ) {
+		list($x,$y)=getimagesize($image);
+		
+		if($y>$x){  			/// Portrait
+			$ratio[]=1;
+		}else{		/// Large landscape
+			$ratio[]=floor($x/$y)+1;
+		}
+	}
+	
+	// Create the grid 
+	foreach ( $ratio as $r ){
+		$line_value=$line_value+$r;
+		if($line_value>$images_per_line){	/// The line is complete
+			$line_value	=	0;
+			$line		=	$line+1;
+		}
+		$list[$line][]=$r;
+	}
+	
+	return $list;
 }
 
 ?>
