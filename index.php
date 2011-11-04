@@ -62,10 +62,7 @@ if($action['layout']=="image"){
 		<div id="top">
 			<div id="exif" class='box'>
 				<?php
-				if($action['layout']=='image') {
-					$rp=relative_path($action['display'],$settings['photos_dir']);
 					require("inc/exif.php");
-				}
 				?>
 			</div>
 
@@ -79,15 +76,17 @@ if($action['layout']=="image"){
 				<?php 
 					echo"<a href='?f=".htmlentities(dirname($_GET['f']))."'>"; 
 				?>
-					<image src="inc/img.png" height="100%" width="100%" style="opacity:0;">
+					<image src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
 			</div>
 
 			<div id="comments" class='box'>
-			
+				<?php
+					require("inc/comments.php");
+				?>			
 			</div>
 		</div>
 		<div id="thumbs_bottom">
-		
+
 		</div>
 	</div>
 </div>

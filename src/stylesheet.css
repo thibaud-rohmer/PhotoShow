@@ -164,6 +164,14 @@ a:visited{
  * Displaying of an image
  */
 
+.layout_image{
+	background:	black;
+	position:	absolute;
+	top:		0;
+	left:		0;
+	right:		0;
+	bottom:		0;
+}
 
 .box{
 	position:	absolute;

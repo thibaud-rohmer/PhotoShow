@@ -20,6 +20,7 @@ if(file_exists('exif.php')) chdir('..');
 
 require_once 'src/settings.php';
 require_once 'src/images.php';
+require_once 'src/secu.php';
 
 // Let's check that we have the EXIF extension
 $load_ext = get_loaded_extensions();
@@ -31,12 +32,18 @@ if (!in_array(exif, $load_ext)) {
 // Let's check that we have a $_GET['f']
 if(!isset($_GET['f'])){
 	echo "Missing argument";
+	return;
 }
-
 
 $settings	=	get_settings();
 $file		=	$settings['photos_dir']."/".$_GET['f'];
 $raw_exif	=	exif_read_data($file);
+
+// Let's check that we have a $_GET['f']
+if(!right_path($file)){
+	echo "Not allowed";
+	return;
+}
 
 // Let's check that the file exists
 if (!file_exists($file) || !is_file($file)){
