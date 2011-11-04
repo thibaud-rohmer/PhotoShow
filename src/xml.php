@@ -16,6 +16,8 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once 'src/settings.php';
+
 /**
  * Parses the comments and returns them in a nice array
  *
@@ -24,6 +26,36 @@
  */
 function parse_comments($f){
 	return simplexml_load_file($f);	
+}
+
+/**
+ * Generates an rss feed
+ *
+ * 	\param string $t
+ *			Type of feed
+ * 	\param array $info
+ *			Information necessary
+ */
+function feed($t,$info){
+	$settings=get_settings();
+	
+	if(!isset($settings["feed_$t"])) return;
+	
+	$file=$settings["feed_$t"];
+	if(!is_file($file)){
+		$rss='<?xml version="1.0"?><rss version="2.0"><channel></channel></rss>';
+		$myfile=fopen($file,"w+");
+		fwrite($myfile,$rss);	
+		fclose($myfile);
+	}
+	
+	$xml		=	simplexml_load_file($file);
+	$new_item	=	$xml->addChild('item');
+	$new_item->addChild('title',$info['title']);
+	$new_item->addChild('description',$info['description']);
+	$new_item->addChild('link',$info['link']);
+	
+	$xml->asXML($file);	
 }
 
 ?>

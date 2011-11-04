@@ -19,6 +19,7 @@
 require_once 'src/settings.php';
 require_once 'src/listings.php';
 require_once 'src/phpthumb/ThumbLib.inc.php';
+require_once 'src/xml.php';
 
 /**
  * Returns the path to the thumb corresponding to $file
@@ -42,12 +43,22 @@ function gener_thumb($file){
 	/// Set destination
 	$dest=get_thumb($file);
 
-	mkdir(dirname($dest),0750,true);
-	
+	if(!file_exists(dirname($dest))){
+		mkdir(dirname($dest),0750,true);
+		
+		$settings=get_settings();
+		$info['title']="New album:".basename(dirname($dest));
+		$info['description']="<img src='".$settings['site_url']."/src/getfile.php?f=".relative_path($file,$settings['photos_dir'])."'>";
+		$info['link']=$settings['site_url']."?f=".dirname($dest);
+		
+		feed("albums",$info);
+	}
 	$thumb = PhpThumbFactory::create($file);
 	$thumb->resize(200, 200);
 	$thumb->save($dest);
 	$thumb->show($dest);
+	
+	
 }
 
 /**

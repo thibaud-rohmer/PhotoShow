@@ -55,12 +55,24 @@ if (file_exists($comms_file) && is_file($comms_file)){
 }
 
 if(isset($_POST['name']) && isset($_POST['comment']) && $_POST['name']!='' && $_POST['comment']!=''){
+	if(!file_exists($comms_file)){
+		$rss='<?xml version="1.0"?><comments></comments>';
+		$myfile=fopen($comms_file,"w+");
+		fwrite($myfile,$rss);	
+		fclose($myfile);
+		$comments=parse_comments($comms_file);
+	}
 	$name		=	$_POST['name'];
 	$comment	=	$_POST['comment'];
 	$newitem	=	$comments->addChild('comment');
 	$newitem->addChild('id',$name);
 	$newitem->addChild('val',$comment);
 	$comments->asXML($comms_file);
+	
+	$info['title']="New comment by ".$_POST['name'];
+	$info['description']=$_POST['comment'];
+	$info['link']=$settings['url']."?f=".$_GET['f'];
+	feed('comments',$info);
 }
 
 

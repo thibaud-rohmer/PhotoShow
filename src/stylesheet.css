@@ -18,6 +18,7 @@ body{
 a{
 	text-decoration: none;
 	color:#333;
+	display:block;
 }
 
 a:visited{

@@ -15,6 +15,16 @@
     You should have received a copy of the GNU General Public License
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+
+require_once 'src/layout.php';
+require_once 'src/settings.php';
+require_once 'src/secu.php';
+
+$settings=get_settings();
+$action=parse_action($_GET['f']);
+
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -23,19 +33,12 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>NewPhoto</title>
+	<title><?php echo $settings['site_name']; ?></title>
 	<meta name="author" content="Thibaud Rohmer">
 	<link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="src/stylesheet.css" type="text/css" media="screen" charset="utf-8">
 	
 <?php
-require_once 'src/layout.php';
-require_once 'src/settings.php';
-require_once 'src/secu.php';
-
-$settings=get_settings();
-$action=parse_action($_GET['f']);
-
 if($action['layout']=="image"){
 	echo "<style>\n .layout_thumbs{\n display:none;\n }\n </style>\n";
 }else{
