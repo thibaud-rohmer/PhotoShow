@@ -52,12 +52,13 @@ if($action['layout']=="image"){
 				menu($action['dir'],$action['subdir']); 
 			?>
 		</div>
-		<div id="boards_panel">
-			<?php
-				board($action['display']); 
-			?>
-		</div>
 	</div>
+	<?php
+		$layout=$action['layout'];
+		echo 	"<div id='boards_panel' class='boards_panel_$layout'>";
+		board($action['display']); 
+		echo 	"</div>";
+	?>
 	<div class="layout_image">
 		<div id="top">
 			<div id="exif" class='box'>
@@ -86,7 +87,6 @@ if($action['layout']=="image"){
 			</div>
 		</div>
 		<div id="thumbs_bottom">
-
 		</div>
 	</div>
 </div>

@@ -87,6 +87,9 @@ function menu($selected_dir=".",$selected_subdir="."){
  * 		Directory where to look
  */
 function board($dir){
+	if(is_file($dir)){
+		$dir=dirname($dir);
+	}
 	$filelist	=	list_files($dir,true);
 	$dirlist	=	list_dirs($dir,true);
 	$settings	=	get_settings();
@@ -149,7 +152,7 @@ function board($dir){
 			$color	=	$colors[array_rand($colors)];
 			echo 	"<div class='button $color'><a href='?f=$url'>";
 			echo 	basename($subdir);
-			echo 	"</div>";
+			echo 	"</a></div>";
 		}
 		echo "</div>\n";
 	}

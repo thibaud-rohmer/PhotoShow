@@ -84,7 +84,7 @@ a:visited{
 }
 
 
-#boards_panel{
+.boards_panel_thumbs{
 	position:	absolute;
 	left:		270px;
 	right:		0;
@@ -180,7 +180,7 @@ a:visited{
 	display:		inline-block;
 	padding:		0;
 	height:			130px;
-	margin:			0;
+	margin:			0px;
 }
 
 .board_item img{
@@ -203,6 +203,28 @@ a:visited{
 	bottom:		0;
 }
 
+.boards_panel_image{
+	position:	absolute;
+	left:		0px;
+	right:		0;
+	bottom:		0;
+	height:		150px;
+	overflow-y:	hidden;
+	overflow-x:	scroll;
+	white-space: nowrap; 
+	z-index:	2;
+}
+
+.boards_panel_image .board_header, .boards_panel_image .subdirs{
+	display:	none;
+}
+
+.boards_panel_image .board_line{
+	display:		inline-block;
+	width:			600px;
+	margin-right:	-40px;
+}
+
 .box{
 	position:	absolute;
 	z-index:	3;
@@ -222,7 +244,7 @@ a:visited{
 	left:			0;
 	width:			15%;
 	top:			0;
-	height:			80%;
+	bottom:		160px;
 	border-right:	1px solid rgba(0,0,0,.3);
 }
 
@@ -231,15 +253,15 @@ a:visited{
 	left:		15%;
 	top:		0;
 	right:		15%;
-	height:		80%;
+	bottom:		160px;
 	text-align:	center;
 }
 
 #comments{
-	right:		0;
-	width:		15%;
-	top:		0;
-	height:		80%;
+	right:			0;
+	width:			15%;
+	top:			0;
+	bottom:			160px;
 	border-left:	1px solid rgba(0,0,0,.3);
 }
 
@@ -347,8 +369,4 @@ textarea {
 	height:				50px;
 	overflow:			auto;
 	margin: 			2px 0px 10px 0px;
-}
-
-input[type="text"]{
-	
 }
