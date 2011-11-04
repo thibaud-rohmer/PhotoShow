@@ -20,10 +20,72 @@
 if(file_exists('comments.php')) chdir('..');
 
 require_once 'src/settings.php';
+require_once 'src/secu.php';
 require_once 'src/xml.php';
 
+
+// Let's check that we have a $_GET['f']
+if(!isset($_GET['f'])){
+	echo "Missing argument";
+	return;
+}
+
+$settings	=	get_settings();
+$file		=	$settings['photos_dir']."/".$_GET['f'];
+$raw_exif	=	exif_read_data($file);
+
+// Let's check that we have a $_GET['f']
+if(!right_path($file)){
+	echo "Not allowed";
+	return;
+}
+
+// Get path without extension
+$info = pathinfo($_GET['f']);
+$path =  dirname($_GET['f'])."/".basename($_GET['f'],'.'.$info['extension']);
+
+// Get comms file
+$comms_file	=	$settings['thumbs_dir']."/".$path."_coms.xml";
+
+$comments	=	array();
+// Let's check that the file exists
+if (file_exists($comms_file) && is_file($comms_file)){
+	// Parsing the comments
+	$comments=parse_comments($comms_file);
+}
+
+if(isset($_POST['name']) && isset($_POST['comment']) && $_POST['name']!='' && $_POST['comment']!=''){
+	$name		=	$_POST['name'];
+	$comment	=	$_POST['comment'];
+	$newitem	=	$comments->addChild('comment');
+	$newitem->addChild('id',$name);
+	$newitem->addChild('val',$comment);
+	$comments->asXML($comms_file);
+}
+
+
+echo "<div class='box_title'>Comments</div><div id='comments_display'>";
+
+// Displaying the comments one by one
+if(sizeof($comments)>0){
+	foreach($comments as $com){
+		$id		=	htmlentities( $com->id );
+		$val	=	htmlentities( $com->val );
+	
+		echo "<div class='comment'>\n";
+		echo "<div class='comment_id'>$id</div>\n";
+		echo "<div class='comment_data'>$val</div>\n";
+		echo "</div>\n";
+	}
+}
 ?>
-
-<div class="box_title">Com</div>
-
-
+</div>
+<div id='comments_form_div'>
+	<form action='#' id='comments_form' method='post'>
+		<div class='label'>Name</div>
+		<input type='text' name='name' id='name'>
+		<div class='label'>Comment</div>
+		<textarea name='comment' id='comment'></textarea>
+		<input type='submit' value='Send' class='button blue'>
+	</form>
+</div>

@@ -178,18 +178,19 @@ a:visited{
 	z-index:	3;
 	background:	black;
 	overflow:	auto;
+	color:		white;
 }
 
 .box_title{
 	font-family: 'Quicksand', sans-serif;
-	font-size:		50pt;
-	margin:			20px;
+	font-size:		25pt;
+	margin:			10px;
 	color:white;
 }
 
 #exif{
 	left:			0;
-	width:			20%;
+	width:			15%;
 	top:			0;
 	height:			80%;
 	border-right:	1px solid rgba(0,0,0,.3);
@@ -197,16 +198,16 @@ a:visited{
 
 #image_big{
 	position:	absolute;
-	left:		20%;
+	left:		15%;
 	top:		0;
-	right:		20%;
+	right:		15%;
 	height:		80%;
 	text-align:	center;
 }
 
 #comments{
 	right:		0;
-	width:		20%;
+	width:		15%;
 	top:		0;
 	height:		80%;
 	border-left:	1px solid rgba(0,0,0,.3);
@@ -231,10 +232,11 @@ table.data{
 	border-spacing:		0;
 	cursor: 			default;
 	color:				white;
+	font-size:			10pt;
 }
 
 table.data tr{
-	height:40px;
+	height:30px;
 }
 
 table.data tr:hover{
@@ -244,4 +246,79 @@ table.data tr:hover{
 td.td_data{
 	color:	rgb(0,160,232);
 	text-align:right;
+}
+
+.comment_id{
+	margin:		10px 0 2px 5px;
+	font-size:			10pt;
+}
+
+.comment_data{
+	color:			white;
+	margin:			0 0 0 10px;
+	padding:		5px;
+	font-size:		10pt;
+	border-left: 	1px solid;
+}
+
+.comment:nth-child(odd) .comment_id{
+	color:		rgb(232,160,0);
+}
+
+.comment:nth-child(odd) .comment_data{
+	border-color: 	rgb(232,160,0);
+}
+
+.comment:nth-child(even) .comment_id{
+	color:		rgb(0,160,232);
+}
+
+.comment:nth-child(even) .comment_data{
+	border-color:	rgb(0,160,232);
+}
+
+#comments_display{
+	position:absolute;
+	top:50px;
+	bottom:200px;
+	left:0;
+	right:0;
+	overflow:auto;
+}
+
+#comments_form_div{
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	height:200px;
+	overflow:hidden;
+}
+
+form#comments_form{
+	margin-top:10px;
+}
+
+.label{
+	color:rgb(0,232,160);
+}
+
+input,textarea {
+	font-family: 	"Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 		13pt;
+	font-weight: 	normal;
+	line-height: 	normal;
+	width:			90%;
+	border-radius: 	3px;
+}
+
+textarea {
+	vertical-align: 	top;
+	height:				50px;
+	overflow:			auto;
+	margin: 			2px 0px 10px 0px;
+}
+
+input[type="text"]{
+	
 }
