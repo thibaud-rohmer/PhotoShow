@@ -89,4 +89,42 @@ function analyze_images($images,$images_per_line){
 	return $list;
 }
 
+/**
+ * Calculates the float from a string containing a fraction
+ * 
+ *	\param string $f
+ * 		The fraction
+ */
+function frac2float($f){
+	$frac	=	explode('/',$f);
+	$float	=	$frac[0]/$frac[1];
+	return $float;
+}
+
+/**
+ * Formats the raw exif data into good data
+ * 
+ *	\param string $d
+ * 		Raw name of the data
+ * 	\param ? $value
+ * 		Raw exif
+ */
+function parse_exif($d,$raw_exif){
+	// Values that don't need to be processed
+	$untouched=array('FileName','Model','Make','ISOSpeedRatings');
+	if(in_array($d,$untouched)) 
+		return $raw_exif[$d];
+	
+	$v=0;
+	switch ($d){
+		case 'ExposureTime': 	$v	=	$raw_exif[$d]." s";
+								break;
+		case 'FocalLength':		$v		=	frac2float($raw_exif[$d])." mm";
+								break;
+		case 'FNumber':			$v	=	frac2float($raw_exif['FocalLength'])/frac2float($raw_exif[$d]);
+								break;
+	}
+	return $v;
+}
+
 ?>

@@ -25,6 +25,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>NewPhoto</title>
 	<meta name="author" content="Thibaud Rohmer">
+	<link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="src/stylesheet.css" type="text/css" media="screen" charset="utf-8">
 	
 <?php
@@ -59,11 +60,11 @@ if($action['layout']=="image"){
 	</div>
 	<div class="layout_image">
 		<div id="top">
-			<div id="exif">
+			<div id="exif" class='box'>
 				<?php
 				if($action['layout']=='image') {
 					$rp=relative_path($action['display'],$settings['photos_dir']);
-					//require("inc/exif.php?file=$rp");
+					require("inc/exif.php");
 				}
 				?>
 			</div>
@@ -74,15 +75,18 @@ if($action['layout']=="image"){
 					$image	=	"src/getfile.php?file=".relative_path($action['display'],$settings['photos_dir']);
 				}
 			?>
-			<div id="image_big" style="background: url('<?php echo $image; ?>') no-repeat center center; background-size: contain;">
-
+			<div id="image_big" style="background: black url('<?php echo $image; ?>') no-repeat center center; background-size: contain;">
+				<?php 
+					echo"<a href='?f=".htmlentities(dirname($_GET['f']))."'>"; 
+				?>
+					<image src="inc/img.png" height="100%" width="100%" style="opacity:0;">
 			</div>
 
-			<div id="comments">
+			<div id="comments" class='box'>
 			
 			</div>
 		</div>
-		<div id="bottom_thumbs">
+		<div id="thumbs_bottom">
 		
 		</div>
 	</div>

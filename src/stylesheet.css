@@ -164,29 +164,76 @@ a:visited{
  * Displaying of an image
  */
 
-#exif{
+
+.box{
 	position:	absolute;
-	left:		1%;
-	width:		20%;
-	top:		120px;
-	bottom:		200px;
-	background:	#eee;
+	z-index:	3;
+	background:	black;
+	overflow:	auto;
+}
+
+.box_title{
+	font-family: 'Quicksand', sans-serif;
+	font-size:		50pt;
+	margin:			20px;
+	color:white;
+}
+
+#exif{
+	left:			0;
+	width:			20%;
+	top:			0;
+	height:			80%;
+	border-right:	1px solid rgba(0,0,0,.3);
 }
 
 #image_big{
 	position:	absolute;
-	left:		22%;
-	top:		100px;
-	right:		22%;
-	bottom:		200px;
+	left:		20%;
+	top:		0;
+	right:		20%;
+	height:		80%;
 	text-align:	center;
-	}
+}
 
 #comments{
-	position:	absolute;
-	right:		1%;
+	right:		0;
 	width:		20%;
-	top:		120px;
-	bottom:		200px;
-	background:	#eee;
+	top:		0;
+	height:		80%;
+	border-left:	1px solid rgba(0,0,0,.3);
+}
+
+#thumbs_bottom{
+	right:		0;
+	left:		0;
+	bottom:		0;
+	height:		20%;
+	border-top:	1px solid rgba(0,0,0,.3);
+
+}
+
+table.data{
+	margin:				auto;
+	width:				100%;
+	border-collapse: 	separate;
+	*border-collapse: 	collapse;
+	/* IE7, collapse table to remove spacing */
+	text-align:			center;
+	border-spacing:		0;
+	cursor: 			default;
+	color:				white;
+}
+
+table.data tr{
+	height:40px;
+}
+
+table.data tr:hover{
+	text-shadow: #333 1px 1px 1px;	
+}
+
+td.td_data{
+	color:	rgb(0,160,232);
+	text-align:right;
 }

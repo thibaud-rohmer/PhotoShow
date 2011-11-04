@@ -110,10 +110,13 @@ function board($dir){
 	echo 	"<div class='board_items'>";
 	$i=0;
 	foreach ($analyzed as $line){
+		
 		$numitems=sizeof($line);
 		$sumitems=array_sum($line);
 		echo "<div class='board_line $numitems-items'>";
+		
 		foreach($line as $item){
+		
 			$file=$filelist[$i];
 			$rp2f	=	relative_path($file,$settings['photos_dir']);
 			$width=$item*90/$sumitems;
@@ -122,26 +125,19 @@ function board($dir){
 			else
 				$getfile	=	"t=thumb&file=".relative_path($file,$settings['photos_dir']);
 				
-			echo 	("<div class='board_item' style=\" width:$width%; background: url('src/getfile.php?$getfile') no-repeat center center; background-size: cover;\">");
+			echo 	"<div class='board_item'";
+			echo 	"style=\" width:$width%; background: url('src/getfile.php?$getfile') no-repeat center center; background-size: cover;\">";
 			echo 	"<a href='?f=$rp2f'><img src='./inc/img.png' width='100%' height='100%'></a></div>\n";
 			$i++;
+		
 		}
 		echo "</div>";		
 	}
-
 	echo 	"</div>";
 
 	// Then, we display the sub-boards
 	foreach ( $dirlist as $subdir ){
 		board($subdir);
-	/*
-		echo 	"<div class='sub_board'>";
-		echo 	"<a href='?f=";
-		echo 	relative_path($subdir,$settings['photos_dir']);
-		echo 	"'>";
-		echo 	basename($subdir);
-		echo 	"</a></div>\n";
-	*/
 	}
 	
 	echo 	"</div>\n";
