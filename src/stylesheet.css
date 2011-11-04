@@ -122,6 +122,38 @@ a:visited{
 	min-width:		80px;
 	text-align:		center;
 	display:		inline-block;
+	margin:5px;
+}
+
+
+.button.orange{
+	background-color:	rgb(232,160,0);
+	border-color:		rgb(232,200,140);
+}
+
+.button.orange:hover{
+	background-color:	rgb(222,120,0);
+	border-color:		rgb(232,200,140);
+}
+
+.button.pink{
+	background-color:	rgb(232,160,0);
+	border-color:		rgb(200,140,0);
+}
+
+.button.pink:hover{
+	background-color:	rgb(222,120,0);
+	border-color:		rgb(200,140,0);
+}
+
+.button.green{
+	background-color:	rgb(0,232,160);
+	border-color:		rgb(0,200,140);
+}
+
+.button.green:hover{
+	background-color:	rgb(0,222,120);
+	border-color:		rgb(0,200,140);
 }
 
 .button.blue{
@@ -133,6 +165,7 @@ a:visited{
 	background-color:	rgb(0,120,222);
 	border-color:		rgb(0,140,200);
 }
+
 
 .button a{
 	color:			white;

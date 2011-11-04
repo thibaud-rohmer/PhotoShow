@@ -136,10 +136,20 @@ function board($dir){
 	echo 	"</div>";
 
 	// Then, we display the sub-boards
-	foreach ( $dirlist as $subdir ){
-		board($subdir);
+	if(sizeof($dirlist)>0){
+		echo "<div class='subdirs'>";
+
+		$colors=array('blue','orange','pink','green');
+
+		foreach ( $dirlist as $subdir ){
+			$url	=	relative_path($subdir,$settings['photos_dir']);
+			$color	=	$colors[array_rand($colors)];
+			echo 	"<div class='button $color'><a href='?f=$url'>";
+			echo 	basename($subdir);
+			echo 	"</div>";
+		}
+		echo "</div>\n";
 	}
-	
 	echo 	"</div>\n";
 }
 
