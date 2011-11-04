@@ -36,11 +36,12 @@ if(isset($_GET['t']) && $_GET['t']=="thumb"){
 	$file = $settings['thumbs_dir']."/".urldecode($_GET['file']);
 }
 
-header('Content-type: image/jpeg');
-if (file_exists($file))
+if (file_exists($file) && is_file($file))
 {
+	header('Content-type: image/jpeg');
 	readfile($file);
 }else{
+	header('Content-type: image/jpeg');
 	gener_thumb($settings['photos_dir']."/".urldecode($_GET['file']));	
 }
 

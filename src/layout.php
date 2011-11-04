@@ -99,6 +99,9 @@ function board($dir){
 	echo 	"<div class='button blue'><a href='?f=";
 	echo 	relative_path($dir,$settings['photos_dir']);
 	echo 	"'>URL</a></div>\n";
+	echo 	"<div class='button blue'><a href='inc/zip.php?f=";
+	echo 	relative_path($dir,$settings['photos_dir']);
+	echo 	"'>ZIP</a></div>\n";
 	echo 	"</div>\n";
 	
 
