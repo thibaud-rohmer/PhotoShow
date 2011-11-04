@@ -10,6 +10,10 @@ img{
 	margin:		0;
 }
 
+body{
+	font-family: 	Century Gothic, sans-serif;
+}
+
 a{
 	text-decoration: none;
 	color:#aaa;
@@ -49,27 +53,10 @@ a:visited{
 	overflow-y:	auto;
 }
 
-div.box.blue{
-	background:rgb(0,160,232);
-}
-
-div.box.red{
-	background:red;
-}
-
-div.box.orange{
-	background:rgb(255,143,0);
-}
-
-div.box.green{
-	background:rgb(0,164,52);
-}
-
 .menu_dir{
 	padding:		10px;
 	border-bottom:	1px solid #555;
 	cursor:			pointer;
-	font-family: 	Century Gothic, sans-serif;
 }
 
 .menu_dir:hover{
@@ -121,12 +108,15 @@ div.box.green{
 
 .board_item{
 	display:		inline-block;
-	border:			5px solid #ccc;
+	border:			4px solid black;
 	padding:		0;
+	max-width:		200px;
+	height:			110px;
+	margin:			3px;
 }
 
 .board_item:hover{
-	border-color:	rgb(255,143,0);
+	border-color:	rgb(160,232,0);
 }
 
 /**
