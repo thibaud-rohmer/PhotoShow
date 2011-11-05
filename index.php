@@ -59,7 +59,7 @@ if($action['layout']=="image"){
 	<?php
 		$layout=$action['layout'];
 		echo 	"<div id='boards_panel' class='boards_panel_$layout'>";
-		board($action['display']); 
+		$info=board($action['display']); 
 		echo 	"</div>";
 	?>
 	<div class="layout_image">
@@ -76,13 +76,24 @@ if($action['layout']=="image"){
 					$image	=	"src/getfile.php?file=".relative_path($action['display'],$settings['photos_dir']);
 				}
 			?>
-			<div id="image_big" style="background: black url('<?php echo $image; ?>') no-repeat center center; background-size: contain;">
+			
+			<div id="center">
+				<div id="image_big" style="background: black url('<?php echo $image; ?>') no-repeat center center; background-size: contain;">
 				<?php 
 					echo"<a href='?f=".htmlentities(dirname($_GET['f']))."'>"; 
 				?>
-					<image src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
-			</div>
+				<image src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
+				</div>
 
+				<div id="bar">
+					<?php 
+					foreach($info as $inf=>$val){
+						echo "<div id='$inf' class='bar_button'><a href='?f=$val'>$inf</a></div>";
+					}
+					?>
+				</div>
+			</div>
+			
 			<div id="comments" class='box'>
 				<?php
 					require("inc/comments.php");

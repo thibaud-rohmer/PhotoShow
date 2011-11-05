@@ -87,12 +87,31 @@ function menu($selected_dir=".",$selected_subdir="."){
  * 		Directory where to look
  */
 function board($dir){
+	$settings	=	get_settings();
+	
+	// Initialize info
+	$info=array();
+	$info['next']		=
+	$info['previous']	=	relative_path($dir,$settings['photos_dir']);
+	
 	if(is_file($dir)){
+		$selected=$dir;
 		$dir=dirname($dir);
 	}
 	$filelist	=	list_files($dir,true);
 	$dirlist	=	list_dirs($dir,true);
-	$settings	=	get_settings();
+	
+	// Get the previous, current, and next images
+	if(isset($selected)){
+		for($i=0;$i<sizeof($filelist);$i++){
+			if(same_path($selected,$filelist[$i])){
+				if($i>0) 
+					$info['previous']						=	relative_path($filelist[$i-1],$settings['photos_dir']);
+				if($i+1<sizeof($filelist))
+					$info['next']							=	relative_path($filelist[$i+1],$settings['photos_dir']);
+			}
+		}
+	}
 	
 	echo 	"<div class='board'>\n";
 	echo 	"<div class='board_header'>";
@@ -157,6 +176,7 @@ function board($dir){
 		echo "</div>\n";
 	}
 	echo 	"</div>\n";
+	return $info;
 }
 
 ?>

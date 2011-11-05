@@ -238,7 +238,7 @@ a:visited{
 	font-family: 'Quicksand', sans-serif;
 	font-size:		25pt;
 	margin:			10px;
-	color:white;
+	color:			white;
 }
 
 #exif{
@@ -249,13 +249,42 @@ a:visited{
 	border-right:	1px solid rgba(0,0,0,.3);
 }
 
-#image_big{
+#center{
 	position:	absolute;
 	left:		15%;
 	top:		0;
 	right:		15%;
 	bottom:		160px;
 	text-align:	center;
+}
+
+#image_big{
+	position:	absolute;
+	left:		0;
+	top:		0;
+	right:		0;
+	bottom:		50px;
+}
+
+#bar{
+	position:	absolute;
+	left:		0;
+	height:		30px;
+	right:		0;
+	bottom:		0;		
+}
+
+.bar_button{
+	display:	inline-block;
+	width:		100px;
+}
+
+.bar_button a{
+	color:		white;
+}
+
+.bar_button a:hover{
+	color:		rgb(0,160,232);
 }
 
 #comments{
