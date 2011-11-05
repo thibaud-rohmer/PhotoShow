@@ -16,14 +16,13 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+session_start();
 require_once 'src/layout.php';
 require_once 'src/settings.php';
 require_once 'src/secu.php';
 
 $settings=get_settings();
 $action=parse_action($_GET['f']);
-
 
 ?>
 
@@ -59,6 +58,11 @@ if($action['layout']=="image"){
 	<?php
 		$layout=$action['layout'];
 		echo 	"<div id='boards_panel' class='boards_panel_$layout'>";
+		if($action['layout']=='special'){
+			include './inc/'.$_GET['f'].'.php';
+			echo "</div>\n</div>\n";
+			return;
+		}
 		$info=board($action['display']); 
 		echo 	"</div>";
 	?>

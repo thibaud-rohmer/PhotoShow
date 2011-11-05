@@ -81,6 +81,64 @@ function menu($selected_dir=".",$selected_subdir="."){
 }
 
 /**
+ * Locates currently selected file in a list
+ * 
+ * \param string $selected
+ * 		Path to the selected file
+ * \param array $filelist
+ * 		List of paths
+ */
+function setup_info($selected,$filelist){
+	$info		=	array();
+	$settings	=	get_settings();
+	
+	for($i=0;$i<sizeof($filelist);$i++){
+		if(same_path($selected,$filelist[$i])){
+			if($i>0) 
+				$info['previous']	=	relative_path($filelist[$i-1],$settings['photos_dir']);
+			if($i+1<sizeof($filelist))
+				$info['next']		=	relative_path($filelist[$i+1],$settings['photos_dir']);
+		}
+	}
+
+	return $info;
+}
+
+/**
+ * Generates the login button
+ */
+function login_button(){
+	if(!isset($_SESSION['login'])){
+		echo 	"<div class='button green'><a href='?f=login'>LOGIN/REGISTER</a></div>\n";
+	}else{
+		echo 	"<div class='button red'><a href='?f=login'>LOGOUT</a></div>\n";
+	}
+}
+/**
+ * Generates the board header
+ * 
+ * \param string $dir
+ * 		Directory of the board
+ */
+function board_header($dir){
+	$settings	=	get_settings();
+	$rp			=	relative_path($dir,$settings['photos_dir']);
+	
+	echo 	"<div class='board_header'><div class='board_title'>";
+	echo 	basename($dir);
+	echo 	"</div>\n";
+	echo 	"<div class='align_left'>";
+	echo 	"<div class='button blue'><a href='?f=$rp'>URL</a></div>\n";
+	echo 	"<div class='button blue'><a href='inc/zip.php?f=$rp'>ZIP</a></div>\n";
+	echo 	"</div>\n";
+	echo 	"<div class='align_right'>";
+	login_button();
+	echo 	"<div class='button orange'><a href='?f=rss'>RSS <img src='./inc/rss.png' height='11px'</a></div>\n";
+	echo 	"</div>";
+	echo 	"</div>\n";
+}
+
+/**
  * Creates a board, where thumbs are displayed
  * 
  * \param string $dir
@@ -94,42 +152,26 @@ function board($dir){
 	$info['next']		=
 	$info['previous']	=	relative_path($dir,$settings['photos_dir']);
 	
+	// Setup our parameters
 	if(is_file($dir)){
 		$selected=$dir;
 		$dir=dirname($dir);
 	}
 	$filelist	=	list_files($dir,true);
 	$dirlist	=	list_dirs($dir,true);
+	$rp			=	relative_path($dir,$settings['photos_dir']);
 	
 	// Get the previous, current, and next images
-	if(isset($selected)){
-		for($i=0;$i<sizeof($filelist);$i++){
-			if(same_path($selected,$filelist[$i])){
-				if($i>0) 
-					$info['previous']						=	relative_path($filelist[$i-1],$settings['photos_dir']);
-				if($i+1<sizeof($filelist))
-					$info['next']							=	relative_path($filelist[$i+1],$settings['photos_dir']);
-			}
-		}
-	}
+	if(isset($selected))
+		$info		=	setup_info($selected,$filelist);
 	
 	echo 	"<div class='board'>\n";
-	echo 	"<div class='board_header'>";
-	echo 	"<div class='board_title'>";
-	echo 	basename($dir);
-	echo 	"</div>\n";
-	echo 	"<div class='button blue'><a href='?f=";
-	echo 	relative_path($dir,$settings['photos_dir']);
-	echo 	"'>URL</a></div>\n";
-	echo 	"<div class='button blue'><a href='inc/zip.php?f=";
-	echo 	relative_path($dir,$settings['photos_dir']);
-	echo 	"'>ZIP</a></div>\n";
-	echo 	"</div>\n";
 	
+	// Creation of the header
+	board_header($dir);
 
 	// Let's analyze the images
 	$analyzed = analyze_images($filelist,8);
-	
 	
 	// First, we display the thumbs
 	echo 	"<div class='board_items'>";
@@ -144,11 +186,12 @@ function board($dir){
 		
 			$file=$filelist[$i];
 			$rp2f	=	relative_path($file,$settings['photos_dir']);
-			$width=$item*90/$sumitems;
+			$width	=	$item * 90 / $sumitems;
+			
 			if($width>25)
-				$getfile	=	"file=".relative_path($file,$settings['photos_dir']);
+				$getfile	=	"file=$rp2f";
 			else
-				$getfile	=	"t=thumb&file=".relative_path($file,$settings['photos_dir']);
+				$getfile	=	"t=thumb&file=$rp2f";
 				
 			echo 	"<div class='board_item'";
 			echo 	"style=\" width:$width%; background: url('src/getfile.php?$getfile') no-repeat center center; background-size: cover;\">";
@@ -164,12 +207,10 @@ function board($dir){
 	if(sizeof($dirlist)>0){
 		echo "<div class='subdirs'>";
 
-		$colors=array('blue','orange','pink','green');
 
 		foreach ( $dirlist as $subdir ){
 			$url	=	relative_path($subdir,$settings['photos_dir']);
-			$color	=	$colors[array_rand($colors)];
-			echo 	"<div class='button $color'><a href='?f=$url'>";
+			echo 	"<div class='button pink'><a href='?f=$url'>";
 			echo 	basename($subdir);
 			echo 	"</a></div>";
 		}

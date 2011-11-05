@@ -39,10 +39,10 @@ function parse_comments($f){
 function feed($t,$info){
 	$settings=get_settings();
 	
-	if(!isset($settings["feed_$t"])) return;
+	if(!isset($settings["rss_$t"])) return;
 	
-	$file=$settings["feed_$t"];
-	if(!is_file($file)){
+	$file=$settings["rss_$t"];
+	if(!file_exists($file)){
 		$rss='<?xml version="1.0"?><rss version="2.0"><channel></channel></rss>';
 		$myfile=fopen($file,"w+");
 		fwrite($myfile,$rss);	
