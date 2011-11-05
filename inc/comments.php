@@ -71,7 +71,7 @@ if(isset($_POST['name']) && isset($_POST['comment']) && $_POST['name']!='' && $_
 	
 	$info['title']="New comment by ".$_POST['name'];
 	$info['description']=$_POST['comment'];
-	$info['link']=$settings['url']."?f=".$_GET['f'];
+	$info['link']=$settings['site_url']."?f=".$_GET['f'];
 	feed('comments',$info);
 }
 
