@@ -23,6 +23,10 @@ require_once 'src/secu.php';
 
 $settings=get_settings();
 $action=parse_action($_GET['f']);
+if(!file_exists($settings['thumbs_dir']."/accounts.xml")){
+	$action['layout']	=	"special";
+	$_GET['f']			=	"register";
+}
 
 ?>
 
@@ -47,6 +51,9 @@ if($action['layout']=="image"){
 
 </head>
 <body>
+	<div id="menubar">
+		<?php menubar(); ?>
+	</div>
 <div id="container">
 	<div class="layout_thumbs">
 		<div id="menu">

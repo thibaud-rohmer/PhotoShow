@@ -1,0 +1,15 @@
+#admin_center{
+
+}
+
+table{
+	border-spacing:5px;
+}
+
+td{
+	background:		rgba(30,130,230,.5);
+	border-radius:	3px;
+	padding:		20px;
+
+}
+

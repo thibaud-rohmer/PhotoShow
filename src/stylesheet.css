@@ -32,7 +32,7 @@ a:visited{
 	position:	absolute;
 	left:		0;
 	right:		0;
-	top:		0;
+	top:		30px;
 	bottom:		0;
 	overflow:	hidden;
 }
@@ -40,6 +40,29 @@ a:visited{
 /**
  * Displaying of the boards
  */
+
+#menubar{
+	position:	absolute;
+	top:		0;
+	left:		0;
+	right:		0;
+	line-height:30px;
+	height:		30px;
+	background:	#ccc;
+	border-bottom:	1px solid #aaa;
+	z-index:	10;
+	box-shadow:	0px 1px 2px #ccc;
+}
+
+.menubar-button{
+	display:	inline-block;
+	margin:		0 10px 0 0;
+}
+
+.menubar-button a:hover{
+	color:		white;
+	text-shadow:#555 1px 1px 1px;
+}
 
 #menu{
 	position:	absolute;

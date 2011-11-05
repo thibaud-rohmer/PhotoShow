@@ -19,6 +19,8 @@
 require_once 'src/settings.php';
 require_once 'src/listings.php';
 require_once 'src/images.php';
+require_once 'src/secu.php';
+
 
 /**
  * Creates the main menu
@@ -81,6 +83,40 @@ function menu($selected_dir=".",$selected_subdir="."){
 }
 
 /**
+ * Creates the admin menu
+ *
+ * 	\param string $selected
+ *		Current admin page selected
+ */
+function admin_menu($selected){
+	// All the files for admin are there
+	$pages=list_files('inc/admin_pages');
+	// Listing all pages
+	foreach ( $pages as $page ){
+		// Getting page name without extension
+		$info = pathinfo($page);
+		$pagename=basename($page,'.'.$info['extension']);
+		
+		$class="menu_dir";
+		if($pagename == $selected){
+			$class 	=	$class . " selected ";
+		}
+		echo 	"<div class='menu_item'>\n";
+		echo 	"<div class='$class'>";
+		echo 	"<a href='?f=$pagename'>$pagename</a>";
+		echo 	"</a></div>\n";
+		echo 	"</div>\n";
+	}
+	
+	// Link to come back to the website
+	echo 	"<div class='menu_item'>\n";
+	echo 	"<div class='menu_dir'>";
+	echo 	"<a href='..'>Back to website</a>";
+	echo 	"</a></div>\n";
+	echo 	"</div>\n";
+}
+
+/**
  * Locates currently selected file in a list
  * 
  * \param string $selected
@@ -105,14 +141,27 @@ function setup_info($selected,$filelist){
 }
 
 /**
- * Generates the login button
+ * Generates the menubar
  */
-function login_button(){
+function menubar(){
+	// Display user name if logged in
+	echo "<div class='align_left'>";
+	echo "<div class='menubar-button'><a href='http://osi.6-8.fr/PhotoShow'>PhotoShow</a></div>";
+	if(isset($_SESSION['login'])) echo "<div class='menubar-button'>- logged as ".$_SESSION['login']."</div>";
+	echo 	"</div><div class='align_right'>";
+	// Is the user logged in ?
 	if(!isset($_SESSION['login'])){
-		echo 	"<div class='button green'><a href='?f=login'>LOGIN/REGISTER</a></div>\n";
+		echo 	"<div class='menubar-button'><a href='?f=login'>LOGIN/REGISTER</a></div>\n";
 	}else{
-		echo 	"<div class='button red'><a href='?f=login'>LOGOUT</a></div>\n";
+		// Is the user an admin ?
+		if(in_array("root",$_SESSION['groups'])){
+			echo 	"<div class='menubar-button'><a href='inc/admin.php'>ADMIN</a></div>\n";
+		}
+		echo 	"<div class='menubar-button'><a href='?f=login'>LOGOUT</a></div>\n";
 	}
+	echo 	"<div class='menubar-button'><a href='?f=rss'>RSS <img src='./inc/rss.png' height='11px'</a></div>\n";
+	echo 	"</div>";
+	
 }
 /**
  * Generates the board header
@@ -131,10 +180,6 @@ function board_header($dir){
 	echo 	"<div class='button blue'><a href='?f=$rp'>URL</a></div>\n";
 	echo 	"<div class='button blue'><a href='inc/zip.php?f=$rp'>ZIP</a></div>\n";
 	echo 	"</div>\n";
-	echo 	"<div class='align_right'>";
-	login_button();
-	echo 	"<div class='button orange'><a href='?f=rss'>RSS <img src='./inc/rss.png' height='11px'</a></div>\n";
-	echo 	"</div>";
 	echo 	"</div>\n";
 }
 
@@ -204,6 +249,7 @@ function board($dir){
 	echo 	"</div>";
 
 	// Then, we display the sub-boards
+/* -- No sub-boards at the moment. We'll see later if we want them.
 	if(sizeof($dirlist)>0){
 		echo "<div class='subdirs'>";
 
@@ -216,6 +262,7 @@ function board($dir){
 		}
 		echo "</div>\n";
 	}
+*/
 	echo 	"</div>\n";
 	return $info;
 }

@@ -20,6 +20,26 @@ require_once 'settings.php';
 require_once 'listings.php';
 
 /**
+ * Returns an array of the logins
+ */
+function get_logins(){
+	$settings=get_settings();
+	$file=$settings['thumbs_dir']."/accounts.xml";
+	$logins=array();
+	
+	// Check that file exists
+	if(!file_exists($file)) return false;
+	$xml=simplexml_load_file($file);
+	
+	// Look the accounts
+	foreach($xml as $acc){
+		$logins[]=(string)$acc->login;
+	}
+	
+	return $logins;
+}
+
+/**
  * Login !
  *
  * 	\param string $login
@@ -39,7 +59,11 @@ function log_me_in($login,$pass,$crypted=false){
 	foreach($xml as $acc){
 		if($acc->login==$login){
 			if(($crypted && $acc->pass == $pass) OR (!$crypted && $acc->pass == sha1($pass))){
-				$_SESSION['login']=$login;
+				$_SESSION['login']	=	$login;
+				$xmlgrp				=	$acc->groups->children();
+				foreach ( $xmlgrp as $g ){
+					$_SESSION['groups'][]	=	(string) $g;
+				}
 				return true;
 			}
 		}
@@ -76,13 +100,13 @@ function get_groups($login=""){
 		$xml=simplexml_load_file($file);
 		foreach($xml->account as $acc){
 			if($acc->login==$login){
-				$xmlgrp=$acc->groups;
+				$xmlgrp=$acc->groups->children();
 				break;
 			}
 		}
 		
 		foreach($xmlgrp as $g){
-			$groups[]=$g;
+			$groups[]=(string) $g;
 		}
 		
 	}
@@ -105,7 +129,7 @@ function add_groups($groups,$rights=array()){
 	
 	// Create file if it doesn't exist
 	if(!file_exists($file)){
-		$rss='<?xml version="1.0"?><groups></groups>';
+		$rss='<?xml version="1.0"?><groups><group>root</group></groups>';
 		$myfile=fopen($file,"w+");
 		fwrite($myfile,$rss);
 		fclose($myfile);
@@ -151,14 +175,12 @@ function add_account($login,$pass,$groups=array(),$more=array()){
 	
 	// Create file if it doesn't exist
 	if(!file_exists($file)){
-		$rss='<?xml version="1.0"?><accounts></accounts>';
-		$myfile=fopen($file,"w+");
-		fwrite($myfile,$rss);
-		fclose($myfile);
+		$groups[]	=	"root";
+		$xml		=	new SimpleXMLElement("<accounts></accounts>");
+	}else{
+		// Load into xml
+		$xml=simplexml_load_file($file);
 	}
-	
-	// Load into xml
-	$xml=simplexml_load_file($file);
 	
 	// Return false if account already exists
 	foreach($xml as $acc){
