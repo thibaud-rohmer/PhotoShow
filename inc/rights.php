@@ -39,6 +39,7 @@ if(isset($_POST['users'])||isset($_POST['groups'])){
 
 $view=who_can_view($file);
 
+
 $allowed_users	=	$view['users'];
 $allowed_groups	=	$view['groups'];
 

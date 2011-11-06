@@ -20,7 +20,7 @@ require_once realpath(dirname(__FILE__).'/../../src/secu.php');
 require_once realpath(dirname(__FILE__).'/../../src/settings.php');
 require_once realpath(dirname(__FILE__).'/../../src/layout.php');
 
-// If we aren't logged, or aren't an admin, we go back to index.
+// If we aren't logged, or aren't an admin
 if(!admin()){
 	echo "You aren't supposed to be there.";
 	exit();

@@ -42,6 +42,10 @@ function feed($t,$info){
 	if(!isset($settings["rss_$t"])) return;
 	
 	$file=$settings["rss_$t"];
+	if($file[0]!="/"){
+		$file=realpath(dirname(__FILE__))."/../".$settings["rss_$t"];
+	}
+	
 	if(!file_exists($file)){
 		$rss='<?xml version="1.0"?><rss version="2.0"><channel></channel></rss>';
 		$myfile=fopen($file,"w+");

@@ -45,13 +45,6 @@ function gener_thumb($file){
 
 	if(!file_exists(dirname($dest))){
 		mkdir(dirname($dest),0750,true);
-		
-		$settings=get_settings();
-		$info['title']="New album:".basename(dirname($dest));
-		$info['description']="<img src='".$settings['site_url']."/src/getfile.php?f=".relative_path($file,$settings['photos_dir'])."'>";
-		$info['link']=$settings['site_url']."?f=".dirname($dest);
-		
-		feed("albums",$info);
 	}
 	$thumb = PhpThumbFactory::create($file);
 	$thumb->resize(200, 200);

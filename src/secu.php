@@ -60,10 +60,12 @@ function edit_rights($f,$infos){
 	$xml	=	new SimpleXMLElement('<?xml version="1.0"?><values></values>');
 	$xml_g=$xml->addChild('groups');
 	$xml_u=$xml->addChild('users');
-	foreach($infos['groups'] as $g)
-		$xml_g->addChild('group',$g);
-	foreach($infos['users'] as $u)
-		$xml_u->addChild('user',$u);
+	if(sizeof($infos['groups'])>0)
+		foreach($infos['groups'] as $g)
+			$xml_g->addChild('group',$g);
+	if(sizeof($infos['users'])>0)
+		foreach($infos['users'] as $u)
+			$xml_u->addChild('user',$u);
 	
 	$xml->asXML($file);
 }
@@ -94,7 +96,7 @@ function who_can_view($f,$union=true){
 	// If there is no settings file, we check previous dir
 	if(!file_exists($file)){
 		if(same_path($f,$settings['photos_dir'])) return $allowed;		
-		return who_can_view(dirname($f),false);
+		return who_can_view(dirname($f),true);
 	}
 
 	// Loading the file
