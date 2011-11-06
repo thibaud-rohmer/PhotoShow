@@ -163,7 +163,7 @@ function menubar(){
 		}
 		echo 	"<div class='menubar-button'><a href='?f=login'>LOGOUT</a></div>\n";
 	}
-	echo 	"<div class='menubar-button'><a href='?f=rss'>RSS <img src='./inc/rss.png' height='11px'</a></div>\n";
+	echo 	"<div class='menubar-button'><a href='?f=rss'>RSS <img src='./inc/rss.png' height='11px'></a></div>\n";
 	echo 	"</div>";
 }
 
