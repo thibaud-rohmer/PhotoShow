@@ -27,6 +27,52 @@ function admin(){
 }
 
 /**
+ * Returns the path to the rights of the file
+ *
+ *	\param string $file
+ * 		Path to the file (absolute)
+ */
+function get_rights_file($f){
+	$settings=get_settings();
+	
+	// Check type of file, to find the settings file
+	if(is_file($f)){
+		// Get path without extension
+		$tf		=	relative_path($f,$settings['photos_dir']);
+		$info 	= 	pathinfo($tf);
+		$path 	= 	dirname($tf)."/.".basename($tf,'.'.$info['extension']).".xml";
+		$file	=	$settings['thumbs_dir']."/".$path;
+	}else{
+		$tf		=	relative_path($f,$settings['photos_dir']);
+		$info 	=	pathinfo($tf);
+		$file	=	$settings['thumbs_dir']."/".$tf."/.config.xml";
+		$union	=	false;
+	}
+	return $file;
+}
+
+/**
+ * Edits the rights of a file
+ *
+ * 	\param string $f
+ * 		File we want to edit the settings of
+ * 	\param array $infos
+ * 		Groups and Users allowed
+ */
+function edit_rights($f,$infos){
+	$file	=	get_rights_file($f);
+	$xml	=	new SimpleXMLElement('<?xml version="1.0"?><values></values>');
+	$xml_g=$xml->addChild('groups');
+	$xml_u=$xml->addChild('users');
+	foreach($infos['groups'] as $g)
+		$xml_g->addChild('group',$g);
+	foreach($infos['users'] as $u)
+		$xml_u->addChild('user',$u);
+	
+	$xml->asXML($file);
+}
+
+/**
  *	Returns an array of: the groups, and the users, who are allowed to view $f
  *
  *  The rights are made this way :    rights(file) U ( Inter(rights(dirs)) )  
@@ -47,19 +93,7 @@ function who_can_view($f,$union=true){
 		return false;
 	}
 	
-	// Check type of file, to find the settings file
-	if(is_file($f)){
-		// Get path without extension
-		$tf		=	relative_path($f,$settings['photos_dir']);
-		$info 	= 	pathinfo($tf);
-		$path 	= 	dirname($tf)."/.".basename($tf,'.'.$info['extension']).".xml";
-		$file	=	$settings['thumbs_dir']."/".$path;
-	}else{
-		$tf		=	relative_path($f,$settings['photos_dir']);
-		$info 	=	pathinfo($tf);
-		$file	=	$settings['thumbs_dir']."/".$tf."/.config.xml";
-		$union	=	false;
-	}
+	$file=get_rights_file($f);
 
 	// If there is no settings file, we check previous dir
 	if(!file_exists($file)){
@@ -292,6 +326,10 @@ function add_account($login,$pass,$groups=array(),$more=array()){
  * 		Path required
  */
 function has_right($f){
+	// Admin is always right.
+	if(admin())
+		return true;
+		
 	if(!$allowed=who_can_view($f))
 		return false;
 	// If this is public, everyone has right

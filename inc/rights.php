@@ -27,39 +27,49 @@ if(!isset($_GET['f'])) return;
 
 $file		=	$settings['photos_dir']."/".$_GET['f'];
 
+$info_rights['users']	=	array();
+$info_rights['groups']	=	array();
+
+if(isset($_POST['users']))
+	$info_rights['users']	=	$_POST['users'];
+if(isset($_POST['groups']))
+	$info_rights['groups']	=	$_POST['groups'];
+
+if(isset($_POST['users'])||isset($_POST['groups'])){
+	edit_rights($file,$info_rights);
+}
+
 $view=who_can_view($file);
 
 $allowed_users	=	$view['users'];
 $allowed_groups	=	$view['groups'];
 
-$public_checked='';
 if(sizeof($allowed_groups)==0 && sizeof($allowed_users)==0){
 	$public=true;
-	$public_checked='checked';
 }
 ?>
 
 <div class='box_title'>Rights</div>
-<form>
+<form method='post' action='#'>
 <?php
 echo "<table class='table_rights'>";
-if($public) echo "<li>This item is Public</li>\n";
-echo "<tr><td class='td_data'>Groups</td><td></td></tr>\n";
+if($public) echo "<tr style='text-align:center;'><td colspan='2'>This item is Public</td></tr>\n";
+echo "<tr><td><table><tr><td class='td_data'>Groups</td><td></td></tr>\n";
 foreach(get_groups() as $group){
 	$checked='checked';
 	if(!$public)
 		$checked=in_array($group,$allowed_groups)?'checked':'';
-	echo "<tr><td></td><td><label><input type='checkbox' name='rights_users' $checked> $group</label></td></tr>\n";
+	echo "<tr><td></td><td><label><input type='checkbox' name='groups[]' value='$group' $checked> $group</label></td></tr>\n";
 }
-echo "<tr><td class='td_data'>Users</td><td></td></tr>\n";
+echo "</table></td><td><table><td><tr><td class='td_data'>Users</td><td></td></tr>\n";
 foreach(get_logins() as $user){
 	$checked='checked';
 	if(!$public)
 		$checked=in_array($user,$allowed_users)?'checked':'';
-	echo "<tr><td></td><td><label><input type='checkbox' name='rights_groups' $checked> $user</label></td></tr>\n";
+	echo "<tr><td></td><td><label><input type='checkbox' name='users[]' value='$user' $checked> $user</label></td></tr>\n";
 }
 ?>
-
+</table>
 <tr style="text-align:center;"><td colspan="2"><input type="submit" value="Apply" class='button blue'></td></tr>
 </table>
 </form>
