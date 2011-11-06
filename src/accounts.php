@@ -29,7 +29,7 @@ function accounts_file(){
 	$file=$settings['thumbs_dir']."/accounts.xml";
 	
 	if(!file_exists($file)){
-		$f=fopen($file);
+		$f=fopen($file,"w+");
 		fwrite($f,"<?xml version='1.0'?><accounts></accounts>");
 		fclose($f);
 	}
@@ -46,7 +46,7 @@ function groups_file(){
 	$file=$settings['thumbs_dir']."/groups.xml";
 	
 	if(!file_exists($file)){
-		$f=fopen($file);
+		$f=fopen($file,"w+");
 		fwrite($f,"<?xml version='1.0'?><groups><group><name>root</name><rights></rights></group></groups>");
 		fclose($f);
 	}
