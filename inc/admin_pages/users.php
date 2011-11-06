@@ -16,36 +16,57 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(file_exists('users.php')) chdir('../..');
+require_once realpath(dirname(__FILE__).'/../../src/secu.php');
+require_once realpath(dirname(__FILE__).'/../../src/settings.php');
+require_once realpath(dirname(__FILE__).'/../../src/layout.php');
 
-require_once 'src/secu.php';
+// If we aren't logged, or aren't an admin, we go back to index.
+if(!admin()){
+	echo "You aren't supposed to be there.";
+	exit();
+}
+
+if(isset($_POST['action'])){
+	if($_POST['action']=="delete"){
+		delete_accounts($_POST['users']);
+	}
+	if($_POST['action']=="edit"){
+		foreach ($_POST['users'] as $l){
+			echo "<br><a href='?f=users&a=$l'>Edit $l</a></br>";
+		}
+	}
+}
+
+if(isset($_GET['a'])){
+	require_once realpath(dirname(__FILE__).'/../user.php');
+	exit();
+}
 ?>
 
-
-
 <form method="post" action="#" class="niceform">
-	
-<table>
-	<tr>
-		<td>
-			User</br>
+<div class="admin_box">
+	<div class="admin_box_title">User</div>
+	<div class="admin_box_content">
+
+		<?php
+			$users=get_logins();
+			foreach($users as $user){
+				echo "<br><label><input type='checkbox' name='users[]' value='$user'> $user</label></br>";
+			}
+		?>
+	</div>
+</div>
+<div class="admin_box">
+	<div class="admin_box_title">Action</div>
+	<div class="admin_box_content">
 			<?php
-				$users=get_logins();
-				foreach($users as $user){
-					echo "<br><label><input type='checkbox' name='users[]' value='$user'> $user</label></br>";
-				}
-			?>
-		</td>
-		<td>
-			Action</br>
-				<?php
-				$possible_action=array('delete','edit');
-				foreach($possible_action as $pa){
-					echo "<br><label><input type='radio' name='action' value='$pa'/> $pa</label></br>";
-				}
-				?>
-		</td>
-	</tr>
-</table>
+			$possible_action=array('delete','edit');
+			foreach($possible_action as $pa){
+				echo "<br><label><input type='radio' name='action' value='$pa'/> $pa</label></br>";
+			}
+		?>
+	</div>
+</div>	
+
 <input type="submit" value="OK" class="button blue">
 </form>

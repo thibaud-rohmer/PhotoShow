@@ -16,10 +16,10 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'src/settings.php';
-require_once 'src/listings.php';
-require_once 'src/phpthumb/ThumbLib.inc.php';
-require_once 'src/xml.php';
+require_once realpath(dirname(__FILE__).'/settings.php');
+require_once realpath(dirname(__FILE__).'/listings.php');
+require_once realpath(dirname(__FILE__).'/phpthumb/ThumbLib.inc.php');
+require_once realpath(dirname(__FILE__).'/xml.php');
 
 /**
  * Returns the path to the thumb corresponding to $file

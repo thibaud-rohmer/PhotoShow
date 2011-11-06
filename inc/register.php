@@ -16,9 +16,7 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(is_file('register.php')) chdir('..');
-
-require_once 'src/secu.php';
+require_once realpath(dirname(__FILE__).'/../src/secu.php');
 
 $res=array();
 
@@ -45,7 +43,7 @@ if(isset($_POST['login'])){
 			if(!add_account($login,$pass,array(),$more)){
 				$res[]="Login already taken";
 			}else{
-				require 'inc/login.php';
+				require realpath(dirname(__FILE__).'/../inc/login.php');
 				exit();
 			}
 		}

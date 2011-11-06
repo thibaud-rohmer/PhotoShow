@@ -17,16 +17,15 @@
 */
 session_start();
 
-if(file_exists("admin.php")) chdir('..');
+require_once realpath(dirname(__FILE__).'/../src/secu.php');
+require_once realpath(dirname(__FILE__).'/../src/settings.php');
+require_once realpath(dirname(__FILE__).'/../src/layout.php');
 
 // If we aren't logged, or aren't an admin, we go back to index.
-if(!isset($_SESSION['login']) || !in_array("root",$_SESSION['groups'])){
-	require 'index.php';
+if(!admin()){
+	echo "You aren't supposed to be there.";
 	exit();
 }
-
-require 'src/settings.php';
-require 'src/layout.php';
 
 $settings=get_settings();
 
@@ -50,6 +49,9 @@ if(isset($_GET['f']))
 	
 </head>
 <body>
+<div id="menubar">
+	<?php menubar_admin(); ?>
+</div>
 <div id="container">
 		<div id="menu">
 			<?php 
@@ -59,7 +61,7 @@ if(isset($_GET['f']))
 		<div class="boards_panel_thumbs">
 			<div id="admin_center">
 			<?php
-				require "inc/admin_pages/$action.php";
+				require realpath(dirname(__FILE__)."/admin_pages/$action.php");
 			?>
 			</div>
 		</div>

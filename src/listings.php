@@ -16,6 +16,7 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+require_once realpath(dirname(__FILE__).'/settings.php');
 
 /**
  * Lists non-hidden directories contained in a directory.

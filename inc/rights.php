@@ -16,10 +16,8 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(is_file('rights.php')) chdir('..');
-
-require_once 'src/secu.php';
-require_once 'src/settings.php';
+require_once realpath(dirname(__FILE__).'/../src/secu.php');
+require_once realpath(dirname(__FILE__).'/../src/settings.php');
 $settings=get_settings();
 
 if(!admin()) return;

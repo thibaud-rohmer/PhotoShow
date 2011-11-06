@@ -482,6 +482,16 @@ textarea {
 	outline:			none;	
 }
 
+.niceform label{
+	color:				black;
+	-webkit-transition:	color ease-in-out .2s;
+	transition:			color ease-in-out .2s;
+}
+
+.niceform label:hover{
+	color:				rgb(0,160,232);
+}
+
 .niceform a{
 	color:				rgb(0,161,232);
 }

@@ -17,9 +17,9 @@
 */
 
 session_start();
-require_once 'src/layout.php';
-require_once 'src/settings.php';
-require_once 'src/secu.php';
+require_once realpath(dirname(__FILE__).'/src/layout.php');
+require_once realpath(dirname(__FILE__).'/src/settings.php');
+require_once realpath(dirname(__FILE__).'/src/secu.php');
 
 $settings=get_settings();
 $action=parse_action($_GET['f']);
@@ -61,7 +61,7 @@ if($action['layout']=="image"){
 				menu($action['dir'],$action['subdir']); 
 				if(admin()){
 					echo "<div id='rights_thumbs'>";
-					require 'inc/rights.php';
+					require realpath(dirname(__FILE__).'/inc/rights.php');
 					echo "</div>";
 				}
 			?>
@@ -71,7 +71,7 @@ if($action['layout']=="image"){
 		$layout=$action['layout'];
 		echo 	"<div id='boards_panel' class='boards_panel_$layout'>";
 		if($action['layout']=='special'){
-			include './inc/'.$_GET['f'].'.php';
+			include realpath(dirname(__FILE__).'/inc/'.$_GET['f'].'.php');
 			echo "</div>\n</div>\n";
 			return;
 		}
@@ -82,9 +82,9 @@ if($action['layout']=="image"){
 		<div id="top">
 			<div id="exif" class='box'>
 				<?php
-					require("inc/exif.php");
+					require realpath(dirname(__FILE__).'/inc/exif.php');
 					if(admin()){
-						require("inc/rights.php");
+						require realpath(dirname(__FILE__).'/inc/rights.php');
 					}
 				?>
 			</div>
@@ -115,7 +115,7 @@ if($action['layout']=="image"){
 			
 			<div id="comments" class='box'>
 				<?php
-					require("inc/comments.php");
+					require realpath(dirname(__FILE__).'/inc/comments.php');
 				?>			
 			</div>
 		</div>

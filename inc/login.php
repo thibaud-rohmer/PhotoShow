@@ -16,9 +16,8 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(is_file('login.php')) chdir('..');
 
-require_once 'src/secu.php';
+require_once realpath(dirname(__FILE__).'/../src/secu.php');
 
 $res="";
 
@@ -32,6 +31,7 @@ if(isset($_POST['login']) && isset($_POST['pass'])){
 		$res="Wrong login.";
 	}else{
 		echo "You are now logged in as ".$_SESSION['login'];
+		echo "</br><div id='logged_button' class='button blue'><a href='.'>OK</a></div>";
 		exit();
 	}
 }

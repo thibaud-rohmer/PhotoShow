@@ -17,12 +17,10 @@
 */
 session_start();
 
-if(file_exists('secu.php')) chdir('..');
-
-require_once 'src/secu.php';
-require_once 'src/listings.php';
-require_once 'src/settings.php';
-require_once 'src/images.php';
+require_once realpath(dirname(__FILE__).'/secu.php');
+require_once realpath(dirname(__FILE__).'/listings.php');
+require_once realpath(dirname(__FILE__).'/settings.php');
+require_once realpath(dirname(__FILE__).'/images.php');
 
 $settings=get_settings();
 

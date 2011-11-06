@@ -20,7 +20,7 @@
  * Returns the settings in an array.
  */
 function get_settings(){
-	$settings=parse_ini_file("conf.ini");
+	$settings=parse_ini_file(realpath(dirname(__FILE__)."/../conf.ini"));
 	return $settings;
 }
 

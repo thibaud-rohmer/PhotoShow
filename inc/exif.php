@@ -16,11 +16,9 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(file_exists('exif.php')) chdir('..');
-
-require_once 'src/settings.php';
-require_once 'src/images.php';
-require_once 'src/secu.php';
+require_once realpath(dirname(__FILE__).'/../src/settings.php');
+require_once realpath(dirname(__FILE__).'/../src/images.php');
+require_once realpath(dirname(__FILE__).'/../src/secu.php');
 
 // Let's check that we have the EXIF extension
 $load_ext = get_loaded_extensions();

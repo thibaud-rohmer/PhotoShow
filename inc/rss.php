@@ -16,14 +16,9 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if(is_file('rss.php')){
-	chdir('..');
-	echo "<link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>\n";
-	echo "<link rel='stylesheet' href='../src/stylesheet.css' type='text/css' media='screen' charset='utf-8'>";
-} 
+require_once realpath(dirname(__FILE__).'/../src/settings.php');
 
 
-require_once 'src/settings.php';
 $settings=get_settings();
 $feeds=array('albums','comments');
 

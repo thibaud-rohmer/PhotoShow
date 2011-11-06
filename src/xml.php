@@ -16,7 +16,7 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'src/settings.php';
+require_once realpath(dirname(__FILE__).'/settings.php');
 
 /**
  * Parses the comments and returns them in a nice array

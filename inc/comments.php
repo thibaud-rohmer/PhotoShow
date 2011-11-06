@@ -17,11 +17,9 @@
 */
 
 
-if(file_exists('comments.php')) chdir('..');
-
-require_once 'src/settings.php';
-require_once 'src/secu.php';
-require_once 'src/xml.php';
+require_once realpath(dirname(__FILE__).'/../src/settings.php');
+require_once realpath(dirname(__FILE__).'/../src/secu.php');
+require_once realpath(dirname(__FILE__).'/../src/xml.php');
 
 
 // Let's check that we have a $_GET['f']

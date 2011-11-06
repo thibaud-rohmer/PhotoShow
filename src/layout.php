@@ -16,10 +16,10 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-require_once 'src/settings.php';
-require_once 'src/listings.php';
-require_once 'src/images.php';
-require_once 'src/secu.php';
+require_once realpath(dirname(__FILE__).'/settings.php');
+require_once realpath(dirname(__FILE__).'/listings.php');
+require_once realpath(dirname(__FILE__).'/images.php');
+require_once realpath(dirname(__FILE__).'/secu.php');
 
 
 /**
@@ -94,7 +94,7 @@ function menu($selected_dir=".",$selected_subdir="."){
  */
 function admin_menu($selected){
 	// All the files for admin are there
-	$pages=list_files('inc/admin_pages');
+	$pages=list_files(realpath(dirname(__FILE__).'/../inc/admin_pages'));
 	// Listing all pages
 	foreach ( $pages as $page ){
 		// Getting page name without extension
@@ -151,7 +151,7 @@ function menubar(){
 	// Display user name if logged in
 	echo "<div class='align_left'>";
 	echo "<div class='menubar-button'><a href='http://osi.6-8.fr/PhotoShow'>PhotoShow</a></div>";
-	if(isset($_SESSION['login'])) echo "<div class='menubar-button'>- logged as ".$_SESSION['login']."</div>";
+	if(isset($_SESSION['login'])) echo "<div class='menubar-button'>- logged as <a href='?f=user'>".$_SESSION['login']."</a></div>";
 	echo 	"</div><div class='align_right'>";
 	// Is the user logged in ?
 	if(!isset($_SESSION['login'])){
@@ -165,8 +165,23 @@ function menubar(){
 	}
 	echo 	"<div class='menubar-button'><a href='?f=rss'>RSS <img src='./inc/rss.png' height='11px'</a></div>\n";
 	echo 	"</div>";
-	
 }
+
+/**
+ * Generates the menubar for the admin pages
+ */
+function menubar_admin(){
+	// Display user name if logged in
+	echo "<div class='align_left'>";
+	echo "<div class='menubar-button'><a href='http://osi.6-8.fr/PhotoShow'>PhotoShow</a></div>";
+	if(isset($_SESSION['login'])) echo "<div class='menubar-button'>- logged as ".$_SESSION['login']."</div>";
+	echo 	"</div><div class='align_right'>";
+	// Is the user logged in ?
+	echo 	"<div class='menubar-button'><a href='..'>Back</a></div>\n";
+	echo 	"</div>";
+}
+
+
 /**
  * Generates the board header
  * 
