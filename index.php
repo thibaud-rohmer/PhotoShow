@@ -78,6 +78,9 @@ if($action['layout']=="image"){
 			<div id="exif" class='box'>
 				<?php
 					require("inc/exif.php");
+					if(admin()){
+						require("inc/rights.php");
+					}
 				?>
 			</div>
 

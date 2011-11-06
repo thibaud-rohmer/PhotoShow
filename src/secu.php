@@ -20,6 +20,83 @@ require_once 'settings.php';
 require_once 'listings.php';
 
 /**
+ * 	Returns true if the user is an admin.
+ */
+function admin(){
+	return (isset($_SESSION['login']) && in_array("root",$_SESSION['groups']));
+}
+
+/**
+ *	Returns an array of: the groups, and the users, who are allowed to view $f
+ *
+ *  The rights are made this way :    rights(file) U ( Inter(rights(dirs)) )  
+ *
+ * 	\param $f
+ * 		The file we want to view
+ * 	\param $union
+ * 		Union or Intersection
+ */
+function who_can_view($f,$union=true){
+	$allowed['groups']=array();
+	$allowed['users']=array();
+
+	$settings=get_settings();
+	
+	// Check if file exists
+	if(!file_exists($f)){
+		return false;
+	}
+	
+	// Check type of file, to find the settings file
+	if(is_file($f)){
+		// Get path without extension
+		$tf		=	relative_path($f,$settings['photos_dir']);
+		$info 	= 	pathinfo($tf);
+		$path 	= 	dirname($tf)."/.".basename($tf,'.'.$info['extension']).".xml";
+		$file	=	$settings['thumbs_dir']."/".$path;
+	}else{
+		$tf		=	relative_path($f,$settings['photos_dir']);
+		$info 	=	pathinfo($tf);
+		$file	=	$settings['thumbs_dir']."/".$tf."/.config.xml";
+		$union	=	false;
+	}
+
+	// If there is no settings file, we check previous dir
+	if(!file_exists($file)){
+		if(same_path($f,$settings['photos_dir'])) return $allowed;		
+		return who_can_view(dirname($f),false);
+	}
+
+	// Loading the file
+	$xml=simplexml_load_file($file);
+
+	// Parsing the file
+	foreach($xml->groups->children() as $g)
+		$allowed['groups'][]=(string)$g;
+	
+	foreach($xml->users->children() as $u)
+		$allowed['users'][]=(string)$u;
+	
+	// Stop there if we have reach the main dir
+	if(same_path($f,$settings['photos_dir'])) return $allowed;
+	
+	// Check previous dir
+	$prev_allowed=who_can_view(dirname($f),false);
+
+	// Union / Intersection of the arrays
+	if($union==true){
+		$allowed['groups']=array_unique(array_merge($allowed['groups'],$prev_allowed['groups']));
+		$allowed['users']=array_unique(array_merge($allowed['users'],$prev_allowed['users']));
+	}else{
+		if(sizeof($prev_allowed['groups'])>0)
+			$allowed['groups']=array_intersect($allowed['groups'],$prev_allowed['groups']);		
+		if(sizeof($prev_allowed['users'])>0)
+			$allowed['users']=array_unique(array_merge($allowed['users'],$prev_allowed['users']));
+	}
+	return $allowed;
+}
+
+/**
  * Returns an array of the logins
  */
 function get_logins(){
@@ -129,7 +206,7 @@ function add_groups($groups,$rights=array()){
 	
 	// Create file if it doesn't exist
 	if(!file_exists($file)){
-		$rss='<?xml version="1.0"?><groups><group>root</group></groups>';
+		$rss='<?xml version="1.0"?><groups><group><name>root</name></group></groups>';
 		$myfile=fopen($file,"w+");
 		fwrite($myfile,$rss);
 		fclose($myfile);
@@ -214,9 +291,19 @@ function add_account($login,$pass,$groups=array(),$more=array()){
  * 	\param string $f
  * 		Path required
  */
-function has_right($f=false){
-	// TODO : the function.
-	return true;
+function has_right($f){
+	if(!$allowed=who_can_view($f))
+		return false;
+	// If this is public, everyone has right
+	if(sizeof($allowed['groups'])==0 && sizeof($allowed['users'])==0)
+		return true;
+
+	// If this isn't public, and we aren't loggued in, we can't have right
+	if(!isset($_SESSION['login']))
+		return false;
+
+	// Either our login is in the list of allowed users, or we are in an allowed group.
+	return (in_array($_SESSION['login'],$allowed['users']) || sizeof(array_intersect($_SESSION['groups'],$allowed['groups']))>0);
 }
 
 /**

@@ -35,8 +35,10 @@ require_once 'src/secu.php';
 function menu($selected_dir=".",$selected_subdir="."){
 	$settings=get_settings();
 	$dirlist = list_dirs($settings['photos_dir'],true);
+
 	foreach ( $dirlist as $dir )
 	{
+		if(!right_path($dir)) continue;
 		// Adding the 'selected' class to selected dir
 		$class="menu_dir";
 		$is_selected=true;
@@ -64,6 +66,8 @@ function menu($selected_dir=".",$selected_subdir="."){
 		
 		foreach ( $subdirlist as $subdir ) 
 		{
+			if(!right_path($subdir)) continue;
+			
 			// Adding the 'selected' class to selected subdir
 			$class="menu_subdir";
 			if(same_path($subdir,$selected_subdir))
@@ -75,7 +79,7 @@ function menu($selected_dir=".",$selected_subdir="."){
 			echo relative_path($subdir,$settings['photos_dir']);
 			echo "'>";
 			echo basename($subdir);
-			echo "</a></div>\n";	
+			echo "</a></div>\n";
 		}
 		echo "</div>\n";
 		echo "</div>\n";
@@ -154,7 +158,7 @@ function menubar(){
 		echo 	"<div class='menubar-button'><a href='?f=login'>LOGIN/REGISTER</a></div>\n";
 	}else{
 		// Is the user an admin ?
-		if(in_array("root",$_SESSION['groups'])){
+		if(admin()){
 			echo 	"<div class='menubar-button'><a href='inc/admin.php'>ADMIN</a></div>\n";
 		}
 		echo 	"<div class='menubar-button'><a href='?f=login'>LOGOUT</a></div>\n";
@@ -206,15 +210,28 @@ function board($dir){
 	$dirlist	=	list_dirs($dir,true);
 	$rp			=	relative_path($dir,$settings['photos_dir']);
 	
+	
 	// Get the previous, current, and next images
 	if(isset($selected))
 		$info		=	setup_info($selected,$filelist);
 	
 	echo 	"<div class='board'>\n";
 	
-	// Creation of the header
-	board_header($dir);
 
+	// Creation of the header
+	if(right_path($dir)){
+		board_header($dir);
+	}
+	
+	// Let's select only the images we can see
+	$new_filelist=array();
+	foreach($filelist as $image){
+		if(right_path($image))
+			$new_filelist[]=$image;
+	}
+	$filelist=$new_filelist;
+	
+	
 	// Let's analyze the images
 	$analyzed = analyze_images($filelist,8);
 	

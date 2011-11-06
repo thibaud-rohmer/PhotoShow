@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
+session_start();
 
 if(file_exists('secu.php')) chdir('..');
 

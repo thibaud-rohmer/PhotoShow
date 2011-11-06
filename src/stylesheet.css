@@ -357,6 +357,15 @@ table.data{
 	font-size:			10pt;
 }
 
+table.table_rights{
+	margin:				auto;
+	width:				100%;
+	border-spacing:		0;
+	cursor: 			default;
+	color:				white;
+	font-size:			10pt;
+}
+
 table.data tr{
 	height:30px;
 }

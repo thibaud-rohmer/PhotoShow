@@ -81,7 +81,6 @@ foreach($exif as $name=>$value){
 	echo "<tr><td class='td_data'>$name</td><td class='td_value'>$value</td></tr>\n";
 }
 
-
 ?>	
 	
 </tbody></table>
