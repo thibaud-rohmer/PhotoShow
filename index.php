@@ -59,6 +59,11 @@ if($action['layout']=="image"){
 		<div id="menu">
 			<?php 
 				menu($action['dir'],$action['subdir']); 
+				if(admin()){
+					echo "<div id='rights_thumbs'>";
+					require 'inc/rights.php';
+					echo "</div>";
+				}
 			?>
 		</div>
 	</div>

@@ -237,6 +237,10 @@ a:visited{
 	opacity:		.5;
 }
 
+#rights_thumbs{
+	background:		black;
+	width:			100%;
+}
 /**
  * Displaying of an image
  */
