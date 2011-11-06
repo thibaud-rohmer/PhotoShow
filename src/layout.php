@@ -199,6 +199,11 @@ function board_header($dir){
 	echo 	"<div class='button blue'><a href='?f=$rp'>URL</a></div>\n";
 	echo 	"<div class='button blue'><a href='inc/zip.php?f=$rp'>ZIP</a></div>\n";
 	echo 	"</div>\n";
+	if(admin()){
+		echo 	"<div class='align_right'>";
+		echo 	"<div class='button orange'><a href='inc/admin.php?f=upload'>Upload Photos</a></div>\n";
+		echo 	"</div>\n";
+	}
 	echo 	"</div>\n";
 }
 
