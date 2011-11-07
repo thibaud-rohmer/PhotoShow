@@ -63,7 +63,7 @@ if($action['layout']=="image"){
 	<div class="layout_thumbs">
 		<div id="menu">
 			<?php 
-				menu($action['dir'],$action['subdir']); 
+				menu($settings['photos_dir'],$action['display']); 
 				if(admin()){
 					echo "<div id='rights_thumbs'>";
 					require realpath(dirname(__FILE__).'/inc/rights.php');

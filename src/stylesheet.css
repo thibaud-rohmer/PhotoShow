@@ -79,38 +79,41 @@ a:visited{
 
 #menu * a{
 	display:	block;
-}
-
-.menu_dir{
-	margin:			10px;
-	padding:		5px;
-	cursor:			pointer;
 	-webkit-transition:	background ease-in-out .2s;
-	transition:			background ease-in-out .2s;
+	-moz-transition:	background ease-in-out .2s;
+	transition:		background ease-in-out .2s;
+	padding:3px;
 }
 
-.menu_dir:hover{
+#menu * a:hover{
 	background:	#ddd;
 }
 
-.menu_subdir{
-	margin:			0px 15px 3px 15px;
-	padding:		3px;
+.menu_item{
+	margin-left:5px;
+}
+.menu_dir{
+	cursor:			pointer;
+	-webkit-transition:	background ease-in-out .2s;
+	transition:		background ease-in-out .2s;
+}
+
+.menu_subdirs{
+	margin-left:		10px;
+	padding-left:		1px;
 	cursor:			pointer;
 	font-size:		10pt;
 	-webkit-transition:	background ease-in-out .2s;
-	transition:			background ease-in-out .2s;
+	transition:		background ease-in-out .2s;
+	display:none;
 }
 
-.menu_subdir:hover{
-	background:	#ddd;
+.menu_subdirs.selected{
+	border-left:	2px solid rgb(0,160,232);
+	display:	inherit;
 }
 
-.selected{
-	border-left:	5px solid rgb(0,160,232);
-}
-
-.selected a{
+.menu_dir.selected a{
 	color:		rgb(0,160,232);
 }
 

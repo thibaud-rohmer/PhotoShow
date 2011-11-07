@@ -21,70 +21,46 @@ require_once realpath(dirname(__FILE__).'/listings.php');
 require_once realpath(dirname(__FILE__).'/images.php');
 require_once realpath(dirname(__FILE__).'/secu.php');
 
-
 /**
- * Creates the main menu
- * 
+ * Creates a menu
+ *
  * \param string $dir
- * 		Main directory for the photos.
- * \param string $selected_dir
- *		Currently selected dir in the interface
- * \param string $selected_subdir
- *		Currently selected subdir in the interface
+ * 		Starting directory for the menu
+ * \param string $selected
+ * 		Selected item
  */
-function menu($selected_dir=".",$selected_subdir="."){
+function menu($dir,$selected){
 	$settings=get_settings();
-	$dirlist = list_dirs($settings['photos_dir'],true);
 
-	foreach ( $dirlist as $dir )
-	{
-		if(!right_path($dir)) continue;
-		// Adding the 'selected' class to selected dir
-		$class="menu_dir";
-		$is_selected=true;
-		if(same_path($dir,$selected_dir))
-			$class = $class . " selected";
+	// Check Path
+	if(!right_path($dir)) continue;
+	// Adding the 'selected' class to selected dir
+	$is_selected=true;
+	if(relative_path($selected,$dir)>-1 OR same_path($selected,$dir))
+			$class = " selected";
 		else
 			$is_selected=false;
 		
-		// Creating the item
-		echo 	"<div class='menu_item'>\n";
-		echo 	"<div class='$class'>";
-		echo 	"<a href='?f=";
-		echo 	urlencode(relative_path($dir,$settings['photos_dir']));
-		echo 	"'>";
-		echo 	basename($dir);
-		echo 	"</a></div>\n";
+	// Creating the item
+	echo 	"<div class='menu_item'>\n";
+	echo 	"<div class='menu_dir $class'>";
+	echo 	"<a href='?f=";
+	echo 	urlencode(relative_path($dir,$settings['photos_dir']));
+	echo 	"'>";
+	echo 	basename($dir);
+	echo 	"</a></div>\n";
+	
+	echo 	"<div class='menu_subdirs $class'>\n";
 		
-		// Listing directories contained in the item
-		$subdirlist = list_dirs($dir,true);
-		
-		echo "<div class='$subdirclass'";
-		if(!$is_selected)
-			echo " style='display:none'; ";
-		echo ">\n";
-		
-		foreach ( $subdirlist as $subdir ) 
-		{
-			if(!right_path($subdir)) continue;
-			
-			// Adding the 'selected' class to selected subdir
-			$class="menu_subdir";
-			if(same_path($subdir,$selected_subdir))
-				$class = $class . " selected";
-			
-			// Creating the item
-			echo "<div class='$class'>";
-			echo "<a href='?f=";
-			echo urlencode(relative_path($subdir,$settings['photos_dir']));
-			echo "'>";
-			echo basename($subdir);
-			echo "</a></div>\n";
-		}
-		echo "</div>\n";
-		echo "</div>\n";
+	// Listing directories contained in the item
+	foreach(list_dirs($dir,true) as $subdir){
+		menu($subdir,$selected);
 	}
+	
+	echo "</div>";
+	echo "</div>";
 }
+
 
 /**
  * Creates the admin menu
