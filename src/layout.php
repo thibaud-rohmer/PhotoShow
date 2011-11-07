@@ -243,9 +243,10 @@ function board($dir){
 	
 
 	// Creation of the header
-	if(right_path($dir)){
-		board_header($dir);
+	if(!right_path($dir)){
+		return;
 	}
+	board_header($dir);
 	
 	// Let's select only the images we can see
 	$new_filelist=array();
@@ -254,8 +255,15 @@ function board($dir){
 			$new_filelist[]=$image;
 	}
 	$filelist=$new_filelist;
-	
-	
+
+	// If filelist is empty, display its subdirs
+	if(sizeof($filelist)==0){
+		echo "</div>";
+		foreach ($dirlist as $subdir)
+			board($subdir);
+		return;
+	}
+			
 	// Let's analyze the images
 	$analyzed = analyze_images($filelist,8);
 	
