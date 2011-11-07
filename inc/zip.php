@@ -50,9 +50,15 @@ $zip->open($tmpfile, ZipArchive::OVERWRITE);
 // Staff with content
 $photos=list_files($file,true);
 
+// If no photos, check the subdirs
+if(sizeof($photos)==0){
+	foreach (list_dirs($file,true) as $subdir)
+		$photos=array_merge($photos,list_files($subdir,true));
+}
+
 foreach($photos as $photo){
 	if(right_path($photo))
-		$zip->addFile($photo,basename($photo));
+		$zip->addFile($photo,basename(dirname($photo))."/".basename($photo));
 }
 
 // Close and send to user
