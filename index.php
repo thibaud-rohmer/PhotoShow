@@ -97,7 +97,7 @@ if($action['layout']=="image"){
 			<?php
 				$image="";
 				if($action['layout']=="image") {
-					$image	=	"src/getfile.php?file=".relative_path($action['display'],$settings['photos_dir']);
+					$image	=	"src/getfile.php?file=".urlencode(relative_path($action['display'],$settings['photos_dir']));
 					// Check image
 					list($x,$y)=getimagesize($action['display']);
 				}
@@ -107,7 +107,7 @@ if($action['layout']=="image"){
 				<?php
 				echo "<div id='image_big' style='max-width:".$x."px; background: black url(\"$image\") no-repeat center center; background-size: contain';>";
 				
-				echo"<a href='?f=".htmlentities(dirname($_GET["f"]))."'>"; 
+				echo"<a href='?f=".urlencode(htmlentities(dirname($_GET["f"])))."'>"; 
 				?>
 				<img src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
 				</div>
@@ -115,7 +115,8 @@ if($action['layout']=="image"){
 			<div id="bar">
 				<?php 
 				foreach($info as $inf=>$val){
-					echo "<div id='$inf' class='bar_button'><a href='?f=$val'>$inf</a></div>";
+					$safeval=urlencode($val);
+					echo "<div id='$inf' class='bar_button'><a href='?f=$safeval'>$inf</a></div>";
 				}
 				?>
 			</div>			

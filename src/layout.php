@@ -51,7 +51,7 @@ function menu($selected_dir=".",$selected_subdir="."){
 		echo 	"<div class='menu_item'>\n";
 		echo 	"<div class='$class'>";
 		echo 	"<a href='?f=";
-		echo 	relative_path($dir,$settings['photos_dir']);
+		echo 	urlencode(relative_path($dir,$settings['photos_dir']));
 		echo 	"'>";
 		echo 	basename($dir);
 		echo 	"</a></div>\n";
@@ -76,7 +76,7 @@ function menu($selected_dir=".",$selected_subdir="."){
 			// Creating the item
 			echo "<div class='$class'>";
 			echo "<a href='?f=";
-			echo relative_path($subdir,$settings['photos_dir']);
+			echo urlencode(relative_path($subdir,$settings['photos_dir']));
 			echo "'>";
 			echo basename($subdir);
 			echo "</a></div>\n";
@@ -105,9 +105,10 @@ function admin_menu($selected){
 		if($pagename == $selected){
 			$class 	=	$class . " selected ";
 		}
+		$safepagename=urlencode($pagename);
 		echo 	"<div class='menu_item'>\n";
 		echo 	"<div class='$class'>";
-		echo 	"<a href='?f=$pagename'>$pagename</a>";
+		echo 	"<a href='?f=$safepagename'>$pagename</a>";
 		echo 	"</a></div>\n";
 		echo 	"</div>\n";
 	}
@@ -193,7 +194,7 @@ function menubar_admin(){
  */
 function board_header($dir){
 	$settings	=	get_settings();
-	$rp			=	relative_path($dir,$settings['photos_dir']);
+	$rp			=	urlencode(relative_path($dir,$settings['photos_dir']));
 	
 	echo 	"<div class='board_header'><div class='board_title'>";
 	echo 	basename($dir);
@@ -270,7 +271,7 @@ function board($dir){
 		foreach($line as $item){
 		
 			$file=$filelist[$i];
-			$rp2f	=	relative_path($file,$settings['photos_dir']);
+			$rp2f	=	urlencode(relative_path($file,$settings['photos_dir']));
 			$width	=	$item * 90 / $sumitems;
 			
 			if($width>25)
@@ -295,7 +296,7 @@ function board($dir){
 
 
 		foreach ( $dirlist as $subdir ){
-			$url	=	relative_path($subdir,$settings['photos_dir']);
+			$url	=	urlencode(relative_path($subdir,$settings['photos_dir']));
 			echo 	"<div class='button pink'><a href='?f=$url'>";
 			echo 	basename($subdir);
 			echo 	"</a></div>";

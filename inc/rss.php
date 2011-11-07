@@ -26,7 +26,7 @@ echo "<div id='rss'>\n<div class='inc_title'>RSS Feeds</div>\n";
 
 foreach ($feeds as $f){
 	if(isset($settings["rss_$f"]) && file_exists($settings["rss_$f"])){
-		$path=$settings["rss_$f"];
+		$path=urlencode($settings["rss_$f"]);
 		echo "<div class='button orange'><a href='$path'>$f</a></div>\n";
 	}
 }
