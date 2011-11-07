@@ -40,7 +40,12 @@ if(isset($_POST['login'])){
 		
 		if(sizeof($res)==0){
 			$more['email']=$mail;
-			if(!add_account($login,$pass,array(),$more)){
+			$groups[]="user";
+			
+			if(!is_file($settings['thumbs_dir']."/accounts.xml"))
+				$groups[]="root";
+				
+			if(!add_account($login,$pass,$groups,$more)){
 				$res[]="Login already taken";
 			}else{
 				require realpath(dirname(__FILE__).'/../inc/login.php');

@@ -23,10 +23,7 @@ require_once realpath(dirname(__FILE__).'/src/secu.php');
 
 $settings=get_settings();
 $action=parse_action($_GET['f']);
-if(!file_exists($settings['thumbs_dir']."/accounts.xml")){
-	$action['layout']	=	"special";
-	$_GET['f']			=	"register";
-}
+
 
 ?>
 
@@ -51,6 +48,14 @@ if($action['layout']=="image"){
 
 </head>
 <body>
+	<?php
+	if(!file_exists($settings['thumbs_dir']."/accounts.xml")){
+		echo "<div style='margin:100px auto; text-align:center; width:600px;' >";
+		require realpath(dirname(__FILE__).'/inc/register.php');
+		echo "</div>";
+		exit();
+	}
+	?>
 	<div id="menubar">
 		<?php menubar(); ?>
 	</div>

@@ -454,20 +454,13 @@ function edit_account($login,$infos){
  * 		More info
  */
 function add_account($login,$pass,$groups=array(),$more=array()){
-	$file=accounts_file(); // !!! Creation du premier compte ?
-	
 	// Make sure that we don't have any doubles
 	$groups[]	=	"user";
 	$groups		=	array_unique($groups);
 	
-	// Create file if it doesn't exist
-	if(!file_exists($file)){
-		$groups[]	=	"root";
-		$xml		=	new SimpleXMLElement("<accounts></accounts>");
-	}else{
-		// Load into xml
-		$xml=simplexml_load_file($file);
-	}
+	// Load into xml
+	$file=accounts_file();
+	$xml=simplexml_load_file($file);
 	
 	// Return false if account already exists
 	foreach($xml as $acc){

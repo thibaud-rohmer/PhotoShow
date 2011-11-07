@@ -32,7 +32,7 @@ if(admin() && isset($_GET['a'])){
 	$login=$_GET['a'];
 }
 
-$infos=array('login','name','email','telephone','website','new password','verify new password');
+$infos=array('login','name','email','telephone','website');
 
 if(isset($_POST['login'])){
 	$toedit=array();
@@ -65,6 +65,9 @@ if(!($user=get_account($login))){
 		$val=isset($user[$info])?$user[$info]:'';
 		echo "<tr><td>$info</td><td><input type='text' name='".htmlentities($info)."' value='".htmlentities($val)."'></td></tr>";
 	}
+	echo "<tr><td>Password</td><td><input type='password' name='password[]' value=''></td></tr>";
+	echo "<tr><td>Check Password</td><td><input type='password' name='password[]' value=''></td></tr>";
+
 	
 	?>
 		<tr><td colspan='2' style='text-align:right'><input type='submit' class='button blue'></td></tr>
