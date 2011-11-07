@@ -29,6 +29,7 @@ if(!admin()){
 	exit();
 }
 
+$allowedExtensions = array("tiff","jpg","jpeg","gif","png");
 
 if(isset($_POST['path'])){
 	// First, check if this is public.
@@ -52,8 +53,9 @@ if(isset($_POST['path'])){
 			mkdir($newdir,0750,true);
 			mkdir(get_thumb($newdir),0750,true);
 			$dir=$newdir;
+			echo "Created $dir<br/>";
 		}else{
-			echo "Error : check the name of the dir";
+			echo "Error : check the name of the dir<br/>";
 			return;
 		}
 		if($public){
@@ -82,6 +84,12 @@ if(isset($_POST['path'])){
 			
 			$info = pathinfo($name);
 			$base_name =  basename($name,'.'.$info['extension']);
+	
+			// Invalid filetype
+			if(!in_array($info['extension'],$allowedExtensions){
+				echo $file['name'].' is an invalid file type!<br/>'.				
+				continue;
+			}
 			
 			// Rename until this name isn't taken
 			$i=1;
@@ -89,9 +97,13 @@ if(isset($_POST['path'])){
 				$name=$base_name."-".$i.".".$info['extension'];
 				$i++;
 			}
-			
+
 			// Save the files
-	        move_uploaded_file($tmp_name, "$dir/$name");
+	        if(move_uploaded_file($tmp_name, "$dir/$name")){
+				echo "File uploaded : $name </br>";
+			}else{
+				echo "Please check the rights of the folder."
+			}
 			
 			if(!$public && strlen($_POST['newdir'])<0){
 				$info_rights['groups']=$_POST['groups'];
