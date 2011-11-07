@@ -70,6 +70,7 @@ if(isset($_POST['path'])){
 		
 	}
 
+
 	foreach ($_FILES["images"]["error"] as $key => $error) {
 		// Check that is uploaded
 	    if ($error == UPLOAD_ERR_OK) {
@@ -101,7 +102,7 @@ if(isset($_POST['path'])){
 	}
 }
 
-$options="<option value='.'>.</option>";
+$options="<option value='".$settings['photos_dir']."'>.</option>";
 foreach(list_dirs($settings['photos_dir'],true) as $dir){
 	$options .= "<option value='$dir'>".basename($dir)."</option>\n";
 	foreach(list_dirs($dir,true) as $subdir){
