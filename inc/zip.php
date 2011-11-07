@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
+session_start();
 
 require_once realpath(dirname(__FILE__).'/../src/settings.php');
 require_once realpath(dirname(__FILE__).'/../src/images.php');
@@ -50,7 +51,8 @@ $zip->open($tmpfile, ZipArchive::OVERWRITE);
 $photos=list_files($file,true);
 
 foreach($photos as $photo){
-	$zip->addFile($photo,basename($photo));
+	if(right_path($photo))
+		$zip->addFile($photo,basename($photo));
 }
 
 // Close and send to user
