@@ -305,16 +305,14 @@ a:visited{
 	left:		15%;
 	top:		0;
 	right:		15%;
-	bottom:		160px;
+	bottom:		190px;
 	text-align:	center;
 }
 
 #image_big{
-	position:	absolute;
-	left:		0;
-	top:		0;
-	right:		0;
-	bottom:		50px;
+	width:		100%;
+	margin:		auto;
+	margin-bottom:		50px;
 }
 
 #bar{
@@ -322,7 +320,9 @@ a:visited{
 	left:		0;
 	height:		30px;
 	right:		0;
-	bottom:		0;		
+	bottom:		150px;
+	z-index:	10;
+	text-align:	center;		
 }
 
 .bar_button{

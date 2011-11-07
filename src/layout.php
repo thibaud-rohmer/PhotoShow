@@ -136,6 +136,9 @@ function setup_info($selected,$filelist){
 		if(same_path($selected,$filelist[$i])){
 			if($i>0) 
 				$info['previous']	=	relative_path($filelist[$i-1],$settings['photos_dir']);
+			
+			$info['back']=relative_path(dirname($selected),$settings['photos_dir']);
+			
 			if($i+1<sizeof($filelist))
 				$info['next']		=	relative_path($filelist[$i+1],$settings['photos_dir']);
 		}
@@ -218,7 +221,8 @@ function board($dir){
 	
 	// Initialize info
 	$info=array();
-	$info['next']		=
+	$info['next']		=	relative_path($dir,$settings['photos_dir']);
+	$info['back']		=	relative_path(dirname($dir),$settings['photos_dir']);
 	$info['previous']	=	relative_path($dir,$settings['photos_dir']);
 	
 	// Setup our parameters

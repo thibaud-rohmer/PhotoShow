@@ -98,26 +98,27 @@ if($action['layout']=="image"){
 				$image="";
 				if($action['layout']=="image") {
 					$image	=	"src/getfile.php?file=".relative_path($action['display'],$settings['photos_dir']);
+					// Check image
+					list($x,$y)=getimagesize($action['display']);
 				}
 			?>
 			
 			<div id="center">
-				<div id="image_big" style="background: black url('<?php echo $image; ?>') no-repeat center center; background-size: contain;">
-				<?php 
-					echo"<a href='?f=".htmlentities(dirname($_GET['f']))."'>"; 
+				<?php
+				echo "<div id='image_big' style='max-width:".$x."px; background: black url(\"$image\") no-repeat center center; background-size: contain;>";
+				
+				echo"<a href='?f=".htmlentities(dirname($_GET['f']))."'>"; 
 				?>
 				<image src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
 				</div>
-
-				<div id="bar">
-					<?php 
-					foreach($info as $inf=>$val){
-						echo "<div id='$inf' class='bar_button'><a href='?f=$val'>$inf</a></div>";
-					}
-					?>
-				</div>
 			</div>
-			
+			<div id="bar">
+				<?php 
+				foreach($info as $inf=>$val){
+					echo "<div id='$inf' class='bar_button'><a href='?f=$val'>$inf</a></div>";
+				}
+				?>
+			</div>			
 			<div id="comments" class='box'>
 				<?php
 					require realpath(dirname(__FILE__).'/inc/comments.php');
