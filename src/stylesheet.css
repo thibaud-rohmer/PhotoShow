@@ -137,13 +137,24 @@ a:visited{
 .board_header{
 	width:			100%;
 	vertical-align:	center;
-	margin-bottom:	70px;
+	margin-bottom:	20px;
 }
 
 .board_title{
+	position:		relative;
 	font-size:		20pt;
 	margin:			10px;
 	color:			black;
+}
+
+.board_header_buttons{
+	position:		absolute;
+	right:			0;
+	top:			0;
+}
+
+.board_header_buttons *{
+	margin:0;
 }
 
 .button a, input[type='submit'].button{
@@ -208,10 +219,6 @@ a:visited{
 
 .button.blue:hover a, input[type='submit'].button.blue:hover{
 	background-color:	rgb(0,120,222);
-}
-
-.board_header .button{
-	margin:			0px 0px 0px 0px;
 }
 
 .board_line{

@@ -194,19 +194,17 @@ function menubar_admin(){
  */
 function board_header($dir){
 	$settings	=	get_settings();
-	$rp			=	urlencode(relative_path($dir,$settings['photos_dir']));
+	$rp		=	urlencode(relative_path($dir,$settings['photos_dir']));
 	
 	echo 	"<div class='board_header'><div class='board_title'>";
 	echo 	basename($dir);
-	echo 	"</div>\n";
-	echo 	"<div class='align_left'>";
+	echo 	"<div class='board_header_buttons'>";
 	echo 	"<div class='button blue'><a href='inc/zip.php?f=$rp'>ZIP</a></div>\n";
-	echo 	"</div>\n";
 	if(admin()){
-		echo 	"<div class='align_right'>";
 		echo 	"<div class='button orange'><a href='inc/admin.php?f=upload'>Upload Photos</a></div>\n";
-		echo 	"</div>\n";
 	}
+	echo 	"</div>\n";
+	echo 	"</div>\n";
 	echo 	"</div>\n";
 }
 
@@ -242,10 +240,12 @@ function board($dir){
 	echo 	"<div class='board'>\n";
 	
 
-	// Creation of the header
+	// Check the rights
 	if(!right_path($dir)){
 		return;
 	}
+
+	// Display the header
 	board_header($dir);
 	
 	// Let's select only the images we can see
@@ -263,11 +263,13 @@ function board($dir){
 			board($subdir);
 		return;
 	}
-			
+
+		
 	// Let's analyze the images
 	$analyzed = analyze_images($filelist,8);
+
 	
-	// First, we display the thumbs
+	// Display the thumbs
 	echo 	"<div class='board_items'>";
 	$i=0;
 	foreach ($analyzed as $line){
