@@ -34,7 +34,12 @@ function count_accounts(){
 	$xml=simplexml_load_file($file);
 	
 	// Return number of accounts
-	return $xml->count();
+	if(phpversion()>='5.3.0'){
+		$count=$xml->count();
+	}else{
+		$count=count($xml->children());
+	}
+	return $count;
 }
 
 /**
@@ -51,7 +56,12 @@ function count_groups(){
 	$xml=simplexml_load_file($file);
 	
 	// Return number of groups
-	return $xml->count();
+	if(phpversion()>='5.3.0'){
+		$count=$xml->count();
+	}else{
+		$count=count($xml->children());
+	}
+	return $count;
 }
 
 /**
