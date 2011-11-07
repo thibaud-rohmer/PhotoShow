@@ -105,11 +105,11 @@ if($action['layout']=="image"){
 			
 			<div id="center">
 				<?php
-				echo "<div id='image_big' style='max-width:".$x."px; background: black url(\"$image\") no-repeat center center; background-size: contain;>";
+				echo "<div id='image_big' style='max-width:".$x."px; background: black url(\"$image\") no-repeat center center; background-size: contain';>";
 				
-				echo"<a href='?f=".htmlentities(dirname($_GET['f']))."'>"; 
+				echo"<a href='?f=".htmlentities(dirname($_GET["f"]))."'>"; 
 				?>
-				<image src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
+				<img src="inc/img.png" height="100%" width="100%" style="opacity:0;"></a>
 				</div>
 			</div>
 			<div id="bar">
