@@ -16,25 +16,37 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
+class BoardPanel
+{
+	static public $images		=	0;
+	static public $max_images	=	50;
+	static public $offset		=	0;
+	
+	private $board;
+	private $menu;
+	
+	public function __construct($file){
 
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
+		if(isset($_SESSION['max_images'])){
+			$max_images=$_SESSION['max_images'];
+		}
+
+		$settings	=	new Settings();
+
+		$this->board=	new Board($file);
+		$this->menu	=	new Menu($settings->photos_dir,$file);
+	}
+
+	public function __toString(){
+		
+		// Menu
+		echo "<div id='menu'>\n";
+		echo $this->menu;
+		echo "</div>\n";
+
+		// Boards
+		echo "<div id='boards_panel'>\n";
+		echo $this->board;
+		return "</div>\n";
+	}
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
-
-?>

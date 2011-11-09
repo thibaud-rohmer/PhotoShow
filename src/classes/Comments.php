@@ -16,25 +16,15 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
+class Comments
+{
+	private $comments=array();
+	private $file;
+	
+	public function __construct($file){
+	
+	}
 
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
 
 ?>

@@ -16,25 +16,31 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
-
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
+class BoardLine
+{
+	public $items;
+	public static $ratio;
+	
+	public function __construct(){
+		$ratio=0;
+	}
+	
+	public function __toString(){
+		echo "<div class='boardline'>\n";
+		foreach($this->items as $item)
+			echo $item;
+		return "</div>\n";
+	}
+	
+	public function add_item($file,$ratio){	
+		$this->items[]	=	new BoardItem($file,$ratio);
+		$this->ratio	=	$ratio + $this->ratio;
+	}
+	
+	public function end_line(){
+		foreach($this->items as $item)
+			$item->set_width($this->ratio);
+	}
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
 
 ?>

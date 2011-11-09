@@ -16,25 +16,33 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
+class ImagePanel
+{
+	public $file;
+	private $image;
+	
+	public function __construct($file=NULL){
+		$this->file=$file;
+		$this->image=new Image($file);
+	}
 
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
+	public function __toString(){
+		echo "<div id='top'>\n";
+		echo "<div id='exif' class='box'>\n";
+	//	new Exif($file);
+		echo "</div>\n";
+
+		echo "<div id='center'>\n";
+		echo $this->image;
+		echo "</div>\n";
+		echo "<div id='bar'>\n";
+
+		echo "</div>\n";
+		echo "<div id='comments' class='box'>\n";
+	//	new Comments($file);
+		echo "</div>\n";
+		return "</div>\n";
+	}
+	
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
-
 ?>

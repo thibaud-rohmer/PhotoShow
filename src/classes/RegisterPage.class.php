@@ -16,25 +16,19 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
-
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
+class RegisterPage
+{
+	
+	public function __construct(){
+		try{
+			$settings=new Settings();
+			echo "Register";
+			
+		}catch(FileException $e){
+			echo "Please create the main account";			
+		}
+		
+		// RegisterPage content.
+	}
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
-
 ?>

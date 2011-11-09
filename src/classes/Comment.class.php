@@ -16,25 +16,23 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
+class Comment
+{
+	public $login;
+	public $date;
+	public $content;
 
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
+	public function __construct($login,$content,$date=null){
+		$this->login	=	$login;
+		$this->content	=	$content;
+		$this->date		=	$date;
+	}
+	
+	public function __toString(){
+		echo "<div class='comment'>\n";
+		echo "<div class='login'>$login</div>\n";
+		echo "<div class='content'>$content</div>\n";
+		echo "</div>\n";
+	}
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
-
 ?>

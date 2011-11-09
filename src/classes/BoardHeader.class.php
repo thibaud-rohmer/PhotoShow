@@ -16,25 +16,29 @@
     along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-session_start();
-
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.class.php"));
+class BoardHeader{
+	
+	public $title;
+	
+	public function __construct($title){
+		$this->title 	=	$title;
+	}
+	
+	public function __toString(){
+		echo 	"<div class='header'>";
+		echo 	"<div class='title'>$this->title</div>";
+		
+		echo 	"<div class='buttons'>";
+		echo 	"<div class='button blue'><a href='inc/?a=zipf=$rp'>ZIP</a></div>\n";
+	
+		if(isset(CurrentUser::$account->login)){
+			if(CurrentUser::$account->admin){
+				echo 	"<div class='button orange'><a href='inc/admin.php?f=upload'>Upload Photos</a></div>\n";
+			}
+		}
+		echo 	"</div>\n";
+		return 	"</div>\n";
+	}
 }
-
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-
-try{
-	CurrentUser::init();
-}catch(Exception $e){
-	// User is not logged. Should we display a form then ?
-}
-
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
 
 ?>
