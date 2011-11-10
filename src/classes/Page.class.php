@@ -52,7 +52,7 @@ class Page
 		
 		if(is_file($this->file)){
 			$this->image_class="";
-			$this->boards_class="hidden";
+			$this->boards_class="";
 			$this->imagepanel	=	new ImagePanel($this->file);
 			$this->boardpanel	=	new BoardPanel(dirname($this->file));
 		}else{

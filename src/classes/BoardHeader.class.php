@@ -37,7 +37,7 @@ class BoardHeader{
 			}
 		}
 		echo 	"</div>\n";
-		return 	"</div>\n";
+		echo 	"</div>\n";
 	}
 }
 
