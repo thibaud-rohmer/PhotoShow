@@ -31,9 +31,7 @@ class ImagePanel
 
 	public function toHTML(){
 		echo "<div id='top'>\n";
-		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
-		echo "</div>\n";
 
 		echo "<div id='center'>\n";
 		$this->image->toHTML();
