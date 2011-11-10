@@ -40,7 +40,7 @@ class BoardItem
 		echo 	"<a href='?f=$this->file'>";
 		echo 	"<img src='./inc/img.png' width='100%' height='100%'>";
 		echo 	"</a>\n";
-		return 	"</div>\n";
+		echo 	"</div>\n";
 	}
 	
 	public function set_width($r){

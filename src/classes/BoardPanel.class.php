@@ -26,17 +26,20 @@ class BoardPanel
 	private $menu;
 	private $class;
 	
-	public function __construct($file,$class){
-
+	public function __construct($dir){
 		if(isset($_SESSION['max_images'])){
 			$max_images=$_SESSION['max_images'];
 		}
 
-		$settings	=	new Settings();
+		$settings		=	new Settings();
 
-		$this->board=	new Board($file);
-		$this->menu	=	new Menu($settings->photos_dir,$file);
-		$this->class=	$class;
+		$this->board	=	new Board($dir);
+		$this->menu		=	new Menu($settings->photos_dir);
+		if(is_file(CurrentUser::$path)){
+			$this->class 	=	"boards_panel_image";
+		}else{
+			$this->class 	=	"boards_panel_thumbs";
+		}
 	}
 
 	public function toHTML(){

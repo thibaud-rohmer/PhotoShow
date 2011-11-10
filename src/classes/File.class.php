@@ -72,7 +72,7 @@ class File
 	public static function Type($file){
 		$ext	=	self::Extension($file);
 		if(!isset($ext)){
-			echo "folder";
+			return "folder";
 		}
 		$types	=	array();
 		
@@ -114,6 +114,7 @@ class File
 		
 		$rf	=	realpath($file);
 		$rd =	realpath($dir);
+		
 		
 		if( substr($rf,0,strlen($rd)) != $rd ){
 			throw new Exception("$file is not inside $dir<br/> $rf<br/>$rd");

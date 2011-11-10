@@ -20,30 +20,28 @@ class Menu
 {
 	public $title;
 	public $selected_class;
-	private $selected;
 	private $contents;
 	private $webdir;
 	private $items=array();
 	
-	public function __construct($dir,$selected){
-		if(!CurrentUser::view($dir)) return;
-				
+	public function __construct($dir){
+		if(!CurrentUser::view($dir)) return;		
 		$this->title = basename($dir);
 		$this->webdir=urlencode(File::a2r($dir));
 
 		try{
 			// Check if selected dir is in $dir
-			File::a2r($selected,$dir);
+			File::a2r(CurrentUser::$path,$dir);
 			$this->selected			=	true;
 			$this->selected_class 	=	"selected";
 		}catch(Exception $e){
-			// Selected dir not in $dir
+			// Selected dir not in $dir, or nothing is selected
 			$this->selected			=	false;
 			$this->selected_class 	=	"";
 		}
 
 		foreach($this->list_dirs($dir) as $d){
-			$this->items[]	=	new Menu($d,$selected);
+			$this->items[]	=	new Menu($d);
 		}
 	}
 	

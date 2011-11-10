@@ -26,6 +26,7 @@ class CurrentUser
 {
 	public static $account;
 	public static $admin;
+	public static $path;
 	
 	/**
 	 * Retrieves info for the current user account

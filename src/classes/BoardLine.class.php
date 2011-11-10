@@ -28,7 +28,7 @@ class BoardLine
 	public function toHTML(){
 		echo "<div class='boardline'>\n";
 		foreach($this->items as $item)
-			echo $item;
+			$item->toHTML();
 		echo "</div>\n";
 	}
 	

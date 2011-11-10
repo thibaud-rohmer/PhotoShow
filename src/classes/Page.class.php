@@ -22,13 +22,14 @@ class Page
 	static public $action;
 	static public $layout;
 	static public $file;
+	
 	static private $image_class;
 	static private $boards_class;
 	
 	static private $boardpanel;
 	static private $menubar;
 	static private $imagepanel;
-	
+		
 	public function __construct(){		
 		try{
 			$settings=new Settings();
@@ -47,21 +48,21 @@ class Page
 		if(isset($_GET['a']))	$this->action	=	$_GET['a'];
 		if(isset($_GET['f']))	$this->file		=	File::r2a($_GET['f']);
 		
+		CurrentUser::$path = $this->file;
+		
 		if(is_file($this->file)){
 			$this->image_class="";
 			$this->boards_class="hidden";
 			$this->imagepanel	=	new ImagePanel($this->file);
-			$this->boardpanel	=	new BoardPanel($this->file,"boards_panel_image");
+			$this->boardpanel	=	new BoardPanel(dirname($this->file));
 		}else{
 			$this->image_class="hidden";
 			$this->boards_class="";
 			$this->imagepanel	=	new ImagePanel();
-			$this->boardpanel	=	new BoardPanel($this->file,"boards_panel_thumbs");
+			$this->boardpanel	=	new BoardPanel($this->file);
 		}
-		
+
 		$this->menubar 		= 	new MenuBar();
-		
-		
 	}
 	
 	public function toHTML(){
