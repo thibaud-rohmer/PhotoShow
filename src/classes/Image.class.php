@@ -18,7 +18,7 @@
 
 class Image
 {
-	private $file;
+	private $fileweb;
 	private $dir;
 	private $x;
 	private $y;
@@ -30,7 +30,7 @@ class Image
 			throw new Exception("$file is not an image");
 		
 		
-		$this->file	=	urlencode(File::a2r($file));
+		$this->fileweb	=	urlencode(File::a2r($file));
 		$this->dir	=	urlencode(dirname(File::a2r($file)));
 		list($this->x,$this->y)=getimagesize($file);
 	}
@@ -39,7 +39,7 @@ class Image
 		echo 	"<div id='image_big' ";
 		echo 	"style='";
 		echo 		" max-width:".$this->x."px;";
-		echo 		" background: black url(\"src/getfile.php?file=$this->file\") no-repeat center center;";
+		echo 		" background: black url(\"src/getfile.php?file=$this->fileweb\") no-repeat center center;";
 		echo 		" background-size: contain";
 		echo 	"';>";
 		echo 	"<a href='?f=$this->dir'>"; 

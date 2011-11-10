@@ -20,16 +20,19 @@ class ImagePanel
 {
 	public $file;
 	private $image;
+	private $exif;
+	private $comments;
 	
 	public function __construct($file=NULL){
 		$this->file=$file;
-		$this->image=new Image($file);
+		$this->image	=	new Image($file);
+		$this->exif		=	new Exif($file);
 	}
 
 	public function toHTML(){
 		echo "<div id='top'>\n";
 		echo "<div id='exif' class='box'>\n";
-	//	new Exif($file);
+		$this->exif->toHTML();
 		echo "</div>\n";
 
 		echo "<div id='center'>\n";
