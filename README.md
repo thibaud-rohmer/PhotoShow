@@ -15,7 +15,7 @@ First, you need to copy the repository into whatever you like (here, toto)
 
 ### Create three directories
 
-Note : you may create those directories wherever you want, and give them the names you want. It is safer to have the Photos and Thumbs directories outside of your web path (this way, they are only reachable by the web server). The Feeds directory has to be in the web path, though.
+Note : you may create those directories wherever you want, and give them the names you want. It is safer to have the Photos and Thumbs directories outside of your web path (this way, access can be restricted using the authentication & authorization mechanisms provided by PhotoShow). The Feeds directory has to be in the web path, though.
 
 * **Photos** : Where your photos will be stored.
 * **Thumbs** : Where the thumbnails of your photos will be stored. 
