@@ -35,7 +35,7 @@ class Image
 		list($this->x,$this->y)=getimagesize($file);
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo 	"<div id='image_big' ";
 		echo 	"style='";
 		echo 		" max-width:".$this->x."px;";

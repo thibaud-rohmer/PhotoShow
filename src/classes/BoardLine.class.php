@@ -25,11 +25,11 @@ class BoardLine
 		$ratio=0;
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo "<div class='boardline'>\n";
 		foreach($this->items as $item)
 			echo $item;
-		return "</div>\n";
+		echo "</div>\n";
 	}
 	
 	public function add_item($file,$ratio){	

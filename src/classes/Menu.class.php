@@ -47,13 +47,13 @@ class Menu
 		}
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo "<div class='menu_item $this->selected_class'>\n";
 		echo "<div class='menu_title'><a href='?f=$this->webdir'>$this->title</a></div>\n";
 		echo "<div class='menu_content'>\n";
 		foreach($this->items as $item)
-			echo $item;
-		return "</div>\n</div>\n";
+			$item->toHTML();
+		echo "</div>\n</div>\n";
 		
 	}
 	

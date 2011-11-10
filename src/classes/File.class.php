@@ -72,7 +72,7 @@ class File
 	public static function Type($file){
 		$ext	=	self::Extension($file);
 		if(!isset($ext)){
-			return "folder";
+			echo "folder";
 		}
 		$types	=	array();
 		

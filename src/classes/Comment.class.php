@@ -28,7 +28,7 @@ class Comment
 		$this->date		=	$date;
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo "<div class='comment'>\n";
 		echo "<div class='login'>$login</div>\n";
 		echo "<div class='content'>$content</div>\n";

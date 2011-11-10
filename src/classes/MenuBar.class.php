@@ -26,7 +26,7 @@ class MenuBar{
 		$this->admin		= ($this->logged_in && CurrentUser::$admin);
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo "<div id='menubar'>\n";
 		echo "<div class='align_left'>\n";
 		echo "<div class='menubar-button'><a href='http://osi.6-8.fr/PhotoShow'>PhotoShow</a></div>\n";
@@ -50,7 +50,7 @@ class MenuBar{
 		
 		echo "<div class='menubar-button'><a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a></div>\n";
 		echo "</div>\n";
-		return "</div>\n";
+		echo "</div>\n";
 	}
 }
 ?>

@@ -26,14 +26,14 @@ class ImagePanel
 		$this->image=new Image($file);
 	}
 
-	public function __toString(){
+	public function toHTML(){
 		echo "<div id='top'>\n";
 		echo "<div id='exif' class='box'>\n";
 	//	new Exif($file);
 		echo "</div>\n";
 
 		echo "<div id='center'>\n";
-		echo $this->image;
+		$this->image->toHTML();
 		echo "</div>\n";
 		echo "<div id='bar'>\n";
 
@@ -41,7 +41,7 @@ class ImagePanel
 		echo "<div id='comments' class='box'>\n";
 	//	new Comments($file);
 		echo "</div>\n";
-		return "</div>\n";
+		echo "</div>\n";
 	}
 	
 }

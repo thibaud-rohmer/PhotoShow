@@ -27,7 +27,7 @@ class BoardItem
 		$this->ratio	=	$ratio;
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		$getfile	=	($this->width>25) ? "file=$this->file" : "t=thumb&file=$this->file";
 			
 		echo 	"<div class='board_item'";

@@ -36,14 +36,14 @@ class Board
 		$this->grid();
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo "<div class='board'>";
-		echo $this->header;
+		$this->header->toHTML();
 		
 		foreach($this->boardlines as $boardline)
-			echo $boardline;
+			$boardline->toHTML();
 			
-		return "</div>";
+		echo "</div>";
 	}
 	
 	

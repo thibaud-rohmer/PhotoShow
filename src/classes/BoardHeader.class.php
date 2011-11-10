@@ -24,7 +24,7 @@ class BoardHeader{
 		$this->title 	=	$title;
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		echo 	"<div class='header'>";
 		echo 	"<div class='title'>$this->title</div>";
 		

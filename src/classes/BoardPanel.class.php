@@ -24,8 +24,9 @@ class BoardPanel
 	
 	private $board;
 	private $menu;
+	private $class;
 	
-	public function __construct($file){
+	public function __construct($file,$class){
 
 		if(isset($_SESSION['max_images'])){
 			$max_images=$_SESSION['max_images'];
@@ -35,18 +36,19 @@ class BoardPanel
 
 		$this->board=	new Board($file);
 		$this->menu	=	new Menu($settings->photos_dir,$file);
+		$this->class=	$class;
 	}
 
-	public function __toString(){
+	public function toHTML(){
 		
 		// Menu
 		echo "<div id='menu'>\n";
-		echo $this->menu;
+		$this->menu->toHTML();
 		echo "</div>\n";
 
 		// Boards
-		echo "<div id='boards_panel'>\n";
-		echo $this->board;
-		return "</div>\n";
+		echo "<div id='boards_panel' class='$this->class'>\n";
+		$this->board->toHTML();
+		echo "</div>\n";
 	}
 }

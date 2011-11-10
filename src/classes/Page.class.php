@@ -51,36 +51,38 @@ class Page
 			$this->image_class="";
 			$this->boards_class="hidden";
 			$this->imagepanel	=	new ImagePanel($this->file);
+			$this->boardpanel	=	new BoardPanel($this->file,"boards_panel_image");
 		}else{
 			$this->image_class="hidden";
 			$this->boards_class="";
 			$this->imagepanel	=	new ImagePanel();
+			$this->boardpanel	=	new BoardPanel($this->file,"boards_panel_thumbs");
 		}
 		
 		$this->menubar 		= 	new MenuBar();
-		$this->boardpanel	=	new BoardPanel($this->file);
+		
 		
 	}
 	
-	public function __toString(){
+	public function toHTML(){
 		$this->header();
 		echo "<body>";
 		
-		echo $this->menubar;
+		$this->menubar->toHTML();
 
 		echo "<div id='container'>\n";
 		
 			echo "<div class='layout_boards $this->boards_class'>\n";
-			echo $this->boardpanel;
+			$this->boardpanel->toHTML();
 			echo "</div>\n";
 		
 			echo "<div class='layout_image $this->image_class'>\n";
-			echo $this->imagepanel;
+			$this->imagepanel->toHTML();
 			echo "</div>\n";
 		
 		echo "</div>\n";
 		
-		return "</body>";
+		echo "</body>";
 	}
 
 	
