@@ -29,8 +29,11 @@ class Comment
 	}
 	
 	public function toHTML(){
+		$name		=	htmlentities( $this->name );
+		$content	=	htmlentities( $this->content );
+
 		echo "<div class='comment'>\n";
-		echo "<div class='login'>$login</div>\n";
+		echo "<div class='name'>$name</div>\n";
 		echo "<div class='content'>$content</div>\n";
 		echo "</div>\n";
 	}

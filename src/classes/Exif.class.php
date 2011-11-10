@@ -19,12 +19,10 @@
 class Exif
 {
 	private $wanted=array();
-	
-	
 	private $exif=array();
 	
 	
-	public function __construct($file){
+	public function __construct($file=null){
 		if(!isset($file)) return;
 		
 		if(File::Type($file) != "Image")

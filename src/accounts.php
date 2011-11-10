@@ -18,40 +18,30 @@
 
 require_once realpath(dirname(__FILE__).'/secu.php');
 require_once realpath(dirname(__FILE__).'/settings.php');
+require_once realpath(dirname(__FILE__).'/groups.php');
 
 
 /**
  * Returns the path to the accounts file
- * 		If the file doesn't exist, it creates it.
+ * 		If the file doesn't exist, it throws an exception
  */
 function accounts_file(){
 	$settings=get_settings();
 	$file=$settings['thumbs_dir']."/accounts.xml";
 	
 	if(!file_exists($file)){
-		$f=fopen($file,"w+");
-		fwrite($f,"<?xml version='1.0'?><accounts></accounts>");
-		fclose($f);
+		throw new Exception("accounts file doesn't exist");
 	}
-	
 	return $file;
 }
 
 /**
- * Returns the path to the groups file
+ * Returns the xml version of the accounts file
  * 		If the file doesn't exist, it creates it.
  */
-function groups_file(){
-	$settings=get_settings();
-	$file=$settings['thumbs_dir']."/groups.xml";
-	
-	if(!file_exists($file)){
-		$f=fopen($file,"w+");
-		fwrite($f,"<?xml version='1.0'?><groups><group><name>root</name><rights></rights></group></groups>");
-		fclose($f);
-	}
-	
-	return $file;
+function xml_accounts_file () {
+	$file=accounts_file();
+	return simplexml_load_file(accounts_file());
 }
 
 
@@ -72,6 +62,19 @@ function get_logins(){
 	}
 	
 	return $logins;
+}
+
+/**
+ * Return an array with the accounts
+ */
+function get_accounts(){
+	$xml		=	xml_accounts_file();
+	$accounts	=	array();
+	
+	foreach($xml as $acc){
+		$account['login'] = (string) $acc->login;
+		
+	}
 }
 
 /**
@@ -156,158 +159,6 @@ function xml_list_infos($xml,$login){
 	return $ret;
 }
 
-/**
- * Does coffee with group
- *
- * - No name => list of all the groups
- * - Name => Rights of the group
- * - Name + Rights => Add/Edit the group
- *
- */
-function group($name=NULL,$rights=NULL){
-	$ret 	=	array();
-	
-	// Load the file as XML
-	$file	=	groups_file();
-	$xml	=	simplexml_load_file($file);
-	
-// No name => List all the groups
-	if( !isset($name) ){
-		return xml_list_groups($xml);
-	}
-
-// Name => Rights of the group
-	if( !isset($rights) ){
-		return xml_list_rights($xml,$group);
-	}
-	
-// Name + Rights => Create/Edit the group
-	// Look for the group
-	$exists=false;
-	foreach( $xml->group as $g ){
-		if( $name == (string)$g->name ){
-			// Remove its rights
-			unset($g->rights);
-			$selected_group	=	$g;
-			$exists			=	true;
-		}
-	}
-	
-	// If doesn't exist, create it
-	if(!$exists){
-		$selected_group=$xml->addChild('group');
-		$selected_group->addChild('name',$name);
-	}
-	
-	$selected_rights	=	$selected_group->addChild('rights');
-	foreach( $rights as $r ){
-		$selected_rights->addChild('right',$r);
-	}
-	
-	// Finally, save it
-	$xml->asXML($file);
-}
-
-
-
-function xml_list_groups($xml){
-	$ret=array();
-	
-	// Copy all of the groups in the array
-	foreach ( $xml->group as $g ) {
-		$ret[]=(string) $g->name;
-	}
-	// Return the array
-	return $ret;
-}
-
-
-function xml_list_rights($xml,$group){
-	$ret=array();
-	
-	// Look for the group in the array
-	foreach ( $xml->group as $g ) {
-		if ( $group == (string)$g->name ){
-			// Copy all of the groups in the array
-			foreach( $g->rights as $r ){
-				$ret[]	=	(string) $r;
-			}
-			break;
-		}			
-	}
-	return $ret;
-}
-
-
-/**
- * Returns an array with the groups (if no id entered, returns all groups)
- *
- * 	\param string id
- * 		User id
- **/
-function get_groups($login=""){
-	$settings	=	get_settings();
-	$groups		=	array();
-	$xmlgrp		=	array();
-	
-	if($login==""){
-		$file=groups_file();
-		$xmlgrp=simplexml_load_file($file);
-		foreach($xmlgrp as $g){
-			$groups[]=$g->name;
-		}
-	}else{
-		$file=accounts_file();
-		$xml=simplexml_load_file($file);
-		foreach($xml->account as $acc){
-			if($acc->login==$login){
-				$xmlgrp=$acc->groups->children();
-				break;
-			}
-		}
-		
-		foreach($xmlgrp as $g){
-			$groups[]=(string) $g;
-		}
-		
-	}
-
-	return $groups;
-}
-
-
-/**
- * Adds the new groups to the groups.xml file
- *
- *	\param array $groups
- *		Some groups
- **/
-function add_groups($groups,$rights=array()){
-	// Make sure that we don't have any doubles
-	$groups=array_unique($groups);
-	
-	// Load file into xml
-	$file=groups_file();
-	$xml=simplexml_load_file($file);
-	
-	// Remove known groups from $groups
-	foreach ( $xml as $known_group ){
-		if ( ($pos=array_search((string)$known_group->name,$groups)) >-1)
-			unset($groups[$pos]);
-	}
-	
-	// Add new groups to $xml
-	foreach ( $groups as $ng_name ){
-		$ng=$xml->addChild('group');
-		$ng->addChild('name',$ng_name);
-		foreach($rights as $r){
-			$ng->addChild('right',$r);
-		}
-	}
-	
-	// Write xml into file
-	$xml->asXML($file);
-}
 
 /**
  * Deletes the account passed as argument

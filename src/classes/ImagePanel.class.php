@@ -27,6 +27,8 @@ class ImagePanel
 		$this->file=$file;
 		$this->image	=	new Image($file);
 		$this->exif		=	new Exif($file);
+		$this->comments	=	new Comments($file);
+
 	}
 
 	public function toHTML(){
@@ -36,12 +38,10 @@ class ImagePanel
 		echo "<div id='center'>\n";
 		$this->image->toHTML();
 		echo "</div>\n";
-		echo "<div id='bar'>\n";
 
-		echo "</div>\n";
-		echo "<div id='comments' class='box'>\n";
-	//	new Comments($file);
-		echo "</div>\n";
+		$this->comments->toHTML();
+
+
 		echo "</div>\n";
 	}
 	
