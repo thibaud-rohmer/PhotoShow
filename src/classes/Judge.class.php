@@ -35,7 +35,6 @@ class Judge
 	}
 	
 	private function set_path($f){
-		$settings	=	new Settings();
 		$basefile	= 	new File($f);
 		$basepath	=	File::a2r($f);
 		if(is_file($f)){
@@ -43,7 +42,7 @@ class Judge
 		}else{
 			$rightsfile	=	$basepath."/.config.xml";
 		}
-		$this->path =	File::r2a($rightsfile,$settings->thumbs_dir);
+		$this->path =	File::r2a($rightsfile,Settings::$thumbs_dir);
 	}
 	
 	private function set_rights(){
@@ -112,6 +111,52 @@ class Judge
 		
 		// Save the Judge
 		$rights->save();
+	}
+	
+	/**
+	 * Returns true if the current user may access this file
+	 *
+	 * @param string $f file to access
+	 * @return bool
+	 * @author Thibaud Rohmer
+	 */
+	public static function view($f){
+		// Check if user is logged in 
+		if(!isset(CurrentUser::$account)){
+			try{
+				CurrentUser::init();
+			}catch(Exception $e){
+				// User is not logged in
+				$judge	=	new Judge($f);
+				return($judge->public);
+			}
+		}
+
+		if(!File::a2r($f))
+			return false;
+		// No Judge required for the admin.
+		if(CurrentUser::$admin)
+			return true;
+
+		// Create Judge
+		$judge	=	new Judge($f);
+		
+		// Public file
+		if($judge->public){
+			return true;
+		}
+
+		// User allowed
+		if(in_array(CurrentUser::$account->login,$judge->users))
+			return true;
+			
+		// User in allowed group
+		foreach(CurrentUser::$account->groups as $group){
+			if(in_array($group,$judge->groups))
+				return true;
+		}
+
+		return false;
 	}
 	
 }

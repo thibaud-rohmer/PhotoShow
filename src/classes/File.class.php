@@ -94,7 +94,7 @@ class File
 				return $type;
 		}
 
-		throw new Exception("Unsupported Type");
+		throw new Exception("Unsupported Type for $file");
 
 	}
 	
@@ -108,8 +108,7 @@ class File
 	 */
 	public static function a2r($file,$dir=NULL){
 		if(!isset($dir)){
-			$settings	=	new Settings();
-			$dir		=	$settings->photos_dir;
+			$dir		=	Settings::$photos_dir;
 		}
 		
 		$rf	=	realpath($file);
@@ -133,8 +132,7 @@ class File
 	 */
 	public static function r2a($file,$dir=NULL){
 		if(!isset($dir)){
-			$settings	=	new Settings();
-			$dir		=	$settings->photos_dir;
+			$dir		=	Settings::$photos_dir;
 		}
 		
 		return $dir."/".$file;
