@@ -62,7 +62,12 @@ class Menu
 	 * @param string $dir 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($dir){
+	public function __construct($dir=null){
+		
+		/// Init Menu 
+		if($dir == null)
+			$dir = Settings::$photos_dir;
+			
 		/// Check rights
 		if(!(Judge::view($dir)))	return;		
 
@@ -71,17 +76,22 @@ class Menu
 		$this->webdir=urlencode(File::a2r($dir));
 
 		try{
+
 			/// Check if selected dir is in $dir
-			File::a2r(CurrentUser::$path,$dir);
+			File::a2r($dir,CurrentUser::$path);
 			
 			$this->selected			=	true;
 			$this->class 			=	"selected";
+
+
 		}catch(Exception $e){
-			/// Selected dir not in $dir, or nothing is selected
-			
+
+			/// Selected dir not in $dir, or nothing is selected			
 			$this->selected			=	false;
 			$this->class 			=	"";
+			
 		}
+
 		/// Create Menu for each directory
 		foreach($this->list_dirs($dir) as $d){
 			$this->items[]	=	new Menu($d);

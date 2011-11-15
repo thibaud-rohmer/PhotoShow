@@ -231,8 +231,7 @@ class Account
      * @author Thibaud Rohmer
      */
     public static function delete($login){
-        $settings = new Settings();
-	$xml_infos  =   $settings->accounts_file;
+        Settings::$accounts_file;
         $xml        =   simplexml_load_file($xml_infos);
         
         foreach( $xml as $acc ){

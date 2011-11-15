@@ -28,9 +28,9 @@ class Group
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($name){
-		$settings	=	new Settings();
-		$xml_infos	=	$settings->groups_file;
-		$xml		=	simplexml_load_file($xml_infos);
+		
+		/// Load file
+		$xml		=	simplexml_load_file(Settings::$groups_file);
 
 		foreach( $xml as $group ){
 			if($group->$name == $name){
@@ -53,10 +53,9 @@ class Group
 	public static function create($name,$rights=array()){
 		if(self::exists($name))
 			throw new Exception("$name already exists");
-			
-		$settings	=	new Settings();
-		$xml_infos	=	$settings->groups_file;
-		$xml		=	simplexml_load_file($xml_infos);
+
+		/// Load file
+		$xml		=	simplexml_load_file(Settings::$groups_file);
 		
 		$g=$xml->addChild('group');
 		$g->addChild('name',$name);
@@ -73,9 +72,8 @@ class Group
 	 * @author Thibaud Rohmer
 	 */
 	public function save(){
-		$settings	=	new Settings();
-		$xml_infos	=	$settings->groups_file;
-		$xml		=	simplexml_load_file($xml_infos);
+		/// Load file
+		$xml		=	simplexml_load_file(Settings::$groups_file);
 
 		foreach( $xml as $group ){
 			if( (string)$group->$name == $this->name){
@@ -107,8 +105,9 @@ class Group
 			// No file, no group !
 			return false;
 		}
-		$xml_infos	=	$settings->groups_file;
-		$xml		=	simplexml_load_file($xml_infos);
+		
+		/// Load file
+		$xml		=	simplexml_load_file(Settings::$groups_file);
 
 		foreach( $xml as $group ){
 			if( (string)$group->$name == $name)
@@ -127,9 +126,9 @@ class Group
 	 */
 	public static function rights($name){
 		$rights		=	array();
-		$settings	=	new Settings();
-		$xml_infos	=	$settings->groups_file;
-		$xml		=	simplexml_load_file($xml_infos);
+
+		/// Load file
+		$xml		=	simplexml_load_file(Settings::$groups_file);
 
 		foreach( $xml as $group ){
 			if( (string)$group->$name == $name){

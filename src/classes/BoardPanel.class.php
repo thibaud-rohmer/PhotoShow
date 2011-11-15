@@ -67,13 +67,11 @@ class BoardPanel
 			$max_images=$_SESSION['max_images'];
 		}
 		
-		$settings=new Settings();
-
 		/// Board
 		$this->board	=	new Board($dir);
 		
 		/// Menu
-		$this->menu		=	new Menu($settings->photos_dir);
+		$this->menu		=	new Menu();
 		
 		/// Check layout
 		if(is_file(CurrentUser::$path)){
@@ -81,7 +79,7 @@ class BoardPanel
 			$this->menu_class 	=	"hidden"; 	
 		}else{
 			$this->boards_class 	=	"boards_panel_thumbs";
-			$this->menu_class 		=	"";
+			$this->menu_class 		=	" ";
 		}
 	}
 

@@ -1,26 +1,59 @@
 <?php
-/*
-    This file is part of PhotoShow.
+/**
+ * This file implements the class File.
+ * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ * 
+ * This file is part of PhotoShow.
+ *
+ * PhotoShow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PhotoShow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright 2011 Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
-    PhotoShow is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    PhotoShow is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ * File
+ *
+ * All functions regarding files.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
 class File
 {
+	/// Path to the file
 	public $path;
+	
+	/// File extension
 	public $extension;
+	
+	/// File name
 	public $name;
+	
+	/// File type
 	public $type;
 	
 	/**
@@ -30,8 +63,12 @@ class File
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($path){
+		
+		/// Check that file exists
 		if(!file_exists($path))
 			throw new Exception("The file $path doesn't exist");
+		
+		/// Set variables
 		$this->path			=	$path;
 		$this->extension	=	self::Extension($path);
 		$this->name			=	self::Name($path);	
@@ -89,6 +126,7 @@ class File
 		
 		$types['File'][]	=	"xml";
 		
+		/// Find file type
 		foreach($types as $type=>$typetab){
 			if(in_array($ext,$typetab))
 				return $type;
@@ -113,7 +151,6 @@ class File
 		
 		$rf	=	realpath($file);
 		$rd =	realpath($dir);
-		
 		
 		if( substr($rf,0,strlen($rd)) != $rd ){
 			throw new Exception("$file is not inside $dir<br/> $rf<br/>$rd");
@@ -147,8 +184,7 @@ class File
 	 */
 	public static function paths($path,$dir=NULL){
 		if(!isset($dir)){
-			$settings	=	new Settings();
-			$dir		=	$settings->photos_dir;
+			$dir		=	Settings::$photos_dir;
 		}
 		try{
 			$rel		=	File::a2r($path,$dir);

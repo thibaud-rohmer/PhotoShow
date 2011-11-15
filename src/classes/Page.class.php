@@ -41,7 +41,7 @@ class Page
 		}
 		
 		$this->action	=	"thumbs";
-		$this->file	=	$settings->photos_dir;
+		$this->file		=	Settings::$photos_dir;
 				
 		
 		// Setup variables

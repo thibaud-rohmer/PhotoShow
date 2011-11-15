@@ -60,11 +60,20 @@ class CurrentUser
 	 * @author Thibaud Rohmer
 	 */
 	public function init(){
-		if(!isset($account)){
+		
+		/// Set path
+		if(isset($_GET['f']))
+			CurrentUser::$path = File::r2a($_GET['f']);
+		else
+			CurrentUser::$path=Settings::$photos_dir;
+		
+		echo CurrentUser::$path;
+
+		if(!isset(CurrentUser::$account)){
 			if(!isset($_SESSION['login']))
 				throw new Exception('No user is logged');
 			else
-				$account	=	new Account($_SESSION['login']);
+				CurrentUser::$account	=	new Account($_SESSION['login']);
 		}
 	}
 	
@@ -77,19 +86,21 @@ class CurrentUser
 	 * @author Thibaud Rohmer
 	 */
 	public static function login($login,$password){
-		$admin	=	false;
-		$acc 	=	new Account($login);
+		
+		CurrentUser::$admin	=	false;
+		
+		$acc =	new Account($login);
 		
 		// Check password
-		if(sha1($password) == $login->password){
-			$_SESSION['login']	=	$login;
-			$account			=	$acc;
+		if(sha1($password) == $acc->password){
+			$_SESSION['login']		=	$login;
+			CurrentUser::$account	=	$acc;
 		}else{
 			// Wrong password
 			throw Exception("Wrong password.");			
 		}
 		if(in_array('root',$account))
-			$admin=true;
+			CurrentUser::$admin = true;
 	}
 	
 	/**
