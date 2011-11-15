@@ -67,8 +67,6 @@ class CurrentUser
 		else
 			CurrentUser::$path=Settings::$photos_dir;
 		
-		echo CurrentUser::$path;
-
 		if(!isset(CurrentUser::$account)){
 			if(!isset($_SESSION['login']))
 				throw new Exception('No user is logged');

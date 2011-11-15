@@ -73,16 +73,15 @@ class Menu
 
 		/// Set variables
 		$this->title = basename($dir);
-		$this->webdir=urlencode(File::a2r($dir));
+		$this->webdir= urlencode(File::a2r($dir));
 
 		try{
 
 			/// Check if selected dir is in $dir
-			File::a2r($dir,CurrentUser::$path);
-			
+			File::a2r(CurrentUser::$path,$dir);
+
 			$this->selected			=	true;
 			$this->class 			=	"selected";
-
 
 		}catch(Exception $e){
 
@@ -105,7 +104,7 @@ class Menu
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<div class='menu_item $this->selected_class'>\n";
+		echo "<div class='menu_item $this->class'>\n";
 		echo "<div class='menu_title'><a href='?f=$this->webdir'>$this->title</a></div>\n";
 		echo "<div class='menu_content'>\n";
 		foreach($this->items as $item)
