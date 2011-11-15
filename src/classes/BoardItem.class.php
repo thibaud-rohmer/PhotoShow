@@ -76,14 +76,14 @@ class BoardItem
 		
 		/// If item is small, display its thumb. Else, display the item
 		$getfile =	$this->width>25 
-					? "file=$this->file" 
-					: "t=thumb&file=$this->file";
-		
+					? "f=$this->file" 
+					: "t=Thb&f=$this->file";
+				
 		/// We display the image as a background
 		echo 	"<div class='board_item'";
 		echo 	"style='";
 		echo 	" width: 			$this->width%;";
-		echo 	" background: 		url(\"src/getfile.php?$getfile\") no-repeat center center;";
+		echo 	" background: 		url(\"?$getfile\") no-repeat center center;";
 		echo 	" background-size: 	cover;";
 		echo 	"'>\n";
 

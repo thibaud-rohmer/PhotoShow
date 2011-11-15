@@ -92,7 +92,7 @@ class Image
 		echo 	"<div id='image_big' ";
 		echo 	"style='";
 		echo 		" max-width:".$this->x."px;";
-		echo 		" background: black url(\"src/getfile.php?file=$this->fileweb\") no-repeat center center;";
+		echo 		" background: black url(\"?t=Img&f=$this->fileweb\") no-repeat center center;";
 		echo 		" background-size: contain";
 		echo 	"';>";
 		echo 	"<a href='?f=$this->dir'>"; 

@@ -54,6 +54,10 @@ class CurrentUser
 	/// Current path requested by the user
 	public static $path;
 	
+	/// Current type of stuff requested by user (Page / Zip / Image)
+	public static $action = "Page";
+	
+	
 	/**
 	 * Retrieves info for the current user account
 	 *
@@ -61,11 +65,23 @@ class CurrentUser
 	 */
 	public function init(){
 		
+		if(isset($_GET['t'])){
+			
+			$possible_actions = array('Page','Img','Thb','Zip');
+			
+			CurrentUser::$action=$_GET['t'];
+			if(!in_array(CurrentUser::$action,$possible_actions)){
+				CurrentUser::$action = "Page";
+			}
+		}
+		 
 		/// Set path
 		if(isset($_GET['f']))
 			CurrentUser::$path = File::r2a($_GET['f']);
 		else
 			CurrentUser::$path=Settings::$photos_dir;
+		
+		
 		
 		if(!isset(CurrentUser::$account)){
 			if(!isset($_SESSION['login']))
