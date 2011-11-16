@@ -44,8 +44,6 @@ function exception_handler($exception) {
 set_exception_handler('exception_handler');
 
 
-
-
 /// Account creation
 if($_GET['t'] == "Reg"){
 	Account::create($_POST['login'],$_POST['password']);
@@ -63,7 +61,10 @@ try{
 
 
 try{
-	CurrentUser::init();	
+	CurrentUser::init();
+	if($_GET['t']=="Reg")
+		CurrentUser::$action = "Page";
+
 }catch(Exception $e){
 	// User is not logged. Should we display a form then ?
 	/* If yes :
