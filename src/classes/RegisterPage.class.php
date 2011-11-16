@@ -53,16 +53,43 @@ class RegisterPage
 	 *
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct(){
-		try{
-			$settings=new Settings();
-			echo "Register";
-			
-		}catch(FileException $e){
-			echo "Please create the main account";			
+	public function __construct($admin_account = false){
+		$this->admin_account = $admin_account;		
+	}
+	
+	/**
+	 * Display Register Page on website
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	public function toHTML(){
+		
+		if($this->admin_account){
+			echo Page::header();
+			echo "<div class='inc_title'>Please create the main account</div>";						
+		}else{
+			echo "<div class='inc_title'>Register</div>";			
 		}
 		
-		// RegisterPage content.
+		echo "<form method='post' action='?t=Reg' class='niceform'>\n";
+		echo "<table>\n";
+		echo "<tr>\n";
+		echo "<td>Login : </td>\n";
+		echo "<td><input type='text' name='login'></td>\n";
+		echo "</tr>\n";
+		echo "<tr>\n";
+		echo "<td>E-mail : </td>\n";
+		echo "<td><input type='text' name='mail'></td>\n";
+		echo "</tr>\n";
+		echo "<tr>\n";
+		echo "<td>Password : </td>\n";
+		echo "<td><input type='password' name='pass'></td>\n";
+		echo "</tr>\n";
+		echo "</table>\n";
+		echo "<input type='submit' value='Register' class='button blue'>\n";
+		echo "</form>\n";
+
 	}
 }
 ?>

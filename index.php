@@ -43,15 +43,38 @@ function exception_handler($exception) {
 }
 set_exception_handler('exception_handler');
 
+
+
+
+/// Account creation
+if($_GET['t'] == "Reg"){
+	Account::create($_POST['login'],$_POST['password']);
+	CurrentUser::$action = "Page";
+}
+
 /// Initialize variables
 try{
 	Settings::init();
+}catch(Exception $e){
+	$page = new RegisterPage(true);
+	$page->toHTML();
+	return;
+}
+
+
+try{
 	CurrentUser::init();	
 }catch(Exception $e){
-	
 	// User is not logged. Should we display a form then ?
-
+	/* If yes :
+	 * 
+	 * $page = new LoginPage();
+	 * $page->toHTML();
+	 * return;
+	 */
+	
 }
+
 
 /// Check what to do
 switch (CurrentUser::$action){

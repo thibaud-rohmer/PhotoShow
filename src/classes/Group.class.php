@@ -96,6 +96,8 @@ class Group
 		
 		foreach($rights as $r)
 			$xml_right->addChild($r);
+		
+		$xml->asXML(Settings::$groups_file);
 	}
 	
 	/**
@@ -116,7 +118,7 @@ class Group
 				foreach( $this->rights as $right )
 					$xml_rights->addChild('right',$right);
 		
-				$xml->asXML();
+				$xml->asXML(Settings::$groups_file);
 				return;
 			}
 		}

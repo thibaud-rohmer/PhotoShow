@@ -79,7 +79,7 @@ class Settings
 		/// Setup variables
 		Settings::$photos_dir	=	$ini_settings['photos_dir'];
 		Settings::$thumbs_dir	=	$ini_settings['thumbs_dir'];
-		Settings::$feeds_dir		=	$ini_settings['feeds_dir'];
+		Settings::$feeds_dir	=	$ini_settings['feeds_dir'];
 		Settings::$accounts_file=	Settings::$thumbs_dir."/accounts.xml";
 		Settings::$groups_file	=	Settings::$thumbs_dir."/groups.xml";
 		

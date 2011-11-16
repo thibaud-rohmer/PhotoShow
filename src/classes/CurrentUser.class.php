@@ -68,7 +68,7 @@ class CurrentUser
 		/// Set action (needed for page layout)
 		if(isset($_GET['t'])){
 			
-			$possible_actions = array('Page','Img','Thb','Zip');
+			$possible_actions = array('Page','Img','Thb','Zip','Reg');
 			
 			CurrentUser::$action=$_GET['t'];
 			if(!in_array(CurrentUser::$action,$possible_actions)){
@@ -83,8 +83,7 @@ class CurrentUser
 		else
 			CurrentUser::$path=Settings::$photos_dir;
 		
-		
-		
+				
 		if(!isset(CurrentUser::$account)){
 			if(!isset($_SESSION['login']))
 				throw new Exception('No user is logged');
