@@ -49,7 +49,18 @@ class Provider
 {
 
 
-	
+	/**
+	 * Provide an image to the user, if he is allowed to
+	 * see it. If $thumb is true, provide the thumb associated
+	 * to the image.
+	 * 
+	 * TODO : if no thumb is found, generate thumb
+	 *
+	 * @param string $file 
+	 * @param string $thumb 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	public function image($file,$thumb=false){
 		
 		if($thumb){

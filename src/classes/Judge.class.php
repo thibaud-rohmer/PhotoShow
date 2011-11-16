@@ -1,28 +1,71 @@
 <?php
-/*
-    This file is part of PhotoShow.
+/**
+ * This file implements the class Judge.
+ * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ * 
+ * This file is part of PhotoShow.
+ *
+ * PhotoShow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PhotoShow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright 2011 Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
-    PhotoShow is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    PhotoShow is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ * Judge
+ *
+ * The Judge verifies the rights of Current User, and checks
+ * if he is allowed to reach some content. No one fools the
+ * Judge. After all, the Judge is the Law.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
 class Judge
 {
+	/// Absolute path to rights file for requested file
 	public $path;
+	
+	/// True if requested file is public
 	public $public;
+	
+	/// Groups allowed to see requested file
 	public $groups;
+	
+	/// Users allowed to see requested file
 	public $users;
 	
+	/**
+	 * Create a Judge for a specific file.
+	 *
+	 * @param string $f 
+	 * @param string $inherited 
+	 * @param string $read_rights 
+	 * @author Thibaud Rohmer
+	 */
 	public function __construct($f, $inherited=false, $read_rights=true){
 		$this->public	=	true;
 		$this->groups	=	array();
@@ -34,6 +77,13 @@ class Judge
 			$this->set_rights();
 	}
 	
+	/**
+	 * Get path to rights file associated to our file
+	 *
+	 * @param string $f 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	private function set_path($f){
 		$basefile	= 	new File($f);
 		$basepath	=	File::a2r($f);
@@ -45,9 +95,16 @@ class Judge
 		$this->path =	File::r2a($rightsfile,Settings::$thumbs_dir);
 	}
 	
+	/**
+	 * Get rights (recursively) for the file
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	private function set_rights(){
+
+		/// First, parse the rights file (if it exists)
 		try{
-			// Parse the file
 			$xml_infos	=	new File($this->path);
 			$xml		=	simplexml_load_file($this->path);
 
@@ -60,10 +117,13 @@ class Judge
 				$this->users[]=(string)$u;
 
 			$next_inherited=true;
+			
+			
 		}catch(Exception $e){
 			// No Rights file
 			$next_inherited=false;
 		
+			/// If no rights file found, check in the containing directory
 			try{
 
 				// Look up
@@ -79,6 +139,7 @@ class Judge
 				}			
 
 			}catch(Exception $e){
+				
 				// We are as high as possible
 				$this->public	=	true;
 				$this->groups	=	array();
@@ -87,8 +148,18 @@ class Judge
 		}
 	}
 	
+	/**
+	 * Save our judge for this file as an xml file
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	private function save(){
+		
+		/// Create xml
 		$xml		=	new SimpleXMLElement('<rights></rights>');
+		
+		/// Put values in xml
 		$xml->addChild('public',$this->public);
 		$xml_users	=	$xml->addChild('users');
 		$xml_groups	=	$xml->addChild('groups');
@@ -99,12 +170,29 @@ class Judge
 		foreach($this->groups as $group)
 			$xml_groups->addChild($group);
 		
+		/// Save xml
 		$xml->asXML($this->path);
 	}
 	
+	/**
+	 * Edit rights of the Judge. Because you can.
+	 *
+	 * @param string $f 
+	 * @param string $groups 
+	 * @param string $users 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	public static function edit($f,$groups=array(),$users=array()){
+		
+		/// Just to be sure, check that user is admin
+		if(!CurrentUser::$admin)
+			return
+		
 		// Create new Judge, no need to read its rights
 		$rights			=	new Judge($f,false,false);
+		
+		/// Put the values in the Judge (poor guy)
 		$rights->groups	=	array_unique($groups);
 		$rights->users	=	array_unique($users);
 		$rights->public	=	(sizeof($groups)==0 && sizeof($users)==0)?0:1;
@@ -134,7 +222,8 @@ class Judge
 
 		if(!File::a2r($f))
 			return false;
-		// No Judge required for the admin.
+			
+		// No Judge required for the admin. This guy rocks.
 		if(CurrentUser::$admin)
 			return true;
 

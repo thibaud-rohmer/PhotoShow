@@ -65,6 +65,7 @@ class CurrentUser
 	 */
 	public function init(){
 		
+		/// Set action (needed for page layout)
 		if(isset($_GET['t'])){
 			
 			$possible_actions = array('Page','Img','Thb','Zip');
@@ -73,6 +74,7 @@ class CurrentUser
 			if(!in_array(CurrentUser::$action,$possible_actions)){
 				CurrentUser::$action = "Page";
 			}
+			
 		}
 		 
 		/// Set path

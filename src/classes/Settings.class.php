@@ -1,37 +1,82 @@
 <?php
-/*
-    This file is part of PhotoShow.
+/**
+ * This file implements the class Settings.
+ * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ * 
+ * This file is part of PhotoShow.
+ *
+ * PhotoShow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PhotoShow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright 2011 Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
-    PhotoShow is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    PhotoShow is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/**
+ * Settings
+ *
+ * Reads all of the settings files and stores them.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
 class Settings
 {
 
+	/// Directory where the photos are stored
 	static public $photos_dir;
+	
+	/// Directory where the thumbs are stored
 	static public $thumbs_dir;
+	
+	/// Directory where the RSS feeds are stored
 	static public $feeds_dir;
+	
+	/// File containing users info
 	static public $accounts_file;
+	
+	/// File containing groups info
 	static public $groups_file;
 	
+	/**
+	 * Read the settings in the files.
+	 * If a settings file is missing, raise an exception.
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	public function init(){
-		// Settings already created
+		
+		/// Settings already created
 		if(Settings::$photos_dir !== NULL) return;
 
+		/// Path to conf.ini file 
 		$ini_file		=	realpath(dirname(__FILE__)."/../../conf.ini");
 		$ini_settings	=	parse_ini_file($ini_file);
 		
+		/// Setup variables
 		Settings::$photos_dir	=	$ini_settings['photos_dir'];
 		Settings::$thumbs_dir	=	$ini_settings['thumbs_dir'];
 		Settings::$feeds_dir		=	$ini_settings['feeds_dir'];
@@ -64,10 +109,6 @@ class Settings
 			Group::create("user");
 		}
 	}
-	
-	static public function get_photos_dir(){
-		return $photos_dir;
-	}
-		
+
 }
 ?>

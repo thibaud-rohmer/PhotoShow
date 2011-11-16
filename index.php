@@ -25,16 +25,32 @@ function __autoload($class){
 function exception_handler($exception) {
   echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
 }
+set_exception_handler('exception_handler');
 
 try{
-	CurrentUser::init();
+	Settings::init();
+	CurrentUser::init();	
 }catch(Exception $e){
 	// User is not logged. Should we display a form then ?
 }
 
-set_exception_handler('exception_handler');
-
-$page = new Page();
-echo $page;
+switch (CurrentUser::$action){
+	
+	case "Page":
+				$page = new Page();
+				$page->toHTML();
+				break;
+				
+	case "Img":
+				Provider::Image(CurrentUser::$path);
+				break;
+				
+	case "Thb":
+				Provider::Image(CurrentUser::$path,true);
+				break;
+	case "Zip":
+				Provider::Zip(CurrentUser::$path);
+				break;
+}
 
 ?>
