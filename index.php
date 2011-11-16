@@ -54,6 +54,7 @@ if($_GET['t'] == "Reg"){
 try{
 	Settings::init();
 }catch(Exception $e){
+	echo $e;
 	$page = new RegisterPage(true);
 	$page->toHTML();
 	return;
