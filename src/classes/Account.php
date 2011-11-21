@@ -122,7 +122,7 @@ class Account
 			// No accounts file found
 			
 			// Create accounts file
-			$xml		=	new SimpleXMLElement('<account></account>');
+			$xml		=	new SimpleXMLElement('<accounts></accounts>');
 			$xml->asXML($xml_infos);
 			
 			// Set this account as root
@@ -324,11 +324,11 @@ class Account
 		$xml		=	simplexml_load_file($xml_infos);
 
 		foreach( $xml as $account ){
-		if($account->login==$login){
-			foreach($account->groups->children() as $group){
-				$rights=array_unique(array_merge($rights,Groups::rights($group)));
+			if($account->login==$login){
+				foreach($account->groups->children() as $group){
+					$rights=array_unique(array_merge($rights,Groups::rights($group)));
+				}
 			}
-		}
 		}
 
 		return $rights;
