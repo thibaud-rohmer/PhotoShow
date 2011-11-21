@@ -184,7 +184,7 @@ class Menu implements HTMLObject
 				}else{
 
 					if($rec){
-						$list = array_merge($list,Menu::list_files($dir."/".$content),true);
+						$list = array_merge($list,Menu::list_files($dir."/".$content,true));
 					}
 
 				}

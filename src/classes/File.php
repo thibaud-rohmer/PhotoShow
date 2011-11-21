@@ -107,10 +107,16 @@ class File
 	 * @author Thibaud Rohmer
 	 */
 	public static function Type($file){
+		
+		if(self::Name($file) == "."){
+			return "folder";
+		}
+
 		$ext	=	self::Extension($file);
 		if(!isset($ext)){
 			return "folder";
 		}
+
 		$types	=	array();
 		
 		$types['Image'][]	=	"png";
