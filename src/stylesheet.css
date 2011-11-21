@@ -292,7 +292,7 @@ a:visited{
 	bottom:		0;
 	height:		150px;
 	overflow-y:	hidden;
-	overflow-x:	scroll;
+	overflow-x:	auto;
 	white-space: nowrap; 
 	z-index:	2;
 }
