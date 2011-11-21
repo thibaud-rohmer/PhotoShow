@@ -1,6 +1,7 @@
 <?php
 /**
- * This file implements the index.
+ * This file implements the interface
+ *  HTMLObject.
  * 
  * PHP versions 4 and 5
  *
@@ -29,22 +30,22 @@
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
 
-/// Start session
-session_start();
-
-/// Autoload classes
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.php"));
+/**
+ * HTMLObject
+ *
+ * This interface represents any object that can output
+ * HTML.
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
+interface HTMLObject
+{
+	public function toHTML();
 }
-
-/// Take care of nasty exceptions
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-set_exception_handler('exception_handler');
-
-
-new Index();
-
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the index.
+ * This file implements the class Admin.
  * 
  * PHP versions 4 and 5
  *
@@ -29,22 +29,49 @@
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
 
-/// Start session
-session_start();
+/**
+ * Admin
+ *
+ * Aministration panel
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
+ class Admin
+ {
+ 	
+ 	/// Admin action
+ 	static public $action = "stats";
 
-/// Autoload classes
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.php"));
-}
 
-/// Take care of nasty exceptions
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-set_exception_handler('exception_handler');
+ 	/**
+ 	 * Initialise admin variables
+ 	 * 
+ 	 * @author Thibaud Rohmer
+ 	 */
+ 	static public function init(){
 
+ 		/// Get action
+	 	if(isset($_GET['a'])){
+	 		switch($_GET['a']){
+	 			
+	 			case "Sta"	:	Admin::$action = "stats";
+	 							break;
 
-new Index();
+	 			case "Upl"	:	Admin::$action = "upload";
+	 							break;
+	 							
+	 			default 	:	break;
+	 		}
+	 	}
+ 		
 
+ 	}
 
-?>
+ }
+
+ ?>

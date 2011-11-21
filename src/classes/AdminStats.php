@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the index.
+ * This file implements the class AdminStats.
  * 
  * PHP versions 4 and 5
  *
@@ -29,22 +29,47 @@
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
 
-/// Start session
-session_start();
+/**
+ * AdminStats
+ *
+ * Stats of the website
+ *
+ * @category  Website
+ * @package   Photoshow
+ * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license   http://www.gnu.org/licenses/
+ * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
-/// Autoload classes
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.php"));
-}
+ class AdminStats
+ {
 
-/// Take care of nasty exceptions
-function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
-}
-set_exception_handler('exception_handler');
+ 	// Number of user
+ 	private $users = 0;
 
+ 	// Number of groups
+	private $groups = 0;
 
-new Index();
+ 	// Number of comments
+ 	private $comments = 0;
 
+ 	// Number of items
+ 	private $items = 0;
 
-?>
+ 	/**
+ 	 * Calculate stats of the website
+ 	 * 
+ 	 * @author Thibaud Rohmer
+ 	 */
+ 	public function __construct(){
+
+ 		/// Calculate number of users, etc...
+ 	}
+
+ 	public function toHTML(){
+ 		echo "This page is yet to come. Be patient, guys !";
+ 	}
+ }
+
+ ?>
