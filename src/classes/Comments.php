@@ -141,6 +141,9 @@ class Comments implements HTMLObject
 			$c->addChild("content"	, $comment->content);
 		}
 
+		if(!is_file(dirname($this->commentsfile))){
+			mkdir(dirname($this->commentsfile),0750,true);
+		}
 		/// Write xml
 		$xml->asXML($this->commentsfile);
 	}
