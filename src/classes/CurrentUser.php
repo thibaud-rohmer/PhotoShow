@@ -135,7 +135,7 @@ class CurrentUser
 								}
 								break;
 
-				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content']);
+				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
 
 				default		:	CurrentUser::$action = "Page";
 								break;
