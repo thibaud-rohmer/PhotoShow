@@ -56,6 +56,10 @@ class ImagePanel implements HTMLObject
 	/// Comments object
 	private $comments;
 	
+	/// Judge object
+	private $judge;
+
+
 	/**
 	 * Create ImagePanel
 	 *
@@ -73,6 +77,10 @@ class ImagePanel implements HTMLObject
 		/// Create Comments object
 		$this->comments	=	new Comments($file);
 
+		if($file != NULL){
+			/// Set the Judge
+			$this->judge 	=	new Judge($file);
+		}
 	}
 
 	/**
@@ -84,7 +92,14 @@ class ImagePanel implements HTMLObject
 	public function toHTML(){
 		
 		echo "<div id='top'>\n";
+		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
+
+		if(CurrentUser::$admin){
+			$this->judge->toHTML();
+		}
+
+		echo "</div>\n";
 
 		echo "<div id='center'>\n";
 		$this->image->toHTML();

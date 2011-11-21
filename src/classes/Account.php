@@ -256,15 +256,6 @@ class Account
 	 * @author Thibaud Rohmer
 	 */
 	public static function exists($login){
-/*
-		// Settings returns an exception if no admin file was found.
-		try{
-			Settings::init();
-		}catch(Exception $e){
-			// No file, no user !
-			return false;
-		}
-*/
 
 		// Check if the accounts file exists
 		if(!file_exists(CurrentUser::$accounts_file)){
@@ -297,12 +288,14 @@ class Account
 		foreach( $xml as $account ){
 			$new_acc=array();
 			
+			$new_acc['login']		= $account->login;
 			$new_acc['password']	= $account->password;
 			$new_acc['name']		= $account->name;
 			$new_acc['email']		= $account->email;
-			foreach($accounts->groups->children() as $group)
+			foreach($account->groups->children() as $group){
 				$new_acc['groups'][]= $group;
-				
+			}
+
 			$accounts[]=$new_acc;
 		}
 		

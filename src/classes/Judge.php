@@ -53,11 +53,17 @@ class Judge
 	public $public;
 	
 	/// Groups allowed to see requested file
-	public $groups;
+	public $groups=array();
 	
 	/// Users allowed to see requested file
-	public $users;
+	public $users=array();
 	
+	/// Name of requested file
+	public $filename;
+
+	/// Urlencoded relative path
+	public $webpath;
+
 	/**
 	 * Create a Judge for a specific file.
 	 *
@@ -85,8 +91,13 @@ class Judge
 	 * @author Thibaud Rohmer
 	 */
 	private function set_path($f){
+		
 		$basefile	= 	new File($f);
 		$basepath	=	File::a2r($f);
+
+		$this->filename = $basefile->name;
+		$this->webpath 	= urlencode($basepath);
+
 		if(is_file($f)){
 			$rightsfile	=	dirname($basepath)."/.rights_".$basefile->name.".xml";
 		}else{
@@ -108,7 +119,7 @@ class Judge
 			$xml_infos	=	new File($this->path);
 			$xml		=	simplexml_load_file($this->path);
 
-			$this->public	=	($xml->puclic == 1);
+			$this->public	=	($xml->public == 1);
 
 			foreach($xml->groups->children() as $g)
 				$this->groups[]=(string)$g;
@@ -154,7 +165,7 @@ class Judge
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	private function save(){
+	public function save(){
 		
 		/// Create xml
 		$xml		=	new SimpleXMLElement('<rights></rights>');
@@ -163,7 +174,7 @@ class Judge
 		$xml->addChild('public',$this->public);
 		$xml_users	=	$xml->addChild('users');
 		$xml_groups	=	$xml->addChild('groups');
-		
+
 		foreach($this->users as $user)
 			$xml_users->addChild("login",$user);
 
@@ -183,7 +194,7 @@ class Judge
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function edit($f,$groups=array(),$users=array()){
+	public static function edit($f,$users=array(),$groups=array()){
 
 		/// Just to be sure, check that user is admin
 		if(!CurrentUser::$admin)
@@ -191,10 +202,16 @@ class Judge
 
 		// Create new Judge, no need to read its rights
 		$rights			=	new Judge($f,false,false);
-		
+
 		/// Put the values in the Judge (poor guy)
-		$rights->groups =	$groups;
-		$rights->ussers =	$users;
+		if(isset($groups)){
+			$rights->groups =	$groups;
+		}
+
+		if(isset($users)){
+			$rights->users =	$users;
+		}
+		
 		$rights->public	=	(sizeof($groups)==0 && sizeof($users)==0) ? 1 : 0;
 		
 		// Save the Judge
@@ -264,6 +281,71 @@ class Judge
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Display the rights on website, and let
+	 * the admin edit them.
+	 * 
+	 * @author Thibaud Rohmer
+	 */
+	public function toHTML(){
+		
+		echo "<div class='adminrights'>\n";
+		echo "<h2>$this->filename</h2>\n";
+
+
+		if($this->public){
+
+			echo "<form action='?t=Pri&f=$this->webpath' method='post'>\n";
+			echo "This item is public.";
+			echo "<input type='submit' class='button blue' value='Go Private' />";
+			echo "</form>";
+			echo "</div>";
+			return;
+
+		}else{
+
+			echo "<form action='?t=Pub&f=$this->webpath' method='post'>\n";
+			echo "This item is private.";
+			echo "<input type='submit' class='button blue' value='Go Public' />";
+			echo "</form>";
+
+		}
+
+		echo "<form action='?t=Rig&f=$this->webpath' method='post'>\n";
+		echo "<h3>Accounts</h3>";
+
+		foreach(Account::findAll() as $account){
+			
+			if(in_array($account['login'], $this->users)){
+				$checked = "checked";
+			}else{
+				$checked = "";
+			}
+
+			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".$account['login']."</label>";
+		}
+
+		echo "<h3>Groups</h3>";
+
+		foreach(Group::findAll() as $group){
+			if($group['name'] == "root"){
+				continue;
+			}
+			if(in_array($group['name'], $this->groups)){
+				$checked = "checked";
+			}else{
+				$checked = "";
+			}
+
+			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".$group['name']." </label>";
+		}
+
+		echo "</br><input type='submit' class='button blue' value='Set Rights'>\n";
+		echo "</form>\n";
+		echo "</div>\n";
+	}
+
+
 }
 ?>

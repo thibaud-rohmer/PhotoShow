@@ -56,6 +56,9 @@ class BoardPanel implements HTMLObject
 	/// Boards panel class depending on layout (image|boards)
 	private $boards_class;
 	
+	/// Used to display the rights of current dir
+	private $judge;
+
 	/**
 	 * Create BoardPanel
 	 *
@@ -78,6 +81,10 @@ class BoardPanel implements HTMLObject
 			$this->boards_class 	=	"boards_panel_thumbs";
 			$this->menu_class 		=	" ";
 		}
+
+		if(CurrentUser::$admin){
+			$this->judge	=	new Judge($dir);
+		}
 	}
 
 	/**
@@ -91,6 +98,9 @@ class BoardPanel implements HTMLObject
 		/// Display Menu
 		echo "<div id='menu' class='$this->menu_class'>\n";
 		$this->menu->toHTML();
+		if(CurrentUser::$admin){
+			$this->judge->toHTML();
+		}
 		echo "</div>\n";
 
 		/// Display Boards

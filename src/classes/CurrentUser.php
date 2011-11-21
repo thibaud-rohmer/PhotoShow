@@ -96,7 +96,7 @@ class CurrentUser
 			
 			switch($_GET['t']){
 				
-				case "Page"	:	
+				case "Page"	:
 				case "Img"	:
 				case "Thb"	:
 				case "Zip"	:	CurrentUser::$action=$_GET['t'];
@@ -136,6 +136,20 @@ class CurrentUser
 								break;
 
 				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
+								CurrentUser::$action = "Page";
+								break;
+
+				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups']);
+								CurrentUser::$action = "Page";
+								break;
+				
+				case "Pub"	:	Judge::edit(CurrentUser::$path);
+								CurrentUser::$action = "Page";
+								break;
+
+				case "Pri"	:	Judge::edit(CurrentUser::$path,array(),array('user'));
+								CurrentUser::$action = "Page";
+								break;
 
 				default		:	CurrentUser::$action = "Page";
 								break;

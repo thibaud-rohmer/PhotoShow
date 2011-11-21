@@ -201,6 +201,29 @@ class Group
 		throw new Exception("$name not found");
 	}
 	
+	public static function findAll(){
+		
+		$groups		=	array();
+
+		/// Load file
+		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
+
+		foreach( $xml as $group ){
+
+			$newgroup = array();
+			$newgroup['name'] 	= $group->name;
+			$newgroup['rights']	= array();
+			
+			foreach($group->rights->children() as $right){
+				$newgroup['rights'][] = $right;
+			}
+			
+			$groups[] = $newgroup;
+		}
+
+		return $groups;
+
+	}
 	
 }
 
