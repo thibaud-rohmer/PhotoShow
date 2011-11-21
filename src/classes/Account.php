@@ -218,13 +218,12 @@ class Account
 			$groups->addChild('group',$group);
 			
 			try{
-				$g	=	new group($g);
+				$g	=	new Group($g);
 				$g->save();
 			}catch(Exception $e){
 				// This group already exists
 			}
 		}
-		
 		// Saving into file
 		$xml->asXML($xml_infos);
 	}
