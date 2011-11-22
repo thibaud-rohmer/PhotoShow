@@ -115,8 +115,12 @@ class CurrentUser
 								}
 
 								if(isset($_POST['login']) && isset($_POST['password'])){
-									if(!CurrentUser::login($_POST['login'],$_POST['password'])){
-										echo "Wrong password";
+									try{
+										if(!CurrentUser::login($_POST['login'],$_POST['password'])){
+											echo "Wrong password";
+										}
+									}catch(Exception $e){
+										echo "Account not found";
 									}
 								}
 								
@@ -183,7 +187,7 @@ class CurrentUser
 	 * @author Thibaud Rohmer
 	 */
 	public static function login($login,$password){
-		
+
 		CurrentUser::$admin	=	false;
 		
 		$acc =	new Account($login);
