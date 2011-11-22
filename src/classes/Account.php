@@ -395,7 +395,7 @@ class Account extends Page
 					$selected = "";
 				}
 
-				echo "<option value='".$account['login']."' $selected >".$account['login']."</option>\n";
+				echo "<option value='".htmlentities($account['login'])."' $selected >".htmlentities($account['login'])."</option>\n";
 			}
 			echo "</select>\n";
 			echo "<input type='submit' value='Edit' class='button blue'>";
@@ -406,9 +406,9 @@ class Account extends Page
 		echo "Editing account $this->login";
 	 	echo "<form method='post' action='#' class='niceform'>\n";
 	 	echo "<div>";
-	 	echo "<input type='hidden' value='$this->login' name='login' />\n";
-	 	echo "Name : <input type='text' value='$this->name' name='name' />\n";
-	 	echo "Email : <input type='text' value='$this->email' name='email' />\n";
+	 	echo "<input type='hidden' value='".htmlentities($this->login)."' name='login' />\n";
+	 	echo "Name : <input type='text' value='".htmlentities($this->name)."' name='name' />\n";
+	 	echo "Email : <input type='text' value='".htmlentities($this->email)."' name='email' />\n";
 	 	echo "Password :<input type='password' value='' name='password' />\n";
 
 	 	if(CurrentUser::$admin){
@@ -420,7 +420,7 @@ class Account extends Page
 				}else{
 					$checked="";
 				}
-				echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".$group['name']." </label>";
+				echo "<label><input type='checkbox' value='".htmlentities($group['name'])."' name='groups[]' $checked > ".htmlentities($group['name'])." </label>";
 			}
 			echo "<input type='hidden' name='old_password' value='jibberish' /> \n";
 	 	}else{

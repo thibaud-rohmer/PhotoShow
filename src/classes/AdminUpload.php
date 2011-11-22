@@ -140,11 +140,22 @@
  		echo 	"<tr><td><select name='path'>";
  		echo 	"<option value='.'>.</option>";
  		foreach($this->dirs as $dir){
- 				echo "<option value='$dir'>".$dir."</option>\n";
+ 				echo "<option value='".htmlentities($dir)."'>".htmlentities($dir)."</option>\n";
  		}
  		echo 	"</select></tr></td>";
  		echo 	"<tr><td>Create Dir : <input name='newdir' type='text' /></td></tr>";
  		echo 	"<tr><td><input type='submit' class='button blue' /></td></tr>";
+ 		echo 	"<tr><td><input type='checkbox' name='public' checked /></td></tr>";
+ 		echo 	"<tr><td>";
+ 		foreach(Group::listAll() as $group){
+ 			echo "<input type='checkbox' name='groups[]' value='".htmlentities($group['name'])."' checked />".htmlentities($group['name']);
+ 		}
+ 		echo 	"</td></tr>";
+ 		echo 	"<tr><td>";
+ 		foreach(Account::listAll() as $account){
+ 			echo "<input type='checkbox' name='users[]' value='".htmlentities($account['login'])."' checked />".htmlentities($account['login']);
+ 		}
+ 		echo 	"</td></tr>";
  		echo 	"</table>";
  		echo 	"</form>";
 
