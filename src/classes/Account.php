@@ -51,7 +51,7 @@
  * @license	  http://www.gnu.org/licenses/
  * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
  */
-class Account extends page
+class Account extends Page
 {
 	/// Login of the user
 	public $login;
@@ -131,7 +131,7 @@ class Account extends page
 
 		$acc			=	new Account();
 		$acc->login		=	$login;
-		$acc->password	=	self::password($password);
+		$acc->password	=	Account::password($password);
 		$acc->groups	=	$groups;
 		$acc->name		=	$name;
 		$acc->email		=	$email;
