@@ -74,6 +74,8 @@
 
  		$allowedExtensions = array("tiff","jpg","jpeg","gif","png");
 
+		$already_set_rights = false;
+
  		/// Just to be really sure... 
  		if(!CurrentUser::$admin){
  			return;
@@ -88,8 +90,18 @@
  			$path = $path."/".$_POST['newdir'];
  			if(!file_exists($path)){
  				mkdir($path,0750,true);
+ 				mkdir(File::r2a(File::a2r($path),Settings::$thumbs_dir),0750,true);
  			}
 
+ 			/// Setup rights
+ 			if(!isset($_POST['inherit'])){
+ 				if(isset($_POST['public'])){
+ 					Judge::edit($path);
+ 				}else{
+ 					Judge::edit($path,$_POST['users'],$_POST['groups']);					
+ 				}
+ 			}
+ 			$already_set_rights = true;
  		}
 
  		/// Treat uploaded files
@@ -123,6 +135,15 @@
 		        if(move_uploaded_file($tmp_name, "$path/$name")){
 		    		$done .= "Successfully uploaded $name";
 		        }
+
+		        /// Setup rights
+	 			if(!$already_set_rights && !isset($_POST['inherit'])){
+ 					if(isset($_POST['public'])){
+ 						Judge::edit($path);
+ 					}else{
+ 						Judge::edit($path,$_POST['users'],$_POST['groups']);					
+ 					}
+ 				}
 			}
 		}
 	}
@@ -139,23 +160,36 @@
  		echo 	"<tr><td><input  name='images[]' type='file' multiple /></td></tr>";
  		echo 	"<tr><td><select name='path'>";
  		echo 	"<option value='.'>.</option>";
+
  		foreach($this->dirs as $dir){
  				echo "<option value='".htmlentities($dir)."'>".htmlentities($dir)."</option>\n";
  		}
+
  		echo 	"</select></tr></td>";
  		echo 	"<tr><td>Create Dir : <input name='newdir' type='text' /></td></tr>";
+ 	 	echo 	"<tr><td><label><input type='checkbox' name='inherit' checked /> Inherit</label></td></tr>";
+ 		echo 	"<tr><td><label><input type='checkbox' name='public' checked /> Public</label></td></tr>";
+ 		echo 	"<tr><td>";
+ 		echo 	"Groups";
+ 		echo 	"</td></tr>";
+ 		echo 	"<tr><td>";
+ 		foreach(Group::findAll() as $group){
+ 			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'])."' checked /> ".htmlentities($group['name'])." </label>";
+ 		}
+
+ 		echo 	"</td></tr>";
+ 		echo 	"<tr><td>";
+ 		echo 	"Users";
+ 		echo 	"</td></tr>";
+ 		echo 	"<tr><td>";
+ 		foreach(Account::findAll() as $account){
+ 			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'])."' checked /> ".htmlentities($account['login'])." </label>";
+ 		}
+
+ 		echo 	"</td></tr>";
+ 		
  		echo 	"<tr><td><input type='submit' class='button blue' /></td></tr>";
- 		echo 	"<tr><td><input type='checkbox' name='public' checked /></td></tr>";
- 		echo 	"<tr><td>";
- 		foreach(Group::listAll() as $group){
- 			echo "<input type='checkbox' name='groups[]' value='".htmlentities($group['name'])."' checked />".htmlentities($group['name']);
- 		}
- 		echo 	"</td></tr>";
- 		echo 	"<tr><td>";
- 		foreach(Account::listAll() as $account){
- 			echo "<input type='checkbox' name='users[]' value='".htmlentities($account['login'])."' checked />".htmlentities($account['login']);
- 		}
- 		echo 	"</td></tr>";
+
  		echo 	"</table>";
  		echo 	"</form>";
 
