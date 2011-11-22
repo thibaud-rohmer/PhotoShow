@@ -55,7 +55,8 @@
 
  		$this->options['Sta']="Stats";
  		$this->options['Upl']="Upload";
- 	
+ 	 	$this->options['Acc']="Accounts";
+
  	}
  
  	/**

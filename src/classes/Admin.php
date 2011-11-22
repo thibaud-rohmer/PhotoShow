@@ -64,6 +64,12 @@
 
 	 			case "Upl"	:	Admin::$action = "upload";
 	 							break;
+	 			
+	 			case "Acc"	:	if(isset($_POST['old_password'])){
+									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+								}
+								Admin::$action = "account";
+								break;
 	 							
 	 			default 	:	break;
 	 		}

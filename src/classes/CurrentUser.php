@@ -120,41 +120,43 @@ class CurrentUser
 									}
 								}
 								
-								if(isset(CurrentUser::$account)){
-									CurrentUser::$action = "Page";
-								}else{
+								if(!isset(CurrentUser::$account)){
 									CurrentUser::$action = $_GET['t'];
 								}
 						
 								break;
 
+				case "Acc"	:	if(isset($_POST['old_password'])){
+									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+								}
+								CurrentUser::$action = "Acc";
+								break;
+
 				case "Adm"	:	if(CurrentUser::$admin){
-									CurrentUser::$action = "Admin";
-								}else{
-									CurrentUser::$action = "Page";
+									CurrentUser::$action = "Adm";
 								}
 								break;
 
 				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
-								CurrentUser::$action = "Page";
 								break;
 
 				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups']);
-								CurrentUser::$action = "Page";
 								break;
 				
 				case "Pub"	:	Judge::edit(CurrentUser::$path);
-								CurrentUser::$action = "Page";
 								break;
 
 				case "Pri"	:	Judge::edit(CurrentUser::$path,array(),array('user'));
-								CurrentUser::$action = "Page";
 								break;
 
-				default		:	CurrentUser::$action = "Page";
-								break;
+				default		:	break;
 
 			}	
+		}
+
+		/// Set default action
+		if(!isset(CurrentUser::$action)){
+			CurrentUser::$action = "Page";
 		}
 
 		/// Throw exception if accounts file is missing

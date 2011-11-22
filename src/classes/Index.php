@@ -90,7 +90,15 @@ class Index
 			case "Zip":		Provider::Zip(CurrentUser::$path);
 							break;
 			
-			case "Admin":	$page = new AdminPage();
+			case "Acc":		if(CurrentUser::$admin && isset($_POST['login'])){
+								$acc = new Account($_POST['login']);
+							}else{
+								$acc = CurrentUser::$account;
+							}
+							$acc->toHTML();
+							break;
+			
+			case "Adm":		$page = new AdminPage();
 							$page->toHTML();
 							break;
 		}

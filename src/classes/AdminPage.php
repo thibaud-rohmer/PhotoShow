@@ -77,6 +77,13 @@
 	 							}
 	 							$this->page = new AdminUpload();
 	 							break;
+	 			
+	 		case "account"	:	if(isset($_POST['login'])){
+									$this->page = new Account($_POST['login']);
+								}else{
+									$this->page = CurrentUser::$account;
+								}
+								break;
 
 	 		default 		:	$this->page = new AdminStats();
 	 	}

@@ -51,7 +51,7 @@
  * @license	  http://www.gnu.org/licenses/
  * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
  */
-class Account
+class Account extends page
 {
 	/// Login of the user
 	public $login;
@@ -227,6 +227,55 @@ class Account
 		// Saving into file
 		$xml->asXML($xml_infos);
 	}
+
+	/**
+	 * Edit an account
+	 * 
+	 * @param string $login
+	 * @param string $old_password
+	 * @param string $password
+	 * @param string $name
+	 * @param string $email
+	 * @author Thibaud Rohmer
+	 */
+	public static function edit($login=NULL, $old_password=NULL, $password=NULL, $name=NULL, $email=NULL, $groups=array()){
+		
+		/// Only the admin can modify other accounts
+		if( !CurrentUser::$admin && $login != CurrentUser::$account->login ){
+			return;
+		}
+
+		if(isset($login)){
+			$acc = new Account($login);
+		}else{
+			$acc = CurrentUser::$account;
+		}
+
+		/// Check password
+		if( !CurrentUser::$admin && Account::password($old_password) != $acc->password ){
+			return;
+		}
+
+		/// Edit attributes
+		if(isset($password)){
+			$acc->password = Account::password($password);
+		}
+
+		if(isset($name)){
+			$acc->name = $name;
+		}
+
+		if(isset($email)){
+			$acc->email = $email;
+		}
+
+		if(CurrentUser::$admin && sizeof($groups) > 0){
+			$acc->groups = $groups;
+		}
+
+		/// Save account
+		$acc->save();
+	}
 	
 	/**
 	 * Delete an account
@@ -325,6 +374,67 @@ class Account
 
 		return $rights;
 	}
+
+	/**
+	 * Display a form to edit account
+	 * 
+	 * 
+	 */
+	 public function toHTML(){
+	 	$this->header();
+	 	echo "<h1>Edit an account</h1>\n";
+
+	 	if(CurrentUser::$admin){
+	 		echo "<form method='post' action='#' class='niceform'>\n";
+	 		echo "<div>";
+	 		echo "Edit account : <select name='login'>\n";
+			foreach(Account::findAll() as $account){
+				if($account['login'] == $this->login){
+					$selected = "selected";
+				}else{
+					$selected = "";
+				}
+
+				echo "<option value='".$account['login']."' $selected >".$account['login']."</option>\n";
+			}
+			echo "</select>\n";
+			echo "<input type='submit' value='Edit' class='button blue'>";
+			echo "</div>\n";
+			echo "</form>";
+		}
+
+		echo "Editing account $this->login";
+	 	echo "<form method='post' action='#' class='niceform'>\n";
+	 	echo "<div>";
+	 	echo "<input type='hidden' value='$this->login' name='login' />\n";
+	 	echo "Name : <input type='text' value='$this->name' name='name' />\n";
+	 	echo "Email : <input type='text' value='$this->email' name='email' />\n";
+	 	echo "Password :<input type='password' value='' name='password' />\n";
+
+	 	if(CurrentUser::$admin){
+	 		echo "Groups ";
+
+			foreach(Group::findAll() as $group){
+				if(in_array($group['name'],$this->groups)){
+					$checked="checked";
+				}else{
+					$checked="";
+				}
+				echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".$group['name']." </label>";
+			}
+			echo "<input type='hidden' name='old_password' value='jibberish' /> \n";
+	 	}else{
+	 		echo "Old Password : <input type='password' value='' name='old_password' />\n";
+	 	}
+
+	 	echo "<input type='submit' class='button blue'>\n";
+	 	echo "</div>\n";
+	 	echo "</form>\n";
+
+	 	echo "<a href='.'>Back</a>";
+
+	 }
+
 }
 
 
