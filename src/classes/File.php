@@ -107,7 +107,7 @@ class File
 	 * @author Thibaud Rohmer
 	 */
 	public static function Type($file){
-		
+		$file=strtolower($file);
 		if(self::Name($file) == "."){
 			return "folder";
 		}
