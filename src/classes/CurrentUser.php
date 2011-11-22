@@ -191,7 +191,7 @@ class CurrentUser
 		CurrentUser::$admin	=	false;
 		
 		$acc =	new Account($login);
-		
+	
 		// Check password
 		if(Account::password($password) == $acc->password){
 			$_SESSION['login']		=	$login;

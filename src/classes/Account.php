@@ -110,7 +110,7 @@ class Account extends page
 	public static function create($login,$password,$groups=array(),$name='',$email=''){
 		
 		// Check if login already exists
-		if(self::exists($login))
+		if(Account::exists($login))
 			return false;
 
 		// All users belong to the "user" group
@@ -367,7 +367,7 @@ class Account extends page
 		foreach( $xml as $account ){
 			if($account->login==$login){
 				foreach($account->groups->children() as $group){
-					$rights=array_unique(array_merge($rights,Groups::rights($group)));
+					$rights=array_unique(array_merge($rights,Group::rights($group)));
 				}
 			}
 		}
