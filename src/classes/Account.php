@@ -140,7 +140,7 @@ class Account extends page
 	}
 	
 	/**
-	 * Edit account password
+	 * Encrypt password
 	 *
 	 * @param string $password 
 	 * @return void
@@ -257,7 +257,7 @@ class Account extends page
 		}
 
 		/// Edit attributes
-		if(isset($password)){
+		if(isset($password) && sizeof($password) > 0 ){
 			$acc->password = Account::password($password);
 		}
 

@@ -45,17 +45,8 @@
  class AdminStats
  {
 
- 	// Number of user
- 	private $users = 0;
-
- 	// Number of groups
-	private $groups = 0;
-
- 	// Number of comments
- 	private $comments = 0;
-
- 	// Number of items
- 	private $items = 0;
+ 	// Stats
+ 	private $stats = array();
 
  	/**
  	 * Calculate stats of the website
@@ -65,10 +56,23 @@
  	public function __construct(){
 
  		/// Calculate number of users, etc...
+ 		$this->stats['Users'] = sizeof(Account::findAll());
+
+ 		$this->stats['Groups'] = sizeof(Group::findAll());
+
+ 		$this->stats['Items'] = sizeof(Menu::list_files(Settings::$photos_dir,true));
+
+ 		$this->stats['Generated items'] = sizeof(Menu::list_files(Settings::$thumbs_dir,true));
+
+ 		$this->stats['Albums'] = sizeof(Menu::list_dirs(Settings::$photos_dir,true));
  	}
 
  	public function toHTML(){
- 		echo "This page is yet to come. Be patient, guys !";
+ 		echo "<table>";
+ 		foreach($this->stats as $name=>$val){
+ 			echo "<tr><td>$name</td><td>$val</td></tr>"; 			
+ 		}
+ 		echo "</table>";
  	}
  }
 
