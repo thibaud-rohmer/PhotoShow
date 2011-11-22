@@ -158,7 +158,7 @@ class File
 		$rf	=	realpath($file);
 		$rd =	realpath($dir);
 		
-		if($rf==$rd) return "./";
+		if($rf==$rd) return "";
 
 		if( substr($rf,0,strlen($rd)) != $rd ){
 			throw new Exception("$file is not inside $dir<br/> $rf<br/>$rd");
