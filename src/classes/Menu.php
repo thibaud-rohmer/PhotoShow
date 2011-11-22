@@ -60,9 +60,10 @@ class Menu implements HTMLObject
 	 * Create Menu
 	 *
 	 * @param string $dir 
+	 * @param int $level
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($dir=null){
+	public function __construct($dir=null,$level=0){
 		
 		/// Init Menu 
 		if($dir == null)
@@ -81,20 +82,20 @@ class Menu implements HTMLObject
 			File::a2r(CurrentUser::$path,$dir);
 
 			$this->selected			=	true;
-			$this->class 			=	"selected";
+			$this->class 			=	"level-$level selected";
 
 		}catch(Exception $e){
 
 			/// Selected dir not in $dir, or nothing is selected			
 			$this->selected			=	false;
-			$this->class 			=	"";
+			$this->class 			=	"level-$level";
 			
 		}
 
 
 		/// Create Menu for each directory
 		foreach($this->list_dirs($dir) as $d){
-			$this->items[]	=	new Menu($d);
+			$this->items[]	=	new Menu($d,$level+1);
 		}
 	}
 	

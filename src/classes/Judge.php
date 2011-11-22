@@ -68,11 +68,10 @@ class Judge
 	 * Create a Judge for a specific file.
 	 *
 	 * @param string $f 
-	 * @param string $inherited 
 	 * @param string $read_rights 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($f, $inherited=false, $read_rights=true){
+	public function __construct($f, $read_rights=true){
 		$this->public	=	true;
 		$this->groups	=	array();
 		$this->users	=	array();
@@ -127,27 +126,18 @@ class Judge
 			foreach($xml->users->children() as $u)
 				$this->users[]=(string)$u;
 
-			$next_inherited=true;
-			
-			
 		}catch(Exception $e){
-			// No Rights file
-			$next_inherited=false;
 		
 			/// If no rights file found, check in the containing directory
 			try{
 
 				// Look up
 				$up_path		=	File::a2r(dirname($base));
-				$up				=	new Judge($up,$next_inherited);
-				if($inherited){
-					$this->public	=	$this->public && $up->public;
-					$this->groups	=	array_intersect($this->groups,$up->groups);
-					$this->users	=	array_intersect($this->groups,$up->users);
-				}else{
-					$this->groups	=	array_unique(array_merge($this->groups,$up->groups));
-					$this->users	=	array_unique(array_merge($this->groups,$up->groups));
-				}			
+				$j = new Judge($up);
+				
+				$this->groups 	= $j->groups;
+				$this->users 	= $j->users;
+				$this->public 	= $j->public;
 
 			}catch(Exception $e){
 				
@@ -201,7 +191,7 @@ class Judge
 			return;
 
 		// Create new Judge, no need to read its rights
-		$rights			=	new Judge($f,false,false);
+		$rights			=	new Judge($f,false);
 
 		/// Put the values in the Judge (poor guy)
 		if(isset($groups)){
