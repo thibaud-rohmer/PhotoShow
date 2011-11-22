@@ -83,7 +83,31 @@ class Provider
 				$thumb->save($path);
 			}
 		}else{
-			$path = $file;
+			list($x,$y) = getimagesize($file);
+			if($x > 800 || $y > 600){
+
+				require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
+
+				$basefile	= 	new File($file);
+				$basepath	=	File::a2r($file);
+
+				/// Build relative path to webimg
+				$webimg	=	dirname($basepath)."/".$basefile->name."_small.".$basefile->extension;
+				
+				/// Set absolute path to comments file
+				$path =	File::r2a($webimg,Settings::$thumbs_dir);
+
+				if(!file_exists($path)){
+					/// Create thumbnail
+					$thumb = PhpThumbFactory::create($file);
+					$thumb->resize(800, 600);
+					$thumb->save($path);
+				}
+
+			}else{
+				$path = $file;
+			}
+			
 		}
 
 		header('Content-type: image/jpeg');
