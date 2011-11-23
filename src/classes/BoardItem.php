@@ -84,6 +84,9 @@ class BoardItem implements HTMLObject
 		echo 	"style='";
 		echo 	" width: 			$this->width%;";
 		echo 	" background: 		url(\"?$getfile\") no-repeat center center;";
+		echo 	" -webkit-background-size: cover;";
+		echo 	" -moz-background-size: cover;";
+		echo 	" -o-background-size: cover;";
 		echo 	" background-size: 	cover;";
 		echo 	"'>\n";
 
