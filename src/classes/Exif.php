@@ -120,10 +120,7 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<div class='title'>\n";
-		echo "exif";
-		echo "</div>\n";
-		echo "<table class='data'>";
+		echo "<table>";
 		foreach($this->exif as $name=>$value){
 			echo "<tr><td class='td_data'>$name</td><td class='td_value'>$value</td></tr>\n";
 		}

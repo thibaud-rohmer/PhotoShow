@@ -1,0 +1,93 @@
+div#container{
+	position:	absolute;
+	left:		0;
+	right:		0;
+	top:		0;
+	bottom:		0;
+	overflow:	hidden;
+}
+
+div#menubar{
+	position:		absolute;
+	left:			0;
+	right:			0;
+	top:			0;
+	height:			30px;
+	z-index:		50;
+
+	background:		#ccc;
+	border-bottom:	1px solid #aaa;	
+	box-shadow:		0px 1px 2px #ccc;
+}
+
+div#menubar > div:nth-child(1) {
+	position:		absolute;
+	left:			0;
+	width:			auto;
+	top:			0;
+	height:			auto;
+}
+
+div#menubar > div:nth-child(2) {
+	position:		absolute;
+	width:			auto;
+	right:			0;
+	top:			0;
+	height:			auto;
+}
+
+div#menubar > div > * {
+	display:		inline-block;
+	margin:			5px;
+}
+
+div#menubar * a {
+	display:		inline-block;
+}
+
+div#page{
+	position:	absolute;
+	left:		0;
+	right:		0;
+	top:		30px;
+	bottom:		0;
+	overflow:	hidden;
+}
+
+div#menu {
+	position:		absolute;
+	left:			0;
+	width:			250px;
+	top:			0;
+	bottom:			0;
+	z-index:		5;
+	overflow-x:		hidden;
+	overflow-y:		auto;
+
+	background:		white;
+	border-right:	1px solid #888;
+	font-size:		11pt;
+}
+
+div.menu_item {
+	margin:			0 0 0 10px;
+}
+
+div.menu_item > .menu_item {
+	display:		none;
+}
+
+div.menu_item.selected > .menu_item{
+	display:		inherit;
+}
+
+div.menu_title {
+	padding-left:	5px;
+}
+
+div.menu_item.selected > .menu_title,
+div.menu_title:hover{
+	border-left:	3px solid rgb(0,136,232);
+	padding-left:	2px;
+	background:		#ddd;
+}

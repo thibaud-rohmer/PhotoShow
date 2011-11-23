@@ -69,25 +69,25 @@ class MenuBar implements HTMLObject{
 	public function toHTML(){
 		echo "<div id='menubar'>\n";
 		echo "<div class='align_left'>\n";
-		echo "<div class='menubar-button'><a href='#'>PhotoShow</a></div>\n";
+		echo "<a href='#'>PhotoShow</a>\n";
 		
 		if(isset(CurrentUser::$account)){
 			// User logged in
 			echo "<div class='menubar-button'>- logged as <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login)."</a></div>\n";
 			echo "</div><div class='align_right'>\n";
-			echo "<div class='menubar-button'><a href='?t=Log'>LOGOUT</a></div>\n";
+			echo "<a href='?t=Log'>LOGOUT</a>\n";
 			
 			if(CurrentUser::$admin){
-				echo "<div class='menubar-button'><a href='?t=Adm'>ADMIN</a></div>\n";
+				echo "<a href='?t=Adm'>ADMIN</a>\n";
 			}
 			
 		}else{
 			// User not logged in
 			echo "</div><div class='align_right'>\n";
-			echo "<div class='menubar-button'><a href='?t=Log'>LOGIN/REGISTER</a></div>\n";
+			echo "<a href='?t=Log'>LOGIN/REGISTER</a>\n";
 		}
 		
-		echo "<div class='menubar-button'><a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a></div>\n";
+		echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
 		echo "</div>\n";
 		echo "</div>\n";
 	}

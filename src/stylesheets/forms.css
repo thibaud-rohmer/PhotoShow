@@ -1,0 +1,115 @@
+form {
+	clear:	both;
+}
+
+fieldset {
+	position:			relative;
+	min-height:			35px;
+	background-color:	rgba(0,0,0,0.3);
+	margin:				5px 0 15px 0;
+	width:				500px;
+	border-radius:		2px;
+	text-align:			center;
+}
+
+fieldset > span {
+	color:				white;
+	text-align:			center;
+	padding:			5px;
+	position:			absolute;
+	left:				3px;
+	width:				100px;
+	top:				3px;
+	bottom:				3px;
+	border-radius:		2px;
+	text-shadow: 		0 -1px 0px rgba(0,0,0,0.7);
+	background: 		rgb(0,160,232);
+	background:			-webkit-gradient(linear, left top, left bottom, from(rgb(0,160,232)), to(rgb(0,100,200)));
+	background:			-moz-linear-gradient(-90deg, rgb(0,160,232), rgb(0,100,200));
+	box-shadow: 		inset 0px 1px 1px rgba(0,0,0,1), 0 1px 1px rgba(0,0,0,0.2);
+}
+
+fieldset > div {
+	position:			absolute;
+	left:				117px;
+	right:				3px;
+	top:				3px;
+	bottom:				4px;
+	background:			white;
+	border-radius:		2px;
+	text-align:			center;
+}
+
+a.button, 
+input[type='submit'] {
+	display:			inline-block;
+	min-width:			100px;
+	margin:				5px;
+	padding:			7px;
+	text-align:			center;
+	cursor:				pointer;
+	font-size:			12pt;
+	font-family:		Century Gothic, sans-serif;
+	text-shadow: 		0 -1px 0px rgba(0,0,0,0.7);
+	color:				white;
+	text-align:			center;
+	padding:			5px;
+	border:				1px solid rgb(0,150,232);
+	border-radius:		2px;
+	background: 		rgb(0,160,232);
+	background: 		-webkit-gradient(linear, left top, left bottom, from(rgb(0,160,232)), to(rgb(0,100,200)));
+	background:			-moz-linear-gradient(-90deg, rgb(0,160,232), rgb(0,100,200));
+
+}
+
+a.button:hover, 
+input[type='submit']:hover {
+	text-shadow:		1px 1px 2px rgba(0,0,0,0.5);
+	box-shadow: 		inset 0px 1px 1px rgba(0,0,0,0.4), 0 1px 1px rgba(0,0,0,0.2);
+}
+
+input[type="password"],
+input[type="text"] {
+	position:			absolute;
+	left:				0;
+	right:				0;
+	top:				0;
+	bottom:				0;
+	border-radius:		2px;
+
+	color:				#333;
+	padding:			3px;
+	font-size:			12pt;
+	box-shadow:			inset 0 1px 1px rgba(0,0,0,0.7);
+	border-color:		#ccc;
+
+	-webkit-transition:	background ease-in-out .3s;
+	transition:			background ease-in-out .3s;
+}
+
+input[type="password"]:focus,
+input[type="text"]:focus,
+input[type="password"]:hover, 
+input[type="text"]:hover,
+textarea:focus,
+textarea:hover {
+	background-color:	#ccc;
+	outline:			none;	
+}
+
+input[type="checkbox"]{
+	margin:			5px;
+}
+
+textarea {
+	border-radius:		2px;
+
+	color:				#333;
+	padding:			3px;
+	font-size:			12pt;
+	box-shadow:			inset 0 1px 1px rgba(0,0,0,0.7);
+	border-color:		#ccc;
+
+	-webkit-transition:	background ease-in-out .3s;
+	transition:			background ease-in-out .3s;
+}

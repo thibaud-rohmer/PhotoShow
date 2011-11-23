@@ -69,19 +69,19 @@ class BoardHeader{
 	public function toHTML(){
 		echo 	"<div class='header'>";
 		/// Title
-		echo 	"<div class='title'>$this->title</div>";
+		echo 	"<h1>$this->title</h1>";
 		
-		echo 	"<div class='buttons'>";
+		echo 	"<span>";
 		
 		/// Zip button
-		echo 	"<div class='button blue'><a href='?t=Zip&f=$this->path'>ZIP</a></div>\n";
+		echo 	"<a href='?t=Zip&f=$this->path' class='button'>ZIP</a>\n";
 	
 		/// If Current User is an admin, display admin button
-		if(isset(CurrentUser::$account->login) && CurrentUser::$account->admin){
-			echo 	"<div class='button orange'><a href='inc/admin.php?f=upload'>Upload Photos</a></div>\n";
+		if(CurrentUser::$admin){
+			echo 	"<a href='?t=Adm&a=Upl&f=$this->path' class='button'>Upload Photos</a>\n";
 		}
 		
-		echo 	"</div>\n";
+		echo 	"</span>\n";
 		echo 	"</div>\n";
 	}
 }

@@ -67,27 +67,19 @@ class RegisterPage extends Page
 		
 		$this->header();
 		if($this->admin_account){
-			echo "<div class='inc_title'>Please create the main account</div>";						
+			echo "<h1>Please create the main account</h1>";						
 		}else{
-			echo "<div class='inc_title'>Register</div>";			
+			echo "<h1>Register</h1>";
+
 		}
 		
-		echo "<form method='post' action='?t=Reg' class='niceform'>\n";
-		echo "<table>\n";
-		echo "<tr>\n";
-		echo "<td>Login : </td>\n";
-		echo "<td><input type='text' name='login'></td>\n";
-		echo "</tr>\n";
-		echo "<tr>\n";
-		echo "<td>E-mail : </td>\n";
-		echo "<td><input type='text' name='mail'></td>\n";
-		echo "</tr>\n";
-		echo "<tr>\n";
-		echo "<td>Password : </td>\n";
-		echo "<td><input type='password' name='password'></td>\n";
-		echo "</tr>\n";
-		echo "</table>\n";
-		echo "<input type='submit' value='Register' class='button blue'>\n";
+
+		echo "<form method='post' action='?t=Reg'>\n";
+		echo "<fieldset><span>Login : </span>";
+		echo "<div><input type='text' name='login'></div></fieldset>\n";
+		echo "<fieldset><span>Password : </span>\n";
+		echo "<div><input type='password' name='password'></div></fieldset>\n";
+		echo "<input type='submit' value='Register' class='button blue'> or <a href='.'>back</a>";
 		echo "</form>\n";
 
 	}

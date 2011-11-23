@@ -49,6 +49,9 @@
  	/// What have we done ?
  	public $done;
 
+ 	/// Currently selected dir
+ 	private $selected_dir;
+
  	/**
  	 * Create upload page
  	 * 
@@ -61,6 +64,10 @@
 
  		foreach ($list_dirs as $dir){
  			$this->dirs[] = File::a2r($dir);
+ 		}
+
+ 		if(isset(CurrentUser::$path)){
+ 			$this->selected_dir = File::a2r(CurrentUser::$path);
  		}
 
  	}
@@ -154,43 +161,38 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function toHTML(){
- 		echo 	"<div class='title'>Upload</div>";
- 		echo 	"<form action='#' method='post' enctype='multipart/form-data' class='niceform'>";
- 		echo 	"<table>";
- 		echo 	"<tr><td><input  name='images[]' type='file' multiple /></td></tr>";
- 		echo 	"<tr><td><select name='path'>";
+ 		echo 	"<h1>Upload</h1>";
+ 		echo 	"<form action='#' method='post' enctype='multipart/form-data'>";
+ 		echo 	"<fieldset><span>Images</span><div><input  name='images[]' type='file' multiple /></div></fieldset>";
+ 		echo 	"<fieldset><span>Location</span><div><select name='path'>";
  		echo 	"<option value='.'>.</option>";
 
  		foreach($this->dirs as $dir){
- 				echo "<option value='".htmlentities($dir)."'>".htmlentities($dir)."</option>\n";
+ 				if($dir == $this->selected_dir){
+ 					$selected = "selected";
+ 				}else{
+ 					$selected = "";
+ 				}
+ 				echo "<option value='".htmlentities($dir)."' $selected>".htmlentities($dir)."</option>\n";
  		}
 
- 		echo 	"</select></tr></td>";
- 		echo 	"<tr><td>Create Dir : <input name='newdir' type='text' /></td></tr>";
- 	 	echo 	"<tr><td><label><input type='checkbox' name='inherit' checked /> Inherit</label></td></tr>";
- 		echo 	"<tr><td><label><input type='checkbox' name='public' checked /> Public</label></td></tr>";
- 		echo 	"<tr><td>";
- 		echo 	"Groups";
- 		echo 	"</td></tr>";
- 		echo 	"<tr><td>";
+ 		echo 	"</select></div></fieldset>";
+ 		echo 	"<fieldset><span>New Dir</span><div><input name='newdir' type='text' /></div></fieldset>";
+ 	 	echo 	"<fieldset><span>Inherit Rights</span><div><label><input type='checkbox' name='inherit' checked /> Inherit</label></div></fieldset>";
+ 		echo 	"<fieldset><span>Public</span><div><label><input type='checkbox' name='public' checked /> Public</label></div></fieldset>";
+ 		echo 	"<fieldset><span>Groups</span><div>";
  		foreach(Group::findAll() as $group){
  			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'])."' checked /> ".htmlentities($group['name'])." </label>";
  		}
-
- 		echo 	"</td></tr>";
- 		echo 	"<tr><td>";
- 		echo 	"Users";
- 		echo 	"</td></tr>";
- 		echo 	"<tr><td>";
+ 		echo 	"</div></fieldset>";
+ 	
+ 		echo 	"<fieldset><span>Users</span><div>";
  		foreach(Account::findAll() as $account){
  			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'])."' checked /> ".htmlentities($account['login'])." </label>";
  		}
+ 		echo 	"</div></fieldset>";
+ 		echo 	"<fieldset><input type='submit' class='button blue' /></fieldset>";
 
- 		echo 	"</td></tr>";
- 		
- 		echo 	"<tr><td><input type='submit' class='button blue' /></td></tr>";
-
- 		echo 	"</table>";
  		echo 	"</form>";
 
  	}

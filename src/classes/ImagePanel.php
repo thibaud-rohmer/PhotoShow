@@ -68,6 +68,10 @@ class ImagePanel implements HTMLObject
 	 */
 	public function __construct($file=NULL){
 		
+		if(!isset($file)){
+			return;
+		}
+
 		/// Create Image object
 		$this->image	=	new Image($file);
 		
@@ -77,10 +81,8 @@ class ImagePanel implements HTMLObject
 		/// Create Comments object
 		$this->comments	=	new Comments($file);
 
-		if($file != NULL){
-			/// Set the Judge
-			$this->judge 	=	new Judge($file);
-		}
+		/// Set the Judge
+		$this->judge 	=	new Judge($file);
 	}
 
 	/**
@@ -90,8 +92,10 @@ class ImagePanel implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		
-		echo "<div id='top'>\n";
+		if(!isset($this->image)){
+			return;
+		}
+
 		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
 
@@ -101,13 +105,14 @@ class ImagePanel implements HTMLObject
 
 		echo "</div>\n";
 
-		echo "<div id='center'>\n";
+		echo "<div id='center' class='box'>\n";
 		$this->image->toHTML();
 		echo "</div>\n";
 
+		echo "<div id='comments' class='box'>\n";
 		$this->comments->toHTML();
-
 		echo "</div>\n";
+
 	}
 	
 }

@@ -58,8 +58,10 @@ abstract class Page implements HTMLObject
 			echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n";
 			echo "<title>PhotoShow</title>\n";
 			echo "<meta name='author' content='Thibaud Rohmer'>\n";
-			echo "<link href='http://fonts.googleapis.com/css?family=Quicksand:300' rel='stylesheet' type='text/css'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheet.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/main.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/page.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/panels.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/forms.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "</head>";
 		}
 }

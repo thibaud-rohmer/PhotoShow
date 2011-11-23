@@ -46,17 +46,30 @@ class MainPage extends Page
 {
 	
 	/// True if the image div should be visible
-	static private $image_div = false;
+	private $image_div = false;
 	
 	/// Boardpanel object
-	static private $boardpanel;
+	private $panel;
 	
+	/// Boards class;
+	private $panel_class;
+
 	/// Menubar object
-	static private $menubar;
+	private $menubar;
 	
 	/// Imagepanel object
-	static private $imagepanel;
-		
+	private $image_panel;
+
+	/// Image_panel class
+	private $image_panel_class;
+
+	/// Imagepanel object
+	private $menu;
+	
+	/// Judge	
+	private $judge;
+
+
 		
 	/**
 	 * Creates the page
@@ -76,16 +89,28 @@ class MainPage extends Page
 		
 		/// Check how to display current file
 		if(is_file(CurrentUser::$path)){
-			$this->image_div 	= 	true;
-			$this->imagepanel	=	new ImagePanel(CurrentUser::$path);
-			$this->boardpanel	=	new BoardPanel(dirname(CurrentUser::$path));
+			$this->image_panel			=	new ImagePanel(CurrentUser::$path);
+			$this->image_panel_class 	=	"image_panel";
+			$this->panel				=	new Board(dirname(CurrentUser::$path));
+			$this->panel_class			=	"linear_panel";
 		}else{
-			$this->imagepanel	=	new ImagePanel();
-			$this->boardpanel	=	new BoardPanel(CurrentUser::$path);
+			$this->image_panel			=	new ImagePanel();
+			$this->image_panel_class	=	"image_panel hidden";
+			$this->panel				=	new Board(CurrentUser::$path);
+			$this->panel_class			=	"panel";
 		}
 
 		/// Create MenuBar
 		$this->menubar 		= 	new MenuBar();
+
+		/// Menu
+		$this->menu			=	new Menu();
+
+		/// Judge
+		if(CurrentUser::$admin){
+			$this->judge	=	new Judge(CurrentUser::$path);
+		}
+		
 	}
 	
 	/**
@@ -97,23 +122,37 @@ class MainPage extends Page
 	public function toHTML(){
 		$this->header();
 		echo "<body>";
-		
+
+		echo "<div id='container'>\n";		
+
 		$this->menubar->toHTML();
 
-		echo "<div id='container'>\n";
+		echo "<div id='page'>\n";
+
+		/// Start menu
+		echo "<div id='menu'>\n";
+
+		$this->menu->toHTML();
+		if(CurrentUser::$admin){
+			$this->judge->toHTML();
+		}
+
+		echo "</div>\n";
+		/// Stop menu
+
+		/// Start Panel
+		echo "<div class='$this->panel_class'>\n";
+		$this->panel->toHTML();
+		echo "</div>\n";
+		/// Stop Panel
+
+		/// Start ImagePanel
+		echo "<div class='$this->image_panel_class'>\n";
+		$this->image_panel->toHTML();
+		echo "</div>\n";
+		/// Stop ImagePanel
 		
-			echo "<div class='layout_boards $this->boards_class'>\n";
-			$this->boardpanel->toHTML();
-			echo "</div>\n";
-		
-			if($this->image_div){
-				echo "<div class='layout_image'>\n";
-			}else{
-				echo "<div class='layout_image hidden'>\n";
-			}
-			$this->imagepanel->toHTML();
-			echo "</div>\n";
-		
+		echo "</div>\n";
 		echo "</div>\n";
 		
 		echo "</body>";

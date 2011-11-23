@@ -171,6 +171,9 @@ class Judge
 		foreach($this->groups as $group)
 			$xml_groups->addChild("group",$group);
 		
+		if(!file_exists(dirname($this->path))){
+			mkdir(dirname($this->path),0750,true);
+		}
 		/// Save xml
 		$xml->asXML($this->path);
 	}
@@ -281,7 +284,7 @@ class Judge
 	public function toHTML(){
 		
 		echo "<div class='adminrights'>\n";
-		echo "<h2>$this->filename</h2>\n";
+		echo "<h3>$this->filename</h3>\n";
 
 
 		if($this->public){

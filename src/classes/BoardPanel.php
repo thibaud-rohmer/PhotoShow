@@ -47,12 +47,6 @@ class BoardPanel implements HTMLObject
 	/// Board to display
 	private $board;
 	
-	/// Menu to display
-	private $menu;
-	
-	/// Menu class depending on layout (image|boards)
-	private $menu_class;
-	
 	/// Boards panel class depending on layout (image|boards)
 	private $boards_class;
 	
@@ -70,16 +64,11 @@ class BoardPanel implements HTMLObject
 		/// Board
 		$this->board	=	new Board($dir);
 		
-		/// Menu
-		$this->menu		=	new Menu();
-		
 		/// Check layout
 		if(is_file(CurrentUser::$path)){
 			$this->boards_class	=	"boards_panel_image";
-			$this->menu_class 	=	"hidden"; 	
 		}else{
 			$this->boards_class 	=	"boards_panel_thumbs";
-			$this->menu_class 		=	" ";
 		}
 
 		if(CurrentUser::$admin){
@@ -94,18 +83,8 @@ class BoardPanel implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		
-		/// Display Menu
-		echo "<div id='menu' class='$this->menu_class'>\n";
-		$this->menu->toHTML();
-		if(CurrentUser::$admin){
-			$this->judge->toHTML();
-		}
-		echo "</div>\n";
 
 		/// Display Boards
-		echo "<div id='boards_panel' class='$this->boards_class'>\n";
 		$this->board->toHTML();
-		echo "</div>\n";
 	}
 }

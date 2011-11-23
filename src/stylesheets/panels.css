@@ -1,0 +1,190 @@
+
+/* Panel */
+
+div.panel {
+	position:	absolute;
+	left:		250px;
+	right:		0;
+	top:		25px;
+	bottom:		0;
+	padding:	0 50px 50px 50px;
+	overflow-x:	hidden;
+	overflow-y:	auto;
+}
+
+div.panel > .header {
+	position:	relative;
+	height:		60px;
+}
+
+div.panel > .header > span {
+	float:		right;
+}
+
+div.panel > .line {
+	height:			130px;
+	margin:			0 0 3px 0;
+	overflow: 		hidden;
+	white-space:	nowrap;
+}
+
+/* Linear Panel */
+
+div.linear_panel {
+	position:		absolute;
+	left:			0;
+	right:			0;
+	bottom:			0;
+	height:			130px;
+	padding:		10px;
+	overflow-x:		auto;
+	overflow-y:		hidden;
+	white-space:	nowrap;
+	z-index:		50;
+
+	background:		black;
+}
+
+div.linear_panel > .header {
+	display:		none;
+}
+
+div.linear_panel > .line {
+	display:		inline-block;
+}
+
+div.linear_panel > .line > .item {
+	width:			120px !important;
+}
+
+/* Lines */
+
+div.line > .item {
+	height:		130px;
+	display:	inline-block;
+}
+
+div.line > .item > a {
+	opacity:	0;
+}
+
+div.line > .item > a:hover {
+	opacity:	0.5;
+}
+
+
+/* Image Panel */
+
+div.image_panel{
+	position:		absolute;
+	left:			0;
+	right:			0;
+	top:			0;
+	bottom:			150px;
+	z-index:		10;
+
+	background:		black;
+	color:			white;
+}
+
+div.image_panel > .box{
+	padding:		20px 5px 0px 5px;
+	font-size:		10pt;
+}
+
+div.image_panel > .box:nth-child(1){
+	position:	absolute;
+	left:		0;
+	top:		0;
+	width:		15%;
+	bottom:		0;
+	text-align:	center;
+}
+
+div.image_panel > .box:nth-child(2){
+	position:	absolute;
+	left:		15%;
+	top:		0;
+	right:		15%;
+	bottom:		0;
+	text-align:	center;
+}
+
+div.image_panel > .box:nth-child(3){
+	position:	absolute;
+	width:		15%;
+	top:		0;
+	right:		0;
+	bottom:		0;
+}
+
+div#image_big{
+	width:			100%;
+	height:			100%;
+	margin:			auto;
+}
+
+
+/* Comments */
+
+div.comment{
+	color:			white;
+	margin:			5px;
+}
+
+div.comment > div:nth-child(2){
+	margin-left:	6px;
+	padding:		3px;
+}
+
+div.comment:nth-child(odd) > div:nth-child(1) {
+	color:			rgb(232,160,0);
+}
+
+div.comment:nth-child(odd) > div:nth-child(2) {
+	border-left:	1px solid rgb(232,160,0);
+}
+
+div.comment:nth-child(even) > div:nth-child(1) {
+	color:			rgb(0,160,232);
+}
+
+div.comment:nth-child(even) > div:nth-child(2) {
+	border-left:	1px solid rgb(0,160,232);
+}
+
+div#comments > form {
+	position: 		absolute;
+	left:			5px;
+	right:			5px;
+	height:			172px;
+	bottom:			5px;
+	overflow:		hidden;
+	background:		black;
+	background:		#333;
+	border-radius: 	2px;
+}
+
+div#comments > form > fieldset {
+	position:		absolute;
+	left:			5px;
+	right:			5px;
+	top:			2px;
+	width:			auto;
+}
+
+div#comments > form > textarea {
+	position:		absolute;
+	left:			4px;
+	right:			4px;
+	height:			80px;
+	bottom:			42px;
+	border-radius:	2px;
+}
+
+div#comments > form > input[type="submit"] {
+	position:		absolute;
+	left:			0;
+	right:			0;
+	bottom:			0;
+}

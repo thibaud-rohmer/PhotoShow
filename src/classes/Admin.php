@@ -133,7 +133,7 @@
 
 	 	$this->menu->toHTML();
 	
-		echo "<div class='boards_panel_thumbs'>\n";
+		echo "<div class='panel'>\n";
 	 	$this->page->toHTML();
 	 	echo "</div>";
 	 

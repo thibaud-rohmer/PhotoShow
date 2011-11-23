@@ -382,12 +382,11 @@ class Account extends Page
 	 */
 	 public function toHTML(){
 	 	$this->header();
-	 	echo "<h1>Edit an account</h1>\n";
+	 	echo "<h1>Account</h1>\n";
 
 	 	if(CurrentUser::$admin){
 	 		echo "<form method='post' action='#' class='niceform'>\n";
-	 		echo "<div>";
-	 		echo "Edit account : <select name='login'>\n";
+	 		echo "<fieldset><select name='login'>\n";
 			foreach(Account::findAll() as $account){
 				if($account['login'] == $this->login){
 					$selected = "selected";
@@ -397,22 +396,19 @@ class Account extends Page
 
 				echo "<option value='".htmlentities($account['login'])."' $selected >".htmlentities($account['login'])."</option>\n";
 			}
-			echo "</select>\n";
-			echo "<input type='submit' value='Edit' class='button blue'>";
-			echo "</div>\n";
+			echo "</select><input type='submit' value='Edit account' class='button blue'></fieldset>\n";
 			echo "</form>";
 		}
 
 		echo "Editing account $this->login";
-	 	echo "<form method='post' action='#' class='niceform'>\n";
-	 	echo "<div>";
+	 	echo "<form method='post' action='#'>\n";
 	 	echo "<input type='hidden' value='".htmlentities($this->login)."' name='login' />\n";
-	 	echo "Name : <input type='text' value='".htmlentities($this->name)."' name='name' />\n";
-	 	echo "Email : <input type='text' value='".htmlentities($this->email)."' name='email' />\n";
-	 	echo "Password :<input type='password' value='' name='password' />\n";
+	 	echo "<fieldset><span>Name </span><div><input type='text' value='".htmlentities($this->name)."' name='name' /></div></fieldset>\n";
+	 	echo "<fieldset><span>Email </span><div><input type='text' value='".htmlentities($this->email)."' name='email' /></div></fieldset>\n";
+	 	echo "<fieldset><span>Password </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
 
 	 	if(CurrentUser::$admin){
-	 		echo "Groups ";
+	 		echo "<fieldset><span>Groups </span><div>";
 
 			foreach(Group::findAll() as $group){
 				if(in_array($group['name'],$this->groups)){
@@ -422,17 +418,15 @@ class Account extends Page
 				}
 				echo "<label><input type='checkbox' value='".htmlentities($group['name'])."' name='groups[]' $checked > ".htmlentities($group['name'])." </label>";
 			}
+			echo "</div></fieldset>\n";
 			echo "<input type='hidden' name='old_password' value='jibberish' /> \n";
 	 	}else{
-	 		echo "Old Password : <input type='password' value='' name='old_password' />\n";
+	 		echo "<fieldset><label>Old Password : <input type='password' value='' name='old_password' /></fieldset>\n";
 	 	}
 
 	 	echo "<input type='submit' class='button blue'>\n";
-	 	echo "</div>\n";
+	 	echo "or <a href='.'>Cancel</a>";
 	 	echo "</form>\n";
-
-	 	echo "<a href='.'>Back</a>";
-
 	 }
 
 }

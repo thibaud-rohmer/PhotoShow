@@ -95,17 +95,13 @@ class Board implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){
-		echo "<div class='board'>";
-		
+	public function toHTML(){		
 		// Output header
 		$this->header->toHTML();
 		
 		// Output grid
 		foreach($this->boardlines as $boardline)
 			$boardline->toHTML();
-
-		echo "</div>";
 	}
 	
 	/**

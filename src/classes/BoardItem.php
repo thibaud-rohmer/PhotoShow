@@ -80,7 +80,7 @@ class BoardItem implements HTMLObject
 					: "t=Thb&f=$this->file";
 				
 		/// We display the image as a background
-		echo 	"<div class='board_item'";
+		echo 	"<div class='item'";
 		echo 	"style='";
 		echo 	" width: 			$this->width%;";
 		echo 	" background: 		url(\"?$getfile\") no-repeat center center;";
@@ -102,7 +102,7 @@ class BoardItem implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function set_width($line_ratio){
-		$this->width = 90 * $this->ratio / $line_ratio;		
+		$this->width = 100 * $this->ratio / $line_ratio;		
 	}
 }
 

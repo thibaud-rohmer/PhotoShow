@@ -108,10 +108,9 @@ class Menu implements HTMLObject
 	public function toHTML(){
 		echo "<div class='menu_item $this->class'>\n";
 		echo "<div class='menu_title'><a href='?f=$this->webdir'>$this->title</a></div>\n";
-		echo "<div class='menu_content'>\n";
 		foreach($this->items as $item)
 			$item->toHTML();
-		echo "</div>\n</div>\n";
+		echo "</div>\n";
 		
 	}
 	

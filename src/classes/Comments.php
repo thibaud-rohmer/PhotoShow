@@ -110,6 +110,10 @@ class Comments implements HTMLObject
 	 */
 	public static function add($file,$content,$login=""){
 		
+		if($content == ""){
+			return;
+		}
+
 		if($login == ""){
 			if(isset(CurrentUser::$account)){
 				$login = CurrentUser::$account->login;
@@ -170,26 +174,20 @@ class Comments implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){
-		echo "<div id='comments' class='box'>";
-		
+	public function toHTML(){		
 		/// Display each comment
 		foreach($this->comments as $com){
 			$com->toHTML();
 		}
-		echo "<div id='comments_form_div'>\n";
 			echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'>\n";
-				if(!isset(CurrentUser::$account)){					
-					echo "<div class='label'>Name</div>\n";
-					echo "<input type='text' name='login' id='login'>\n";					
+				if(isset(CurrentUser::$account)){
+					echo "<fieldset><input type='text' name='login' id='login' value='".htmlentities(CurrentUser::$account->login)."' readonly></fieldset>\n";					
+				}else{
+					echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
 				}
-				echo "<div class='label'>Comment</div>\n";
 				echo "<textarea name='content' id='content'></textarea>\n";
-				echo "<input type='submit' value='Send' class='button blue'>\n";
-			echo "</form>\n";
-		echo "</div>\n";
-			
-		echo "</div>";
+				echo "<input type='submit' value='Post Comment''>\n";
+			echo "</form>\n";			
 	}
 }
 
