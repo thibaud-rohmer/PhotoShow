@@ -98,7 +98,7 @@ class Index
 							$acc->toHTML();
 							break;
 			
-			case "Adm":		$page = new AdminPage();
+			case "Adm":		$page = new Admin();
 							$page->toHTML();
 							break;
 		}

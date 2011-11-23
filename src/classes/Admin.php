@@ -41,11 +41,56 @@
  * @license   http://www.gnu.org/licenses/
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
- class Admin
+ class Admin extends Page
  {
- 	
+ 	/// Admin page
+ 	public $page;
+
+ 	/// Menu of the Admin page
+ 	public $menu;
+
  	/// Admin action
  	static public $action = "stats";
+
+ 	/**
+ 	 * Create admin page
+ 	 * 
+ 	 * @author Thibaud Rohmer
+ 	 */
+ 	public function __construct(){
+
+ 		/// Check that current user is an admin
+	 	if(!CurrentUser::$admin){
+	 		return;
+	 	}
+
+	 	/// Setup admin variables
+	 	$this->init();
+
+	 	/// Create menu
+	 	$this->menu = new AdminMenu();
+
+	 	/// So, what to we do ?
+	 	switch(Admin::$action){
+	 		case "stats"	:	$this->page = new AdminStats();
+	 							break;
+
+	 		case "upload"	:	if(isset($_POST['path'])){
+	 								AdminUpload::upload();
+	 							}
+	 							$this->page = new AdminUpload();
+	 							break;
+	 			
+	 		case "account"	:	if(isset($_POST['login'])){
+									$this->page = new Account($_POST['login']);
+								}else{
+									$this->page = CurrentUser::$account;
+								}
+								break;
+
+	 		default 		:	$this->page = new AdminStats();
+	 	}
+	}
 
 
  	/**
@@ -53,7 +98,7 @@
  	 * 
  	 * @author Thibaud Rohmer
  	 */
- 	static public function init(){
+ 	 private function init(){
 
  		/// Get action
 	 	if(isset($_GET['a'])){
@@ -74,9 +119,25 @@
 	 			default 	:	break;
 	 		}
 	 	}
- 		
-
  	}
+
+
+
+	 /**
+	  * Display admin page
+	  * 
+	  * @author Thibaud Rohmer
+	  */
+	public function toHTML(){
+		$this->header();
+
+	 	$this->menu->toHTML();
+	
+		echo "<div class='boards_panel_thumbs'>\n";
+	 	$this->page->toHTML();
+	 	echo "</div>";
+	 
+	}
 
  }
 
