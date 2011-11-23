@@ -5,9 +5,9 @@ div.panel {
 	position:	absolute;
 	left:		250px;
 	right:		0;
-	top:		25px;
+	top:		0;
 	bottom:		0;
-	padding:	0 50px 50px 50px;
+	padding:	25px 50px 50px 50px;
 	overflow-x:	hidden;
 	overflow-y:	auto;
 }
