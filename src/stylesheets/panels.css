@@ -51,6 +51,7 @@ div.linear_panel > .header {
 
 div.linear_panel > .line {
 	display:		inline-block;
+	overflow:		hidden;
 }
 
 div.linear_panel > .line > .item {
@@ -59,16 +60,19 @@ div.linear_panel > .line > .item {
 
 /* Lines */
 
-div.line > .item {
-	height:		130px;
-	display:	inline-block;
+.line > .item {
+	float:			left;
+	height:			130px;
+	margin-right:	3px;
 }
 
-div.line > .item > a {
+.line > .item > a {
 	opacity:	0;
+	width:		100%;
+	height:		100%;
 }
 
-div.line > .item > a:hover {
+.line > .item > a:hover {
 	opacity:	0.5;
 }
 

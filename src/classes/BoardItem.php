@@ -62,7 +62,7 @@ class BoardItem implements HTMLObject
 	 */
 	public function __construct($file,$ratio){
 		
-		$this->file	=	urlencode(File::a2r($file));
+		$this->file		=	urlencode(File::a2r($file));
 		$this->ratio	=	$ratio;
 	}
 	
@@ -105,7 +105,7 @@ class BoardItem implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function set_width($line_ratio){
-		$this->width = 100 * $this->ratio / $line_ratio;		
+		$this->width = 90 * $this->ratio / $line_ratio;
 	}
 }
 
