@@ -20,6 +20,12 @@ function init_panel(){
 	});
 }
 
+function update_url(url,name){
+	var stateObj = { foo: "bar" };
+
+	history.pushState(stateObj, "PhotoShow - " + name, url)
+}
+
 $("document").ready(function(){
 	init_panel();
 });

@@ -47,6 +47,7 @@ class JS
 	
 	public function __construct(){
 
+
 		if(is_file(CurrentUser::$path)){
 			$b = new ImagePanel(CurrentUser::$path);
 			$this->script_load("image_panel");
@@ -56,7 +57,11 @@ class JS
 			$this->script_load("panel");
 			$b->toHTML();
 		}
+
+		echo "<script> update_url('?f=".File::a2r(CurrentUser::$path)."','".basename(CurrentUser::$path)."'); </script>";
+
 	}
+
 
 
 	public function script_load($script_name){
