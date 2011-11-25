@@ -205,5 +205,44 @@ class File
 		
 		return array($rel,$abs);
 	}
+
+	/**
+	 * Returns absolute path to next item
+	 * 
+	 * @param string $path
+	 * @return $next
+	 * @author Thibaud Rohmer
+	 */
+	 public static function next($path){
+	 	$files 	= 	Menu::list_files(dirname($path));
+	 	$pos 	=	array_search($path,$files);
+
+	 	if( isset($pos) && $pos < sizeof($files) - 1 ){
+	 		/// Found $path
+ 			return $files[$pos+1];
+	 	}
+	 	return $path;
+	 }
+
+
+
+	/**
+	 * Returns absolute path to previous item
+	 * 
+	 * @param string $path
+	 * @return $prev
+	 * @author Thibaud Rohmer
+	 */
+	 public static function prev($path){
+	 	$files 	=	Menu::list_files(dirname($path));
+	 	$pos 	=	array_search($path,$files);
+
+	 	if( isset($pos) && $pos > 0 ){
+	 		/// Found $path
+ 			return $files[$pos-1];
+	 	}
+	 	return $path;
+	 }
+
 }
 ?>

@@ -79,7 +79,7 @@ div.linear_panel > .line > .item {
 
 /* Image Panel */
 
-div.image_panel{
+div.image_panel {
 	position:		absolute;
 	left:			0;
 	right:			0;
@@ -91,12 +91,12 @@ div.image_panel{
 	color:			white;
 }
 
-div.image_panel > .box{
+div.image_panel > .box {
 	padding:		20px 5px 0px 5px;
 	font-size:		10pt;
 }
 
-div.image_panel > .box:nth-child(1){
+div.image_panel > .box:nth-child(1) {
 	position:	absolute;
 	left:		0;
 	top:		0;
@@ -105,16 +105,16 @@ div.image_panel > .box:nth-child(1){
 	text-align:	center;
 }
 
-div.image_panel > .box:nth-child(2){
+div.image_panel > #bigimage{
 	position:	absolute;
 	left:		15%;
 	top:		0;
 	right:		15%;
-	bottom:		0;
+	bottom:		25px;
 	text-align:	center;
 }
 
-div.image_panel > .box:nth-child(3){
+div.image_panel > #comments {
 	position:	absolute;
 	width:		15%;
 	top:		0;
@@ -122,21 +122,35 @@ div.image_panel > .box:nth-child(3){
 	bottom:		0;
 }
 
-div#image_big{
-	width:			100%;
-	height:			100%;
+div.image_panel > .box > #image_big {
 	margin:			auto;
+}
+
+div.image_panel > #image_bar {
+	position:		absolute;
+	left:			25%;
+	right:			25%;
+	height:			20px;
+	bottom:			0;
+	font-size:		15px;
+	text-align:		center;
+}
+
+div.image_panel > #image_bar > span {
+	display:		inline-block;
+	width:			50px;
+
 }
 
 
 /* Comments */
 
-div.comment{
+div.comment {
 	color:			white;
 	margin:			5px;
 }
 
-div.comment > div:nth-child(2){
+div.comment > div:nth-child(2) {
 	margin-left:	6px;
 	padding:		3px;
 }

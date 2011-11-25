@@ -81,9 +81,21 @@ class CurrentUser
 		/// Set path
 		if(isset($_GET['f'])){			
 			CurrentUser::$path = File::r2a($_GET['f']);
+		
+			if(isset($_GET['p'])){
+				switch($_GET['p']){
+					case 'n':	CurrentUser::$path = File::next(CurrentUser::$path);
+								break;
+					case 'p':	CurrentUser::$path = File::prev(CurrentUser::$path);
+								break;
+				}
+			}
+		
 		}else{
+			/// Path not defined in URL
 			CurrentUser::$path = Settings::$photos_dir;
 		}
+
 
 		/// Set CurrentUser account
 		if(isset($_SESSION['login'])){

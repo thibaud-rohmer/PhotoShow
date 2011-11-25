@@ -106,12 +106,13 @@ class Menu implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<div class='menu_item $this->class'>\n";
-		echo "<div class='menu_title'><a href='?f=$this->webdir'>$this->title</a></div>\n";
-		foreach($this->items as $item)
-			$item->toHTML();
-		echo "</div>\n";
-		
+		if(isset($this->webdir) && isset($this->title)){
+			echo "<div class='menu_item $this->class'>\n";
+			echo "<div class='menu_title'><a href='?f=$this->webdir'>$this->title</a></div>\n";
+			foreach($this->items as $item)
+				$item->toHTML();
+			echo "</div>\n";
+		}	
 	}
 	
 	/**
@@ -149,7 +150,7 @@ class Menu implements HTMLObject
 			}
 			
 		}
-		
+
 		/// Return directories list
 		return $list;
 	}

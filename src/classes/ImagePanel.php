@@ -75,6 +75,9 @@ class ImagePanel implements HTMLObject
 		/// Create Image object
 		$this->image	=	new Image($file);
 		
+		/// Create Image object
+		$this->imagebar	=	new ImageBar($file);
+
 		/// Create EXIF object
 		$this->exif		=	new Exif($file);
 		
@@ -105,8 +108,12 @@ class ImagePanel implements HTMLObject
 
 		echo "</div>\n";
 
-		echo "<div id='center' class='box'>\n";
+		echo "<div id='bigimage' class='box'>\n";
 		$this->image->toHTML();
+		echo "</div>\n";
+
+		echo "<div id='image_bar'>\n";
+		$this->imagebar->toHTML();
 		echo "</div>\n";
 
 		echo "<div id='comments' class='box'>\n";
