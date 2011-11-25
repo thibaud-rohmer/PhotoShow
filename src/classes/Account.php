@@ -382,6 +382,7 @@ class Account extends Page
 	 */
 	 public function toHTML(){
 	 	$this->header();
+	 	echo "<div class='panel'>\n";
 	 	echo "<h1>Account</h1>\n";
 
 	 	if(CurrentUser::$admin){
@@ -427,6 +428,7 @@ class Account extends Page
 	 	echo "<input type='submit' class='button blue'>\n";
 	 	echo "or <a href='.'>Cancel</a>";
 	 	echo "</form>\n";
+	 	echo "</div>\n";
 	 }
 
 }

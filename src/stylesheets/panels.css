@@ -1,7 +1,8 @@
 
 /* Panel */
 
-div.panel {
+body > .panel,
+#page > .panel {
 	position:	absolute;
 	left:		250px;
 	right:		0;
@@ -46,12 +47,12 @@ div.linear_panel {
 	left:			0;
 	right:			0;
 	bottom:			0;
-	height:			130px;
-	padding:		10px;
+	height:			90px;
+	padding:		30px 10px 0px 10px;
 	overflow-x:		auto;
 	overflow-y:		hidden;
 	white-space:	nowrap;
-	z-index:		50;
+	z-index:		10;
 
 	background:		black;
 }
@@ -66,7 +67,8 @@ div.linear_panel > .line {
 }
 
 div.linear_panel > .line > .item {
-	width:			120px !important;
+	width:			100px !important;
+	height:			70px;
 }
 
 /* Lines */
@@ -103,7 +105,7 @@ div.image_panel {
 	left:			0;
 	right:			0;
 	top:			0;
-	bottom:			150px;
+	bottom:			120px;
 	z-index:		10;
 
 	background:		black;

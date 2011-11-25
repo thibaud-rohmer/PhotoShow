@@ -93,8 +93,12 @@ class Image implements HTMLObject
 		echo 	"style='";
 		echo 		" max-width:".$this->x."px;";
 		echo 		" background: black url(\"?t=Img&f=$this->fileweb\") no-repeat center center;";
-		echo 		" background-size: contain";
+		echo 		" background-size: contain;";
+		echo 		" -moz-background-size: contain;";
+		echo 		" height:100%;";
+
 		echo 	"';>";
+
 		echo 	"<a href='?f=$this->dir'>"; 
 		echo 	"<img src='inc/img.png' height='100%' width='100%' style='opacity:0;'>";
 		echo 	"</a>";
