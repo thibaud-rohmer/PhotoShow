@@ -133,6 +133,7 @@ div.image_panel > #bigimage{
 	right:		15%;
 	bottom:		25px;
 	text-align:	center;
+	overflow:	hidden;
 }
 
 div.image_panel > #comments {
