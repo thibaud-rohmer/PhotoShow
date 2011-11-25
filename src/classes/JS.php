@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the class AdminMenu.
+ * This file implements the class CurrentUser.
  * 
  * PHP versions 4 and 5
  *
@@ -30,9 +30,10 @@
  */
 
 /**
- * AdminMenu
+ * CurrentUser
  *
- * Menu for the admin. Just for the admin. U no admin ? U no menu.
+ * Stores the information of the currently logged user.
+ * Implements login and logout function.
  *
  * @category  Website
  * @package   Photoshow
@@ -41,50 +42,27 @@
  * @license   http://www.gnu.org/licenses/
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
- class AdminMenu
- {
- 	/// Menu options
- 	public $options=array();
+class JS
+{
+	
+	public function __construct(){
 
- 	/**
- 	 * Build AdminMenu
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	public function __construct(){
+		if(is_file(CurrentUser::$path)){
+			$b = new ImagePanel(CurrentUser::$path);
+			$this->script_load("image_panel");
+			$b->toHTML();
+		}else{
+			$b = new Board(CurrentUser::$path);
+			$this->script_load("panel");
+			$b->toHTML();
+		}
+	}
 
- 		$this->options['Sta']="Statistics";
- 		$this->options['Upl']="Upload Files";
- 	 	$this->options['Mov']="Move Files";
- 	 	$this->options['Del']="Delete Files";
- 	 	$this->options['Acc']="Edit Accounts";
 
- 	}
- 
- 	/**
- 	 * Display AdminMenu on website
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	public function toHTML(){
+	public function script_load($script_name){
+		echo "<script src='src/js/$script_name.js' />";
+	}
+}
 
-		foreach($this->options as $op=>$val){
-			if( $_GET['a'] == $op){
-				$class = "menu_item selected";
-			}else{
-				$class = "menu_item";
-			}
- 			echo "<div class='$class'>\n";
-			echo "<div class='menu_title'>\n";
-			echo "<a href='?t=Adm&a=$op'>$val</a>";
-			echo "</div>\n</div>\n";
- 		}
-		echo "<div class='menu_item'>\n";
-		echo "<div class='menu_title'>\n";
-		echo "<a href='.'>Back</a>";
-		echo "</div>\n</div>\n";
 
- 	}
-
- }
- ?>
+?>

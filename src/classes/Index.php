@@ -66,6 +66,11 @@ class Index
 			return;
 		}
 
+		if(CurrentUser::$js){
+			$page = new JS();
+			return;
+		}
+
 		/// Check what to do
 		switch (CurrentUser::$action){
 

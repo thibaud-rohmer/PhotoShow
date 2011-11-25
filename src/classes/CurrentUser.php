@@ -66,6 +66,9 @@ class CurrentUser
 	/// File containing groups info
 	static public $groups_file;
 
+	/// Is this a JS query ?
+	static public $js = false;
+
 	/**
 	 * Retrieves info for the current user account
 	 *
@@ -77,6 +80,9 @@ class CurrentUser
 		
 		CurrentUser::$groups_file	=	Settings::$thumbs_dir."/groups.xml";
 		
+		if(isset($_GET['j']) && $_GET['j'] == 1){
+			CurrentUser::$js 		=	true;
+		}
 
 		/// Set path
 		if(isset($_GET['f'])){			

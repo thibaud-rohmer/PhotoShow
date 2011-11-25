@@ -130,7 +130,7 @@ class MainPage extends Page
 		echo "<div id='page'>\n";
 
 		/// Start menu
-		echo "<div id='menu'>\n";
+		echo "<div id='menu' class='menu'>\n";
 
 		$this->menu->toHTML();
 		if(CurrentUser::$admin){

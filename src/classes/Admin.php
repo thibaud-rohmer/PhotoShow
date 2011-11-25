@@ -149,7 +149,9 @@
 	public function toHTML(){
 		$this->header();
 
+		echo "<div class='menu'>\n";
 	 	$this->menu->toHTML();
+	 	echo "</div>\n";
 	
 		echo "<div class='panel'>\n";
 	 	$this->page->toHTML();
