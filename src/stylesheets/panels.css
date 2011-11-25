@@ -28,6 +28,17 @@ div.panel > .line {
 	white-space:	nowrap;
 }
 
+div.panel > table {
+	width:			200px;
+	margin:			0;
+	background:		#ccc;
+	border-radius:	5px;
+}
+
+div.panel > table > tbody > tr:nth-child(even){
+	background:		#aaa;
+}
+
 /* Linear Panel */
 
 div.linear_panel {

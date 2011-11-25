@@ -82,6 +82,7 @@ div.menu_item.selected > .menu_item{
 }
 
 div.menu_title > a{
+	color:		#ccc;
 	padding:	2px 0 2px 10px;
 
 	-webkit-transition:	color ease-in-out .1s;

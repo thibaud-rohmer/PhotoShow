@@ -18,12 +18,8 @@ body {
 a,
 a:visited {
 	text-decoration:	none;
-	color:				#aaa;
+	color:				#333;
 	display:			block;
-}
-
-a:hover {
-	color:				rgb(0,136,232);
 }
 
 .hidden {
@@ -49,6 +45,7 @@ h3 {
 }
 
 table {
+	clear:				both;
 	width:				100%;
 	margin:				auto;
 	text-align:			center;

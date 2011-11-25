@@ -68,10 +68,13 @@
  	}
 
  	public function toHTML(){
+ 		echo "<h1>Statistics</h1>";
  		echo "<table>";
+ 		echo "<tbody>";
  		foreach($this->stats as $name=>$val){
  			echo "<tr><td>$name</td><td>$val</td></tr>"; 			
  		}
+ 		echo "</tbody>";
  		echo "</table>";
  	}
  }

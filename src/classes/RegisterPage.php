@@ -64,7 +64,8 @@ class RegisterPage extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		
+		echo "<div class='panel'>\n";
+
 		$this->header();
 		if($this->admin_account){
 			echo "<h1>Please create the main account</h1>";						
@@ -73,7 +74,6 @@ class RegisterPage extends Page
 
 		}
 		
-
 		echo "<form method='post' action='?t=Reg'>\n";
 		echo "<fieldset><span>Login : </span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
@@ -81,7 +81,7 @@ class RegisterPage extends Page
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
 		echo "<input type='submit' value='Register' class='button blue'> or <a href='.'>back</a>";
 		echo "</form>\n";
-
+		echo "</div>\n";
 	}
 }
 ?>

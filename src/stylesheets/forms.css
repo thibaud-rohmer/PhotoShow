@@ -2,6 +2,10 @@ form {
 	clear:	both;
 }
 
+form > a {
+	display:			inline;
+}
+
 fieldset {
 	position:			relative;
 	background-color:	rgba(0,0,0,0.3);

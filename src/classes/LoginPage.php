@@ -63,14 +63,16 @@ class LoginPage extends Page
 	public function toHTML(){
 		
 		$this->header();
+		echo "<div class='panel'>\n";
 		echo "<h1>Login</h1></br>";
 		echo "<form method='post' action='?t=Log' class='niceform'>\n";
 		echo "<fieldset><span>Login : </span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
 		echo "<fieldset><span>Password : </span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit' value='Login' class='button blue'> or <a href='?t=Reg'>register</a>";
+		echo "<input type='submit' value='Login' class='button blue'> or <a href='?t=Reg'>register</a> or <a href='.'>back</a>";
 		echo "</form>\n";
+		echo "</div>\n";
 
 	}
 }
