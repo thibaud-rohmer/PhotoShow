@@ -62,14 +62,22 @@ div.linear_panel > .line > .item {
 
 .line > .item {
 	float:			left;
-	height:			130px;
+	height:			128px;
 	margin-right:	3px;
+	border-bottom:	2px solid rgba(0,0,0,0);
 }
 
+.line > .item.selected,
+.line > .item:hover{
+	border-color: rgb(0,136,232);	
+}
 .line > .item > a {
 	opacity:	0;
 	width:		100%;
 	height:		100%;
+
+	-webkit-transition:	opacity ease-in-out .2s;
+	transition:			opacity ease-in-out .2s;
 }
 
 .line > .item > a:hover {

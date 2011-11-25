@@ -18,7 +18,7 @@ body {
 a,
 a:visited {
 	text-decoration:	none;
-	color:				#333;
+	color:				#aaa;
 	display:			block;
 }
 
@@ -41,8 +41,8 @@ h1 {
 
 h3 {
 	font-weight:		normal;
-	color:				rgb(0,136,232);
-	background-color:	rgba(0,0,0,0.2);
+	color:				#bbb;
+	background-color:	#666;
 	font-style:			italic;
 	margin:				auto;
 	text-align:			center;

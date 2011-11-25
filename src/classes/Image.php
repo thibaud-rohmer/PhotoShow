@@ -46,7 +46,7 @@
 class Image implements HTMLObject
 {
 	/// URLencoded version of the relative path to file
-	private $fileweb;
+	static public $fileweb;
 	
 	/// URLencoded version of the relative path to directory containing file
 	private $dir;

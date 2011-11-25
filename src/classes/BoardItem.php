@@ -47,6 +47,9 @@ class BoardItem implements HTMLObject
 	/// URL-encoded relative path to file
 	public $file;
 	
+	/// Path to file
+	public $path;
+
 	/// Ratio of the file
 	public $ratio;
 	
@@ -62,6 +65,7 @@ class BoardItem implements HTMLObject
 	 */
 	public function __construct($file,$ratio){
 		
+		$this->path 	= 	$file;
 		$this->file		=	urlencode(File::a2r($file));
 		$this->ratio	=	$ratio;
 	}
@@ -80,8 +84,12 @@ class BoardItem implements HTMLObject
 					: "t=Thb&f=$this->file";
 				
 		/// We display the image as a background
-		echo 	"<div class='item'";
-		echo 	"style='";
+		echo 	"<div class='item";
+		if(CurrentUser::$path == $this->path){
+			echo " selected ";
+		}
+		echo 	" '";
+		echo 	" style='";
 		echo 	" width: 			$this->width%;";
 		echo 	" background: 		url(\"?$getfile\") no-repeat center center;";
 		echo 	" -webkit-background-size: cover;";

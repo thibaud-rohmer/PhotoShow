@@ -53,9 +53,11 @@
  	 */
  	public function __construct(){
 
- 		$this->options['Sta']="Stats";
- 		$this->options['Upl']="Upload";
- 	 	$this->options['Acc']="Accounts";
+ 		$this->options['Sta']="Statistics";
+ 		$this->options['Upl']="Upload Files";
+ 	 	$this->options['Mov']="Move Files";
+ 	 	$this->options['Del']="Delete Files";
+ 	 	$this->options['Acc']="Edit Accounts";
 
  	}
  
@@ -68,7 +70,12 @@
 
 		echo "<div id='menu'>\n";
 		foreach($this->options as $op=>$val){
- 			echo "<div class='menu_item'>\n";
+			if( $_GET['a'] == $op){
+				$class = "menu_item selected";
+			}else{
+				$class = "menu_item";
+			}
+ 			echo "<div class='$class'>\n";
 			echo "<div class='menu_title'>\n";
 			echo "<a href='?t=Adm&a=$op'>$val</a>";
 			echo "</div>\n</div>\n";

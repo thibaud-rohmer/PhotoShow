@@ -79,6 +79,9 @@ class BoardHeader{
 		/// If Current User is an admin, display admin button
 		if(CurrentUser::$admin){
 			echo 	"<a href='?t=Adm&a=Upl&f=$this->path' class='button'>Upload Photos</a>\n";
+			echo 	"<a href='?t=Adm&a=Mov&f=$this->path' class='button'>Move</a>\n";
+			echo 	"<a href='?t=Adm&a=Del&f=$this->path' class='button'>Delete</a>\n";
+
 		}
 		
 		echo 	"</span>\n";

@@ -4,9 +4,9 @@ form {
 
 fieldset {
 	position:			relative;
-	min-height:			35px;
 	background-color:	rgba(0,0,0,0.3);
 	margin:				5px 0 15px 0;
+	padding:			2px 0 3px 0;
 	width:				500px;
 	border-radius:		2px;
 	text-align:			center;
@@ -20,7 +20,7 @@ fieldset > span {
 	left:				3px;
 	width:				100px;
 	top:				3px;
-	bottom:				3px;
+	height:				19px;
 	border-radius:		2px;
 	text-shadow: 		0 -1px 0px rgba(0,0,0,0.7);
 	background: 		rgb(0,160,232);
@@ -30,14 +30,17 @@ fieldset > span {
 }
 
 fieldset > div {
-	position:			absolute;
-	left:				117px;
-	right:				3px;
-	top:				3px;
-	bottom:				4px;
+	position:			relative;
+	margin:				0px 2px 0px 117px;
+	min-height:			30px;
 	background:			white;
 	border-radius:		2px;
-	text-align:			center;
+	text-align:			left;
+
+	color:				#333;
+	font-size:			12pt;
+	box-shadow:			inset 0 1px 1px rgba(0,0,0,0.7);
+	
 }
 
 a.button, 
@@ -87,13 +90,17 @@ input[type="text"] {
 	transition:			background ease-in-out .3s;
 }
 
+label{
+	font-size:			10pt;
+}
+
 input[type="password"]:focus,
 input[type="text"]:focus,
 input[type="password"]:hover, 
 input[type="text"]:hover,
 textarea:focus,
 textarea:hover {
-	background-color:	#ccc;
+	background-color:	#ddd;
 	outline:			none;	
 }
 

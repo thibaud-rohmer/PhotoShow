@@ -87,6 +87,18 @@
 									$this->page = CurrentUser::$account;
 								}
 								break;
+			
+			case "move"		:	if(isset($_POST['pathFrom'])){
+	 								AdminMove::move();
+	 							}
+								$this->page = new AdminMove();
+								break;
+
+			case "delete"		:	if(isset($_POST['del'])){
+	 								AdminDelete::delete();
+	 							}
+								$this->page = new AdminDelete();
+								break;
 
 	 		default 		:	$this->page = new AdminStats();
 	 	}
@@ -115,7 +127,13 @@
 								}
 								Admin::$action = "account";
 								break;
-	 							
+				
+	 			case "Mov"	:	Admin::$action = "move";
+	 							break;
+				
+	 			case "Del"	:	Admin::$action = "delete";
+								break;
+
 	 			default 	:	break;
 	 		}
 	 	}
