@@ -20,11 +20,7 @@ div#menubar{
 }
 
 div#menubar > div:nth-child(1) {
-	position:		absolute;
-	left:			0;
-	width:			auto;
-	top:			0;
-	height:			auto;
+	font-size:		9pt;
 }
 
 div#menubar > div:nth-child(2) {
@@ -35,13 +31,13 @@ div#menubar > div:nth-child(2) {
 	height:			auto;
 }
 
+div#menubar * a {
+	display:		inline-block;
+}
+
 div#menubar > div > * {
 	display:		inline-block;
 	margin:			5px;
-}
-
-div#menubar * a {
-	display:		inline-block;
 }
 
 div#menubar > span {
