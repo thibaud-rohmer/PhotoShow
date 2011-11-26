@@ -91,7 +91,7 @@ class MenuBar implements HTMLObject{
 		//echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
 		echo "</div>\n";
 
-		echo "<span><a href='http://osi.6-8.fr/PhotoShow'>Powered by PhotoShow - © 2011 Thibaud Rohmer - get it here !</a></span>";
+		echo "<span>Powered by <a href='http://osi.6-8.fr/PhotoShow'>PhotoShow</a> - © 2011 Thibaud Rohmer</span>";
 
 		echo "</div>\n";
 	}

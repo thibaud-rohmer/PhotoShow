@@ -46,6 +46,11 @@ div#menubar > span {
 	bottom:			0;
 	font-size:		7pt;
 	width:			300px;
+	font-style:		italic;
+}
+
+div#menubar > span > a {
+	color:			rgb(0,132,236);
 }
 
 div#page{
