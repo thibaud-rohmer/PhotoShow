@@ -64,82 +64,54 @@
 	 		return;
 	 	}
 
-	 	/// Setup admin variables
-	 	$this->init();
-
 	 	/// Create menu
 	 	$this->menu = new AdminMenu();
-
-	 	/// So, what to we do ?
-	 	switch(Admin::$action){
-	 		case "stats"	:	$this->page = new AdminStats();
-	 							break;
-
-	 		case "upload"	:	if(isset($_POST['path'])){
-	 								AdminUpload::upload();
-	 							}
-	 							$this->page = new AdminUpload();
-	 							break;
-	 			
-	 		case "account"	:	if(isset($_POST['login'])){
-									$this->page = new Account($_POST['login']);
-								}else{
-									$this->page = CurrentUser::$account;
-								}
-								break;
-			
-			case "move"		:	if(isset($_POST['pathFrom'])){
-	 								AdminMove::move();
-	 							}
-								$this->page = new AdminMove();
-								break;
-
-			case "delete"		:	if(isset($_POST['del'])){
-	 								AdminDelete::delete();
-	 							}
-								$this->page = new AdminDelete();
-								break;
-
-	 		default 		:	$this->page = new AdminStats();
-	 	}
-	}
-
-
- 	/**
- 	 * Initialise admin variables
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	 private function init(){
-
  		/// Get action
 	 	if(isset($_GET['a'])){
 	 		switch($_GET['a']){
-	 			
-	 			case "Sta"	:	Admin::$action = "stats";
-	 							break;
+		 		case "Sta"	:	$this->page = new AdminStats();
+		 							break;
 
-	 			case "Upl"	:	Admin::$action = "upload";
-	 							break;
-	 			
-	 			case "Acc"	:	if(isset($_POST['old_password'])){
-									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
-								}
-								Admin::$action = "account";
-								break;
-				
-	 			case "Mov"	:	Admin::$action = "move";
-	 							break;
-				
-	 			case "Del"	:	Admin::$action = "delete";
-								break;
+		 		case "Upl"	:		if(isset($_POST['path'])){
+		 								AdminUpload::upload();
+		 							}
+		 							$this->page = new AdminUpload();
+		 							break;
+		 			
+		 		case "Acc"	:		if(isset($_POST['old_password'])){
+										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+									}
+									if(isset($_POST['login'])){
+										$this->page = new Account($_POST['login']);
+									}else{
+										$this->page = CurrentUser::$account;
+									}
 
-	 			default 	:	break;
+									break;
+				
+				case "Mov"		:	if(isset($_POST['pathFrom'])){
+		 								AdminMove::move();
+		 							}
+									$this->page = new AdminMove();
+									break;
+
+				case "Del"		:	if(isset($_POST['del'])){
+		 								AdminDelete::delete();
+		 							}
+									$this->page = new AdminDelete();
+									break;
+
+				case "JS"		:	$this->page = new AdminJS();
+									break;
+
+		 		default 		:	$this->page = new AdminStats();
 	 		}
 	 	}
- 	}
 
-
+	 	if(CurrentUser::$js == 1){
+	 		$this->page = new AdminJS();
+	 	}
+	}
 
 	 /**
 	  * Display admin page
@@ -148,11 +120,11 @@
 	  */
 	public function toHTML(){
 		$this->header();
-
-		echo "<div class='menu'>\n";
-	 	$this->menu->toHTML();
-	 	echo "</div>\n";
-	
+		if(!CurrentUser::$js){
+			echo "<div class='menu'>\n";
+	 		$this->menu->toHTML();
+	 		echo "</div>\n";
+		}
 		echo "<div class='panel'>\n";
 	 	$this->page->toHTML();
 	 	echo "</div>";

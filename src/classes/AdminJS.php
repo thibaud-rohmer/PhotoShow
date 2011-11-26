@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the class AdminMenu.
+ * This file implements the class AdminJS.
  * 
  * PHP versions 4 and 5
  *
@@ -30,9 +30,9 @@
  */
 
 /**
- * AdminMenu
+ * AdminJS
  *
- * Menu for the admin. Just for the admin. U no admin ? U no menu.
+ * Do-everything page
  *
  * @category  Website
  * @package   Photoshow
@@ -41,52 +41,34 @@
  * @license   http://www.gnu.org/licenses/
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
- class AdminMenu
- {
- 	/// Menu options
- 	public $options=array();
+class AdminJS extends Page
+{
+	private $dirdiv;
 
- 	/**
- 	 * Build AdminMenu
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	public function __construct(){
+	public function __construct(){
+		
+		$this->dirdiv = $this->dir2div(Settings::$photos_dir);
 
- 		$this->options['Sta']	= "Statistics";
- 		$this->options['Upl']	= "Upload Files";
- 	 	$this->options['Mov']	= "Move Files";
- 	 	$this->options['Del']	= "Delete Files";
- 	 	$this->options['JS']	= "JS Files";
+	}
 
- 	 	$this->options['Acc']	= "Edit Accounts";
+	private function dir2div($dir){
+		
+		$subdirs 	= Menu::list_dirs($dir);
+		$res 		= "<div class='";
+		if(sizeof($subdirs) > 0){
+			$res 	.= " has_sub";
+		}
+		$res 		.= " dir'><span class='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span>";
+		foreach($subdirs as $d){
+			$res .= $this->dir2div($d);
+		}
+		$res .= "</div>\n";
+		return $res;
+	}
 
- 	}
- 
- 	/**
- 	 * Display AdminMenu on website
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	public function toHTML(){
+	public function toHTML(){
+		echo $this->dirdiv;
+	}
+}
 
-		foreach($this->options as $op=>$val){
-			if( $_GET['a'] == $op){
-				$class = "menu_item selected";
-			}else{
-				$class = "menu_item";
-			}
- 			echo "<div class='$class'>\n";
-			echo "<div class='menu_title'>\n";
-			echo "<a href='?t=Adm&a=$op'>$val</a>";
-			echo "</div>\n</div>\n";
- 		}
-		echo "<div class='menu_item'>\n";
-		echo "<div class='menu_title'>\n";
-		echo "<a href='.'>Back</a>";
-		echo "</div>\n</div>\n";
-
- 	}
-
- }
- ?>
+?>

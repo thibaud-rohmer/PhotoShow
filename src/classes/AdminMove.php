@@ -104,10 +104,17 @@
  			return;
  		}
 
+ 		if($type == "rename"){
+ 			rename($from,$to);
+ 			return;
+ 		}
+
  		if(is_file($from) || $type=="directory"){
  			rename($from,$to."/".basename($from));
  			return;
  		}
+
+
 
  		/// We are moving multiple files
  		$files = scandir($from);

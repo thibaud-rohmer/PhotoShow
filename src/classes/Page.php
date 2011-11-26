@@ -61,6 +61,7 @@ abstract class Page implements HTMLObject
 
 			/// JS
 			echo "<script src='inc/jquery.js'></script>\n";
+			echo "<script src='inc/jquery-ui.js'></script>\n";
 			echo "<script src='inc/mousewheel.js'></script>\n";
 			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
 
@@ -68,6 +69,7 @@ abstract class Page implements HTMLObject
 			echo "<script src='src/js/panel.js'></script>\n";
 			echo "<script src='src/js/image_panel.js'></script>\n";
 			echo "<script src='src/js/keyboard.js'></script>\n";
+			echo "<script src='src/js/admin.js'></script>\n";
 
 
 			/// CSS
@@ -75,6 +77,8 @@ abstract class Page implements HTMLObject
 			echo "<link rel='stylesheet' href='src/stylesheets/page.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/panels.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/forms.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
+
 			echo "</head>";
 		}
 }

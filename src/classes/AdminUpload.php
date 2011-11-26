@@ -162,6 +162,7 @@
  	 */
  	public function toHTML(){
  		echo 	"<h1>Upload</h1>";
+
  		echo 	"<form action='#' method='post' enctype='multipart/form-data'>";
  		echo 	"<fieldset><span>Images</span><div><input  name='images[]' type='file' multiple /></div></fieldset>";
  		echo 	"<fieldset><span>Location</span><div><select name='path'>";
