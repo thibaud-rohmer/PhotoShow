@@ -22,6 +22,10 @@ a:visited {
 	display:			block;
 }
 
+a:hover{
+	color:				rgb(0,132,236);
+}
+
 .hidden {
 	display:			none;
 }

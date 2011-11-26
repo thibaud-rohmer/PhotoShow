@@ -112,6 +112,11 @@ div.image_panel {
 	color:			white;
 }
 
+div.image_panel * a,
+div.image_panel * a:visited {
+	color:			white;
+}
+
 div.image_panel > .box {
 	padding:		20px 5px 0px 5px;
 	font-size:		10pt;
