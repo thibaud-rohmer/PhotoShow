@@ -85,7 +85,7 @@ class Exif implements HTMLObject
 		$this->init_wanted();
 		
 		/// Read exif
-		$raw_exif	=	exif_read_data($file);
+		$raw_exif	=	@exif_read_data($file);
 		
 		/// Parse exif
 		foreach($this->wanted as $name => $data){
