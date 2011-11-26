@@ -178,7 +178,7 @@
 
  		echo 	"</select></div></fieldset>";
  		echo 	"<fieldset><span>New Dir</span><div><input name='newdir' type='text' /></div></fieldset>";
- 	 	echo 	"<fieldset><span>Inherit Rights</span><div><label><input type='checkbox' name='inherit' checked /> Inherit</label></div></fieldset>";
+ 	 	echo 	"<fieldset><span>Rights</span><div><label><input type='checkbox' name='inherit' checked /> Inherit</label></div></fieldset>";
  		echo 	"<fieldset><span>Public</span><div><label><input type='checkbox' name='public' checked /> Public</label></div></fieldset>";
  		echo 	"<fieldset><span>Groups</span><div>";
  		foreach(Group::findAll() as $group){

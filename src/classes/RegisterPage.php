@@ -75,9 +75,9 @@ class RegisterPage extends Page
 		}
 		
 		echo "<form method='post' action='?t=Reg'>\n";
-		echo "<fieldset><span>Login : </span>";
+		echo "<fieldset><span>Login</span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
-		echo "<fieldset><span>Password : </span>\n";
+		echo "<fieldset><span>Password</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
 		echo "<input type='submit' value='Register' class='button blue'> or <a href='.'>back</a>";
 		echo "</form>\n";

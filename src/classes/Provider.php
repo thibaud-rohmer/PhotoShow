@@ -66,6 +66,7 @@ class Provider
 		if( !Judge::view($file)){
 			return;
 		}
+
 		try {
 			if($thumb){
 				$path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
