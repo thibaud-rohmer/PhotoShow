@@ -41,10 +41,11 @@ function init_image_panel(){
 	$("#bigimage a, #image_bar #back").click(function(){
 
 		// Edit layout
-		$(".image_panel").slideUp();
-		$(".linear_panel").addClass("panel").removeClass("linear_panel");
+		$(".image_panel,.linear_panel").slideUp(function(){
+			$(".linear_panel").addClass("panel").removeClass("linear_panel").fadeIn();			
+			init_panel();
+		});
 
-		init_panel();
 		return false;
 	});
 

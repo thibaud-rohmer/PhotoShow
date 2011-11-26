@@ -16,8 +16,9 @@ function init_panel(){
 		
 		// Edit layout
 		$(".panel").hide().addClass("linear_panel").removeClass("panel");
-		$(".image_panel,.linear_panel").fadeIn("slow");
-
+		$(".image_panel,.linear_panel").slideDown("fast",function(){
+			$(".image_panel a").css("height","100%")			
+		});
 		return false;
 
 	});

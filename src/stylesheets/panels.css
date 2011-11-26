@@ -24,7 +24,7 @@ div.panel > .header > span {
 
 div.panel > .line {
 	height:			130px;
-	margin:			0 0 3px 0;
+	margin:			0 0 1px 0;
 	overflow: 		hidden;
 	white-space:	nowrap;
 }
