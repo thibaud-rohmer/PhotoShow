@@ -1,33 +1,53 @@
-div.dir{
+div.panel{
+	text-align:	center;
+}
+
+div.dir,
+div.newdir{
 	margin:		3px;
 	padding:	3px;
-	min-height:	120px;
-	box-shadow:	0px 1px 2px #444;
 	cursor: 	default;
 	color:		white;
-	border:		1px solid white;
-	background:	rgba(40,40,40,0.2);
 	display:	inline-block;
 	vertical-align: top;
 	text-align:	center;
 	text-shadow: 0 2px 3px #333;
 }
 
-
-div.dir > span {
-	height:		50px;
+div.dir > span{
+	display:	block;
 }
-
 
 div.panel > .dir {
 	clear:		both;
 	margin:		0;
 }
 
+div.toolbar{
+	background:		#ccc;
+	border:			1px solid #777;
+	box-shadow:		inset 0 1px 4px #444;
+	padding:		5px;
+	text-align:		center;
+	color:			white;
+	text-shadow:	0 1px 2px #333;
+}
+
+div.subdirs{
+	margin-top:		5px;
+	display:		none;
+	border:			1px solid white;
+	background:		rgba(20,20,20,0.2);
+	border-radius:	3px;
+}
+
+.dropzone.selected{
+	background-image:	url('../../inc/folder_selected.png');
+
+}
+
 .hovered {
-	background:			rgb(0,132,236);
-	font-size:			15pt;
-	text-align:			center;
+	background-image:	url('../../inc/folder_open.png');
 }
 
 form.js {

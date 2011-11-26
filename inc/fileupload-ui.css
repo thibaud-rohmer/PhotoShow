@@ -1,3 +1,4 @@
+/*
 .file_upload,
 .file_upload_large,
 .file_upload_small {
@@ -16,10 +17,23 @@
   border-radius:  10px;
   box-shadow: inset 0 0px 10px #333;
 }
-
-.file_upload_highlight {
-  background: rgba(255,255,255,1);
+*/
+.file_upload,
+.file_upload_large,
+.file_upload_small {
+  margin:   auto;
+  position: relative;
+  overflow: hidden;
+  cursor:   pointer;
+  width:    70px;
+  height:   70px;
+  background: url('../inc/folder_closed.png') no-repeat center center;
 }
+
+.file_upload_highlight{
+  background-image: url('../inc/folder_open.png');
+}
+
 
 .file_upload input {
   position: absolute;
@@ -44,7 +58,7 @@
 }
 
 .file_upload_progress .ui-progressbar-value {
-  background: url(img/pbar-ani.gif);
+  background: url(../inc/pbar-ani.gif);
 }
 
 .file_upload_progress div {

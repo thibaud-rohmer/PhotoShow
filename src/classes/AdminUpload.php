@@ -110,7 +110,7 @@
  			}
  			$already_set_rights = true;
  		}
-
+		if(!isset($_FILES["images"])) return;
  		/// Treat uploaded files
  		foreach ($_FILES["images"]["error"] as $key => $error) {
 

@@ -33,7 +33,13 @@
 
 $("document").ready(function(){
 
-	$(".panel > .dir .dir").draggable({
+	$(".dir .title").draggable({
+		cursor: 		"move",
+		containment:	".panel > .dir",
+		revert: 		true
+	});
+
+	$(".newdir .title").draggable({
 		cursor: 		"move",
 		revert: 		true
 	});
@@ -58,6 +64,18 @@ $("document").ready(function(){
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
 						var dragg = ui.draggable;
+						if($(dragg).parent().hasClass("newdir")){
+							if(window.confirm("Do you want to create a new dir in "+$(this).parent().children("span").first().text() + " ?")){
+
+								dragg.draggable('option','revert',false);
+								path 	  = $(this).attr("id");
+								$(".panel").load(".?t=Adm&a=Upl&j=1",{'path' : path,'newdir' : 'New Dir'});
+
+							}else{
+								// not paf.
+							}
+							return;
+						}
 						if(window.confirm("Do you want to move " + dragg.children("span").text() + " to "+$(this).parent().children("span").first().text() + " ?")){
 
 							dragg.draggable('option','revert',false);
@@ -71,12 +89,21 @@ $("document").ready(function(){
 					}
 	});
 
+
+	$(".dropzone input").click(function(event){
+		event.preventDefault();
+		$(this).parent().parent().parent().children(".subdirs").toggle("normal");
+	});
+
+
+
 	$(".panel > .dir .dir span").dblclick(function(){
 		$(".foc").parents("span").text($(".foc").val());
 
 		oldname = $(this).text();
 		oldpath = $(this).attr("id");
-		newpath = $(this).parent().parent().children("span").first().attr("id");
+		newpath = $(this).parent().parent().parent().parent().children(".title").children("span").attr("id");
+
 		$(this).html("<form class='js'><input class='foc' type='text' value='" + $(this).text() + "'></input></form>");
 
 		$(".foc").focusout(function(){

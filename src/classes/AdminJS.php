@@ -58,24 +58,27 @@ class AdminJS extends Page
 		if(sizeof($subdirs) > 0){
 			$res 	.= " has_sub";
 		}
-		$res 		.= " dir'><span id='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span>";
+		$res 		.= " dir'>";
 		
-		$res 		.= "<form id='file_upload' class='dropzone' id='".htmlentities(File::a2r($dir))."//' action='?t=Adm&a=Upl' method='POST' enctype='multipart/form-data'>
+		$res 		.= "<div class='title'><form class='dropzone' id='".htmlentities(File::a2r($dir))."/' action='?t=Adm&a=Upl' method='POST' enctype='multipart/form-data'>
 			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
-			<div>DropZone</div>
 			</form>
+			<span id='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span></div><div class='subdirs'>
 			";
 
 		foreach($subdirs as $d){
 			$res .= $this->dir2div($d);
 		}
-		$res 		.= "</div>";
+		$res 		.= "</div></div>";
 		return $res;
 	}
 
 	public function toHTML(){
+		echo "<div class='toolbar'><div>ToolBar</div>
+				<div class='newdir'><div class='title'><div class='dropzone'></div><span>New Folder</span></div></div>
+		</div>";
 		echo $this->dirdiv;
 
 		echo "<table id='files'></table>";
