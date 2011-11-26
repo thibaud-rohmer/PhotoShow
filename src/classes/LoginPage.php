@@ -70,7 +70,7 @@ class LoginPage extends Page
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
 		echo "<fieldset><span>Password</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit' value='Login' class='button blue'> or <a href='?t=Reg'>register</a> or <a href='.'>back</a>";
+		echo "<input type='submit' class='button blue'> or <a href='?t=Reg'>register</a> or <a href='.'>go back</a>";
 		echo "</form>\n";
 		echo "</div>\n";
 

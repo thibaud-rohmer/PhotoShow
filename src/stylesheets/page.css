@@ -44,6 +44,14 @@ div#menubar * a {
 	display:		inline-block;
 }
 
+div#menubar > span {
+	position:		absolute;
+	left:			5px;
+	bottom:			0;
+	font-size:		7pt;
+	width:			300px;
+}
+
 div#page{
 	position:	absolute;
 	left:		0;

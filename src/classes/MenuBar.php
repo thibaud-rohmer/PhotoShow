@@ -68,9 +68,9 @@ class MenuBar implements HTMLObject{
 	 */
 	public function toHTML(){
 		echo "<div id='menubar'>\n";
+
 		echo "<div class='align_left'>\n";
 		echo "<a href='#'>PhotoShow</a>\n";
-		
 		if(isset(CurrentUser::$account)){
 			// User logged in
 			echo "<div class='menubar-button'>- logged as <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login)."</a></div>\n";
@@ -84,11 +84,15 @@ class MenuBar implements HTMLObject{
 		}else{
 			// User not logged in
 			echo "</div><div class='align_right'>\n";
-			echo "<a href='?t=Log'>LOGIN/REGISTER</a>\n";
+			echo "<a href='?t=Log'>LOGIN</a>\n";
+			echo "<a href='?t=Log'>REGISTER</a>\n";
 		}
 		
-		echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
+		//echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
 		echo "</div>\n";
+
+		echo "<span><a href='http://osi.6-8.fr/PhotoShow'>Powered by PhotoShow - © 2011 Thibaud Rohmer - get it here !</a></span>";
+
 		echo "</div>\n";
 	}
 }
