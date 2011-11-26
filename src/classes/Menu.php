@@ -172,6 +172,7 @@ class Menu implements HTMLObject
 			
 		/// Directory content
 		$dir_content = scandir($dir);
+		
 		/// Check each content
 		foreach ($dir_content as $content){
 			

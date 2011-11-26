@@ -120,7 +120,7 @@ class Account extends Page
 		
 		if(!file_exists($xml_infos)){
 			// No accounts file found
-			
+
 			// Create accounts file
 			$xml		=	new SimpleXMLElement('<accounts></accounts>');
 			$xml->asXML($xml_infos);

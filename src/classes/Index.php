@@ -48,14 +48,7 @@ class Index
 	function __construct(){
 
 		/// Initialize variables
-		try{
-			Settings::init();
-		}catch(Exception $e){
-			echo $e;
-			return;
-			// Settings file is missing, or directories
-			// are missing... Bad conf.
-		}
+		Settings::init();
 
 		/// Initialize CurrentUser
 		try{

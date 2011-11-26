@@ -39,7 +39,7 @@ function __autoload($class){
 
 /// Take care of nasty exceptions
 function exception_handler($exception) {
-  echo "<div class='exception'>Exception : " , $exception->getMessage(), "</div>\n";
+  echo "<div class='exception'>" , $exception->getMessage(), "</div>\n";
 }
 set_exception_handler('exception_handler');
 

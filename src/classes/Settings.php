@@ -51,6 +51,10 @@ class Settings
 	/// Directory where the thumbs are stored
 	static public $thumbs_dir;
 	
+	/// Directory where the configuration files are stored
+	static public $conf_dir;
+
+
 	/**
 	 * Read the settings in the files.
 	 * If a settings file is missing, raise an exception.
@@ -68,19 +72,33 @@ class Settings
 
 		/// Parse conf.ini file 
 		$ini_file		=	realpath(dirname(__FILE__)."/../../conf.ini");
-		$ini_settings	=	parse_ini_file($ini_file);
-		
+
+		if(!($ini_settings	=	@parse_ini_file($ini_file))){
+			throw new Exception("You need to create a configuration file.");
+		}
+
 		/// Setup variables
 		Settings::$photos_dir	=	$ini_settings['photos_dir'];
-		Settings::$thumbs_dir	=	$ini_settings['thumbs_dir'];
+		Settings::$thumbs_dir	=	$ini_settings['ps_generated']."/Thumbs/";
+		Settings::$conf_dir		=	$ini_settings['ps_generated']."/Conf/";
 
 		// Now, check that this stuff exists.
 		if(!file_exists(Settings::$photos_dir)){
-			throw new Exception("Photos dir doesn't exist !");
+			if(! @mkdir(Settings::$photos_dir,0750,true)){	
+				throw new Exception("PHOTOS dir doesn't exist and couldn't be created !");
+			}
 		}
 
 		if(!file_exists(Settings::$thumbs_dir)){
-			throw new Exception("Thumbs dir doesn't exist !");
+			if(! @mkdir(Settings::$thumbs_dir,0750,true)){
+				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
+			}
+		}
+
+		if(!file_exists(Settings::$conf_dir)){
+			if(! @mkdir(Settings::$conf_dir,0750,true)){
+				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
+			}
 		}
 	}
 

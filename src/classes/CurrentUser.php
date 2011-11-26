@@ -76,9 +76,9 @@ class CurrentUser
 	 */
 	public function init(){
 		
-		CurrentUser::$accounts_file =	Settings::$thumbs_dir."/accounts.xml";
+		CurrentUser::$accounts_file =	Settings::$conf_dir."/accounts.xml";
 		
-		CurrentUser::$groups_file	=	Settings::$thumbs_dir."/groups.xml";
+		CurrentUser::$groups_file	=	Settings::$conf_dir."/groups.xml";
 		
 		if(isset($_GET['j']) && $_GET['j'] == 1){
 			CurrentUser::$js 		=	true;
