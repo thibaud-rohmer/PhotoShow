@@ -41,6 +41,10 @@ div.subdirs{
 	border-radius:	3px;
 }
 
+.dropzone{
+	cursor:			pointer;
+}
+
 .dropzone.selected{
 	background-image:	url('../../inc/folder_selected.png');
 
