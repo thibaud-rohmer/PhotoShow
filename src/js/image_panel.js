@@ -1,7 +1,36 @@
-function load_image(img){
-		$(".image_panel").load(img);
-}
+/**
+ * This file implements image_panel.
+ * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ * 
+ * This file is part of PhotoShow.
+ *
+ * PhotoShow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PhotoShow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package	  PhotoShow
+ * @category  Website
+ * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright 2011 Thibaud Rohmer
+ * @license	  http://www.gnu.org/licenses/
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
+ */
 
+/**
+ * Initialise the image panel
+ */
 function init_image_panel(){
 
 	$("#bigimage a, #image_bar #back").unbind();
@@ -23,13 +52,13 @@ function init_image_panel(){
 	$(".linear_panel .item a").click(function(){
 		$(".linear_panel .selected").removeClass("selected");
 		$(this).parent().addClass("selected");
-		load_image($(this).attr("href")+"&j=1");
+		$(".image_panel").load($(this).attr("href")+"&j=1");
 		return false;
 	});
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
-		load_image($(this).attr("href")+"&j=1");
+		$(".image_panel").load($(this).attr("href")+"&j=1");
 
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.next();
@@ -44,13 +73,13 @@ function init_image_panel(){
 
 		curr_select.removeClass("selected");
 		new_select.addClass("selected");
-		
+
 		return false;
 	});
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
-		load_image($(this).attr("href")+"&j=1");
+		$(".image_panel").load($(this).attr("href")+"&j=1");
 
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.prev();
@@ -65,18 +94,19 @@ function init_image_panel(){
 
 		curr_select.removeClass("selected");
 		new_select.addClass("selected");
-		
+
 		return false;
 	});
 
-
-
 	// On mousewheelling
 	$(".linear_panel").mousewheel(function(event,delta){
-		this.scrollLeft -= delta * 30;
-		event.preventDefault();
+		if($(".linear_panel").is(":visible")){
+			this.scrollLeft -= delta * 30;
+			event.preventDefault();
+		}
 	});
 
+	$(".linear_panel").scrollTo($(".linear_panel .selected"));
 }
 
 $("document").ready(function(){

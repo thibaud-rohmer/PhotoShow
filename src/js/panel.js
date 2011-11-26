@@ -1,3 +1,5 @@
+
+
 function init_panel(){
 
 	$(".panel .item a").unbind();
@@ -15,6 +17,7 @@ function init_panel(){
 		// Edit layout
 		$(".panel").hide().addClass("linear_panel").removeClass("panel");
 		$(".image_panel,.linear_panel").fadeIn("slow");
+
 		return false;
 
 	});
