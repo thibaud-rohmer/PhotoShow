@@ -66,6 +66,7 @@ class Provider
 		if( !Judge::view($file)){
 			return;
 		}
+		error_reporting(0);
 
 		try {
 			if($thumb){
@@ -121,7 +122,7 @@ class Provider
 			$path = $file;
 		}
 
-		header('Content-type: image/jpeg',true);
+		header('Content-type: image/jpeg');
 		readfile($path);			
 	}
 	
