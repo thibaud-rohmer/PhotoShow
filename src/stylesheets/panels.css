@@ -216,6 +216,8 @@ div#comments > form > fieldset {
 	right:			5px;
 	top:			2px;
 	width:			auto;
+	height:			24px;
+	background:		white;
 }
 
 div#comments > form > textarea {

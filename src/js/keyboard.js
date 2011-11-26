@@ -18,6 +18,14 @@ $("document").ready(function(){
 			event.preventDefault();
 		}
 
+				// Left
+		if(event.which == 27){
+			$("#image_bar #back a").click();
+			goto_selected();
+	
+			event.preventDefault();
+		}
+
 	});
 
 });
