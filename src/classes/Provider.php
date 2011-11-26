@@ -121,7 +121,7 @@ class Provider
 			$path = $file;
 		}
 
-		header('Content-type: image/jpeg');
+		header('Content-type: image/jpeg',true);
 		readfile($path);			
 	}
 	
