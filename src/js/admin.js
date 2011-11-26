@@ -29,23 +29,40 @@
  */
 
 
+
+
 $("document").ready(function(){
 
 	$(".panel > .dir .dir").draggable({
-		containment: 	".panel > .dir",
 		cursor: 		"move",
 		revert: 		true
 	});
 
-	$(".dir span").droppable({
+    $('.dropzone').fileUploadUI({
+        uploadTable: $('#files'),
+        downloadTable: $('#files'),
+        buildUploadRow: function (files, index) {
+            return $('<tr><td>' + files[index].name + '<\/td>' +
+                    '<td class="file_upload_progress"><div><\/div><\/td>' +
+                    '<td class="file_upload_cancel">' +
+                    '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                    '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                    '<\/button><\/td><\/tr>');
+        },
+        buildDownloadRow: function (file) {
+            return $('<tr><td>' + file.name + '<\/td><\/tr>');
+        }
+    });
+
+	$(".dropzone").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
 						var dragg = ui.draggable;
-						if(window.confirm("Do you want to move " + dragg.children("span").text() + " to "+$(this).text() + " ?")){
+						if(window.confirm("Do you want to move " + dragg.children("span").text() + " to "+$(this).parent().children("span").first().text() + " ?")){
 
 							dragg.draggable('option','revert',false);
-							from  = dragg.children("span").attr("class").split(' ')[0];
-							to 	  = $(this).attr("class").split(' ')[0];
+							from  = dragg.children("span").attr("id");
+							to 	  = $(this).attr("id");
 							$(".panel").load(".?t=Adm&a=Mov&j=1",{'pathFrom' : from,'pathTo' : to, 'move':'directory'});
 
 						}else{
@@ -58,9 +75,13 @@ $("document").ready(function(){
 		$(".foc").parents("span").text($(".foc").val());
 
 		oldname = $(this).text();
-		oldpath = $(this).attr("class").split(' ')[0];
-		newpath = $(this).parent().parent().children("span").first().attr("class").split(' ')[0];
+		oldpath = $(this).attr("id");
+		newpath = $(this).parent().parent().children("span").first().attr("id");
 		$(this).html("<form class='js'><input class='foc' type='text' value='" + $(this).text() + "'></input></form>");
+
+		$(".foc").focusout(function(){
+			$(this).parent().parent().html(oldname);	
+		});
 
 		$("form").submit(function(){
 			newname = $(this).children(".foc").val();
@@ -68,7 +89,6 @@ $("document").ready(function(){
 
 				from  = oldpath;
 				to 	  = newpath+"/"+newname;
-//				alert("move "+from+" to "+to);
 				$(".panel").load(".?t=Adm&a=Mov&j=1",{'pathFrom' : from,'pathTo' : to, 'move':'rename'});
 
 			}else{

@@ -1,0 +1,58 @@
+.file_upload,
+.file_upload_large,
+.file_upload_small {
+  margin:10px auto;
+  position: relative;
+  overflow: hidden;
+  direction: ltr;
+  cursor: pointer;
+  text-align: center;
+  width: 80px;
+  line-height: 80px;
+  height: 80px;
+  background: rgba(10,10,10,0.2);
+  background: rgba(0,132,236,0.4);
+  border: 2px dashed #ddd;
+  border-radius:  10px;
+  box-shadow: inset 0 0px 10px #333;
+}
+
+.file_upload_highlight {
+  background: rgba(255,255,255,1);
+}
+
+.file_upload input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  border: 300px solid transparent;
+  opacity: 0;
+  -ms-filter: 'alpha(opacity=0)';
+  filter: alpha(opacity=0);
+  -o-transform: translate(-300px, -300px) scale(10);
+  -moz-transform: translate(-800px, 0) scale(10);
+  cursor: pointer;
+}
+
+.file_upload iframe, .file_upload button {
+  display: none;
+}
+
+.file_upload_preview img {
+  width: 80px;
+}
+
+.file_upload_progress .ui-progressbar-value {
+  background: url(img/pbar-ani.gif);
+}
+
+.file_upload_progress div {
+  width: 150px;
+  height: 15px;
+}
+
+.file_upload_cancel button {
+  cursor: pointer;
+}
+

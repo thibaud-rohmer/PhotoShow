@@ -58,16 +58,27 @@ class AdminJS extends Page
 		if(sizeof($subdirs) > 0){
 			$res 	.= " has_sub";
 		}
-		$res 		.= " dir'><span class='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span>";
+		$res 		.= " dir'><span id='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span>";
+		
+		$res 		.= "<form id='file_upload' class='dropzone' id='".htmlentities(File::a2r($dir))."//' action='?t=Adm&a=Upl' method='POST' enctype='multipart/form-data'>
+			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
+			<input type='file' name='images[]' multiple >
+			<button>Upload</button>
+			<div>DropZone</div>
+			</form>
+			";
+
 		foreach($subdirs as $d){
 			$res .= $this->dir2div($d);
 		}
-		$res .= "</div>\n";
+		$res 		.= "</div>";
 		return $res;
 	}
 
 	public function toHTML(){
 		echo $this->dirdiv;
+
+		echo "<table id='files'></table>";
 	}
 }
 

@@ -1,37 +1,27 @@
 div.dir{
-	position:	relative;
-	color:		black;
-	float:		left;
-	max-width:	600px;
-	min-height:	20px;
-	padding:	10px;
-	margin:		5px;
-	border:		1px solid white;
-	background:	rgba(0,0,0,0.1);
+	margin:		3px;
+	padding:	3px;
+	min-height:	120px;
 	box-shadow:	0px 1px 2px #444;
 	cursor: 	default;
+	color:		white;
+	border:		1px solid white;
+	background:	rgba(40,40,40,0.2);
+	display:	inline-block;
+	vertical-align: top;
+	text-align:	center;
+	text-shadow: 0 2px 3px #333;
 }
 
-div.dir{
-	color:				white;
-	border:				1px solid rgb(0,136,232);
-	background-color:	rgba(0,136,232,0.1);
-}
-
-div.has_sub {
-	margin:		5px auto;
-}
 
 div.dir > span {
-	display:	block;
-	width:		100%;
 	height:		50px;
-	float:		left;
 }
 
 
 div.panel > .dir {
 	clear:		both;
+	margin:		0;
 }
 
 .hovered {
@@ -41,9 +31,14 @@ div.panel > .dir {
 }
 
 form.js {
-	width:	200px;
+	margin:auto;
+	width:	90%;
+	height:	50px;
+	text-align: center;
+	position: relative;
 }
 
 form.js > input[type="text"]{
+
 	background:		white;
 }

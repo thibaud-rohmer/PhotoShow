@@ -4,7 +4,7 @@ $("document").ready(function(){
 	/**
 	 * Clicking on an item in the menu
 	 */
-	$(".menu a").click(function(){
+	$("#menu a").click(function(){
 
 		// Change selected item
 		$(".menu .selected").removeClass("selected");

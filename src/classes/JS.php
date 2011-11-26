@@ -50,17 +50,19 @@ class JS
 		switch(CurrentUser::$action){
 			case "Page":		if(is_file(CurrentUser::$path)){
 										$b = new ImagePanel(CurrentUser::$path);
-									$this->script_load("image_panel");
+									//$this->script_load("image_panel");
 									$b->toHTML();
 								}else{
 									$b = new Board(CurrentUser::$path);
-									$this->script_load("panel");
+									//$this->script_load("panel");
 									$b->toHTML();
 								}
+								break;
 
 								echo "<script> update_url('?f=".File::a2r(CurrentUser::$path)."','".basename(CurrentUser::$path)."'); </script>";
 			case "Adm":			$page = new Admin();
 								$page->toHTML();
+								break;
 		}
 
 	}

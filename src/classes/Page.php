@@ -64,6 +64,9 @@ abstract class Page implements HTMLObject
 			echo "<script src='inc/jquery-ui.js'></script>\n";
 			echo "<script src='inc/mousewheel.js'></script>\n";
 			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
+			echo "<script src='inc/jquery.fileupload.js'></script>\n";
+			echo "<script src='inc/jquery.fileupload-ui.js'></script>\n";
+
 
 			echo "<script src='src/js/menu.js'></script>\n";
 			echo "<script src='src/js/panel.js'></script>\n";
@@ -73,6 +76,8 @@ abstract class Page implements HTMLObject
 
 
 			/// CSS
+			echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
+
 			echo "<link rel='stylesheet' href='src/stylesheets/main.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/page.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/panels.css' type='text/css' media='screen' charset='utf-8'>\n";

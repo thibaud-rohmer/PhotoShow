@@ -106,7 +106,9 @@
 
 		 		default 		:	$this->page = new AdminStats();
 	 		}
-	 	}
+	 	}else{
+	 		$this->page = new AdminStats();
+		}
 
 	 	if(CurrentUser::$js == 1){
 	 		$this->page = new AdminJS();
