@@ -163,12 +163,18 @@ class CurrentUser
 								break;
 
 				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups']);
+								CurrentUser::$action = "Judge";
 								break;
 				
 				case "Pub"	:	Judge::edit(CurrentUser::$path);
+								CurrentUser::$action = "Judge";
 								break;
 
-				case "Pri"	:	Judge::edit(CurrentUser::$path,array(),array('user'));
+				case "Pri"	:	Judge::edit(CurrentUser::$path,array(),array(),true);
+								CurrentUser::$action = "Judge";
+								break;
+
+				case "Inf" 	:	CurrentUser::$action = "Inf";
 								break;
 
 				default		:	break;

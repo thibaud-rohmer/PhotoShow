@@ -67,6 +67,7 @@ class Index
 		/// Check what to do
 		switch (CurrentUser::$action){
 
+			case "Judge":	// Same as page
 			case "Page":	$page = new MainPage();
 							$page->toHTML();
 							break;

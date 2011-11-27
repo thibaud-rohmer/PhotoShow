@@ -61,15 +61,8 @@ class AdminJS extends Page
 		$res 		.= " dir'>";
 		
 		$res 		.= "
-		<div class='title'>	<span id='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span></div>
+		<div class='title'>	<span id='".urlencode(htmlentities(File::a2r($dir)))."' class='".addslashes(htmlentities(File::a2r($dir)))."'>".basename($dir)."</span></div>
 			<ul class='subdirs'>
-			<form class='dropzone' id='".htmlentities(File::a2r($dir))."/' 
-			action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
-			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
-			<input type='file' name='images[]' multiple >
-			<button>Upload</button>
-			<div>Upload Images Here</div>
-			</form>
 			";
 
 		foreach($subdirs as $d){
@@ -80,7 +73,7 @@ class AdminJS extends Page
 	}
 
 	public function toHTML(){
-		echo "<div class='choice'>";
+		echo "<div class='folders'>";
 		echo "<div class='explanations'>";
 		echo " > Click on a folder to open it <br />";
 		echo " > Drag'n'drop folders to move them <br />";
@@ -88,8 +81,9 @@ class AdminJS extends Page
 		echo "</div>";
 		echo $this->dirdiv;
 		echo "</div>";
+		echo "<div class='infos'>";
+		echo "</div>";
 
-		echo "<table id='files'></table>";
 	}
 }
 

@@ -63,8 +63,41 @@ class JS
 									$page->toHTML();									
 								}
 								break;
+
+			case "Inf":			$this->infodirtoHTML(CurrentUser::$path);
+								break;
+
+			case "Judge":		$j = new Judge(CurrentUser::$path);
+								$j->toHTML();
+								break;
 		}
 
+	}
+
+
+	private function infodirtoHTML($dir){
+		/// Folder name
+		echo	"<form><fieldset><input id='foldername' type='text' value='".htmlentities(basename($dir))."'><input type='submit'></form></fieldset></span>";
+
+		/// Upload Images form
+		echo "<form class='dropzone' id='".htmlentities(File::a2r($dir))."/' 
+			action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
+			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
+			<input type='file' name='images[]' multiple >
+			<button>Upload</button>
+			<div>Upload Images Here</div>
+			</form>";
+
+		/// List images
+		echo 	"<table id='files'></table>";
+		echo 	"<div class='images'>";
+		foreach (Menu::list_files($dir) as $img){
+			echo "<div class='thmb'><img src='?t=Thb&f=".urlencode(File::a2r($img))."'><span class='".addslashes(htmlentities(File::a2r($img)))."'>".htmlentities(basename($img))."</span></div>";
+		}
+		echo 	"</div>";
+
+		$j = new Judge($dir);
+		$j->toHTML();
 	}
 }
 

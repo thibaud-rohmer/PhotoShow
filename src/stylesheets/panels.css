@@ -235,3 +235,7 @@ div#comments > form > input[type="submit"] {
 	right:			0;
 	bottom:			0;
 }
+
+div.adminrights {
+	text-align:		center;
+}

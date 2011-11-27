@@ -187,7 +187,7 @@ class Judge
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function edit($f,$users=array(),$groups=array()){
+	public static function edit($f,$users=array(),$groups=array(),$private=false){
 
 		/// Just to be sure, check that user is admin
 		if(!CurrentUser::$admin)
@@ -205,7 +205,7 @@ class Judge
 			$rights->users =	$users;
 		}
 		
-		$rights->public	=	(sizeof($groups)==0 && sizeof($users)==0) ? 1 : 0;
+		$rights->public	=	( !$private && (sizeof($groups)==0 && sizeof($users)==0) ) ? 1 : 0;
 		
 		// Save the Judge
 		$rights->save();
