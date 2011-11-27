@@ -43,6 +43,7 @@ function exception_handler($exception) {
 }
 set_exception_handler('exception_handler');
 
+ini_set('upload_max_filesize','10M');
 
 new Index();
 
