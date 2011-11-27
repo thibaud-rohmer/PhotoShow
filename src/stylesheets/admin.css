@@ -3,7 +3,7 @@
 	left:			20px;
 	top:			0;
 	bottom:			0;
-	right:			340px;
+	right:			49%;
 	padding:		10px;
 	z-index:		5;
 	overflow-x:		hidden;
@@ -20,7 +20,7 @@
 	right:			0px;
 	top:			0;
 	bottom:			0;
-	width:			300px;
+	left:			53%;
 	padding:		10px;
 	z-index:		50;
 	overflow: 		auto;
@@ -33,12 +33,14 @@
 
 
 .infos fieldset{
-	width:		300px;
+	position:	relative;
+	width:		100%;
 	text-align: right;
 }
 
 .infos input[type="text"]{
-	width:		180px;
+	right:		105px;
+	width:		auto;
 }
 
 .explanations{
