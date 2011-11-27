@@ -60,9 +60,7 @@ class JS
 								break;
 
 								echo "<script> update_url('?f=".File::a2r(CurrentUser::$path)."','".basename(CurrentUser::$path)."'); </script>";
-			case "Adm":			if($_GET['a']=="Upl" && !isset($_POST['newdir'])){
-									return;
-								}
+			case "Adm":			return;
 								$page = new Admin();
 								$page->toHTML();
 								break;
