@@ -60,7 +60,7 @@ class AdminJS extends Page
 		}
 		$res 		.= " dir'>";
 		
-		$res 		.= "<div class='title'><form class='dropzone' id='".htmlentities(File::a2r($dir))."/' action='?t=Adm&a=Upl' method='POST' enctype='multipart/form-data'>
+		$res 		.= "<div class='title'><form class='dropzone' id='".htmlentities(File::a2r($dir))."/' action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
 			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
