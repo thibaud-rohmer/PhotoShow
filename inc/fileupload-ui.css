@@ -1,26 +1,6 @@
-/*
-.file_upload,
-.file_upload_large,
-.file_upload_small {
-	margin:10px auto;
-	position: relative;
-	overflow: hidden;
-	direction: ltr;
-	cursor: pointer;
-	text-align: center;
-	width: 80px;
-	line-height: 80px;
-	height: 80px;
-	background: rgba(10,10,10,0.2);
-	background: rgba(0,132,236,0.4);
-	border: 2px dashed #ddd;
-	border-radius:  10px;
-	box-shadow: inset 0 0px 10px #333;
-}
-*/
-.file_upload,
-.file_upload_large,
-.file_upload_small {
+.infos > .file_upload,
+.infos > .file_upload_large,
+.infos > .file_upload_small {
 	position:		relative;
 	overflow:		hidden;
 	cursor:			pointer;
@@ -39,12 +19,12 @@
 
 }
 
-.file_upload_highlight{
+.infos > .file_upload_highlight{
 	background:		#333;
 }
 
 
-.file_upload input {
+.infos > .file_upload input {
 	position:		absolute;
 	top:			0;
 	right: 			0;

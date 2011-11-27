@@ -96,8 +96,8 @@
 
  			$path = $path."/".$_POST['newdir'];
  			if(!file_exists($path)){
- 				mkdir($path,0750,true);
- 				mkdir(File::r2a(File::a2r($path),Settings::$thumbs_dir),0750,true);
+ 				@mkdir($path,0750,true);
+ 				@mkdir(File::r2a(File::a2r($path),Settings::$thumbs_dir),0750,true);
  			}
 
  			/// Setup rights

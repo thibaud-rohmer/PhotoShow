@@ -83,6 +83,7 @@ class AdminJS extends Page
 		echo "</div>";
 		echo "<div class='infos'>";
 		echo "</div>";
+		echo "<div class='bin'><img src='inc/bin.png'></div>";
 
 	}
 }

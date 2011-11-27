@@ -122,7 +122,7 @@ class Menu implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function list_dirs($dir,$rec=false){
+	public static function list_dirs($dir,$rec=false, $hidden=false){
 		
 		/// Directories list
 		$list=array();
@@ -138,7 +138,7 @@ class Menu implements HTMLObject
 		foreach ($dir_content as $content){
 			
 			/// Content isn't hidden and is a directory
-			if(	($content[0] != '.') && is_dir($path=$dir."/".$content)){
+			if(	($content[0] != '.' || $hidden) && is_dir($path=$dir."/".$content)){
 				
 				/// Add content to list
 				$list[]=$path;
@@ -162,7 +162,7 @@ class Menu implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function list_files($dir,$rec = false){
+	public static function list_files($dir,$rec = false, $hidden = false){
 		/// Directories list
 		$list=array();
 		
@@ -177,7 +177,7 @@ class Menu implements HTMLObject
 		foreach ($dir_content as $content){
 			
 			/// Content isn't hidden and is a file
-			if($content[0] != '.'){
+			if($content[0] != '.' || $hidden){
 				if(is_file($path=$dir."/".$content)){
 
 					/// Add content to list

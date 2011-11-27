@@ -76,13 +76,28 @@ class JS
 
 
 	private function infodirtoHTML($dir){
+		$w 	= File::a2r($dir);
 		/// Folder name
-		echo	"<form><fieldset><input id='foldername' type='text' value='".htmlentities(basename($dir))."'><input type='submit'></form></fieldset></span>";
+		if(strlen($w)>1){
+		echo	"<form class='rename'>
+				<fieldset class='".addslashes(htmlentities(File::a2r(dirname($dir))))."'>
+					<input id='foldername' class='".addslashes(htmlentities($w))."' type='text' value='".addslashes(htmlentities(basename($w)))."'>
+					<input type='submit' value='Rename'>
+				</fieldset>
+				</form>";
+		}
+		echo	"<form class='create'>
+				<fieldset>
+					<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
+					<input id='foldername' name='newdir' type='text' value='New Folder'>
+					<input type='submit' value='Create'>
+				</fieldset>
+				</form>";
 
 		/// Upload Images form
-		echo "<form class='dropzone' id='".htmlentities(File::a2r($dir))."/' 
+		echo "<form class='dropzone' id='".addslashes(htmlentities($w))."/' 
 			action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
-			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
+			<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
 			<div>Upload Images Here</div>

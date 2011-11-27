@@ -146,7 +146,7 @@ class Comments implements HTMLObject
 		}
 
 		if(!file_exists(dirname($this->commentsfile))){
-			mkdir(dirname($this->commentsfile),0750,true);
+			@mkdir(dirname($this->commentsfile),0750,true);
 		}
 		/// Write xml
 		$xml->asXML($this->commentsfile);

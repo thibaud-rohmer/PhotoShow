@@ -172,7 +172,7 @@ class Judge
 			$xml_groups->addChild("group",$group);
 		
 		if(!file_exists(dirname($this->path))){
-			mkdir(dirname($this->path),0750,true);
+			@mkdir(dirname($this->path),0750,true);
 		}
 		/// Save xml
 		$xml->asXML($this->path);

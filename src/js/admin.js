@@ -30,7 +30,22 @@
 
 
 function init_forms(){
-	$(".infos form").submit(function(){
+	$(".rename").submit(function(){
+		pathFrom = $(this).children("fieldset").children("input").attr("class");
+		pathTo 	 = $(this).children("fieldset").attr("class") + "/" + $(this).children("fieldset").children("input").val();
+		$(".panel").load("?t=Adm&a=Mov&j=1",{"pathFrom": pathFrom,"pathTo":pathTo,"move":"rename"});
+
+		return false;
+	});
+
+	$(".create").submit(function(){
+		newdir = $(this).children("fieldset").children("#foldername").val();
+		path = $(this).children("fieldset").children("input[type='hidden']").val();
+		$(".panel").load("?t=Adm&a=Upl&j=1",{ "path":path, "newdir": newdir});
+		return false;
+	});
+
+	$(".adminrights form").submit(function(){
 		$.post($(this).attr('action') + "&j=1",$(this).serialize(),function(data){
 			$('.adminrights').html(data,init_forms());
 		});
@@ -43,7 +58,10 @@ $("document").ready(function(){
 
 	$(".dir .title").draggable({
 		cursor: 		"move",
-		containment:	".panel > .dir",
+		zIndex: 		1000,
+		helper: 		'clone',
+		appendTo: 		'body',
+		scroll: 		false,
 		revert: 		true
 	});
 
@@ -57,6 +75,7 @@ $("document").ready(function(){
 							from  = dragg.children("span").attr("class");
 
 							to 	  = $(this).children("span").attr("class");
+
 							$(".panel").load(".?t=Adm&a=Mov&j=1",{'pathFrom' : from,'pathTo' : to, 'move':'directory'});
 
 						}else{
@@ -65,6 +84,22 @@ $("document").ready(function(){
 					}
 	});
 
+	$(".bin").droppable({
+		hoverClass: "hovered",
+		drop: 		function(event, ui){
+						var dragg = ui.draggable;
+						if(window.confirm("Do you want to delete " + dragg.children("span").text() + " ?")){
+
+							dragg.draggable('option','revert',false);
+							file  = dragg.children("span").attr("class");
+
+							$(".panel").load(".?t=Adm&a=Del&j=1",{'del' : file });
+
+						}else{
+							// not paf.
+						}
+					}
+	});
 
 
 	$(".title").click(function(event){

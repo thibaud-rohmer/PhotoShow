@@ -76,7 +76,7 @@ class Provider
 					
 					/// Create directories
 					if(!file_exists(dirname($path))){
-						mkdir(dirname($path),0750,true);
+						@mkdir(dirname($path),0750,true);
 					}
 					
 					/// Create thumbnail

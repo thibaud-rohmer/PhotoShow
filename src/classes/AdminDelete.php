@@ -112,7 +112,7 @@
 		}
 
 		$dirs 	=	Menu::list_dirs($dir);
-		$files 	= 	Menu::list_files($dir);
+		$files 	= 	Menu::list_files($dir,false,true);
 
 		foreach($dirs as $d){
 			AdminDelete::rec_del($d);

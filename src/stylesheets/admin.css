@@ -31,6 +31,19 @@
 	font-size:		11pt;
 }
 
+.bin{
+	position:		absolute;
+	right:			50px;
+	bottom:			30px;
+	width:			60px;
+	height:			60px;
+	z-index:		600;
+}
+
+.bin.hovered{
+	width:			80px;
+	height:			80px;
+}
 
 .infos fieldset{
 	position:	relative;
@@ -117,7 +130,7 @@ li.open .subdirs{
 	border-left:	3px solid white;
 }
 
-.hovered {
+.title.hovered {
 	background:		#aaa;
 	color:			rgb(0,132,236);
 }
