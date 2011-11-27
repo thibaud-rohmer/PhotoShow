@@ -54,32 +54,40 @@ class AdminJS extends Page
 	private function dir2div($dir){
 		
 		$subdirs 	= Menu::list_dirs($dir);
-		$res 		= "<div class='";
+		$res 		= "<li class=' ";
 		if(sizeof($subdirs) > 0){
 			$res 	.= " has_sub";
 		}
 		$res 		.= " dir'>";
 		
-		$res 		.= "<div class='title'><form class='dropzone' id='".htmlentities(File::a2r($dir))."/' action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
+		$res 		.= "
+		<div class='title'>	<span id='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span></div>
+			<ul class='subdirs'>
+			<form class='dropzone' id='".htmlentities(File::a2r($dir))."/' 
+			action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
 			<input type='hidden' name='path' value='".htmlentities(File::a2r($dir))."'>
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
+			<div>Upload Images Here</div>
 			</form>
-			<span id='".htmlentities(File::a2r($dir))."'>".basename($dir)."</span></div><div class='subdirs'>
 			";
 
 		foreach($subdirs as $d){
 			$res .= $this->dir2div($d);
 		}
-		$res 		.= "</div></div>";
+		$res 		.= "</ul></li>";
 		return $res;
 	}
 
 	public function toHTML(){
-		echo "<div class='toolbar'><div>ToolBar</div>
-				<div class='newdir'><div class='title'><div class='dropzone'></div><span>New Folder</span></div></div>
-		</div>";
+		echo "<div class='choice'>";
+		echo "<div class='explanations'>";
+		echo " > Click on a folder to open it <br />";
+		echo " > Drag'n'drop folders to move them <br />";
+		echo " > Either drag'n'drop images on UPLOAD button, or click on it";
+		echo "</div>";
 		echo $this->dirdiv;
+		echo "</div>";
 
 		echo "<table id='files'></table>";
 	}

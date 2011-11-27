@@ -1,68 +1,77 @@
-div.panel{
-	text-align:	center;
+.choice{
+	position:		absolute;
+	left:			50px;
+	top:			0;
+	bottom:			0;
+	padding:	10px;
+	z-index:		5;
+	overflow-x:		hidden;
+	overflow-y:		auto;
+
+	background:		#454D50;
+	border-right:	1px solid #888;
+	font-size:		11pt;
 }
 
-div.dir,
-div.newdir{
-	margin:		3px;
-	padding:	3px;
-	cursor: 	default;
-	color:		white;
-	display:	inline-block;
-	vertical-align: top;
-	text-align:	center;
-	text-shadow: 0 2px 3px #333;
-}
-
-div.dir > span{
-	display:	block;
-}
-
-div.panel > .dir {
-	clear:		both;
-	margin:		0;
-}
-
-div.toolbar{
-	background:		#ccc;
-	border:			1px solid #777;
-	box-shadow:		inset 0 1px 4px #444;
-	padding:		5px;
-	text-align:		center;
+.choice > .explanations{
+	font-size:		9pt;
 	color:			white;
-	text-shadow:	0 1px 2px #333;
+	padding:		10px;
+	border-bottom:	3px solid white;	
+	border-top:		3px solid white;
+	background:		rgba(0,0,0,0.2);
+	box-shadow:		inset 0 0 10px black;
+	-moz-box-shadow:		inset 0 0 10px black;
+	margin-bottom:	5px;
+
+	
 }
 
-div.subdirs{
-	margin-top:		5px;
-	display:		none;
-	border:			1px solid white;
-	background:		rgba(20,20,20,0.2);
-	border-radius:	3px;
+.title {
+	width:200px;
+	cursor: pointer;
+	color: #ccc;
+}
+
+.title:hover{
+	color: rgb(0,136,232);
 }
 
 .dropzone{
-	cursor:			pointer;
+	
 }
 
-.dropzone.selected{
-	background-image:	url('../../inc/folder_selected.png');
+.dropzone:hover{
+	background-color: 	#333;
+	cursor:				pointer;	
+}
 
+ul.subdirs{
+	margin-left:	3px;
+	display:		none;
+	padding-left:	4px;
+}
+
+li{
+	list-style:		none;
+	padding:		3px 0px 3px 6px;
+}
+
+li.open .subdirs{
+	padding-left:	3px;
+	border-left:	3px solid white;
 }
 
 .hovered {
-	background-image:	url('../../inc/folder_open.png');
+	background:		#aaa;
+	color:			rgb(0,132,236);
 }
 
 form.js {
-	margin:auto;
-	width:	90%;
-	height:	50px;
-	text-align: center;
-	position: relative;
+	height:		50px;
+	position: 	relative;
 }
 
 form.js > input[type="text"]{
-
 	background:		white;
 }

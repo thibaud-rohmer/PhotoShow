@@ -46,7 +46,6 @@ class JS
 {
 	
 	public function __construct(){
-
 		switch(CurrentUser::$action){
 			case "Page":		if(is_file(CurrentUser::$path)){
 										$b = new ImagePanel(CurrentUser::$path);
@@ -59,10 +58,10 @@ class JS
 								}
 								break;
 
-								echo "<script> update_url('?f=".File::a2r(CurrentUser::$path)."','".basename(CurrentUser::$path)."'); </script>";
-			case "Adm":			return;
-								$page = new Admin();
-								$page->toHTML();
+			case "Adm":			$page = new Admin();
+								if( !isset($_POST['path']) || isset($_POST['newdir']) ){
+									$page->toHTML();									
+								}
 								break;
 		}
 

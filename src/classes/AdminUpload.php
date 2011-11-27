@@ -140,7 +140,7 @@
 
 				// Save the files
 		        if(move_uploaded_file($tmp_name, "$path/$name")){
-		    		$done .= "Successfully uploaded $name";
+		    	//	$done .= "Successfully uploaded $name";
 		        }
 
 		        /// Setup rights

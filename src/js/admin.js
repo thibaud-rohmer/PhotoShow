@@ -56,31 +56,20 @@ $("document").ready(function(){
                     '<\/button><\/td><\/tr>');
         },
         buildDownloadRow: function (file) {
-            return $('<tr><td>' + file.name + '<\/td><\/tr>');
+            return;
         }
     });
 
-	$(".dropzone").droppable({
+	$(".title").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
 						var dragg = ui.draggable;
-						if($(dragg).parent().hasClass("newdir")){
-							if(window.confirm("Do you want to create a new dir in "+$(this).parent().children("span").first().text() + " ?")){
 
-								dragg.draggable('option','revert',false);
-								path 	  = $(this).attr("id");
-								$(".panel").load(".?t=Adm&a=Upl&j=1",{'path' : path,'newdir' : 'New Dir'});
-
-							}else{
-								// not paf.
-							}
-							return;
-						}
-						if(window.confirm("Do you want to move " + dragg.children("span").text() + " to "+$(this).parent().children("span").first().text() + " ?")){
+						if(window.confirm("Do you want to move " + dragg.children("span").text() + " to "+$(this).children("span").text() + " ?")){
 
 							dragg.draggable('option','revert',false);
 							from  = dragg.children("span").attr("id");
-							to 	  = $(this).attr("id");
+							to 	  = $(this).children("span").attr("id");
 							$(".panel").load(".?t=Adm&a=Mov&j=1",{'pathFrom' : from,'pathTo' : to, 'move':'directory'});
 
 						}else{
@@ -90,28 +79,28 @@ $("document").ready(function(){
 	});
 
 
-	$(".dropzone input").click(function(event){
-		event.preventDefault();
-		$(this).parent().parent().parent().children(".subdirs").toggle("normal");
+
+	$(".title").click(function(event){
+		$(this).parent().toggleClass("open").children(".subdirs").toggle("normal");
 	});
 
 
 
-	$(".panel > .dir .dir span").dblclick(function(){
+	$(".FAAAAKE").dblclick(function(){
 		$(".foc").parents("span").text($(".foc").val());
 
-		oldname = $(this).text();
-		oldpath = $(this).attr("id");
-		newpath = $(this).parent().parent().parent().parent().children(".title").children("span").attr("id");
+		oldname = $(this).find("span").first().text();
+		oldpath = $(this).find("span").first().attr("id");
+		newpath = $(this).parent().parent().parent().children(".title").find("span").first().attr("id");
 
-		$(this).html("<form class='js'><input class='foc' type='text' value='" + $(this).text() + "'></input></form>");
+		$(this).html("<form class='js'><input class='foc' type='text' value='" + oldname + "'></input></form>");
 
 		$(".foc").focusout(function(){
 			$(this).parent().parent().html(oldname);	
 		});
 
 		$("form").submit(function(){
-			newname = $(this).children(".foc").val();
+			newname = $(this).find(".foc").first().val();
 			if(window.confirm("Do you want to rename " + oldname + " to "+ newname + " ?")){
 
 				from  = oldpath;

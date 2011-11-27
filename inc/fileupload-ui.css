@@ -21,17 +21,27 @@
 .file_upload,
 .file_upload_large,
 .file_upload_small {
-  margin:   auto;
   position: relative;
   overflow: hidden;
   cursor:   pointer;
-  width:    70px;
-  height:   70px;
-  background: url('../inc/folder_closed.png') no-repeat center center;
+  border:     2px dashed white;
+  border-radius:  7px;
+  margin:     5px;
+  background:   #888;
+  color:      white;
+  box-shadow:   inset 0px 0px 6px black;
+  -moz-box-shadow: inset 0px 0px 6px black;
+  text-shadow:  1px 1px 2px black;
+  width:      200px;
+  height:     50px;
+  text-align:   center;
+  line-height:  50px;
+  cursor:     pointer;
+
 }
 
 .file_upload_highlight{
-  background-image: url('../inc/folder_open.png');
+  background: #333;
 }
 
 
@@ -70,3 +80,8 @@
   cursor: pointer;
 }
 
+#files{
+  position: absolute;
+  top:      20px;
+  right:    100px;
+}

@@ -46,9 +46,9 @@
 class Index
 {
 	function __construct(){
-
 		/// Initialize variables
 		Settings::init();
+
 
 		/// Initialize CurrentUser
 		try{
