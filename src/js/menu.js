@@ -1,6 +1,5 @@
 function init_admin(){
 	// Dummy function
-	alert("plip");
 }
 
 function init_infos(){
