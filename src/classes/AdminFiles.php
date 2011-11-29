@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the class AdminJS.
+ * This file implements the class AdminFiles.
  * 
  * PHP versions 4 and 5
  *
@@ -30,9 +30,9 @@
  */
 
 /**
- * AdminJS
+ * Admin Files
  *
- * Do-everything page
+ * Display the forms for the admin.
  *
  * @category  Website
  * @package   Photoshow
@@ -41,51 +41,46 @@
  * @license   http://www.gnu.org/licenses/
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
-class AdminJS extends Page
+class AdminFiles
 {
-	private $dirdiv;
+	/// Delete form
+	private $delete;
 
-	public function __construct(){
-		
-		$this->dirdiv = $this->dir2div(Settings::$photos_dir);
+	/// Move form
+	private $move;
 
-	}
+	/// Upload form
+	private $upload;
 
-	private function dir2div($dir){
-		
-		$subdirs 	= Menu::list_dirs($dir);
-		$res 		= "<li class=' ";
-		if(sizeof($subdirs) > 0){
-			$res 	.= " has_sub";
-		}
-		$res 		.= " dir'>";
-		
-		$res 		.= "
-		<div class='title'>	<span id='".urlencode(htmlentities(File::a2r($dir)))."' class='".addslashes(htmlentities(File::a2r($dir)))."'>".basename($dir)."</span></div>
-			<ul class='subdirs'>
-			";
+	/// Awesome JS form
+	private $JS;
 
-		foreach($subdirs as $d){
-			$res .= $this->dir2div($d);
-		}
-		$res 		.= "</ul></li>";
-		return $res;
-	}
 
-	public function toHTML(){
-		echo "<div class='folders'>";
-		echo "<div class='explanations'>";
-		echo " > Click on a folder to open it <br />";
-		echo " > Drag'n'drop folders to move them <br />";
-		echo " > Either drag'n'drop images on UPLOAD button, or click on it";
-		echo "</div>";
-		echo $this->dirdiv;
-		echo "</div>";
-		echo "<div class='infos'>";
-		echo "</div>";
-		echo "<div class='bin'><img src='inc/bin.png'></div>";
+ 	/**
+ 	 * Initialise variables
+ 	 * 
+ 	 * @author Thibaud Rohmer
+ 	 */
+ 	public function __construct(){
+ 		$this->delete 	= new AdminDelete();
+ 		$this->move 	= new AdminMove();
+ 		$this->upload 	= new AdminUpload();
+ 		$this->JS 		= new JSFiles();
+ 	}
 
-	}
+
+ 	public function toHTML(){
+ 		echo "<noscript>";
+ 		echo "<div class='panel'>";
+ 		$this->upload->toHTML();
+ 		$this->move->toHTML();
+ 		$this->delete->toHTML();
+ 		echo "</div>";
+ 		echo "</noscript>";
+ 		echo "<div class='noscript_hidden'>";
+ 		$this->JS->toHTML();
+ 		echo "</div>";
+ 	}
+
+
 }
-
-?>

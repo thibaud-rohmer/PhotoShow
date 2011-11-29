@@ -133,7 +133,7 @@
  	 */
  	public function toHTML(){
  		echo 	"<h1>Delete</h1>";
- 		echo 	"<form action='#' method='post' enctype='multipart/form-data'>";
+ 		echo 	"<form action='?t=Adm&a=Del' method='post' enctype='multipart/form-data'>";
  		echo 	"<fieldset><span>Delete</span><div><select name='del'>";
 		foreach($this->files as $file){
  				if($file == $this->selected){
@@ -146,7 +146,7 @@
 
  		echo 	"</select></div></fieldset>\n";
 
- 		echo 	"<input type='submit' />";
+ 		echo 	"<fieldset><input type='submit' /></fieldset>";
  		echo 	"</form>";
 
  	}

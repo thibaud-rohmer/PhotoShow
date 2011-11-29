@@ -28,33 +28,7 @@
  * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
  */
 
-
-function init_forms(){
-	$(".rename").submit(function(){
-		pathFrom = $(this).children("fieldset").children("input").attr("class");
-		pathTo 	 = $(this).children("fieldset").attr("class") + "/" + $(this).children("fieldset").children("input").val();
-		$(".panel").load("?t=Adm&a=Mov&j=1",{"pathFrom": pathFrom,"pathTo":pathTo,"move":"rename"});
-
-		return false;
-	});
-
-	$(".create").submit(function(){
-		newdir = $(this).children("fieldset").children("#foldername").val();
-		path = $(this).children("fieldset").children("input[type='hidden']").val();
-		$(".panel").load("?t=Adm&a=Upl&j=1",{ "path":path, "newdir": newdir});
-		return false;
-	});
-
-	$(".adminrights form").submit(function(){
-		$.post($(this).attr('action') + "&j=1",$(this).serialize(),function(data){
-			$('.adminrights').html(data,init_forms());
-		});
-		
-		return false;
-	});
-}
-
-$("document").ready(function(){
+function init_admin(){
 
 	$(".dir .title").draggable({
 		cursor: 		"move",
@@ -76,12 +50,53 @@ $("document").ready(function(){
 
 							to 	  = $(this).children("span").attr("class");
 
-							$(".panel").load(".?t=Adm&a=Mov&j=1",{'pathFrom' : from,'pathTo' : to, 'move':'directory'});
+							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_admin);
 
 						}else{
 							// not paf.
 						}
 					}
+	});
+
+	$(".accountitem").draggable({
+		cursor: 		"move",
+		zIndex: 		1000,
+		opacity: 		0.5,
+		helper: 		'clone',
+		appendTo: 		'body',
+		scroll: 		false,
+		revert: 		true
+	});
+
+	$(".groupitem").droppable({
+		hoverClass: 	"hovered",
+		drop: 			function(event,ui){
+
+							var dragg = ui.draggable;
+							if($(dragg).hasClass("accountitem")){
+								dragg.draggable('option','revert',false);
+								acc = dragg.children(".name").text();
+								group = $(this).children(".name").text();
+								$(".panel").load("?t=Adm&a=AGA&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+							}
+						}
+	})
+
+	$(".rmacc").click(function(){
+		group 	= $(this).parent().parent().children(".name").text();
+		acc 	= $(this).parent().children(".accname").text();
+		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+	});
+
+	$(".rmgroup").click(function(){
+		acc		= $(this).parent().parent().children(".name").text();
+		group 	= $(this).parent().children(".groupname").text();
+		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+	});
+
+	$(".addgroup").submit(function(){
+		$(".panel").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
+		return false;
 	});
 
 	$(".bin").droppable({
@@ -91,9 +106,15 @@ $("document").ready(function(){
 						if(window.confirm("Do you want to delete " + dragg.children("span").text() + " ?")){
 
 							dragg.draggable('option','revert',false);
-							file  = dragg.children("span").attr("class");
 
-							$(".panel").load(".?t=Adm&a=Del&j=1",{'del' : file });
+							if($(dragg).hasClass("accountitem")){
+								name  = dragg.children(".name").text();
+								$(".panel").load(".?t=Adm&a=Del&j=Acc",{'acc' : name },init_admin);
+								return;
+							}
+
+							file  = dragg.children("span").attr("class");
+							$(".panel").load(".?t=Adm&a=Del&j=Pan",{'del' : file },init_admin);
 
 						}else{
 							// not paf.
@@ -107,38 +128,73 @@ $("document").ready(function(){
 		$(this).parent().toggleClass("open").children(".subdirs").toggle("normal");
 		val = $(this).children("span").attr("id");
 		
-		$(".infos").load("?t=Inf&j=1&f="+val,function(){
-
-			$(".thmb").draggable({
-				cursor: 		"move",
-				cursorAt: 		{left: 30, top: 30},
-				opacity: 		0.6,
-				zIndex: 		1000,
-				helper: 		'clone',
-				appendTo: 		'body',
-				scroll: 		false,
-				revert: 		true
-			});
-
-			$('.dropzone').fileUploadUI({
-				uploadTable: $('#files'),
-				downloadTable: $('#files'),
-				buildUploadRow: function (files, index) {
-					return $('<tr><td>' + files[index].name + '<\/td>' +
-							'<td class="file_upload_progress"><div><\/div><\/td>' +
-							'<td class="file_upload_cancel">' +
-							'<button class="ui-state-default ui-corner-all" title="Cancel">' +
-							'<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
-							'<\/button><\/td><\/tr>');
-				},
-				buildDownloadRow: function (file) {
-				return;
-				}
-			});
-
-			init_forms();
-		});
+		$(".infos").load("?t=Inf&j=Inf&f="+val,init_infos);
+		
 	});
 
+	init_infos();
+
+}
+
+function init_infos(){
+	$(".thmb").draggable({
+		cursor: 		"move",
+		cursorAt: 		{left: 30, top: 30},
+		opacity: 		0.6,
+		zIndex: 		1000,
+		helper: 		'clone',
+		appendTo: 		'body',
+		scroll: 		false,
+		revert: 		true
+	});
+
+	$('.dropzone').fileUploadUI({
+		uploadTable: $('#files'),
+		downloadTable: $('#files'),
+		buildUploadRow: function (files, index) {
+			return $('<tr><td>' + files[index].name + '<\/td>' +
+					'<td class="file_upload_progress"><div><\/div><\/td>' +
+					'<td class="file_upload_cancel">' +
+					'<button class="ui-state-default ui-corner-all" title="Cancel">' +
+					'<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+					'<\/button><\/td><\/tr>');
+		},
+		buildDownloadRow: function (file) {
+		return;
+		}
+	});
+	
+	init_forms();
+}
+
+function init_forms(){
+	$(".rename").submit(function(){
+		pathFrom = $(this).children("fieldset").children("input").attr("class");
+		pathTo 	 = $(this).children("fieldset").attr("class") + "/" + $(this).children("fieldset").children("input").val();
+		$(".panel").load("?t=Adm&a=Mov&j=Pan",{"pathFrom": pathFrom,"pathTo":pathTo,"move":"rename"},init_admin);
+		return 	false;
+	});
+
+	$(".create").submit(function(){
+		newdir = $(this).children("fieldset").children("#foldername").val();
+		path = $(this).children("fieldset").children("input[type='hidden']").val();
+		$(".panel").load("?t=Adm&a=Upl&j=Pan",{ "path":path, "newdir": newdir},init_admin);
+
+		return false;
+	});
+
+	$(".adminrights form").submit(function(){
+		$.post($(this).attr('action') + "&j=Jud",$(this).serialize(),function(data){
+			$('.adminrights').html(data);
+			init_forms();
+		});
+		
+		return false;
+	});
+}
+
+$("document").ready(function(){
+
+	init_admin();
 
 });

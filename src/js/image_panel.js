@@ -42,8 +42,9 @@ function init_image_panel(){
 
 		// Edit layout
 		$(".image_panel,.linear_panel").slideUp(function(){
-			$(".linear_panel").addClass("panel").removeClass("linear_panel").fadeIn();			
-			init_panel();
+			$(".linear_panel").addClass("panel").removeClass("linear_panel").fadeIn("normal",function(){
+				init_panel();
+			});
 		});
 
 		return false;
@@ -53,13 +54,17 @@ function init_image_panel(){
 	$(".linear_panel .item a").click(function(){
 		$(".linear_panel .selected").removeClass("selected");
 		$(this).parent().addClass("selected");
-		$(".image_panel").load($(this).attr("href")+"&j=1");
+		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+			init_image_panel();			
+		});
 		return false;
 	});
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
-		$(".image_panel").load($(this).attr("href")+"&j=1");
+		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+						init_image_panel();
+		});
 
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.next();
@@ -80,7 +85,9 @@ function init_image_panel(){
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
-		$(".image_panel").load($(this).attr("href")+"&j=1");
+		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+			init_image_panel();	
+		});
 
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.prev();

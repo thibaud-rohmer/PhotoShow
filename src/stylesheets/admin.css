@@ -125,9 +125,14 @@ li{
 	padding:		3px 0px 3px 6px;
 }
 
-li.open .subdirs{
+li.open > .subdirs,
+li.selected > .subdirs{
 	padding-left:	3px;
 	border-left:	3px solid white;
+}
+
+li.selected > .subdirs{
+	display:		block;
 }
 
 .title.hovered {
@@ -142,4 +147,62 @@ form.js {
 
 form.js > input[type="text"]{
 	background:		white;
+}
+
+div.accountitem,
+div.groupitem {
+	width:		200px;
+	min-height:	40px;
+	padding:	10px;
+	border:		1px solid #aaa;
+	overflow:	hidden;
+	float:		left;
+	margin:		10px;
+	background: 	#bbb;
+	border-radius:	3px;
+	box-shadow:	0 1px 2px #333;
+
+	-webkit-transition:	background ease-in-out .3s;
+	transition:			background ease-in-out .3s;
+}
+
+div.accountitem:hover,
+div.groupitem:hover,
+div.groupitem.hovered {
+	background:	#666;
+}
+
+div.accountitem > div.name,
+div.groupitem > div.name{
+	clear:		both;
+	font-size:	14pt;
+	text-shadow:1px 1px 3px #333;
+}
+
+div.inlinedel{
+	float:		left;
+	min-width:	30px;
+	color:		rgb(0,136,232);
+	margin:		3px;
+	padding:	2px 7px 3px 0px;
+	border-radius:	15px;
+	border:		1px solid rgb(0,136,232);
+	background: white;
+	box-shadow:	0px 1px 5px #333;
+	cursor:		default;
+}
+
+div.accountitem .rmgroup,
+div.groupitem .rmacc{
+	padding:	0 6px 2px 6px;
+	margin:		3px;
+	border-radius: 20px;
+	background: rgb(0,136,232);
+	color:		white;
+}
+
+div.accountitem .rmgroup:hover,
+div.groupitem .rmacc:hover{
+	background:	#333;
+	color:		white;
 }

@@ -11,7 +11,7 @@ $("document").ready(function(){
 		$(this).parents(".menu_item").addClass("selected");			
 
 		// Load page
-		$(".panel").load($(this).attr("href")+"&j=1");
+		$(".panel").load($(this).attr("href")+"&j=Pag",init_panel);
 
 		return false;
 	});

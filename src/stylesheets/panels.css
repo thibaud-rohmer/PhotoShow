@@ -73,7 +73,7 @@ div.linear_panel > .line > .item {
 
 /* Lines */
 
-.line > .item {
+.item {
 	float:			left;
 	height:			128px;
 	margin-right:	3px;

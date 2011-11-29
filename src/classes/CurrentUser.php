@@ -80,9 +80,6 @@ class CurrentUser
 		
 		CurrentUser::$groups_file	=	Settings::$conf_dir."/groups.xml";
 		
-		if(isset($_GET['j']) && $_GET['j'] == 1){
-			CurrentUser::$js 		=	true;
-		}
 
 		/// Set path
 		if(isset($_GET['f'])){			
@@ -110,77 +107,79 @@ class CurrentUser
 		}
 
 		/// Set action (needed for page layout)
-		if(isset($_GET['t'])){
+		switch($_GET['t']){
 			
-			switch($_GET['t']){
-				
-				case "Page"	:
-				case "Img"	:
-				case "Thb"	:
-				case "Zip"	:	CurrentUser::$action=$_GET['t'];
+			case "Page"	:
+			case "Img"	:
+			case "Thb"	:
+			case "Zip"	:	CurrentUser::$action=$_GET['t'];
+							break;
+			
+			case "Reg"	:	if(isset($_POST['login']) && isset($_POST['password'])){
+								if(!Account::create($_POST['login'],$_POST['password'])){
+									echo "Account already exists.";
+								}
+							}
+
+			case "Log"	:	if(isset($_SESSION['login'])){
+								CurrentUser::logout();
+								echo "logged out";
 								break;
-				
-				case "Reg"	:	if(isset($_POST['login']) && isset($_POST['password'])){
-									if(!Account::create($_POST['login'],$_POST['password'])){
-										echo "Account already exists.";
+							}
+
+							if(isset($_POST['login']) && isset($_POST['password'])){
+								try{
+									if(!CurrentUser::login($_POST['login'],$_POST['password'])){
+										echo "Wrong password";
 									}
+								}catch(Exception $e){
+									echo "Account not found";
 								}
+							}
+							
+							if(!isset(CurrentUser::$account)){
+								CurrentUser::$action = $_GET['t'];
+							}
+					
+							break;
 
-				case "Log"	:	if(isset($_SESSION['login'])){
-									CurrentUser::logout();
-									echo "logged out";
-									break;
-								}
+			case "Acc"	:	if(isset($_POST['old_password'])){
+								Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+							}
+							CurrentUser::$action = "Acc";
+							break;
 
-								if(isset($_POST['login']) && isset($_POST['password'])){
-									try{
-										if(!CurrentUser::login($_POST['login'],$_POST['password'])){
-											echo "Wrong password";
-										}
-									}catch(Exception $e){
-										echo "Account not found";
-									}
-								}
-								
-								if(!isset(CurrentUser::$account)){
-									CurrentUser::$action = $_GET['t'];
-								}
-						
-								break;
+			case "Adm"	:	if(CurrentUser::$admin){
+								CurrentUser::$action = "Adm";
+							}
+							break;
 
-				case "Acc"	:	if(isset($_POST['old_password'])){
-									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
-								}
-								CurrentUser::$action = "Acc";
-								break;
+			case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
+							break;
 
-				case "Adm"	:	if(CurrentUser::$admin){
-									CurrentUser::$action = "Adm";
-								}
-								break;
+			case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups'],true);
+							CurrentUser::$action = "Judge";
+							break;
+			
+			case "Pub"	:	Judge::edit(CurrentUser::$path);
+							CurrentUser::$action = "Judge";
+							break;
 
-				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
-								break;
+			case "Pri"	:	Judge::edit(CurrentUser::$path,array(),array(),true);
+							CurrentUser::$action = "Judge";
+							break;
 
-				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups']);
-								CurrentUser::$action = "Judge";
-								break;
-				
-				case "Pub"	:	Judge::edit(CurrentUser::$path);
-								CurrentUser::$action = "Judge";
-								break;
+			case "Inf" 	:	CurrentUser::$action = "Inf";
+							break;
 
-				case "Pri"	:	Judge::edit(CurrentUser::$path,array(),array(),true);
-								CurrentUser::$action = "Judge";
-								break;
+			default		:	CurrentUser::$action = "Page";
+							break;
+		}	
 
-				case "Inf" 	:	CurrentUser::$action = "Inf";
-								break;
-
-				default		:	break;
-
-			}	
+		if(isset($_GET['j'])){
+			CurrentUser::$action =	"JS";
 		}
+
 
 		/// Set default action
 		if(!isset(CurrentUser::$action)){

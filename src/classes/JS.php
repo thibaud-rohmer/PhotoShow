@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the class CurrentUser.
+ * This file implements the class JS.
  * 
  * PHP versions 4 and 5
  *
@@ -30,10 +30,9 @@
  */
 
 /**
- * CurrentUser
+ * JS
  *
- * Stores the information of the currently logged user.
- * Implements login and logout function.
+ * JS Support.
  *
  * @category  Website
  * @package   Photoshow
@@ -44,75 +43,46 @@
  */
 class JS
 {
-	
+	private $toPrint;
+
+	private $j;
+
 	public function __construct(){
-		switch(CurrentUser::$action){
-			case "Page":		if(is_file(CurrentUser::$path)){
-										$b = new ImagePanel(CurrentUser::$path);
-									//$this->script_load("image_panel");
-									$b->toHTML();
-								}else{
-									$b = new Board(CurrentUser::$path);
-									//$this->script_load("panel");
-									$b->toHTML();
-								}
-								break;
 
-			case "Adm":			$page = new Admin();
-								if( !isset($_POST['path']) || isset($_POST['newdir']) ){
-									$page->toHTML();									
-								}
-								break;
+		/// Execute stuff automagically
+		new Admin();
 
-			case "Inf":			$this->infodirtoHTML(CurrentUser::$path);
-								break;
+		switch($_GET['j']){
 
-			case "Judge":		$j = new Judge(CurrentUser::$path);
-								$j->toHTML();
-								break;
+			case "Pag":		if(is_file(CurrentUser::$path)){
+								$b = new ImagePanel(CurrentUser::$path);
+								$b->toHTML();
+							}else{
+								$b = new Board(CurrentUser::$path);
+								$b->toHTML();
+							}
+							break;
+
+
+			case "Pan":		$f = new JSFiles();
+							$f->toHTML();
+							break;
+
+			case "Inf":		$j=new Judge(CurrentUser::$path);
+							echo JSFiles::infodirtoHTML(CurrentUser::$path);
+							$j->toHTML();
+							break;
+
+			case "Jud":		$j = new Judge(CurrentUser::$path);
+							$j->toHTML();
+							break;
+			
+			case "Acc": 	$f = new JSAccounts();
+							$f->toHTML();
+							break;
+
+			default:		break;
 		}
-
-	}
-
-
-	private function infodirtoHTML($dir){
-		$w 	= File::a2r($dir);
-		/// Folder name
-		if(strlen($w)>1){
-		echo	"<form class='rename'>
-				<fieldset class='".addslashes(htmlentities(File::a2r(dirname($dir))))."'>
-					<input id='foldername' class='".addslashes(htmlentities($w))."' type='text' value='".addslashes(htmlentities(basename($w)))."'>
-					<input type='submit' value='Rename'>
-				</fieldset>
-				</form>";
-		}
-		echo	"<form class='create'>
-				<fieldset>
-					<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
-					<input id='foldername' name='newdir' type='text' value='New Folder'>
-					<input type='submit' value='Create'>
-				</fieldset>
-				</form>";
-
-		/// Upload Images form
-		echo "<form class='dropzone' id='".addslashes(htmlentities($w))."/' 
-			action='?t=Adm&a=Upl&j=1' method='POST' enctype='multipart/form-data'>
-			<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
-			<input type='file' name='images[]' multiple >
-			<button>Upload</button>
-			<div>Upload Images Here</div>
-			</form>";
-
-		/// List images
-		echo 	"<table id='files'></table>";
-		echo 	"<div class='images'>";
-		foreach (Menu::list_files($dir) as $img){
-			echo "<div class='thmb'><img src='?t=Thb&f=".urlencode(File::a2r($img))."'><span class='".addslashes(htmlentities(File::a2r($img)))."'>".htmlentities(basename($img))."</span></div>";
-		}
-		echo 	"</div>";
-
-		$j = new Judge($dir);
-		$j->toHTML();
 	}
 }
 

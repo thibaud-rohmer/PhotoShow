@@ -1,5 +1,3 @@
-
-
 function init_panel(){
 
 	$(".panel .item a").unbind();
@@ -12,12 +10,14 @@ function init_panel(){
 		$(this).parent().addClass("selected");
 
 		// Load image
-		$(".image_panel").load($(this).attr("href")+"&j=1")
+		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+			init_image_panel();	
+		});
 		
 		// Edit layout
 		$(".panel").hide().addClass("linear_panel").removeClass("panel");
 		$(".image_panel,.linear_panel").slideDown("fast",function(){
-			$(".image_panel a").css("height","100%")			
+			$(".image_panel a").css("height","100%");
 		});
 		return false;
 
@@ -26,7 +26,6 @@ function init_panel(){
 
 function update_url(url,name){
 	var stateObj = { foo: "bar" };
-
 	history.pushState(stateObj, "PhotoShow - " + name, url)
 }
 

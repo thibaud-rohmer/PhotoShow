@@ -84,6 +84,9 @@ abstract class Page implements HTMLObject
 			echo "<link rel='stylesheet' href='src/stylesheets/forms.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
 
+			/// Trick to hide "only-script" parts
+	 		echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>";
+
 			echo "</head>";
 		}
 }

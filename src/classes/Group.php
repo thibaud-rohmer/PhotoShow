@@ -70,8 +70,12 @@ class Group
 		/// Load file
 		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
 
+		echo "foo";
+		echo $name;
+		echo "bar";
+
 		foreach( $xml as $group ){
-			if($group->$name == $name){
+			if( $name == (string)$group->name){
 				$this->name		=	$group->name;
 				$this->rights	=	$group->rights;
 				return;
@@ -102,7 +106,9 @@ class Group
 	 * @author Thibaud Rohmer
 	 */
 	public static function create($name,$rights=array()){
-		
+		if(!isset($name)||strlen($name)<1){
+			return;
+		}
 		/// Check that groups file exists
 		if(!file_exists(CurrentUser::$groups_file)){
 			Group::create_group_file();
@@ -136,7 +142,7 @@ class Group
 		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
 
 		foreach( $xml as $group ){
-			if( (string)$group->$name == $this->name){
+			if( (string)$group->name == $this->name){
 				unset($group->rights);
 				$xml_rights=$group->addChild('rights');
 				
@@ -170,7 +176,7 @@ class Group
 		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
 
 		foreach( $xml as $group ){
-			if( (string)$group->$name == $name)
+			if( (string)$group->name == $name)
 				return true;
 		}
 		
@@ -191,7 +197,7 @@ class Group
 		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
 
 		foreach( $xml as $group ){
-			if( (string)$group->$name == $name){
+			if( (string)$group->name == $name){
 				foreach($group->rights as $right){
 					$rights[]=$right;
 				}

@@ -97,7 +97,7 @@ class Account extends Page
 				return;
 			}
 		}
-		throw new Exception("$login not found");
+		throw new Exception("Login $login not found");
 	}
 	
 	/**
@@ -341,6 +341,7 @@ class Account extends Page
 			$new_acc['password']	= $account->password;
 			$new_acc['name']		= $account->name;
 			$new_acc['email']		= $account->email;
+			$new_acc['groups']		= array();
 			foreach($account->groups->children() as $group){
 				$new_acc['groups'][]= $group;
 			}

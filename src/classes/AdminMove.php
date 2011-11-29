@@ -134,7 +134,7 @@
  	 */
  	public function toHTML(){
  		echo 	"<h1>Move</h1>";
- 		echo 	"<form action='#' method='post' enctype='multipart/form-data'>";
+ 		echo 	"<form action='?t=Adm&a=Mov' method='post' enctype='multipart/form-data'>";
  		echo 	"<fieldset><span>From</span><div><select name='pathFrom'>";
 		foreach($this->files as $file){
  				if($file == $this->selected){
@@ -160,7 +160,7 @@
  		echo 	"<label><input type='radio' name='move' value='content'> Contents (and delete directory) </label>";
  		echo 	"</div></fieldset>\n";
 
- 		echo 	"<input type='submit' />";
+ 		echo 	"<fieldset><input type='submit' /></fieldset>";
  		echo 	"</form>";
 
  	}

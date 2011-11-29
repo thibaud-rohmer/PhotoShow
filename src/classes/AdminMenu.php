@@ -54,13 +54,10 @@
  	public function __construct(){
 
  		$this->options['Sta']	= "Statistics";
- 		$this->options['Upl']	= "Upload Files";
- 	 	$this->options['Mov']	= "Move Files";
- 	 	$this->options['Del']	= "Delete Files";
- 	 	$this->options['JS']	= "JS Files";
+ 	 	$this->options['Fil'] 	= "Files";
 
  	 	$this->options['Acc']	= "Edit Accounts";
-
+ 	 	$this->options['JSAcc']	= "Edit Accounts JS";
  	}
  
  	/**

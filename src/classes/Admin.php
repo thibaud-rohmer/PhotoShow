@@ -67,52 +67,76 @@
 	 	/// Create menu
 	 	$this->menu = new AdminMenu();
  		/// Get action
-	 	if(isset($_GET['a'])){
-	 		switch($_GET['a']){
-		 		case "Sta"	:	$this->page = new AdminStats();
-		 							break;
+ 		switch($_GET['a']){
+	 		case "Sta"		:	$this->page = new AdminStats();
+	 							break;
 
-		 		case "Upl"	:		if(isset($_POST['path'])){
-		 								AdminUpload::upload();
-		 							}
-		 							$this->page = new AdminUpload();
-		 							break;
-		 			
-		 		case "Acc"	:		if(isset($_POST['old_password'])){
-										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+	 		case "Acc"		:	if(isset($_POST['old_password'])){
+									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+								}
+								if(isset($_POST['login'])){
+									$this->page = new Account($_POST['login']);
+								}else{
+									$this->page = CurrentUser::$account;
+								}
+
+								break;
+
+			case "GC"		:	Group::create($_POST['group']);
+								$this->page = CurrentUser::$account;
+								break;
+			
+			case "AGA"		:	$a = new Account($_POST['acc']);
+								$a->add_group($_POST['group']);
+								$a->save();
+								$this->page = CurrentUser::$account;
+								break;
+
+			case "AGR"		:	$a = new Account($_POST['acc']);
+								$a->remove_group($_POST['group']);
+								$a->save();
+								$this->page = CurrentUser::$account;
+								break;
+
+	 		case "Upl"		:	if(isset($_POST['path'])){
+	 								AdminUpload::upload();
+	 								CurrentUser::$path = File::r2a($_POST['path']);
+	 							}
+	 							$this->page = new AdminFiles();
+	 							break;
+			
+			case "Mov"		:	if(isset($_POST['pathFrom'])){
+									try{
+	 									CurrentUser::$path = File::r2a(dirname($_POST['pathFrom']));										
+									}catch(Exception $e){
+										CurrentUser::$path = Settings::$photos_dir;
 									}
-									if(isset($_POST['login'])){
-										$this->page = new Account($_POST['login']);
-									}else{
-										$this->page = CurrentUser::$account;
-									}
+	 								AdminMove::move();
+	 							}
+								$this->page = new AdminFiles();
+								break;
 
-									break;
-				
-				case "Mov"		:	if(isset($_POST['pathFrom'])){
-		 								AdminMove::move();
-		 							}
-									$this->page = new AdminMove();
-									break;
+			case "Del"		:	if(isset($_POST['del'])){
+	 								CurrentUser::$path = dirname(File::r2a($_POST['del']));
+	 								AdminDelete::delete();
+	 							}
+	 							if(isset($_POST['acc'])){
+	 								Account::delete($_POST['acc']);
+	 							}
+								$this->page = new AdminFiles();
+								break;
 
-				case "Del"		:	if(isset($_POST['del'])){
-		 								AdminDelete::delete();
-		 							}
-									$this->page = new AdminDelete();
-									break;
+			case "Fil"		:	$this->page = new AdminFiles();
+								break;
 
-				case "JS"		:	$this->page = new AdminJS();
-									break;
+			case "JS"		:	break;
 
-		 		default 		:	$this->page = new AdminStats();
-	 		}
-	 	}else{
-	 		$this->page = new AdminStats();
-		}
+			case "JSAcc"	:	$this->page = new JSAccounts();
+								break;
+								
+	 		default 		:	$this->page = new AdminStats();
+ 		}
 
-	 	if(CurrentUser::$js == 1){
-	 		$this->page = new AdminJS();
-	 	}
 	}
 
 	 /**
@@ -122,13 +146,16 @@
 	  */
 	public function toHTML(){
 		$this->header();
-		if(!CurrentUser::$js){
-			echo "<div class='menu'>\n";
-	 		$this->menu->toHTML();
-	 		echo "</div>\n";
-		}
+		echo "<div class='menu'>\n";
+ 		$this->menu->toHTML();
+ 		echo "</div>\n";
+
 		echo "<div class='panel'>\n";
-	 	$this->page->toHTML();
+		if($_GET['a']=="JS"){
+			$this->page = new JS();
+		}else{
+		 	$this->page->toHTML();			
+		}
 	 	echo "</div>";
 	 
 	}

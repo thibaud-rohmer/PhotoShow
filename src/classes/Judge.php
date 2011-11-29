@@ -205,7 +205,7 @@ class Judge
 			$rights->users =	$users;
 		}
 		
-		$rights->public	=	( !$private && (sizeof($groups)==0 && sizeof($users)==0) ) ? 1 : 0;
+		$rights->public	=	( !$private ) ? 1 : 0;
 		
 		// Save the Judge
 		$rights->save();

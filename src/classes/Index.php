@@ -59,11 +59,6 @@ class Index
 			return;
 		}
 
-		if(CurrentUser::$js){
-			$page = new JS();
-			return;
-		}
-
 		/// Check what to do
 		switch (CurrentUser::$action){
 
@@ -78,6 +73,9 @@ class Index
 							
 			case "Reg":		$page = new RegisterPage();
 							$page->toHTML();
+							break;
+
+			case "JS":		$page = new JS();
 							break;
 
 			case "Img":		Provider::Image(CurrentUser::$path);
