@@ -30,7 +30,7 @@
 
 function init_admin(){
 
-	$(".menu_item").draggable({
+	$(".menu_title").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
 		helper: 		'clone',
@@ -39,7 +39,7 @@ function init_admin(){
 		revert: 		true
 	});
 
-	$(".item").draggable({
+	$(".panel .item").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
 		helper: 		'clone',
@@ -49,22 +49,21 @@ function init_admin(){
 	});
 
 
-	$(".menu_item").droppable({
+	$(".menu_title").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
 						var dragg = ui.draggable;
-						if(window.confirm("Do you want to move " + dragg.children("span").text() + " to "+$(this).children("span").text() + " ?")){
 
-							dragg.draggable('option','revert',false);
-							from  = dragg.children("span").attr("class");
+						dragg.draggable('option','revert',false);
+						from  = dragg.children(".path").text();
+						to 	  = $(this).children(".path").text();
 
-							to 	  = $(this).children("span").attr("class");
-
-							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_admin);
-
+						if($(dragg).hasClass("menu_title")){
+							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
 						}else{
-							// not paf.
+							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
 						}
+
 					}
 	});
 
@@ -73,22 +72,20 @@ function init_admin(){
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
 						var dragg = ui.draggable;
-						if(window.confirm("Do you want to delete " + dragg.children("span").text() + " ?")){
+						dragg.draggable('option','revert',false);
 
-							dragg.draggable('option','revert',false);
+						file  = dragg.children(".path").text();
 
-							if($(dragg).hasClass("accountitem")){
-								name  = dragg.children(".name").text();
-								$(".panel").load(".?t=Adm&a=Del&j=Acc",{'acc' : name },init_admin);
-								return;
-							}
-
-							file  = dragg.children("span").attr("class");
-							$(".panel").load(".?t=Adm&a=Del&j=Pan",{'del' : file },init_admin);
-
+						if($(dragg).hasClass("menu_title")){
+							$("#page").load("?t=Adm&a=Del&j=Pag",{'del' : file },function(){
+								init_panel();
+								init_infos();
+								init_admin();
+							});
 						}else{
-							// not paf.
+							$(".panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
 						}
+
 					}
 	});
 
@@ -133,7 +130,5 @@ function init_admin(){
 		return false;
 	});
 
-}
 
-$("document").ready(function(){
-})
+}

@@ -94,7 +94,6 @@ class AdminPanel
 	public function toHTML(){
 		echo $this->infos;
 		echo $this->j->toHTML();
-		echo "<div class='bin'><img src='inc/bin.png'></div>";
 	}
 }
 

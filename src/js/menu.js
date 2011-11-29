@@ -1,17 +1,11 @@
-function init_infos(){
-	$(".thmb").unbind();
-	$(".dropzone").unbind();
+function init_admin(){
+	// Dummy function
+	alert("plip");
+}
 
-	$(".thmb").draggable({
-		cursor: 		"move",
-		cursorAt: 		{left: 30, top: 30},
-		opacity: 		0.6,
-		zIndex: 		1000,
-		helper: 		'clone',
-		appendTo: 		'body',
-		scroll: 		false,
-		revert: 		true
-	});
+function init_infos(){
+
+	$(".dropzone").unbind();
 
 	$('.dropzone').fileUploadUI({
 		uploadTable: $('#files'),
@@ -29,9 +23,7 @@ function init_infos(){
 		},
 	});
 
-	
 	init_forms();
-	init_admin();
 
 }
 
@@ -47,10 +39,8 @@ function init_forms(){
 	});
 }
 
-
-$("document").ready(function(){
-
-	/**
+function init_menu(){
+		/**
 	 * Clicking on an item in the menu
 	 */
 	$("#menu a").click(function(){
@@ -60,15 +50,20 @@ $("document").ready(function(){
 		$(this).parents(".menu_item").addClass("selected");			
 
 		// Load page
-		$(".panel").load($(this).attr("href")+"&j=Pag",init_panel);
+		$(".panel").load($(this).attr("href")+"&j=Pan",init_panel);
 		$(".infos").load($(this).attr("href")+"&j=Inf",init_infos);
 
 		return false;
 	});
 
+	init_admin();
+
+}
+
+$("document").ready(function(){
+	init_menu();
 	init_infos();
-
-
+	init_panel();
 });
 
 

@@ -10,7 +10,7 @@ function init_panel(){
 		$(this).parent().addClass("selected");
 
 		// Load image
-		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel();	
 		});
 		
@@ -23,6 +23,7 @@ function init_panel(){
 
 	});
 
+	init_admin();
 }
 
 function update_url(url,name){

@@ -55,6 +55,9 @@ class Menu implements HTMLObject
 	
 	/// Array of Menu instances, one per directory inside $dir
 	private $items=array();
+
+	/// Relative path to file
+	private $path = "";
 	
 	/**
 	 * Create Menu
@@ -75,6 +78,7 @@ class Menu implements HTMLObject
 		/// Set variables
 		$this->title = basename($dir);
 		$this->webdir= urlencode(File::a2r($dir));
+		$this->path  = File::a2r($dir);
 
 		try{
 
@@ -106,11 +110,19 @@ class Menu implements HTMLObject
 	 */
 	public function toHTML(){
 		if(isset($this->webdir) && isset($this->title)){
-			echo "<div class='menu_item $this->class'>\n";
-			echo "<div class='menu_title'><a href='?f=$this->webdir'>$this->title</a></div>\n";
+			echo 	"<div class='menu_item $this->class'>\n";
+			
+			echo 	"<div class='menu_title'>\n";
+
+			echo 	"<span class='name hidden'>".htmlentities($this->title)."</span>";
+			echo 	"<span class='path hidden'>".htmlentities($this->path)."</span>";
+			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title)."</a>";
+			echo 	"</div>\n";
+
 			foreach($this->items as $item)
 				$item->toHTML();
-			echo "</div>\n";
+
+			echo 	"</div>\n";
 		}	
 	}
 	

@@ -71,7 +71,12 @@ class Board implements HTMLObject
 	 * @param string $path 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($path){
+	public function __construct($path=NULL){
+		
+		if(!isset($path)){
+			$path = CurrentUser::$path;
+		}
+
 		$this->analyzed=array();
 		$this->path=$path;
 

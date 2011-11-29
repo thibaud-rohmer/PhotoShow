@@ -54,7 +54,7 @@ function init_image_panel(){
 	$(".linear_panel .item a").click(function(){
 		$(".linear_panel .selected").removeClass("selected");
 		$(this).parent().addClass("selected");
-		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel();			
 		});
 		return false;
@@ -62,7 +62,7 @@ function init_image_panel(){
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
-		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 						init_image_panel();
 		});
 
@@ -85,7 +85,7 @@ function init_image_panel(){
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
-		$(".image_panel").load($(this).attr("href")+"&j=Pag",function(){
+		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel();	
 		});
 

@@ -54,13 +54,43 @@ class JS
 
 		switch($_GET['j']){
 
-			case "Pag":		if(is_file(CurrentUser::$path)){
+			case "Pag":		$m = new Menu();
+							$p = new Board();
+							$ap = new AdminPanel();
+
+							echo "<div id='menu' class='menu'>\n";
+							
+							$m->toHTML();
+
+							if(CurrentUser::$admin){
+								echo "<div class='bin'><img src='inc/bin.png'></div>";
+							}
+							echo "</div>\n";
+							echo "<div class='panel'>\n";
+							$p->toHTML();
+							echo "</div>\n";
+
+							echo "<div class='image_panel hidden'>\n";
+							echo "</div>\n";
+
+							if(CurrentUser::$admin){
+								echo "<div class='infos'>\n";
+								$ap->toHTML();
+								echo "</div>\n";
+							}
+							break;
+
+			case "Pan":		if(is_file(CurrentUser::$path)){
 								$b = new ImagePanel(CurrentUser::$path);
 								$b->toHTML();
 							}else{
 								$b = new Board(CurrentUser::$path);
 								$b->toHTML();
 							}
+							break;
+
+			case "Men":		$m = new Menu();
+							$m->toHTML();
 							break;
 
 

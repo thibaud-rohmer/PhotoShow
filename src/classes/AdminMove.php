@@ -105,12 +105,12 @@
  		}
 
  		if($type == "rename"){
- 			rename($from,$to);
+ 			@rename($from,$to);
  			return;
  		}
 
  		if(is_file($from) || $type=="directory"){
- 			rename($from,$to."/".basename($from));
+ 			@rename($from,$to."/".basename($from));
  			return;
  		}
 
@@ -120,7 +120,7 @@
  		$files = scandir($from);
  		foreach($files as $file){
  			if($file != "." && $file!=".."){
-	 			rename($from."/".$file,$to."/".$file);
+	 			@rename($from."/".$file,$to."/".$file);
 	 		}
  		}
 
