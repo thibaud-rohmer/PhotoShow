@@ -20,9 +20,9 @@
 	right:			0px;
 	top:			0;
 	bottom:			0;
-	left:			53%;
+	width:			250px;
 	padding:		10px;
-	z-index:		50;
+	z-index:		2;
 	overflow: 		auto;
 
 	border-right:	1px solid #888;
@@ -205,4 +205,8 @@ div.accountitem .rmgroup:hover,
 div.groupitem .rmacc:hover{
 	background:	#333;
 	color:		white;
+}
+
+#page > .panel {
+	right:		250px;
 }

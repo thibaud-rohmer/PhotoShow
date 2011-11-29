@@ -65,12 +65,10 @@ class MainPage extends Page
 
 	/// Imagepanel object
 	private $menu;
-	
-	/// Judge	
-	private $judge;
 
+	/// Admin Panel
+	private $admin_panel;
 
-		
 	/**
 	 * Creates the page
 	 *
@@ -106,9 +104,8 @@ class MainPage extends Page
 		/// Menu
 		$this->menu			=	new Menu();
 
-		/// Judge
-		if(CurrentUser::$admin){
-			$this->judge	=	new Judge(CurrentUser::$path);
+		if(CurrentUSer::$admin){
+			$this->admin_panel = new AdminPanel();
 		}
 		
 	}
@@ -133,9 +130,6 @@ class MainPage extends Page
 		echo "<div id='menu' class='menu'>\n";
 
 		$this->menu->toHTML();
-		if(CurrentUser::$admin){
-			$this->judge->toHTML();
-		}
 
 		echo "</div>\n";
 		/// Stop menu
@@ -152,7 +146,13 @@ class MainPage extends Page
 		echo "</div>\n";
 		/// Stop ImagePanel
 		
+		if(CurrentUser::$admin){
+			echo "<div class='infos'>\n";
+			$this->admin_panel->toHTML();
+			echo "</div>\n";
+		}
 		echo "</div>\n";
+		
 		echo "</div>\n";
 		
 		echo "</body>";

@@ -22,6 +22,7 @@ function init_panel(){
 		return false;
 
 	});
+
 }
 
 function update_url(url,name){

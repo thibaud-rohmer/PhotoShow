@@ -132,69 +132,11 @@ function init_admin(){
 		
 	});
 
-	init_infos();
 
 }
 
-function init_infos(){
-	$(".thmb").draggable({
-		cursor: 		"move",
-		cursorAt: 		{left: 30, top: 30},
-		opacity: 		0.6,
-		zIndex: 		1000,
-		helper: 		'clone',
-		appendTo: 		'body',
-		scroll: 		false,
-		revert: 		true
-	});
-
-	$('.dropzone').fileUploadUI({
-		uploadTable: $('#files'),
-		downloadTable: $('#files'),
-		buildUploadRow: function (files, index) {
-			return $('<tr><td>' + files[index].name + '<\/td>' +
-					'<td class="file_upload_progress"><div><\/div><\/td>' +
-					'<td class="file_upload_cancel">' +
-					'<button class="ui-state-default ui-corner-all" title="Cancel">' +
-					'<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
-					'<\/button><\/td><\/tr>');
-		},
-		buildDownloadRow: function (file) {
-		return;
-		}
-	});
-	
-	init_forms();
-}
-
-function init_forms(){
-	$(".rename").submit(function(){
-		pathFrom = $(this).children("fieldset").children("input").attr("class");
-		pathTo 	 = $(this).children("fieldset").attr("class") + "/" + $(this).children("fieldset").children("input").val();
-		$(".panel").load("?t=Adm&a=Mov&j=Pan",{"pathFrom": pathFrom,"pathTo":pathTo,"move":"rename"},init_admin);
-		return 	false;
-	});
-
-	$(".create").submit(function(){
-		newdir = $(this).children("fieldset").children("#foldername").val();
-		path = $(this).children("fieldset").children("input[type='hidden']").val();
-		$(".panel").load("?t=Adm&a=Upl&j=Pan",{ "path":path, "newdir": newdir},init_admin);
-
-		return false;
-	});
-
-	$(".adminrights form").submit(function(){
-		$.post($(this).attr('action') + "&j=Jud",$(this).serialize(),function(data){
-			$('.adminrights').html(data);
-			init_forms();
-		});
-		
-		return false;
-	});
-}
 
 $("document").ready(function(){
 
-	init_admin();
 
 });

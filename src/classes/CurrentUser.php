@@ -174,7 +174,14 @@ class CurrentUser
 
 			default		:	CurrentUser::$action = "Page";
 							break;
-		}	
+		}
+
+
+		if(isset($_GET['a']) && CurrentUser::$action != "Adm"){
+			if(CurrentUser::$admin){
+				new Admin();
+			}
+		}
 
 		if(isset($_GET['j'])){
 			CurrentUser::$action =	"JS";

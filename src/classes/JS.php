@@ -64,13 +64,12 @@ class JS
 							break;
 
 
-			case "Pan":		$f = new JSFiles();
+			case "Pan":		$f = new AdminPanel();
 							$f->toHTML();
 							break;
 
-			case "Inf":		$j=new Judge(CurrentUser::$path);
-							echo JSFiles::infodirtoHTML(CurrentUser::$path);
-							$j->toHTML();
+			case "Inf":		$f = new AdminPanel();
+							$f->toHTML();
 							break;
 
 			case "Jud":		$j = new Judge(CurrentUser::$path);

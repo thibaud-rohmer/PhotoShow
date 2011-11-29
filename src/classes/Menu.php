@@ -92,7 +92,6 @@ class Menu implements HTMLObject
 			
 		}
 
-
 		/// Create Menu for each directory
 		foreach($this->list_dirs($dir) as $d){
 			$this->items[]	=	new Menu($d,$level+1);

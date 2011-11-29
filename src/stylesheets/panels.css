@@ -9,6 +9,7 @@ body > .panel,
 	top:		0;
 	bottom:		0;
 	padding:	25px 50px 50px 50px;
+	min-width:	300px;
 	overflow-x:	hidden;
 	overflow-y:	auto;
 }

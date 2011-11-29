@@ -87,6 +87,8 @@ class Board implements HTMLObject
 		
 		// Generate the grid
 		$this->grid();
+
+
 	}
 	
 	/**
@@ -102,6 +104,7 @@ class Board implements HTMLObject
 		// Output grid
 		foreach($this->boardlines as $boardline)
 			$boardline->toHTML();
+
 	}
 	
 	/**
