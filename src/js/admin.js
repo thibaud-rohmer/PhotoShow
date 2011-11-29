@@ -30,7 +30,7 @@
 
 function init_admin(){
 
-	$(".dir .title").draggable({
+	$(".menu_item").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
 		helper: 		'clone',
@@ -39,7 +39,17 @@ function init_admin(){
 		revert: 		true
 	});
 
-	$(".title").droppable({
+	$(".item").draggable({
+		cursor: 		"move",
+		zIndex: 		1000,
+		helper: 		'clone',
+		appendTo: 		'body',
+		scroll: 		false,
+		revert: 		true
+	});
+
+
+	$(".menu_item").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
 						var dragg = ui.draggable;
@@ -51,6 +61,30 @@ function init_admin(){
 							to 	  = $(this).children("span").attr("class");
 
 							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_admin);
+
+						}else{
+							// not paf.
+						}
+					}
+	});
+
+
+	$(".bin").droppable({
+		hoverClass: "hovered",
+		drop: 		function(event, ui){
+						var dragg = ui.draggable;
+						if(window.confirm("Do you want to delete " + dragg.children("span").text() + " ?")){
+
+							dragg.draggable('option','revert',false);
+
+							if($(dragg).hasClass("accountitem")){
+								name  = dragg.children(".name").text();
+								$(".panel").load(".?t=Adm&a=Del&j=Acc",{'acc' : name },init_admin);
+								return;
+							}
+
+							file  = dragg.children("span").attr("class");
+							$(".panel").load(".?t=Adm&a=Del&j=Pan",{'del' : file },init_admin);
 
 						}else{
 							// not paf.
@@ -99,44 +133,7 @@ function init_admin(){
 		return false;
 	});
 
-	$(".bin").droppable({
-		hoverClass: "hovered",
-		drop: 		function(event, ui){
-						var dragg = ui.draggable;
-						if(window.confirm("Do you want to delete " + dragg.children("span").text() + " ?")){
-
-							dragg.draggable('option','revert',false);
-
-							if($(dragg).hasClass("accountitem")){
-								name  = dragg.children(".name").text();
-								$(".panel").load(".?t=Adm&a=Del&j=Acc",{'acc' : name },init_admin);
-								return;
-							}
-
-							file  = dragg.children("span").attr("class");
-							$(".panel").load(".?t=Adm&a=Del&j=Pan",{'del' : file },init_admin);
-
-						}else{
-							// not paf.
-						}
-					}
-	});
-
-
-	$(".title").click(function(event){
-
-		$(this).parent().toggleClass("open").children(".subdirs").toggle("normal");
-		val = $(this).children("span").attr("id");
-		
-		$(".infos").load("?t=Inf&j=Inf&f="+val,init_infos);
-		
-	});
-
-
 }
 
-
 $("document").ready(function(){
-
-
-});
+})

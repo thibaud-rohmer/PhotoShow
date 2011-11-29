@@ -31,6 +31,8 @@ function init_infos(){
 
 	
 	init_forms();
+	init_admin();
+
 }
 
 function init_forms(){

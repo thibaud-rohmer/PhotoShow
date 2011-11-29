@@ -59,6 +59,17 @@ abstract class Page implements HTMLObject
 			echo "<title>PhotoShow</title>\n";
 			echo "<meta name='author' content='Thibaud Rohmer'>\n";
 
+			/// CSS
+			echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
+
+			echo "<link rel='stylesheet' href='src/stylesheets/main.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/page.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/panels.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/forms.css' type='text/css' media='screen' charset='utf-8'>\n";
+
+			/// Trick to hide "only-script" parts
+	 		echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>";
+
 			/// JS
 			echo "<script src='inc/jquery.js'></script>\n";
 			echo "<script src='inc/jquery-ui.js'></script>\n";
@@ -72,20 +83,11 @@ abstract class Page implements HTMLObject
 			echo "<script src='src/js/panel.js'></script>\n";
 			echo "<script src='src/js/image_panel.js'></script>\n";
 			echo "<script src='src/js/keyboard.js'></script>\n";
-			echo "<script src='src/js/admin.js'></script>\n";
-
-
-			/// CSS
-			echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
-
-			echo "<link rel='stylesheet' href='src/stylesheets/main.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/page.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/panels.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/forms.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
-
-			/// Trick to hide "only-script" parts
-	 		echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>";
+			
+			if(CurrentUser::$admin){
+				echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
+				echo "<script src='src/js/admin.js'></script>\n";
+			}
 
 			echo "</head>";
 		}
