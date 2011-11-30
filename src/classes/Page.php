@@ -53,6 +53,7 @@ abstract class Page implements HTMLObject
 		 * @author Thibaud Rohmer
 		 */
 		public function header(){
+			echo "<html>";
 			echo "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n";
 			echo "<head>\n";
 			echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n";
