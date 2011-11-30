@@ -2,6 +2,10 @@ function init_admin(){
 	// Dummy function
 }
 
+function init_infos(){
+	// Dummy function
+}
+
 
 
 function init_menu(){
@@ -47,8 +51,10 @@ function init_menubar(){
 }
 
 function update_url(url,name){
-	var stateObj = { foo: "bar" };
-	history.pushState(stateObj, "PhotoShow - " + name, url);
+	if(typeof history.pushState == 'function') { 
+		var stateObj = { foo: "bar" };
+		history.pushState(stateObj, "PhotoShow - " + name, url);
+	}
 }
 
 $("document").ready(function(){

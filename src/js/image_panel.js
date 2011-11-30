@@ -65,49 +65,53 @@ function init_image_panel(){
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
-						init_image_panel();
+			var curr_select = $(".linear_panel .selected");
+			var new_select 	= curr_select.next();
+
+			if(! new_select.length){
+				new_select = curr_select.parent().next().children(".item").first();
+			}
+
+			if(! new_select.length){
+				new_select = $(".linear_panel .item").last();
+			}
+
+			update_url(new_select.children("a").attr("href"),"Image");
+
+			curr_select.removeClass("selected");
+			new_select.addClass("selected");
+		
+			init_image_panel();
 		});
 
-		var curr_select = $(".linear_panel .selected");
-		var new_select 	= curr_select.next();
 
-		if(! new_select.length){
-			new_select = curr_select.parent().next().children(".item").first();
-		}
-
-		if(! new_select.length){
-			new_select = $(".linear_panel .item").last();
-		}
-
-		update_url(new_select.children("a").attr("href"),"Image");
-
-		curr_select.removeClass("selected");
-		new_select.addClass("selected");
 
 		return false;
 	});
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
+		
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
+		
+			var curr_select = $(".linear_panel .selected");
+			var new_select 	= curr_select.prev();
+
+			if(! new_select.length){
+				new_select = curr_select.parent().prev().children(".item").last();
+			}
+
+			if(! new_select.length){
+				new_select = $(".linear_panel .item").first();
+			}
+
+			update_url(new_select.children("a").attr("href"),"Image");
+
+			curr_select.removeClass("selected");
+			new_select.addClass("selected");
+
 			init_image_panel();	
 		});
-
-		var curr_select = $(".linear_panel .selected");
-		var new_select 	= curr_select.prev();
-
-		if(! new_select.length){
-			new_select = curr_select.parent().prev().children(".item").last();
-		}
-
-		if(! new_select.length){
-			new_select = $(".linear_panel .item").first();
-		}
-
-		update_url(new_select.children("a").attr("href"),"Image");
-
-		curr_select.removeClass("selected");
-		new_select.addClass("selected");
 
 		return false;
 	});

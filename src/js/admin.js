@@ -94,8 +94,8 @@ function init_admin(){
 	$(".accountitem").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
-		opacity: 		0.5,
 		helper: 		'clone',
+		cursorAt: 		{left:25,top:25},
 		appendTo: 		'body',
 		scroll: 		false,
 		revert: 		true

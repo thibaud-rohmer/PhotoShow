@@ -61,7 +61,8 @@ class JSAccounts
 	public function toHTML(){
 		$groupaccounts = array();
 
-		echo "<div class='folders'>";
+		echo "<div class='leftcolumn'>";
+		echo "<h1>Accounts</h1>";
 		foreach($this->accounts as $acc){
 			echo "<div class='accountitem'>";
 			echo "<div class='name'>".$acc['login']."</div>";
@@ -73,7 +74,9 @@ class JSAccounts
 		}
 		echo "</div>";
 
-		echo "<div class='infos'>";
+		echo "<div class='rightcolumn'>";
+		echo "<h1>Groups</h1>";
+
 		echo "<div class='newgroup'>";
 		echo "
 		<form class='addgroup' type='post' action='?t=Adm&a=GC'>
