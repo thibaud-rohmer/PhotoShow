@@ -96,7 +96,6 @@ class Image implements HTMLObject
 		echo 		" background-size: contain;";
 		echo 		" -moz-background-size: contain;";
 		echo 		" height:100%;";
-
 		echo 	"';>";
 
 		echo 	"<a href='?f=$this->dir'>"; 

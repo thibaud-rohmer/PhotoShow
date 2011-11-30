@@ -54,7 +54,7 @@ function init_image_panel(){
 	$(".linear_panel .item a").click(function(){
 		$(".linear_panel .selected").removeClass("selected");
 		$(this).parent().addClass("selected");
-		update_url($(this).children("a").attr("href"),"Image");
+		update_url($(this).attr("href"),"Image");
 
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel();
@@ -121,6 +121,18 @@ function init_image_panel(){
 	});
 
 	$(".linear_panel").scrollTo($(".linear_panel .selected"));
+
+	init_comments();
+}
+
+function init_comments(){
+	$("#comments form").submit(function(){
+		$.post($(this).attr('action') + "&j=Comm",$(this).serialize(),function(data){
+			$('#comments').html(data);
+			init_comments();
+		});
+		return false;
+	});
 }
 
 $("document").ready(function(){

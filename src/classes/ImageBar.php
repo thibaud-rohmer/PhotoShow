@@ -61,7 +61,7 @@ class ImageBar
 
 		$this->buttons['prev'] = 	"?p=p&f=".$file;
 		$this->buttons['back'] = 	"?f=".File::a2r(dirname(CurrentUser::$path));
-		$this->buttons['img']  = 	"?t=Img&f=".$file;
+		$this->buttons['img']  = 	"?t=Big&f=".$file;
 		$this->buttons['next'] = 	"?p=n&f=".$file;
 
 	}

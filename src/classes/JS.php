@@ -114,6 +114,10 @@ class JS
 			case "Acc": 	$f = new JSAccounts();
 							$f->toHTML();
 							break;
+			
+			case "Comm":	$f = new Comments(CurrentUser::$path);
+							$f->toHTML();
+							break;
 
 			default:		break;
 		}

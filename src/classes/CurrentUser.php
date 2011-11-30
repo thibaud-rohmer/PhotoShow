@@ -112,6 +112,7 @@ class CurrentUser
 			case "Page"	:
 			case "Img"	:
 			case "Thb"	:
+			case "Big"	:
 			case "Zip"	:	CurrentUser::$action=$_GET['t'];
 							break;
 			
