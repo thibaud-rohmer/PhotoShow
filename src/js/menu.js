@@ -52,11 +52,17 @@ function init_menu(){
 		$(".panel").load($(this).attr("href")+"&j=Pan",init_panel);
 		$(".infos").load($(this).attr("href")+"&j=Inf",init_infos);
 
+		update_url($(this).attr("href"),$(this).text());
 		return false;
 	});
 
 	init_admin();
 
+}
+
+function update_url(url,name){
+	var stateObj = { foo: "bar" };
+	history.pushState(stateObj, "PhotoShow - " + name, url);
 }
 
 $("document").ready(function(){

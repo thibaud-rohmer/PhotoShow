@@ -39,11 +39,11 @@ function init_image_panel(){
 
 	// On clicking the bigimage
 	$("#bigimage a, #image_bar #back").click(function(){
-
 		// Edit layout
 		$(".image_panel,.linear_panel").slideUp(function(){
 			$(".linear_panel").addClass("panel").removeClass("linear_panel").fadeIn("normal",function(){
 				init_panel();
+				update_url($(".menu .selected:last a").attr("href"),$(".menu .selected:last a").text());
 			});
 		});
 
@@ -54,8 +54,10 @@ function init_image_panel(){
 	$(".linear_panel .item a").click(function(){
 		$(".linear_panel .selected").removeClass("selected");
 		$(this).parent().addClass("selected");
+		update_url($(this).children("a").attr("href"),"Image");
+
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
-			init_image_panel();			
+			init_image_panel();
 		});
 		return false;
 	});
@@ -76,6 +78,8 @@ function init_image_panel(){
 		if(! new_select.length){
 			new_select = $(".linear_panel .item").last();
 		}
+
+		update_url(new_select.children("a").attr("href"),"Image");
 
 		curr_select.removeClass("selected");
 		new_select.addClass("selected");
@@ -99,6 +103,8 @@ function init_image_panel(){
 		if(! new_select.length){
 			new_select = $(".linear_panel .item").first();
 		}
+
+		update_url(new_select.children("a").attr("href"),"Image");
 
 		curr_select.removeClass("selected");
 		new_select.addClass("selected");

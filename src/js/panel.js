@@ -11,9 +11,11 @@ function init_panel(){
 
 		// Load image
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
-			init_image_panel();	
+			init_image_panel($(this).attr("href"));	
 		});
 		
+		update_url($(this).attr("href"));
+
 		// Edit layout
 		$(".panel").hide().addClass("linear_panel").removeClass("panel");
 		$(".image_panel,.linear_panel").slideDown("fast",function(){
@@ -25,12 +27,3 @@ function init_panel(){
 
 	init_admin();
 }
-
-function update_url(url,name){
-	var stateObj = { foo: "bar" };
-	history.pushState(stateObj, "PhotoShow - " + name, url)
-}
-
-$("document").ready(function(){
-	init_panel();
-});

@@ -13,13 +13,12 @@ First, you need to copy the repository into whatever you like (here, toto)
 
 `git clone git://github.com/thibaud-rohmer/PhotoShow-v2.git toto`
 
-### Create three directories
+### Create two directories
 
-Note : you may create those directories wherever you want, and give them the names you want. It is safer to have the Photos and Thumbs directories outside of your web path (this way, access can be restricted using the authentication & authorization mechanisms provided by PhotoShow). The Feeds directory has to be in the web path, though.
+Note : you may create those directories wherever you want, and give them the names you want. It is safer to have the Photos and Thumbs directories outside of your web path (this way, access can be restricted using the authentication & authorization mechanisms provided by PhotoShow).
 
 * **Photos** : Where your photos will be stored.
-* **Thumbs** : Where the thumbnails of your photos will be stored. 
-* **Feeds** : Where the rss feeds will be generated.
+* **Generated** : Where the thumbnails of your photos will be stored. 
 
 ***Important*** : Make sure that the web server has the rights to read and write in those directories.
 

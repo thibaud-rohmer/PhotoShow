@@ -81,6 +81,10 @@ div.linear_panel > .line > .item {
 	border-bottom:	2px solid rgba(0,0,0,0);
 }
 
+body > .item {
+	width:			100px !important;
+}
+
 .line > .item.selected,
 .line > .item:hover{
 	border-color: rgb(0,136,232);	

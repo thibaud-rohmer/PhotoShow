@@ -36,13 +36,22 @@
 	right:			50px;
 	bottom:			30px;
 	width:			60px;
-	height:			60px;
+	height:			70px;
 	z-index:		600;
+	color:			white;
+	background:		#333;
+	border-radius:	5px;
+	padding:		5px;
+	text-align:		center;
+	box-shadow:		0px 2px 5px #111;
+}
+
+.bin img{
+	height:			50px;
 }
 
 .bin.hovered{
-	width:			80px;
-	height:			80px;
+	background:		#aaa;
 }
 
 .infos fieldset{
@@ -135,10 +144,10 @@ li.selected > .subdirs{
 	display:		block;
 }
 
-.title.hovered {
-	background:		#aaa;
-	color:			rgb(0,132,236);
+.menu_title.hovered {
+	background:		rgb(0,132,236);
 }
+
 
 form.js {
 	height:		50px;

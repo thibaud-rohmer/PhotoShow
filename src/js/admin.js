@@ -43,6 +43,8 @@ function init_admin(){
 		cursor: 		"move",
 		zIndex: 		1000,
 		helper: 		'clone',
+		cursorAt: 		{left:50,top:64},
+		opacity: 		0.5,
 		appendTo: 		'body',
 		scroll: 		false,
 		revert: 		true
