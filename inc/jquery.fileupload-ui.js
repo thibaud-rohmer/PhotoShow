@@ -61,7 +61,7 @@
         this.cssClassHighlight = 'file_upload_highlight';
         this.dropEffect = 'highlight';
         this.uploadTable = this.downloadTable = $();
-        
+
         this.buildUploadRow = this.buildDownloadRow = function () {
             return null;
         };
@@ -192,6 +192,7 @@
         };
         
         this.onLoad = function (event, files, index, xhr, handler) {
+            $(".panel").load($(".menu .selected:last a").attr("href") + "&j=Pan");
             handler.removeNode(handler.uploadRow, function () {
                 handler.initDownloadRow(event, files, index, xhr, handler, function () {
                     if (typeof handler.onComplete === func) {

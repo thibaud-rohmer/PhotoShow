@@ -77,7 +77,6 @@ abstract class Page implements HTMLObject
 			echo "<script src='inc/mousewheel.js'></script>\n";
 			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
 			echo "<script src='inc/jquery.fileupload.js'></script>\n";
-			echo "<script src='inc/jquery.fileupload-ui.js'></script>\n";
 
 
 			echo "<script src='src/js/menu.js'></script>\n";
@@ -87,6 +86,7 @@ abstract class Page implements HTMLObject
 			
 			if(CurrentUser::$admin){
 				echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
+				echo "<script src='inc/jquery.fileupload-ui.js'></script>\n";
 				echo "<script src='src/js/admin.js'></script>\n";
 			}
 
