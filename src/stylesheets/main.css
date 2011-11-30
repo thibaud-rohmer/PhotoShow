@@ -26,6 +26,10 @@ a:hover{
 	color:				rgb(0,132,236);
 }
 
+a.inline{
+	display:			inline;
+}
+
 .hidden {
 	display:			none;
 }

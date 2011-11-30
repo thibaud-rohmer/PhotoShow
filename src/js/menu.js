@@ -31,7 +31,12 @@ function init_menubar(){
 	$("#menubar a").unbind();
 
 	$("#menubar a.login").click(function(){
-		$(".panel").load("?j=Log");
+		$(".panel").load("?j=Log",function(){
+			$(".inline").first().click(function(){
+				$(".panel").load("?j=Reg");
+				return false;
+			});
+		});
 		return false;
 	});
 

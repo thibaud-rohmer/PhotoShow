@@ -79,7 +79,7 @@ class RegisterPage extends Page
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
 		echo "<fieldset><span>Password</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit'> or <a href='.'>go back</a>";
+		echo "<input type='submit'> or <a class='inline' href='.'>go back</a>";
 		echo "</form>\n";
 		echo "</div>\n";
 	}

@@ -122,11 +122,16 @@ class Account extends Page
 			// No accounts file found
 
 			// Create accounts file
-			$xml		=	new SimpleXMLElement('<accounts></accounts>');
+			$xml	=	new SimpleXMLElement('<accounts></accounts>');
 			$xml->asXML($xml_infos);
 			
 			// Set this account as root
 			$groups[] = "root";
+		}
+
+
+		if(!ereg("[a-zA-Z0-9]+", $login) || strlen($password) < 6){
+			return false;
 		}
 
 		$acc			=	new Account();
