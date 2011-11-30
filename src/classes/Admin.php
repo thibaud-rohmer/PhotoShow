@@ -141,7 +141,7 @@
 
 			case "JS"		:	break;
 
-			case "JSAcc"	:	$this->page = new JSAccounts();
+			case "EdA"		:	$this->page = new JSAccounts();
 								break;
 								
 	 		default 		:	$this->page = new AdminStats();

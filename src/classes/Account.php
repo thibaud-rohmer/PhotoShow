@@ -246,23 +246,23 @@ class Account extends Page
 	public static function edit($login=NULL, $old_password=NULL, $password=NULL, $name=NULL, $email=NULL, $groups=array()){
 		
 		/// Only the admin can modify other accounts
-		if( !CurrentUser::$admin && $login != CurrentUser::$account->login ){
+		if( $login != CurrentUser::$account->login ){
 			return;
 		}
 
-		if(isset($login)){
+		if(isset($login) && ereg("[a-zA-Z0-9]+", $login)){
 			$acc = new Account($login);
 		}else{
 			$acc = CurrentUser::$account;
 		}
 
 		/// Check password
-		if( !CurrentUser::$admin && Account::password($old_password) != $acc->password ){
+		if( Account::password($old_password) != $acc->password ){
 			return;
 		}
 
 		/// Edit attributes
-		if(isset($password) && sizeof($password) > 0 ){
+		if(isset($password) && sizeof($password) > 4 ){
 			$acc->password = Account::password($password);
 		}
 
@@ -399,22 +399,6 @@ class Account extends Page
 	 	echo "<div class='panel'>\n";
 	 	echo "<h1>Account</h1>\n";
 
-	 	if(CurrentUser::$admin){
-	 		echo "<form method='post' action='#' class='niceform'>\n";
-	 		echo "<fieldset><select name='login'>\n";
-			foreach(Account::findAll() as $account){
-				if($account['login'] == $this->login){
-					$selected = "selected";
-				}else{
-					$selected = "";
-				}
-
-				echo "<option value='".htmlentities($account['login'])."' $selected >".htmlentities($account['login'])."</option>\n";
-			}
-			echo "</select><input type='submit' value='Edit account' class='button blue'></fieldset>\n";
-			echo "</form>";
-		}
-
 		echo "Editing account $this->login";
 	 	echo "<form method='post' action='#'>\n";
 	 	echo "<input type='hidden' value='".htmlentities($this->login)."' name='login' />\n";
@@ -422,22 +406,7 @@ class Account extends Page
 	 	echo "<fieldset><span>Email </span><div><input type='text' value='".htmlentities($this->email)."' name='email' /></div></fieldset>\n";
 	 	echo "<fieldset><span>Password </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
 
-	 	if(CurrentUser::$admin){
-	 		echo "<fieldset><span>Groups </span><div>";
-
-			foreach(Group::findAll() as $group){
-				if(in_array($group['name'],$this->groups)){
-					$checked="checked";
-				}else{
-					$checked="";
-				}
-				echo "<label><input type='checkbox' value='".htmlentities($group['name'])."' name='groups[]' $checked > ".htmlentities($group['name'])." </label>";
-			}
-			echo "</div></fieldset>\n";
-			echo "<input type='hidden' name='old_password' value='jibberish' /> \n";
-	 	}else{
-	 		echo "<fieldset><label>Old Password : <input type='password' value='' name='old_password' /></fieldset>\n";
-	 	}
+ 		echo "<fieldset><label>Old Password : <input type='password' value='' name='old_password' /></fieldset>\n";
 
 	 	echo "<input type='submit' class='button blue'>\n";
 	 	echo "or <a href='.'>Cancel</a>";

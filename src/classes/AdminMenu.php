@@ -52,12 +52,8 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function __construct(){
-
- 		$this->options['Sta']	= "Statistics";
- 	 	$this->options['Fil'] 	= "Files";
-
- 	 	$this->options['Acc']	= "Edit Accounts";
- 	 	$this->options['JSAcc']	= "Edit Accounts JS";
+ 		$this->options['Sta']	= "View Statistics";
+ 	 	$this->options['EdA']	= "Edit Accounts";
  	}
  
  	/**
