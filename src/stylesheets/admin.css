@@ -224,6 +224,7 @@ div.rightcolumn > div.groupitem > .inlinedel
 div.leftcolumn > div.accountitem,
 div.rightcolumn > div.groupitem
 {
+	position:		relative;
 	cursor:			pointer;
 	border-radius:	50px 3px 3px 50px;
 	-moz-border-radius:	50px 3px 3px 50px;

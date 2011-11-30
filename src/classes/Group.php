@@ -109,7 +109,6 @@ class Group
 		if(!file_exists(CurrentUser::$groups_file)){
 			Group::create_group_file();
 		}
-		
 		/// Check that group doesn't already exist
 		if(self::exists($name))
 			throw new Exception("$name already exists");
@@ -127,6 +126,36 @@ class Group
 		$xml->asXML(CurrentUser::$groups_file);
 	}
 	
+	/**
+	 * Delete a group
+	 *
+	 * @param string $groupname 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	public static function delete($groupname){
+		$xml_infos 	=	CurrentUser::$groups_file;
+		$xml		=	simplexml_load_file($xml_infos);
+		
+		$i=-1;
+		$found = false;
+
+		foreach( $xml as $group ){
+			$i++;
+			if((string)$group->name == $groupname){
+				$found = true;
+				echo "plip";
+				continue;
+			}
+		}
+		
+		if($found){
+			unset($xml->group[$i]);
+		}
+
+		$xml->asXML($xml_infos);
+	}
+
 	/**
 	 * Save group into base
 	 *

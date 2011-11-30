@@ -52,6 +52,9 @@ class Comment implements HTMLObject
 	/// Content of the comment
 	public $content;
 
+	/// File
+	public $file;
+
 	/**
 	 * Create comment
 	 *
@@ -60,10 +63,11 @@ class Comment implements HTMLObject
 	 * @param string $date 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($login,$content,$date=null){
+	public function __construct($login,$content,$date,$file=null){
 		$this->login	=	$login;
 		$this->content	=	$content;
 		$this->date		=	$date;
+		$this->file 	=	$file;
 	}
 	
 	/**
@@ -75,9 +79,20 @@ class Comment implements HTMLObject
 	public function toHTML(){
 		$login		=	stripslashes(htmlentities( $this->login ));
 		$content	=	stripslashes(htmlentities( $this->content ));
+		$date		=	$this->date;
 
 		echo "<div class='comment'>\n";
-		echo "<div class='login'>$login</div>\n";
+		// Not implemented yet.
+		if(false && (CurrentUser::$admin || $login == CurrentUser::$account->login)){
+			echo "<div class='delete'>
+							<form action='?t=Adm&a=CDe' method='post'>
+								<input type='hidden' name='image' value='".htmlentities(File::a2r($this->file))."'>
+								<input type='hidden' name='date' value='$date'>
+								<input type='submit' value='x'>
+							</form>
+						</div>";
+		}
+		echo "<div class='login name'>$login</div>\n";
 		echo "<div class='content'>$content</div>\n";
 		echo "</div>\n";
 	}

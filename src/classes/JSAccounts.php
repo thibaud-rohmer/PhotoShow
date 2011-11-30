@@ -64,8 +64,14 @@ class JSAccounts
 		echo "<div class='leftcolumn'>";
 		echo "<h1>Accounts</h1>";
 		foreach($this->accounts as $acc){
-			echo "<div class='accountitem'>";
-			echo "<div class='name'>".$acc['login']."</div><div class='delete'>Delete</div>";
+			echo "<div class='accountitem'>
+						<div class='delete'>
+							<form action='?t=Adm&a=ADe' method='post'>
+								<input type='hidden' name='name' value='".$acc['login']."'>
+								<input type='submit' value='x'>
+							</form>
+						</div>";
+			echo "<div class='name'>".$acc['login']."</div>";
 			foreach($acc['groups'] as $g){
 				$groupaccounts["$g"][] = $acc['login'];
 				echo "<div class='inlinedel'><span class='rmgroup'>x</span><span class='groupname'>".$g."</span></div>";
@@ -89,9 +95,14 @@ class JSAccounts
 		echo "</div>";
 
 		foreach($this->groups as $g){
-
 			$gn = $g['name'];
-			echo "<div class='groupitem'>";
+			echo "<div class='groupitem'>
+						<div class='delete'>
+							<form action='?t=Adm&a=GDe' method='post'>
+								<input type='hidden' name='name' value='$gn'>
+								<input type='submit' value='x'>
+							</form>
+						</div>";
 			echo "<div class='name'>".$gn."</div>";
 
 			if(isset($groupaccounts["$gn"])){

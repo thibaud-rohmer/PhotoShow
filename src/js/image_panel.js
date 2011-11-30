@@ -131,6 +131,7 @@ function init_image_panel(){
 
 function init_comments(){
 	$("#comments form").submit(function(){
+		alert($(this).serialize());
 		$.post($(this).attr('action') + "&j=Comm",$(this).serialize(),function(data){
 			$('#comments').html(data);
 			init_comments();

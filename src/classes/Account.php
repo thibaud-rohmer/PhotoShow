@@ -290,15 +290,23 @@ class Account extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function delete($login){
-		CurrentUser::$accounts_file;
+		$xml_infos 	=	CurrentUser::$accounts_file;
 		$xml		=	simplexml_load_file($xml_infos);
 		
+		$i=-1;
+		$found = false;
 		foreach( $xml as $acc ){
+			$i++;
 			if((string)$acc->login == $login){
-				unset($acc);
+				$found = true;
+				continue;
 			}
 		}
 		
+		if($found){
+			unset($xml->account[$i]);
+		}
+
 		$xml->asXML($xml_infos);
 	}
 

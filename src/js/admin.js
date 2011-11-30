@@ -30,6 +30,7 @@
 
 function init_admin(){
 
+	$(".menu_title").unbind();
 	$(".menu_title").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
@@ -39,6 +40,7 @@ function init_admin(){
 		revert: 		true
 	});
 
+	$(".panel .item").unbind();
 	$(".panel .item").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
@@ -50,7 +52,7 @@ function init_admin(){
 		revert: 		true
 	});
 
-
+	$(".menu_title").unbind();
 	$(".menu_title").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
@@ -69,7 +71,7 @@ function init_admin(){
 					}
 	});
 
-
+	$(".bin").unbind();
 	$(".bin").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
@@ -91,6 +93,7 @@ function init_admin(){
 					}
 	});
 
+	$(".accountitem").unbind();
 	$(".accountitem").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
@@ -101,6 +104,7 @@ function init_admin(){
 		revert: 		true
 	});
 
+	$(".groupitem").unbind();
 	$(".groupitem").droppable({
 		hoverClass: 	"hovered",
 		drop: 			function(event,ui){
@@ -115,22 +119,28 @@ function init_admin(){
 						}
 	})
 
+	$(".rmacc").unbind();
 	$(".rmacc").click(function(){
 		group 	= $(this).parent().parent().children(".name").text();
 		acc 	= $(this).parent().children(".accname").text();
 		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 	});
 
+	$(".rmgroup").unbind();
 	$(".rmgroup").click(function(){
 		acc		= $(this).parent().parent().children(".name").text();
 		group 	= $(this).parent().children(".groupname").text();
 		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 	});
 
+	$(".addgroup").unbind();
 	$(".addgroup").submit(function(){
 		$(".panel").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
 		return false;
 	});
+
+
+	init_delete();
 }
 
 function init_infos(){
@@ -159,6 +169,13 @@ function init_infos(){
 
 function update_panel(){
 	alert("plip");
+}
+
+function init_delete(){
+	$(".delete a").click(function(){
+		alert($(this).parent().children(".name").text());
+//		$(".panel").load($(this).attr("href")+"a="+$(this).parent().children(".name").text());
+	});
 }
 
 function init_forms(){

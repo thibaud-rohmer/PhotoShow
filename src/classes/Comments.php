@@ -133,6 +133,35 @@ class Comments implements HTMLObject
 		$comments->save();
 	}
 
+
+	/**
+	 * Delete a comment
+	 *
+	 * @param string $groupname 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	public static function delete($date){
+		$c 			=	new Comments(CurrentUser::$path);
+		$xml		=	simplexml_load_file($c->commentsfile);
+		
+		$i=-1;
+		$found=false;
+		foreach( $xml as $comment ){
+			$i++;
+			if((string)$comment->date == $date){
+				$found = true;
+				continue;
+			}
+		}
+		
+		if($found){
+			unset($xml->group[$i]);
+		}
+
+		$xml->asXML($c->commentsfile);
+	}
+
 	public function save(){
 		
 		$xml = new SimpleXMLElement("<comments></comments>");
@@ -164,7 +193,7 @@ class Comments implements HTMLObject
 		$xml		=	simplexml_load_file($this->commentsfile);
 		
 		foreach( $xml as $comm ){
-			$this->comments[]=new Comment((string)$comm->login,(string)$comm->content,(string)$comm->date);
+			$this->comments[]=new Comment((string)$comm->login,(string)$comm->content,(string)$comm->date,$this->file);
 		}
 	}
 	

@@ -83,7 +83,7 @@
 								break;
 
 			case "GC"		:	Group::create($_POST['group']);
-								$this->page = CurrentUser::$account;
+								$this->page = new JSAccounts();
 								break;
 			
 			case "AGA"		:	$a = new Account($_POST['acc']);
@@ -96,6 +96,19 @@
 								$a->remove_group($_POST['group']);
 								$a->save();
 								$this->page = CurrentUser::$account;
+								break;
+
+			case "ADe"		:	Account::delete($_POST['name']);
+								$this->page = new JSAccounts();
+								break;
+
+			case "GDe"		:	Group::delete($_POST['name']);
+								$this->page = new JSAccounts();
+								break;
+
+			case "CDe"		:	CurrentUser::$path = File::r2a($_POST['image']);
+								Comments::delete($_POST['image'],$_POST['date']);
+								$this->page = new MainPage();
 								break;
 
 	 		case "Upl"		:	if(isset($_POST['path'])){
@@ -119,9 +132,6 @@
 			case "Del"		:	if(isset($_POST['del'])){
 	 								CurrentUser::$path = dirname(File::r2a($_POST['del']));
 	 								AdminDelete::delete();
-	 							}
-	 							if(isset($_POST['acc'])){
-	 								Account::delete($_POST['acc']);
 	 							}
 								$this->page = new AdminFiles();
 								break;

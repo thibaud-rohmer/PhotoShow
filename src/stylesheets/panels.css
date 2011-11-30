@@ -178,6 +178,7 @@ div.image_panel > #image_bar > span {
 /* Comments */
 
 div.comment {
+	position:		relative;
 	color:			white;
 	margin:			5px;
 }
@@ -243,4 +244,29 @@ div#comments > form > input[type="submit"] {
 
 div.adminrights {
 	text-align:		center;
+}
+
+
+div.delete > form > input[type='submit']{
+	min-width:			0px;
+	margin:				none;
+	width:				18px;
+	height:				18px;
+	font-size:			10pt;
+	position:			absolute;
+	top:				0px;
+	right:				0px;
+	padding:			0px 5px 2px 5px;
+	border:				1px solid white;
+	border-radius:		20px;
+	-moz-border-radius:	20px;
+	color:				white;
+	background:			black;
+	box-shadow:			1px 1px 4px #333;
+	-moz-box-shadow:	1px 1px 4px #333;
+	cursor:				pointer;
+}
+
+div.delete > form > input[type='submit']:hover{
+	background:			rgb(236,132,0);
 }
