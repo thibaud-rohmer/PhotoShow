@@ -65,7 +65,7 @@ class JSAccounts
 		echo "<h1>Accounts</h1>";
 		foreach($this->accounts as $acc){
 			echo "<div class='accountitem'>";
-			echo "<div class='name'>".$acc['login']."</div>";
+			echo "<div class='name'>".$acc['login']."</div><div class='delete'>Delete</div>";
 			foreach($acc['groups'] as $g){
 				$groupaccounts["$g"][] = $acc['login'];
 				echo "<div class='inlinedel'><span class='rmgroup'>x</span><span class='groupname'>".$g."</span></div>";
@@ -84,7 +84,7 @@ class JSAccounts
 			<span>Add group</span>
 			<div><input type='text' name='group' value='Group Name' /></div>
 			</fieldset>
-			<fieldset><input type='submit'></fieldset>
+			<fieldset><input type='submit' value='Create'></fieldset>
 			</form>\n";
 		echo "</div>";
 

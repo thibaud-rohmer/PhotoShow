@@ -64,6 +64,10 @@ class Judge
 	/// Urlencoded relative path
 	public $webpath;
 
+	/// Path to the file
+	public $file;
+
+
 	/**
 	 * Create a Judge for a specific file.
 	 *
@@ -75,7 +79,8 @@ class Judge
 		$this->public	=	true;
 		$this->groups	=	array();
 		$this->users	=	array();
-		
+		$this->file 	=	$f;
+
 		$this->set_path($f);
 		
 		if($read_rights)
@@ -98,11 +103,12 @@ class Judge
 		$this->webpath 	= urlencode($basepath);
 
 		if(is_file($f)){
-			$rightsfile	=	dirname($basepath)."/.rights_".$basefile->name.".xml";
+			$rightsfile	=	dirname($basepath)."/.".$basefile->name."_rights.xml";
 		}else{
 			$rightsfile	=	$basepath."/.rights.xml";
 		}
 		$this->path =	File::r2a($rightsfile,Settings::$thumbs_dir);
+
 	}
 	
 	/**
@@ -130,14 +136,15 @@ class Judge
 		
 			/// If no rights file found, check in the containing directory
 			try{
-
 				// Look up
-				$up_path		=	File::a2r(dirname($base));
+
+				$up		=	dirname($this->file);
 				$j = new Judge($up);
 				
 				$this->groups 	= $j->groups;
 				$this->users 	= $j->users;
 				$this->public 	= $j->public;
+
 
 			}catch(Exception $e){
 				

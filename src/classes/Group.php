@@ -70,10 +70,6 @@ class Group
 		/// Load file
 		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
 
-		echo "foo";
-		echo $name;
-		echo "bar";
-
 		foreach( $xml as $group ){
 			if( $name == (string)$group->name){
 				$this->name		=	$group->name;
