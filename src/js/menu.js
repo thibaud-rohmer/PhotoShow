@@ -56,8 +56,23 @@ function init_menu(){
 		return false;
 	});
 
+	init_menubar();
 	init_admin();
+}
 
+
+function init_menubar(){
+	$("#menubar a").unbind();
+
+	$("#menubar a.login").click(function(){
+		$(".panel").load("?j=Log");
+		return false;
+	});
+
+	$("#menubar a.register").click(function(){
+		$(".panel").load("?j=Reg");
+		return false;
+	});
 }
 
 function update_url(url,name){

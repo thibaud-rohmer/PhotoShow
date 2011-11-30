@@ -84,8 +84,8 @@ class MenuBar implements HTMLObject{
 		}else{
 			// User not logged in
 			echo "</div><div class='align_right'>\n";
-			echo "<a href='?t=Log'>LOGIN</a>\n";
-			echo "<a href='?t=Log'>REGISTER</a>\n";
+			echo "<a class='login' href='?t=Log'>LOGIN</a>\n";
+			echo "<a class='register' href='?t=Reg'>REGISTER</a>\n";
 		}
 		
 		//echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";

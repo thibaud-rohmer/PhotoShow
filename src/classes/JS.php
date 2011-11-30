@@ -80,6 +80,14 @@ class JS
 							}
 							break;
 
+			case "Log":		$p = new LoginPage();
+							$p->toHTML();
+							break;
+			
+			case "Reg":		$p = new RegisterPage();
+							$p->toHTML();
+							break;
+
 			case "Pan":		if(is_file(CurrentUser::$path)){
 								$b = new ImagePanel(CurrentUser::$path);
 								$b->toHTML();
