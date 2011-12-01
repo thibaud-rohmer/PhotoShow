@@ -62,7 +62,7 @@ class Settings
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function init(){
+	static public function init(){
 
 		/// Settings already created
 		if(Settings::$photos_dir !== NULL) return;

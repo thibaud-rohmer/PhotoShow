@@ -74,7 +74,7 @@ class CurrentUser
 	 *
 	 * @author Thibaud Rohmer
 	 */
-	public function init(){
+	static public function init(){
 		
 		CurrentUser::$accounts_file =	Settings::$conf_dir."/accounts.xml";
 		
