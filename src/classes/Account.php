@@ -118,8 +118,8 @@ class Account extends Page
 		
 		$xml_infos=CurrentUser::$accounts_file;
 		
-		if(!file_exists($xml_infos)){
-			// No accounts file found
+		if(!file_exists($xml_infos) || sizeof( Account::findAll() == 0 )){
+			// No account
 
 			// Create accounts file
 			$xml	=	new SimpleXMLElement('<accounts></accounts>');
