@@ -22,7 +22,7 @@ function init_menu(){
 		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
 			init_infos();
 			$(".panel").load($(this).attr("href")+"&j=Pan",init_panel);
-		}
+		});
 
 		update_url($(this).attr("href"),$(this).text());
 		return false;
