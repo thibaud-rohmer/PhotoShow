@@ -130,7 +130,7 @@ class Account extends Page
 		}
 
 
-		if( (preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) || strlen($password) < 6){
+		if( !(preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) || strlen($password) < 6){
 			return false;
 		}
 
