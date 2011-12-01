@@ -158,7 +158,6 @@ function init_infos(){
 
 function init_delete(){
 	$(".delete a").click(function(){
-		alert($(this).parent().children(".name").text());
 //		$(".panel").load($(this).attr("href")+"a="+$(this).parent().children(".name").text());
 	});
 }
