@@ -48,6 +48,9 @@
  	// Stats
  	private $stats = array();
 
+ 	// Stats
+ 	private $accounts = array();
+
  	/**
  	 * Calculate stats of the website
  	 * 
@@ -65,10 +68,15 @@
  		$this->stats['Generated items'] = sizeof(Menu::list_files(Settings::$thumbs_dir,true));
 
  		$this->stats['Albums'] = sizeof(Menu::list_dirs(Settings::$photos_dir,true));
+
+ 		$this->accounts = array_reverse(Account::findAll());
  	}
 
  	public function toHTML(){
- 		echo "<h1>Statistics</h1>";
+
+ 		echo "<div class='adminblock'>";
+ 		echo "<h3>Stats</h3>";
+ 		echo "<div>";
  		echo "<table>";
  		echo "<tbody>";
  		foreach($this->stats as $name=>$val){
@@ -76,6 +84,22 @@
  		}
  		echo "</tbody>";
  		echo "</table>";
+ 		echo "</div>";
+ 		echo "</div>";
+
+ 		echo "<div class='adminblock'>";
+ 		echo "<h3>Accounts (by age)</h3>";
+ 		echo "<div>";
+ 		echo "<table>";
+ 		echo "<tbody>";
+ 		foreach($this->accounts as $acc){
+ 			echo "<tr><td>".htmlentities($acc['login'])."</td></tr>"; 			
+ 		}
+ 		echo "</tbody>";
+ 		echo "</table>";
+ 		echo "</div>";
+ 		echo "</div>";
+
  	}
  }
 

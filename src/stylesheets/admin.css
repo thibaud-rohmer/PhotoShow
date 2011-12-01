@@ -287,3 +287,29 @@ div.groupitem .rmacc:hover{
 #page > .panel {
 	right:		271px;
 }
+
+
+div.adminblock{
+	width:				300px;
+	margin:				20px;
+	float:				left;
+	background:			#333;
+	box-shadow:			0 3px 6px black;
+	-moz-box-shadow:	0 3px 6px black;
+	color:				white;
+}
+
+div.adminblock table td
+{
+	text-align:			center;
+	cursor:				default;
+}
+
+div.adminblock table tr:hover{
+	background:			#555;
+}
+
+div.adminblock > div{
+	height:				100px;
+	overflow:			auto;
+}
