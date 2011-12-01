@@ -84,10 +84,7 @@ class File
 	 */
 	public static function Extension($file){
 		$info = pathinfo($file);
-		if(isset($info['extension'])){
-			return $info['extension'];
-		}
-		return "";
+		return $info['extension'];
 	}
 	
 	/**
