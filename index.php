@@ -32,6 +32,9 @@
 /// Start session
 session_start();
 
+/// Because we don't care about notices
+error_reporting(E_ERROR | E_WARNING);
+
 /// Autoload classes
 function __autoload($class){
 	require_once(realpath(dirname(__FILE__)."/src/classes/$class.php"));
