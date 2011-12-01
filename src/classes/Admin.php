@@ -67,93 +67,98 @@
 	 	/// Create menu
 	 	$this->menu = new AdminMenu();
  		/// Get action
- 		switch($_GET['a']){
-	 		case "Sta"		:	$this->page = new AdminStats();
-	 							break;
+ 		if(isset($_GET['a'])){
+	 		switch($_GET['a']){
+		 		case "Sta"		:	$this->page = new AdminStats();
+		 							break;
 
-	 		case "Acc"		:	if(isset($_POST['old_password'])){
-									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
-								}
-								if(isset($_POST['login'])){
-									$this->page = new Account($_POST['login']);
-								}else{
+		 		case "Acc"		:	if(isset($_POST['old_password'])){
+										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+									}
+									if(isset($_POST['login'])){
+										$this->page = new Account($_POST['login']);
+									}else{
+										$this->page = CurrentUser::$account;
+									}
+
+									break;
+
+				case "GC"		:	Group::create($_POST['group']);
+									$this->page = new JSAccounts();
+									break;
+				
+				case "AGA"		:	$a = new Account($_POST['acc']);
+									$a->add_group($_POST['group']);
+									$a->save();
 									$this->page = CurrentUser::$account;
-								}
+									break;
 
-								break;
+				case "AGR"		:	$a = new Account($_POST['acc']);
+									$a->remove_group($_POST['group']);
+									$a->save();
+									$this->page = CurrentUser::$account;
+									break;
 
-			case "GC"		:	Group::create($_POST['group']);
-								$this->page = new JSAccounts();
-								break;
-			
-			case "AGA"		:	$a = new Account($_POST['acc']);
-								$a->add_group($_POST['group']);
-								$a->save();
-								$this->page = CurrentUser::$account;
-								break;
+				case "ADe"		:	Account::delete($_POST['name']);
+									$this->page = new JSAccounts();
+									break;
 
-			case "AGR"		:	$a = new Account($_POST['acc']);
-								$a->remove_group($_POST['group']);
-								$a->save();
-								$this->page = CurrentUser::$account;
-								break;
+				case "GDe"		:	Group::delete($_POST['name']);
+									$this->page = new JSAccounts();
+									break;
 
-			case "ADe"		:	Account::delete($_POST['name']);
-								$this->page = new JSAccounts();
-								break;
+				case "CDe"		:	CurrentUser::$path = File::r2a($_POST['image']);
+									Comments::delete($_POST['image'],$_POST['date']);
+									$this->page = new MainPage();
+									break;
 
-			case "GDe"		:	Group::delete($_POST['name']);
-								$this->page = new JSAccounts();
-								break;
-
-			case "CDe"		:	CurrentUser::$path = File::r2a($_POST['image']);
-								Comments::delete($_POST['image'],$_POST['date']);
-								$this->page = new MainPage();
-								break;
-
-	 		case "Upl"		:	if(isset($_POST['path'])){
-	 								AdminUpload::upload();
-	 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
-	 							}
-	 							$this->page = new AdminFiles();
-	 							break;
-			
-			case "Mov"		:	if(isset($_POST['pathFrom'])){
-									try{
- 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
-									}catch(Exception $e){
-										CurrentUser::$path = Settings::$photos_dir;
+		 		case "Upl"		:	if(isset($_POST['path'])){
+		 								AdminUpload::upload();
+		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
+		 							}
+		 							$this->page = new AdminFiles();
+		 							break;
+				
+				case "Mov"		:	if(isset($_POST['pathFrom'])){
+										try{
+	 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
+										}catch(Exception $e){
+											CurrentUser::$path = Settings::$photos_dir;
+										}
 									}
-								}
- 								AdminMove::move();
- 								if(isset($_POST['move']) && $_POST['move']=="rename"){
-									try{
- 										CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
-									}catch(Exception $e){
-										CurrentUser::$path = Settings::$photos_dir;
+	 								AdminMove::move();
+	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
+										try{
+	 										CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+										}catch(Exception $e){
+											CurrentUser::$path = Settings::$photos_dir;
+										}
 									}
-								}
-	 							
-								$this->page = new AdminFiles();
-								break;
+		 							
+									$this->page = new AdminFiles();
+									break;
 
-			case "Del"		:	if(isset($_POST['del'])){
-	 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
-	 								AdminDelete::delete();
-	 							}
-								$this->page = new AdminFiles();
-								break;
+				case "Del"		:	if(isset($_POST['del'])){
+		 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
+		 								AdminDelete::delete();
+		 							}
+									$this->page = new AdminFiles();
+									break;
 
-			case "Fil"		:	$this->page = new AdminFiles();
-								break;
+				case "Fil"		:	$this->page = new AdminFiles();
+									break;
 
-			case "JS"		:	break;
+				case "JS"		:	break;
 
-			case "EdA"		:	$this->page = new JSAccounts();
-								break;
-								
-	 		default 		:	$this->page = new AdminStats();
- 		}
+				case "EdA"		:	$this->page = new JSAccounts();
+									break;
+									
+		 		default 		:	$this->page = new AdminStats();
+	 		}
+		}else{
+			$this->page = new AdminStats();
+		} 		
+
 
 	}
 

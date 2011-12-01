@@ -52,82 +52,84 @@ class JS
 		/// Execute stuff automagically
 		new Admin();
 
-		switch($_GET['j']){
+		if(isset($_GET['j'])){
+			switch($_GET['j']){
 
-			case "Pag":		$m = new Menu();
-							$p = new Board();
-							$ap = new AdminPanel();
+				case "Pag":		$m = new Menu();
+								$p = new Board();
+								$ap = new AdminPanel();
 
-							echo "<div id='menu' class='menu'>\n";
-							
-							$m->toHTML();
+								echo "<div id='menu' class='menu'>\n";
+								
+								$m->toHTML();
 
-							if(CurrentUser::$admin){
-								echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
-							}
-							echo "</div>\n";
-							echo "<div class='panel'>\n";
-							$p->toHTML();
-							echo "</div>\n";
-
-							echo "<div class='image_panel hidden'>\n";
-							echo "</div>\n";
-
-							if(CurrentUser::$admin){
-								echo "<div class='infos'>\n";
-								$ap->toHTML();
+								if(CurrentUser::$admin){
+									echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
+								}
 								echo "</div>\n";
-							}
-							break;
+								echo "<div class='panel'>\n";
+								$p->toHTML();
+								echo "</div>\n";
 
-			case "Log":		$p = new LoginPage();
-							$p->toHTML();
-							break;
-			
-			case "Reg":		$p = new RegisterPage();
-							$p->toHTML();
-							break;
+								echo "<div class='image_panel hidden'>\n";
+								echo "</div>\n";
 
-			case "Pan":		if(is_file(CurrentUser::$path)){
-								$b = new ImagePanel(CurrentUser::$path);
-								$b->toHTML();
-							}else{
-								$b = new Board(CurrentUser::$path);
-								$b->toHTML();
-							}
-							break;
+								if(CurrentUser::$admin){
+									echo "<div class='infos'>\n";
+									$ap->toHTML();
+									echo "</div>\n";
+								}
+								break;
 
-			case "Men":		$m = new Menu();
-							$m->toHTML();
+				case "Log":		$p = new LoginPage();
+								$p->toHTML();
+								break;
+				
+				case "Reg":		$p = new RegisterPage();
+								$p->toHTML();
+								break;
 
-							if(CurrentUser::$admin){
-								echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
-							}
-							
-							break;
+				case "Pan":		if(is_file(CurrentUser::$path)){
+									$b = new ImagePanel(CurrentUser::$path);
+									$b->toHTML();
+								}else{
+									$b = new Board(CurrentUser::$path);
+									$b->toHTML();
+								}
+								break;
+
+				case "Men":		$m = new Menu();
+								$m->toHTML();
+
+								if(CurrentUser::$admin){
+									echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
+								}
+								
+								break;
 
 
-			case "Pan":		$f = new AdminPanel();
-							$f->toHTML();
-							break;
+				case "Pan":		$f = new AdminPanel();
+								$f->toHTML();
+								break;
 
-			case "Inf":		$f = new AdminPanel();
-							$f->toHTML();
-							break;
+				case "Inf":		$f = new AdminPanel();
+								$f->toHTML();
+								break;
 
-			case "Jud":		$j = new Judge(CurrentUser::$path);
-							$j->toHTML();
-							break;
-			
-			case "Acc": 	$f = new JSAccounts();
-							$f->toHTML();
-							break;
-			
-			case "Comm":	$f = new Comments(CurrentUser::$path);
-							$f->toHTML();
-							break;
+				case "Jud":		$j = new Judge(CurrentUser::$path);
+								$j->toHTML();
+								break;
+				
+				case "Acc": 	$f = new JSAccounts();
+								$f->toHTML();
+								break;
+				
+				case "Comm":	$f = new Comments(CurrentUser::$path);
+								$f->toHTML();
+								break;
 
-			default:		break;
+				default:		break;
+			}
 		}
 	}
 }
