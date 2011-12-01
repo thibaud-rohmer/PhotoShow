@@ -58,6 +58,7 @@ table {
 	margin:				auto;
 	text-align:			center;
 	border-spacing:		0;
+	color:				white;
 }
 
 td:nth-child(1) {
