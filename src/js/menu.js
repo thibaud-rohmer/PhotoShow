@@ -20,10 +20,15 @@ function init_menu(){
 
 		hr = $(this).attr("href");
 		// Load page
-		$(".infos").load(hr+"&j=Inf",function(){
-			init_infos();
+		if ($(".infos").length > 0){
+			$(".infos").load(hr+"&j=Inf",function(){
+				init_infos();
+				$(".panel").load(hr+"&j=Pan",init_panel);
+			}); 
+		}else{
 			$(".panel").load(hr+"&j=Pan",init_panel);
-		});
+		}
+
 
 		update_url($(this).attr("href"),$(this).text());
 		return false;
