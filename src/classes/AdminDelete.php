@@ -92,7 +92,7 @@
  			return;
  		}
 
- 		$del 	=	File::r2a($_POST['del']);
+ 		$del 	=	File::r2a(stripslashes($_POST['del']));
  		if($del == Settings::$photos_dir){
  			return;
  		}

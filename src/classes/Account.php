@@ -130,7 +130,7 @@ class Account extends Page
 		}
 
 
-		if(!ereg("[a-zA-Z0-9]+", $login) || strlen($password) < 6){
+		if( (preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) || strlen($password) < 6){
 			return false;
 		}
 
@@ -250,7 +250,7 @@ class Account extends Page
 			return;
 		}
 
-		if(isset($login) && ereg("[a-zA-Z0-9]+", $login)){
+		if(isset($login) && (preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) ){
 			$acc = new Account($login);
 		}else{
 			$acc = CurrentUser::$account;
