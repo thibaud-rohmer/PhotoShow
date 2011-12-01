@@ -113,14 +113,14 @@
 
 	 		case "Upl"		:	if(isset($_POST['path'])){
 	 								AdminUpload::upload();
-	 								CurrentUser::$path = File::r2a($_POST['path']);
+	 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
 	 							}
 	 							$this->page = new AdminFiles();
 	 							break;
 			
 			case "Mov"		:	if(isset($_POST['pathFrom'])){
 									try{
- 										CurrentUser::$path = File::r2a(dirname($_POST['pathFrom']));	
+ 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
 									}catch(Exception $e){
 										CurrentUser::$path = Settings::$photos_dir;
 									}
@@ -128,7 +128,7 @@
  								AdminMove::move();
  								if(isset($_POST['move']) && $_POST['move']=="rename"){
 									try{
- 										CurrentUser::$path = dirname(File::r2a($_POST['pathFrom']))."/".$_POST['pathTo'];	
+ 										CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
 									}catch(Exception $e){
 										CurrentUser::$path = Settings::$photos_dir;
 									}
@@ -138,7 +138,7 @@
 								break;
 
 			case "Del"		:	if(isset($_POST['del'])){
-	 								CurrentUser::$path = dirname(File::r2a($_POST['del']));
+	 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
 	 								AdminDelete::delete();
 	 							}
 								$this->page = new AdminFiles();

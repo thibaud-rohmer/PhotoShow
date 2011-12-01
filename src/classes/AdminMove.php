@@ -96,8 +96,8 @@
  			return;
  		}
 
- 		$from 	= File::r2a($_POST['pathFrom']);
- 		$to  	= File::r2a($_POST['pathTo']);
+ 		$from 	= File::r2a(stripslashes($_POST['pathFrom']));
+ 		$to  	= File::r2a(stripslashes($_POST['pathTo']));
  		$type 	= $_POST['move'];
 
  		if($from == $to){
@@ -105,7 +105,7 @@
  		}
 
  		if($type == "rename"){
- 			@rename($from,dirname($from)."/".$_POST['pathTo']);
+ 			@rename($from,dirname($from)."/".stripslashes($_POST['pathTo']));
  			return;
  		}
 

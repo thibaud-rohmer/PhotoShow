@@ -67,9 +67,9 @@ class AdminPanel
 		if(strlen($w)>1){
 		$ret .=	"<form class='rename' action='?a=Mov' method='post'>
 					<input type='hidden' name='move' value='rename'>
-					<input type='hidden' name='pathFrom' value='".addslashes(htmlentities($w))."'>
+					<input type='hidden' name='pathFrom' value=\"".htmlentities($w)."\">
 				<fieldset>
-					<input type='text' name='pathTo' value='".addslashes(htmlentities(basename($w)))."'>
+					<input type='text' name='pathTo' value=\"".htmlentities(basename($w))."\">
 					<input type='submit' value='Rename'>
 				</fieldset>
 				</form>";
@@ -77,16 +77,16 @@ class AdminPanel
 
 		$ret .=	"<form class='create' action='?a=Upl' method='post'>
 				<fieldset>
-					<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
+					<input type='hidden' name='path' value=\"".htmlentities($w)."\">
 					<input id='foldername' name='newdir' type='text' value='New Folder'>
 					<input type='submit' value='Create'>
 				</fieldset>
 				</form>";
 
 		/// Upload Images form
-		$ret .= "<div id='files'></div><form class='dropzone' id='".addslashes(htmlentities($w))."/' 
+		$ret .= "<div id='files'></div><form class='dropzone' id=\"".htmlentities($w)."\" 
 			action='?a=Upl' method='POST' enctype='multipart/form-data'>
-			<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
+			<input type='hidden' name='path' value=\"".htmlentities($w)."\">
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
 			<div>Upload Images Here</div>

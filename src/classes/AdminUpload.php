@@ -89,12 +89,12 @@
  		}
 
  		/// Set upload path
- 		$path = File::r2a($_POST['path']);
+ 		$path = stripslashes(File::r2a($_POST['path']));
  		
  		/// Create dir and update upload path if required
- 		if(strlen($_POST['newdir'])>0 && !strpos($_POST['newdir'],'..')){
+ 		if(strlen(stripslashes($_POST['newdir']))>0 && !strpos(stripslashes($_POST['newdir']),'..')){
 
- 			$path = $path."/".$_POST['newdir'];
+ 			$path = $path."/".stripslashes($_POST['newdir']);
  			if(!file_exists($path)){
  				@mkdir($path,0750,true);
  				@mkdir(File::r2a(File::a2r($path),Settings::$thumbs_dir),0750,true);

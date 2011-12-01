@@ -83,7 +83,7 @@ class CurrentUser
 
 		/// Set path
 		if(isset($_GET['f'])){			
-			CurrentUser::$path = File::r2a($_GET['f']);
+			CurrentUser::$path = stripslashes(File::r2a($_GET['f']));
 		
 			if(isset($_GET['p'])){
 				switch($_GET['p']){
