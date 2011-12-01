@@ -18,10 +18,11 @@ function init_menu(){
 		$(".menu .selected").removeClass("selected");
 		$(this).parents(".menu_item").addClass("selected");			
 
+		hr = $(this).attr("href");
 		// Load page
-		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
+		$(".infos").load(hr+"&j=Inf",function(){
 			init_infos();
-			$(".panel").load($(this).attr("href")+"&j=Pan",init_panel);
+			$(".panel").load(hr+"&j=Pan",init_panel);
 		});
 
 		update_url($(this).attr("href"),$(this).text());
