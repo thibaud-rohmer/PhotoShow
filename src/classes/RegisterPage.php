@@ -75,8 +75,10 @@ class RegisterPage extends Page
 		}
 		
 		echo "<form method='post' action='?t=Reg'>\n";
+		echo "<span>Login : letters and numbers only</span>";
 		echo "<fieldset><span>Login</span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
+		echo "<span>Password : minimum 6 characters</span>";
 		echo "<fieldset><span>Password</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
 		echo "<input type='submit'> or <a class='inline' href='.'>go back</a>";

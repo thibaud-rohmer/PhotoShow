@@ -192,7 +192,7 @@
         };
         
         this.onLoad = function (event, files, index, xhr, handler) {
-            $(".panel").load($(".menu .selected:last a").attr("href") + "&j=Pan");
+            $(".panel").load($(".menu .selected:last a").attr("href") + "&j=Pan",init_panel);
             handler.removeNode(handler.uploadRow, function () {
                 handler.initDownloadRow(event, files, index, xhr, handler, function () {
                     if (typeof handler.onComplete === func) {

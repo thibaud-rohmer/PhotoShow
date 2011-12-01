@@ -105,7 +105,7 @@
  		}
 
  		if($type == "rename"){
- 			@rename($from,$to);
+ 			@rename($from,dirname($from)."/".$_POST['pathTo']);
  			return;
  		}
 

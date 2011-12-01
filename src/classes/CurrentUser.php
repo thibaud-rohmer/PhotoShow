@@ -118,7 +118,7 @@ class CurrentUser
 			
 			case "Reg"	:	if(isset($_POST['login']) && isset($_POST['password'])){
 								if(!Account::create($_POST['login'],$_POST['password'])){
-									echo "Account already exists.";
+									echo "Error creating account.";
 								}
 							}
 

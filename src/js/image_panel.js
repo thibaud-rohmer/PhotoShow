@@ -1,7 +1,7 @@
 /**
  * This file implements image_panel.
  * 
- * PHP versions 4 and 5
+ * Javascript
  *
  * LICENSE:
  * 

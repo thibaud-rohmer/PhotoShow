@@ -120,12 +120,20 @@
 			
 			case "Mov"		:	if(isset($_POST['pathFrom'])){
 									try{
-	 									CurrentUser::$path = File::r2a(dirname($_POST['pathFrom']));										
+ 										CurrentUser::$path = File::r2a(dirname($_POST['pathFrom']));	
 									}catch(Exception $e){
 										CurrentUser::$path = Settings::$photos_dir;
 									}
-	 								AdminMove::move();
-	 							}
+								}
+ 								AdminMove::move();
+ 								if(isset($_POST['move']) && $_POST['move']=="rename"){
+									try{
+ 										CurrentUser::$path = dirname(File::r2a($_POST['pathFrom']))."/".$_POST['pathTo'];	
+									}catch(Exception $e){
+										CurrentUser::$path = Settings::$photos_dir;
+									}
+								}
+	 							
 								$this->page = new AdminFiles();
 								break;
 

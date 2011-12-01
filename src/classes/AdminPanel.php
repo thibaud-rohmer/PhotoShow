@@ -48,9 +48,14 @@ class AdminPanel
 
 	public function __construct(){
 
-		$this->j = new Judge(CurrentUser::$path);
+		$file = CurrentUser::$path;
+		if(is_file($file)){
+			$file = dirname($file);
+		}
 
-		$this->infos 		= $this->infodirtoHTML(CurrentUser::$path);
+		$this->j = new Judge($file);
+
+		$this->infos 		= $this->infodirtoHTML($file);
 	}
 
 
