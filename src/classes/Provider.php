@@ -66,7 +66,9 @@ class Provider
 		if( !Judge::view($file)){
 			return;
 		}
-		error_reporting(0);
+		if(function_exists(error_reporting)){
+			error_reporting(0);
+		}
 		if(!$large){
 			try {
 				if($thumb){
