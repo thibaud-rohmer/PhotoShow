@@ -69,6 +69,12 @@ class Provider
 		if(function_exists(error_reporting)){
 			error_reporting(0);
 		}
+
+		/// Check item
+		if(!File::Type($file) || File::Type($file) != "Image"){
+			return;
+		}
+
 		if(!$large){
 			try {
 				if($thumb){
@@ -125,10 +131,6 @@ class Provider
 			$path = $file;
 		}
 
-		$expires = 60*60*24*14;
-		header("Pragma: public");
-		header("Cache-Control: maxage=".$expires);
-		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 		header('Content-type: image/jpeg');
 		readfile($path);			
 	}

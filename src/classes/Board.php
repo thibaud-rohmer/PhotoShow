@@ -158,9 +158,9 @@ class Board implements HTMLObject
 	 */
 	private function ratio($file){
 		// Non-image file : ratio = 2
-		if(File::type($file) != "Image")
+		if( ! File::Type($file) || File::Type($file) != "Image"){
 			return 2;
-		
+		}
 		// Calculate ratio
 		list($x,$y) = getimagesize($file);
 		

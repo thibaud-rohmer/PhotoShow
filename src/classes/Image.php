@@ -56,6 +56,9 @@ class Image implements HTMLObject
 	
 	/// Height of the image
 	private $y;
+
+	/// Force big image or not
+	private $t;
 	
 	
 	/**
@@ -64,12 +67,11 @@ class Image implements HTMLObject
 	 * @param string $file 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($file=NULL){
-		if(!isset($file)) return;
+	public function __construct($file=NULL,$forcebig = false){
 		
 		/// Check file type
-		if(File::Type($file) != "Image")
-			throw new Exception("$file is not an image");
+		if(!isset($file) || !File::Type($file) || File::Type($file) != "Image")
+			return;
 		
 		/// Set relative path (url encoded)
 		$this->fileweb	=	urlencode(File::a2r($file));
@@ -79,6 +81,13 @@ class Image implements HTMLObject
 		
 		/// Get image dimensions
 		list($this->x,$this->y)=getimagesize($file);
+
+		/// Set big image
+		if($forcebig){
+			$this->t = "Big";
+		}else{
+			$this->t = "Img";
+		}
 	}
 	
 	
@@ -92,7 +101,7 @@ class Image implements HTMLObject
 		echo 	"<div id='image_big' ";
 		echo 	"style='";
 		echo 		" max-width:".$this->x."px;";
-		echo 		" background: black url(\"?t=Img&f=$this->fileweb\") no-repeat center center;";
+		echo 		" background: black url(\"?t=".$this->t."&f=$this->fileweb\") no-repeat center center;";
 		echo 		" background-size: contain;";
 		echo 		" -moz-background-size: contain;";
 		echo 		" height:100%;";

@@ -62,15 +62,10 @@ class Exif implements HTMLObject
 		if(!isset($file)) return;
 		
 		/// File isn't an image
-		if(File::Type($file) != "Image")
-			throw new Exception("$file is not an image");
-			
-		/// File type isn't readable with exif_read_data()
-		if(File::Type($file) == "png"){
-			$infos['']="Impossible to display Exif.";
+		if(!File::Type($file) || File::Type($file) != "Image"){
 			return;
-		}	
-		
+		}
+
 		/// No exif extension installed
 		if (!in_array("exif", get_loaded_extensions())) {
 			$infos['']="Exif extension is not installed on the server available";

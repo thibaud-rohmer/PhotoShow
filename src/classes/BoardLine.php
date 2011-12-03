@@ -89,6 +89,11 @@ class BoardLine implements HTMLObject
 	 */
 	public function add_item($file,$ratio){	
 
+		/// Check item
+		if(!File::Type($file) || File::Type($file) != "Image"){
+			return;
+		}
+
 		/// Append item
 		$this->items[]	=	new BoardItem($file,$ratio);
 		

@@ -140,7 +140,7 @@ class Menu implements HTMLObject
 
 		/// Check that $dir is a directory, or throw exception
 		if(!is_dir($dir)) 
-			throw new Exception("$dir is not a directory - list_dirs");
+			throw new Exception("This is not a directory");
 			
 		/// Directory content
 		$dir_content = scandir($dir);
@@ -179,7 +179,7 @@ class Menu implements HTMLObject
 		
 		/// Check that $dir is a directory, or throw exception
 		if(!is_dir($dir)) 
-			throw new Exception("$dir is not a directory - list_files");
+			throw new Exception("This is not a directory");
 			
 		/// Directory content
 		$dir_content = scandir($dir);
@@ -190,10 +190,11 @@ class Menu implements HTMLObject
 			/// Content isn't hidden and is a file
 			if($content[0] != '.' || $hidden){
 				if(is_file($path=$dir."/".$content)){
-
-					/// Add content to list
-					$list[]=$path;
-
+					if(File::Type($path) && File::Type($path) == "Image"){
+						echo $path;
+						/// Add content to list
+						$list[]=$path;
+					}
 				}else{
 
 					if($rec){
