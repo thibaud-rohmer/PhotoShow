@@ -74,11 +74,7 @@ class Comments implements HTMLObject
 		
 		/// No item, no comment !
 		if(!isset($file)) return;
-		
-		/// Comments are only supported for Images... who said "for now" ?
-		if(File::Type($file) != "Image")
-			throw new Exception("$file is not an image");
-		
+				
 		/// Set variables
 		$this->file	=	$file;
 		$settings	=	new Settings();
@@ -89,7 +85,7 @@ class Comments implements HTMLObject
 		$this->webfile = urlencode(File::a2r($file));
 
 		/// Build relative path to comments file
-		$comments	=	dirname($basepath)."/.".$basefile->name."_comments.xml";
+		$comments	=	dirname($basepath)."/.".basename($file)."_comments.xml";
 		
 		/// Set absolute path to comments file
 		$this->commentsfile =	File::r2a($comments,Settings::$thumbs_dir);
@@ -144,7 +140,7 @@ class Comments implements HTMLObject
 	public static function delete($date){
 		$c 			=	new Comments(CurrentUser::$path);
 		$xml		=	simplexml_load_file($c->commentsfile);
-		
+
 		$i=-1;
 		$found=false;
 		foreach( $xml as $comment ){
@@ -164,7 +160,7 @@ class Comments implements HTMLObject
 
 	public function save(){
 		
-		$xml = new SimpleXMLElement("<comments></comments>");
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><comments></comments>');
 
 		/// Treat each of the comments
 		foreach ($this->comments as $comment){
@@ -203,20 +199,25 @@ class Comments implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){		
+	public function toHTML(){	
+	
+		echo "<div class='display_comments'>";	
 		/// Display each comment
 		foreach($this->comments as $com){
 			$com->toHTML();
 		}
-			echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'>\n";
-				if(isset(CurrentUser::$account)){
-					echo "<fieldset><input type='text' name='login' id='login' value='".htmlentities(CurrentUser::$account->login)."' readonly></fieldset>\n";					
-				}else{
-					echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
-				}
-				echo "<textarea name='content' id='content'></textarea>\n";
-				echo "<input type='submit' value='Post Comment''>\n";
-			echo "</form>\n";			
+		echo "</div>";
+		echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'>\n";
+			if(isset(CurrentUser::$account)){
+				echo "<fieldset><input type='text' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";					
+			}else{
+				echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
+			}
+			echo "<textarea name='content' id='content'></textarea>\n";
+			echo "<input type='submit' value='Post Comment'>\n";
+		echo "</form>\n";	
+		
+		echo "</div>";		
 	}
 }
 

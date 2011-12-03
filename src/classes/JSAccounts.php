@@ -67,14 +67,14 @@ class JSAccounts
 			echo "<div class='accountitem'>
 						<div class='delete'>
 							<form action='?t=Adm&a=ADe' method='post'>
-								<input type='hidden' name='name' value='".htmlentities($acc['login'])."'>
+								<input type='hidden' name='name' value='".htmlentities($acc['login'], ENT_QUOTES ,'UTF-8')."'>
 								<input type='submit' value='x'>
 							</form>
 						</div>";
 			echo "<div class='name'>".$acc['login']."</div>";
 			foreach($acc['groups'] as $g){
 				$groupaccounts["$g"][] = $acc['login'];
-				echo "<div class='inlinedel'><span class='rmgroup'>x</span><span class='groupname'>".htmlentities($g)."</span></div>";
+				echo "<div class='inlinedel'><span class='rmgroup'>x</span><span class='groupname'>".htmlentities($g, ENT_QUOTES ,'UTF-8')."</span></div>";
 			}
 			echo "</div>";
 		}
@@ -107,7 +107,7 @@ class JSAccounts
 
 			if(isset($groupaccounts["$gn"])){
 				foreach($groupaccounts["$gn"] as $g){
-					echo "<div class='inlinedel'><span class='rmacc'>x</span><span class='accname'>".htmlentities($g)."</span></div>";
+					echo "<div class='inlinedel'><span class='rmacc'>x</span><span class='accname'>".htmlentities($g, ENT_QUOTES ,'UTF-8')."</span></div>";
 				}
 			}
 			echo "</div>";

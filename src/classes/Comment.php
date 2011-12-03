@@ -77,8 +77,8 @@ class Comment implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		$login		=	stripslashes(htmlentities( $this->login ));
-		$content	=	stripslashes(htmlentities( $this->content ));
+		$login		=	stripslashes(htmlentities( $this->login , ENT_QUOTES ,'UTF-8'));
+		$content	=	stripslashes(htmlentities( $this->content , ENT_QUOTES ,'UTF-8'));
 		$date		=	$this->date;
 
 		echo "<div class='comment'>\n";
@@ -86,7 +86,7 @@ class Comment implements HTMLObject
 		if(false && (CurrentUser::$admin || $login == CurrentUser::$account->login)){
 			echo "<div class='delete'>
 							<form action='?t=Adm&a=CDe' method='post'>
-								<input type='hidden' name='image' value='".htmlentities(File::a2r($this->file))."'>
+								<input type='hidden' name='image' value='".htmlentities(File::a2r($this->file), ENT_QUOTES ,'UTF-8')."'>
 								<input type='hidden' name='date' value='$date'>
 								<input type='submit' value='x'>
 							</form>

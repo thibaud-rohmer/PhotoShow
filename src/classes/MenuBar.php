@@ -73,7 +73,7 @@ class MenuBar implements HTMLObject{
 		echo "<a href='.'>PhotoShow</a>\n";
 		if(isset(CurrentUser::$account)){
 			// User logged in
-			echo "<div class='menubar-button'>- logged as <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login)."</a></div>\n";
+			echo "<div class='menubar-button'>- logged as <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."</a></div>\n";
 			echo "</div><div class='align_right'>\n";
 			echo "<a href='?t=Log'>LOGOUT</a>\n";
 			

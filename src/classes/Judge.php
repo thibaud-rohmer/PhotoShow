@@ -103,7 +103,7 @@ class Judge
 		$this->webpath 	= urlencode($basepath);
 
 		if(is_file($f)){
-			$rightsfile	=	dirname($basepath)."/.".$basefile->name."_rights.xml";
+			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
 		}else{
 			$rightsfile	=	$basepath."/.rights.xml";
 		}
@@ -323,7 +323,7 @@ class Judge
 				$checked = "";
 			}
 
-			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".$account['login']."</label>";
+			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label>";
 		}
 
 		echo "<h3>Groups</h3>";
@@ -338,7 +338,7 @@ class Judge
 				$checked = "";
 			}
 
-			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".$group['name']." </label>";
+			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
 		}
 
 		echo "</br><input type='submit' class='button blue' value='Set Rights'>\n";

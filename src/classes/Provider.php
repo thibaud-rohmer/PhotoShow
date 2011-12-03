@@ -131,7 +131,20 @@ class Provider
 			$path = $file;
 		}
 
+		$expires = 60*60*24*14;
+		$last_modified_time = filemtime($path); 
+		$last_modified_time = 0;
+		$etag = md5_file($file); 
+
+    header("Last-Modified: " . 0 . " GMT");
+		header("Pragma: public");
+		header("Cache-Control: max-age=360000");
+		header("Etag: $etag"); 
+	//	header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT",true); 
+		header("Cache-Control: maxage=".$expires);
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 		header('Content-type: image/jpeg');
+
 		readfile($path);			
 	}
 	
@@ -161,7 +174,7 @@ class Provider
 		$zip->close();
 		header('Content-Type: application/zip');
 		header('Content-Length: ' . filesize($tmpfile));
-		header("Content-Disposition: attachment; filename=\"".htmlentities($fname).".zip\"");
+		header("Content-Disposition: attachment; filename=\"".htmlentities($fname, ENT_QUOTES ,'UTF-8').".zip\"");
 		readfile($tmpfile);
 		unlink($tmpfile);
 

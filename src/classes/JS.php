@@ -41,7 +41,7 @@
  * @license   http://www.gnu.org/licenses/
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
-class JS
+class JS extends Page
 {
 	private $toPrint;
 
@@ -131,6 +131,10 @@ class JS
 				default:		break;
 			}
 		}
+	}
+
+	public function toHTML(){
+		
 	}
 }
 

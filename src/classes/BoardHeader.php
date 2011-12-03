@@ -69,7 +69,7 @@ class BoardHeader{
 	public function toHTML(){
 		echo 	"<div class='header'>";
 		/// Title
-		echo 	"<h1>".htmlentities($this->title)."</h1>";
+		echo 	"<h1>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</h1>";
 		
 		echo 	"<span>";
 		

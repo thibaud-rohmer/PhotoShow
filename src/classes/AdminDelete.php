@@ -141,7 +141,7 @@
  				}else{
  					$selected = "";
  				}
- 				echo "<option value='".htmlentities($file)."' $selected>".htmlentities($file)."</option>\n";
+ 				echo "<option value='".htmlentities($file, ENT_QUOTES ,'UTF-8')."' $selected>".htmlentities($file, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
 
  		echo 	"</select></div></fieldset>\n";

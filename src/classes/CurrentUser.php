@@ -173,6 +173,11 @@ class CurrentUser
 
 				case "Inf" 	:	CurrentUser::$action = "Inf";
 								break;
+							
+				case "Fs"	:	if(is_file(CurrentUser::$path)){
+									CurrentUser::$action = "Fs";
+								}
+								break;
 
 				default		:	CurrentUser::$action = "Page";
 								break;

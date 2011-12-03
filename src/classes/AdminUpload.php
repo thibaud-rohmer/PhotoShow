@@ -174,7 +174,7 @@
  				}else{
  					$selected = "";
  				}
- 				echo "<option value='".htmlentities($dir)."' $selected>".htmlentities($dir)."</option>\n";
+ 				echo "<option value='".htmlentities($dir, ENT_QUOTES ,'UTF-8')."' $selected>".htmlentities($dir, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
 
  		echo 	"</select></div></fieldset>";
@@ -183,13 +183,13 @@
  		echo 	"<fieldset><span>Public</span><div><label><input type='checkbox' name='public' checked /> Public</label></div></fieldset>";
  		echo 	"<fieldset><span>Groups</span><div>";
  		foreach(Group::findAll() as $group){
- 			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'])."' checked /> ".htmlentities($group['name'])." </label>";
+ 			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')."' checked /> ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
  		}
  		echo 	"</div></fieldset>";
  	
  		echo 	"<fieldset><span>Users</span><div>";
  		foreach(Account::findAll() as $account){
- 			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'])."' checked /> ".htmlentities($account['login'])." </label>";
+ 			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."' checked /> ".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')." </label>";
  		}
  		echo 	"</div></fieldset>";
  		echo 	"<fieldset><input type='submit' class='button blue' /></fieldset>";

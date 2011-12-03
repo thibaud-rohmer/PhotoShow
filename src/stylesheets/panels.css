@@ -158,7 +158,24 @@ div.image_panel > .box > #image_big {
 	margin:			auto;
 }
 
-div.image_panel > #image_bar {
+div#fs{
+	position:		absolute;
+	left:			0;
+	right:			0;
+	top:			0;
+	bottom:			0;
+	background:		black;
+}
+
+div#fs > .image_fs{
+	position:		absolute;
+	top:			0;
+	left:			0;
+	right:			0;
+	bottom:			25px;
+}
+
+div#image_bar {
 	position:		absolute;
 	left:			25%;
 	right:			25%;
@@ -168,7 +185,7 @@ div.image_panel > #image_bar {
 	text-align:		center;
 }
 
-div.image_panel > #image_bar > span {
+div#image_bar > span {
 	display:		inline-block;
 	width:			50px;
 
@@ -202,6 +219,16 @@ div.comment:nth-child(even) > div:nth-child(1) {
 
 div.comment:nth-child(even) > div:nth-child(2) {
 	border-left:	1px solid rgb(0,160,232);
+}
+
+div#comments > .display_comments {
+	position:		absolute;
+	top:			0;
+	right:			0;
+	left:			0;
+	bottom:			200px;
+	overflow-x:		none;
+	overflow-y:		auto;
 }
 
 div#comments > form {

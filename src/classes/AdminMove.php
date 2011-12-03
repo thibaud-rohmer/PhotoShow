@@ -142,7 +142,7 @@
  				}else{
  					$selected = "";
  				}
- 				echo "<option value='".htmlentities($file)."' $selected>".htmlentities($file)."</option>\n";
+ 				echo "<option value='".htmlentities($file, ENT_QUOTES ,'UTF-8')."' $selected>".htmlentities($file, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
 
  		echo 	"</select></div></fieldset>\n";
@@ -150,7 +150,7 @@
  		echo 	"<fieldset><span>To</span><div><select name='pathTo'>";
  		echo "<option value='.'>.</option>\n";
 		foreach($this->dirs as $dir){
- 				echo "<option value='".htmlentities($dir)."'>".htmlentities($dir)."</option>\n";
+ 				echo "<option value='".htmlentities($dir, ENT_QUOTES ,'UTF-8')."'>".htmlentities($dir, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
  		echo 	"</select></div></fieldset>\n";
 

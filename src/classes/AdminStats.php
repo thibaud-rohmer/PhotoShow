@@ -80,7 +80,7 @@
  		echo "<table>";
  		echo "<tbody>";
  		foreach($this->stats as $name=>$val){
- 			echo "<tr><td>".htmlentities($name)."</td><td>".htmlentities($val)."</td></tr>"; 			
+ 			echo "<tr><td>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td><td>".htmlentities($val, ENT_QUOTES ,'UTF-8')."</td></tr>"; 			
  		}
  		echo "</tbody>";
  		echo "</table>";
@@ -93,7 +93,7 @@
  		echo "<table>";
  		echo "<tbody>";
  		foreach($this->accounts as $acc){
- 			echo "<tr><td>".htmlentities($acc['login'])."</td></tr>"; 			
+ 			echo "<tr><td>".htmlentities($acc['login'], ENT_QUOTES ,'UTF-8')."</td></tr>"; 			
  		}
  		echo "</tbody>";
  		echo "</table>";

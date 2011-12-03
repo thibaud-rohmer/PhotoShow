@@ -399,11 +399,11 @@ class Account extends Page
 	 	echo "<div class='panel'>\n";
 	 	echo "<h1>Account</h1>\n";
 
-		echo "Editing account $this->login";
+		echo "Editing account ".htmlentities($this->login, ENT_QUOTES ,'UTF-8');
 	 	echo "<form method='post' action='#'>\n";
-	 	echo "<input type='hidden' value='".htmlentities($this->login)."' name='login' />\n";
-	 	echo "<fieldset><span>Name </span><div><input type='text' value='".htmlentities($this->name)."' name='name' /></div></fieldset>\n";
-	 	echo "<fieldset><span>Email </span><div><input type='text' value='".htmlentities($this->email)."' name='email' /></div></fieldset>\n";
+	 	echo "<input type='hidden' value='".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."' name='login' />\n";
+	 	echo "<fieldset><span>Name </span><div><input type='text' value='".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."' name='name' /></div></fieldset>\n";
+	 	echo "<fieldset><span>Email </span><div><input type='text' value='".htmlentities($this->email, ENT_QUOTES ,'UTF-8')."' name='email' /></div></fieldset>\n";
 	 	echo "<fieldset><span>Password </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
 
  		echo "<fieldset><label>Old Password : <input type='password' value='' name='old_password' /></fieldset>\n";

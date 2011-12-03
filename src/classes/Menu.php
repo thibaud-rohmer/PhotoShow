@@ -114,9 +114,9 @@ class Menu implements HTMLObject
 			
 			echo 	"<div class='menu_title'>\n";
 
-			echo 	"<span class='name hidden'>".htmlentities($this->title)."</span>";
-			echo 	"<span class='path hidden'>".htmlentities($this->path)."</span>";
-			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title)."</a>";
+			echo 	"<span class='name hidden'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</span>";
+			echo 	"<span class='path hidden'>".htmlentities($this->path, ENT_QUOTES ,'UTF-8')."</span>";
+			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
 			echo 	"</div>\n";
 
 			foreach($this->items as $item)

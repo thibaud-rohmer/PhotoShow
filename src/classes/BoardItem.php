@@ -97,8 +97,8 @@ class BoardItem implements HTMLObject
 		echo 	" background-size: 	cover;";
 		echo 	"'>\n";
 
-		echo 	"<span class='name hidden'>".htmlentities(basename($this->path))."</span>";
-		echo 	"<span class='path hidden'>".htmlentities(File::a2r($this->path))."</span>";
+		echo 	"<span class='name hidden'>".htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8')."</span>";
+		echo 	"<span class='path hidden'>".htmlentities(File::a2r($this->path), ENT_QUOTES ,'UTF-8')."</span>";
 		
 		echo 	"<a href='?f=$this->file'>";
 		echo 	"<img src='./inc/img.png' width='100%' height='100%'>";
