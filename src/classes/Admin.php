@@ -153,7 +153,9 @@
 				case "EdA"		:	$this->page = new JSAccounts();
 									break;
 				
-				case "GAl"		:	Settings::gener_all();
+				case "GAl"		:	if(isset($_POST['path'])){
+										Settings::gener_all(File::r2a(stripslashes($_POST['path'])));
+									}
 				case "Set" 		:	if(isset($_POST['name'])){
 										Settings::set();
 									}

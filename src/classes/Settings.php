@@ -66,6 +66,16 @@ class Settings extends Page
 	/// Display Google button
 	static public $plusone=false;
 
+	private $folders=array();
+
+	/**
+	 * Create Settings page
+	 * 
+	 */
+	public function __construct(){
+		$this->folders = Menu::list_dirs(Settings::$photos_dir,true);
+	}
+
 	/**
 	 * Read the settings in the files.
 	 * If a settings file is missing, raise an exception.
@@ -137,13 +147,13 @@ class Settings extends Page
 	}
 
 	/**
-	 * Generate thumbs and webimages
+	 * Generate thumbs and webimages reccursively inside a folder
 	 *
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function gener_all(){
-		$files = Menu::list_files(Settings::$photos_dir,true);
+	public static function gener_all($folder){
+		$files = Menu::list_files($folder,true);
 		foreach($files as $file){
 			/// Generate thumb
 			Provider::image($file,true,false,false);
@@ -153,6 +163,9 @@ class Settings extends Page
 		}
 	}
 
+	/**
+	 * Display settings page
+	 */
 	public function toHTML(){
 		echo "<form action='?t=Adm&a=Set' method='post'>\n";
 		echo "<fieldset><span>Title</span><div><input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
@@ -175,8 +188,16 @@ class Settings extends Page
 		echo "<fieldset><input type='submit' /></fieldset>\n";
 		echo "</form>\n";
 
+		echo "<h1>Generate all thumbnails and 800x600 images (recursively)</h1>";
 		echo "<form action='?t=Adm&a=GAl' method='post'>\n";
-		echo "<fieldset><input type='submit' value='Generate all thumbnails and 800x600 images'/></fieldset>";
+		echo "<fieldset><span>Folder</span><div><select name='path'>";
+		echo "<option value='.'>All</option>";
+		foreach($this->folders as $f){
+			$p = htmlentities(File::a2r($f), ENT_QUOTES ,'UTF-8');
+			echo "<option value=\"".addslashes($p)."\">$p</option>";
+		}
+		echo "</select></div></fieldset>";
+		echo "<fieldset><input type='submit' value='Generate '/></fieldset>";
 		echo "</form>";
 	}
 }
