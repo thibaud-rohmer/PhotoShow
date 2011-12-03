@@ -129,7 +129,7 @@ class Settings extends Page
 
 		foreach($var as $v){
 			if(isset($_POST["$v"])){
-				fwrite($f,"$v = \"".addslashes($_POST["$v"])."\"\n");
+				fwrite($f,"$v = \"".$_POST["$v"]."\"\n");
 			}
 		}
 		fclose($f);
@@ -138,7 +138,7 @@ class Settings extends Page
 
 	public function toHTML(){
 		echo "<form action='?t=Adm&a=Set' method='post'>\n";
-		echo "<fieldset><span>Title</span><div><input type='text' name='name' value='".Settings::$name."'></div></fieldset>\n";
+		echo "<fieldset><span>Title</span><div><input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
 		echo "<fieldset><span>Buttons</span><div class='buttondiv'>\n";
 		if(Settings::$like){
