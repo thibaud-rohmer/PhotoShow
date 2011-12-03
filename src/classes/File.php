@@ -66,7 +66,7 @@ class File
 		
 		/// Check that file exists
 		if(!file_exists($path))
-			throw new Exception("The file $path doesn't exist");
+			throw new Exception("The file doesn't exist !");
 		
 		/// Set variables
 		$this->path			=	$path;
@@ -83,8 +83,7 @@ class File
 	 * @author Thibaud Rohmer
 	 */
 	public static function Extension($file){
-		$info = pathinfo($file);
-		return $info['extension'];
+		return pathinfo($file,PATHINFO_EXTENSION);
 	}
 	
 	/**
@@ -134,11 +133,11 @@ class File
 		
 		/// Find file type
 		foreach($types as $type=>$typetab){
-			if(in_array($ext,$typetab))
+			if(in_array($ext,$typetab)){
 				return $type;
+			}
 		}
-
-		throw new Exception("Unsupported Type for $file");
+		return 0;
 
 	}
 	
@@ -161,7 +160,7 @@ class File
 		if($rf==$rd) return "";
 
 		if( substr($rf,0,strlen($rd)) != $rd ){
-			throw new Exception("$file is not inside $dir<br/> $rf<br/>$rd");
+			throw new Exception("This file is not inside the photos folder !<br/>");
 		}
 
 		return ( substr($rf,strlen($rd) + 1 ) );
