@@ -152,6 +152,12 @@
 
 				case "EdA"		:	$this->page = new JSAccounts();
 									break;
+				
+				case "Set" 		:	if(isset($_POST['name'])){
+										Settings::set();
+									}
+									$this->page = new Settings();
+									break;
 									
 		 		default 		:	$this->page = new AdminStats();
 	 		}

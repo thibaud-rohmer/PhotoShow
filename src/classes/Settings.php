@@ -54,8 +54,11 @@ class Settings extends Page
 	/// Directory where the configuration files are stored
 	static public $conf_dir;
 
+	/// File where the admin settings are stored
+	static public $admin_settings_file;
+
 	/// Website name
-	static public $website_name="PhotoShow";
+	static public $name="PhotoShow";
 
 	/// Display Facebook button
 	static public $like=false;
@@ -70,10 +73,10 @@ class Settings extends Page
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	static public function init(){
+	static public function init($forced = false){
 
 		/// Settings already created
-		if(Settings::$photos_dir !== NULL) return;
+		if(Settings::$photos_dir !== NULL && !$forced) return;
 
 		/// Set TimeZone
 		date_default_timezone_set("Europe/Paris");
@@ -89,6 +92,8 @@ class Settings extends Page
 		Settings::$photos_dir	=	$ini_settings['photos_dir'];
 		Settings::$thumbs_dir	=	$ini_settings['ps_generated']."/Thumbs/";
 		Settings::$conf_dir		=	$ini_settings['ps_generated']."/Conf/";
+		Settings::$admin_settings_file = $ini_settings['ps_generated']."/Conf/admin_settings.ini";
+
 
 		// Now, check that this stuff exists.
 		if(!file_exists(Settings::$photos_dir)){
@@ -109,17 +114,48 @@ class Settings extends Page
 			}
 		}
 
-		if(file_exists(Settings::$conf_dir."/admin_settings.ini")){
-			$admin_settings = parse_ini_file(Settings::$conf_dir."/admin_settings.ini");
+		if(file_exists(Settings::$admin_settings_file)){
+			$admin_settings = parse_ini_file(Settings::$admin_settings_file);
 
-			Settings::$website_name	=	htmlentities($ini_settings['name']);
-			Settings::$like 		=	isset($ini_settings['like']);
-			Settings::$plusone 		=	isset($ini_settings['plusone']);
+			Settings::$name			=	stripslashes($admin_settings['name']);
+			Settings::$like 		=	isset($admin_settings['like']);
+			Settings::$plusone 		=	isset($admin_settings['plusone']);
 		}
 	}
 
-	function toHTML(){
-		
+	public static function set(){
+		$var = array("name","like","plusone");
+		$f = fopen(Settings::$admin_settings_file,"w");
+
+		foreach($var as $v){
+			if(isset($_POST["$v"])){
+				fwrite($f,"$v = \"".addslashes($_POST["$v"])."\"\n");
+			}
+		}
+		fclose($f);
+		Settings::init(true);
+	}
+
+	public function toHTML(){
+		echo "<form action='?t=Adm&a=Set' method='post'>\n";
+		echo "<fieldset><span>Title</span><div><input type='text' name='name' value='".Settings::$name."'></div></fieldset>\n";
+
+		echo "<fieldset><span>Buttons</span><div class='buttondiv'>\n";
+		if(Settings::$like){
+			echo "<label><input type='checkbox' name='like' checked>Facebook</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='like'>Facebook</label>\n";
+		}
+
+		if(Settings::$plusone){
+			echo "<label><input type='checkbox' name='plusone' checked>Google +1</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='plusone'>Google +1</label>\n";
+		}
+		echo "</div></fieldset>\n";
+
+		echo "<fieldset><input type='submit' /></fieldset>\n";
+		echo "</form>\n";
 	}
 }
 ?>

@@ -53,6 +53,7 @@
  	 */
  	public function __construct(){
  		$this->options['Sta']	= "View Statistics";
+ 	 	$this->options['Set']	= "Edit Settings";
  	 	$this->options['EdA']	= "Edit Accounts";
  	}
  
