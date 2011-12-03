@@ -153,6 +153,7 @@
 				case "EdA"		:	$this->page = new JSAccounts();
 									break;
 				
+				case "GAl"		:	Settings::gener_all();
 				case "Set" 		:	if(isset($_POST['name'])){
 										Settings::set();
 									}

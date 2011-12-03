@@ -53,15 +53,13 @@ class Provider
 	 * Provide an image to the user, if he is allowed to
 	 * see it. If $thumb is true, provide the thumb associated
 	 * to the image.
-	 * 
-	 * TODO : if no thumb is found, generate thumb
 	 *
 	 * @param string $file 
 	 * @param string $thumb 
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function image($file,$thumb=false,$large=false){
+	public static function image($file,$thumb=false,$large=false,$output=true){
 		
 		if( !Judge::view($file)){
 			return;
@@ -79,7 +77,7 @@ class Provider
 			try {
 				if($thumb){
 					$path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
-					if(!file_exists($path)){
+					if(!file_exists($path) || filectime($file) > filectime($path) ){
 						require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
 						
 						/// Create directories
@@ -107,7 +105,7 @@ class Provider
 						/// Set absolute path to comments file
 						$path =	File::r2a($webimg,Settings::$thumbs_dir);
 
-						if(!file_exists($path)){
+						if(!file_exists($path) || filectime($file) > filectime($path)  ){
 							/// Create smaller image
 							if(!file_exists(dirname($path))){
 								@mkdir(dirname($path),0755,true);
@@ -131,23 +129,23 @@ class Provider
 			$path = $file;
 		}
 
-		$expires = 60*60*24*14;
-		$last_modified_time = filemtime($path); 
-		$last_modified_time = 0;
-		$etag = md5_file($file); 
+		if($output){
+			$expires = 60*60*24*14;
+			$last_modified_time = filemtime($path); 
+			$last_modified_time = 0;
+			$etag = md5_file($file); 
 
-    header("Last-Modified: " . 0 . " GMT");
-		header("Pragma: public");
-		header("Cache-Control: max-age=360000");
-		header("Etag: $etag"); 
-	//	header("Last-Modified: ".gmdate("D, d M Y H:i:s", $last_modified_time)." GMT",true); 
-		header("Cache-Control: maxage=".$expires);
-		header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-		header('Content-type: image/jpeg');
+		    header("Last-Modified: " . 0 . " GMT");
+			header("Pragma: public");
+			header("Cache-Control: max-age=360000");
+			header("Etag: $etag"); 
+			header("Cache-Control: maxage=".$expires);
+			header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+			header('Content-type: image/jpeg');
 
-		readfile($path);			
+			readfile($path);
+		}
 	}
-	
 	public static function Zip($dir){
 
 		/// Check that user is allowed to acces this content

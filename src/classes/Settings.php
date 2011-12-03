@@ -136,6 +136,23 @@ class Settings extends Page
 		Settings::init(true);
 	}
 
+	/**
+	 * Generate thumbs and webimages
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	public static function gener_all(){
+		$files = Menu::list_files(Settings::$photos_dir,true);
+		foreach($files as $file){
+			/// Generate thumb
+			Provider::image($file,true,false,false);
+
+			/// Generate webimg
+			Provider::image($file,false,false,false);
+		}
+	}
+
 	public function toHTML(){
 		echo "<form action='?t=Adm&a=Set' method='post'>\n";
 		echo "<fieldset><span>Title</span><div><input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
@@ -152,10 +169,15 @@ class Settings extends Page
 		}else{
 			echo "<label><input type='checkbox' name='plusone'>Google +1</label>\n";
 		}
+
 		echo "</div></fieldset>\n";
 
 		echo "<fieldset><input type='submit' /></fieldset>\n";
 		echo "</form>\n";
+
+		echo "<form action='?t=Adm&a=GAl' method='post'>\n";
+		echo "<fieldset><input type='submit' value='Generate all thumbnails and 800x600 images'/></fieldset>";
+		echo "</form>";
 	}
 }
 ?>
