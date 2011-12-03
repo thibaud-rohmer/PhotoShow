@@ -97,7 +97,7 @@ class Account extends Page
 				return;
 			}
 		}
-		throw new Exception("Login $login not found");
+		//throw new Exception("Login $login not found");
 	}
 	
 	/**
