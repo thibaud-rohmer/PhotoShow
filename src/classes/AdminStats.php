@@ -80,7 +80,7 @@
  		echo "<table>";
  		echo "<tbody>";
  		foreach($this->stats as $name=>$val){
- 			echo "<tr><td>$name</td><td>$val</td></tr>"; 			
+ 			echo "<tr><td>".htmlentities($name)."</td><td>".htmlentities($val)."</td></tr>"; 			
  		}
  		echo "</tbody>";
  		echo "</table>";

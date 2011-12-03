@@ -191,7 +191,6 @@ class Menu implements HTMLObject
 			if($content[0] != '.' || $hidden){
 				if(is_file($path=$dir."/".$content)){
 					if(File::Type($path) && File::Type($path) == "Image"){
-						echo $path;
 						/// Add content to list
 						$list[]=$path;
 					}

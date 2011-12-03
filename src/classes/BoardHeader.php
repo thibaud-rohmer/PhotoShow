@@ -69,7 +69,7 @@ class BoardHeader{
 	public function toHTML(){
 		echo 	"<div class='header'>";
 		/// Title
-		echo 	"<h1>$this->title</h1>";
+		echo 	"<h1>".htmlentities($this->title)."</h1>";
 		
 		echo 	"<span>";
 		

@@ -161,7 +161,7 @@ class Provider
 		$zip->close();
 		header('Content-Type: application/zip');
 		header('Content-Length: ' . filesize($tmpfile));
-		header("Content-Disposition: attachment; filename=\"$fname.zip\"");
+		header("Content-Disposition: attachment; filename=\"".htmlentities($fname).".zip\"");
 		readfile($tmpfile);
 		unlink($tmpfile);
 

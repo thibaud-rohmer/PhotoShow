@@ -117,7 +117,7 @@ class JSFiles
 
 		$res 		.= " dir'>";
 		$res 		.= "
-		<div class='title $class'>	<span id='".urlencode(htmlentities(File::a2r($dir)))."' class='".addslashes(htmlentities(File::a2r($dir)))."'>".basename($dir)."</span></div>
+		<div class='title $class'>	<span id='".urlencode(File::a2r($dir))."' class='".addslashes(File::a2r($dir))."'>".htmlentities(basename($dir))."</span></div>
 			<ul class='subdirs'>
 			";
 

@@ -55,14 +55,20 @@ class ImageBar
 	 * 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct(){
+	public function __construct($fs=false){
 
 		$file = urlencode(File::a2r(CurrentUser::$path));
 
-		$this->buttons['prev'] = 	"?p=p&f=".$file;
-		$this->buttons['back'] = 	"?f=".File::a2r(dirname(CurrentUser::$path));
+		if($fs){
+			$t = "?t=Fs&";
+		}else{
+			$t = "?";
+		}
+
+		$this->buttons['prev'] = 	$t."p=p&f=".$file;
+		$this->buttons['back'] = 	"?f=".urlencode(File::a2r(dirname(CurrentUser::$path)));
 		$this->buttons['img']  = 	"?t=Big&f=".$file;
-		$this->buttons['next'] = 	"?p=n&f=".$file;
+		$this->buttons['next'] = 	$t."p=n&f=".$file;
 
 	}
 

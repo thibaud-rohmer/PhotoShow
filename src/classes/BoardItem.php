@@ -64,7 +64,6 @@ class BoardItem implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($file,$ratio){
-		
 		$this->path 	= 	$file;
 		$this->file		=	urlencode(File::a2r($file));
 		$this->ratio	=	$ratio;
@@ -98,7 +97,7 @@ class BoardItem implements HTMLObject
 		echo 	" background-size: 	cover;";
 		echo 	"'>\n";
 
-		echo 	"<span class='name hidden'>".basename($this->path)."</span>";
+		echo 	"<span class='name hidden'>".htmlentities(basename($this->path))."</span>";
 		echo 	"<span class='path hidden'>".htmlentities(File::a2r($this->path))."</span>";
 		
 		echo 	"<a href='?f=$this->file'>";
