@@ -42,7 +42,7 @@
  * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
  */
 
-class Settings
+class Settings extends Page
 {
 
 	/// Directory where the photos are stored
@@ -54,6 +54,14 @@ class Settings
 	/// Directory where the configuration files are stored
 	static public $conf_dir;
 
+	/// Website name
+	static public $website_name="PhotoShow";
+
+	/// Display Facebook button
+	static public $like=false;
+
+	/// Display Google button
+	static public $plusone=false;
 
 	/**
 	 * Read the settings in the files.
@@ -100,7 +108,18 @@ class Settings
 				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
 			}
 		}
+
+		if(file_exists(Settings::$conf_dir."/admin_settings.ini")){
+			$admin_settings = parse_ini_file(Settings::$conf_dir."/admin_settings.ini");
+
+			Settings::$website_name	=	htmlentities($ini_settings['name']);
+			Settings::$like 		=	isset($ini_settings['like']);
+			Settings::$plusone 		=	isset($ini_settings['plusone']);
+		}
 	}
 
+	function toHTML(){
+		
+	}
 }
 ?>
