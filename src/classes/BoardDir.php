@@ -96,7 +96,7 @@ class BoardDir implements HTMLObject
 		/// Images in the directory
 		if( sizeof($this->images) > 20 ){
 			for($i=0;$i<20;$i++){
-				$pos = floor(20 *  $i / sizeof($this->images) );
+				$pos = floor(sizeof($this->images) *  $i / 20 );
 				echo "<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($this->images[$i]), ENT_QUOTES ,'UTF-8'))."</div>";
 			}
 		}else{
