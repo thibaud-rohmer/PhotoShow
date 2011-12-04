@@ -91,6 +91,7 @@ class BoardDir implements HTMLObject
 		echo 	" -o-background-size: cover;";
 		echo 	" background-size: 	cover;";
 		echo 	"'>\n";
+		echo 	"<span class='img_bg hidden'></span>";
 
 		/// Images in the directory
 		if( sizeof($img) > 20 ){

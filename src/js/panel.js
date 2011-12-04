@@ -32,9 +32,12 @@ function init_panel(){
 		var img = $(i[x]).text();
 
 		e = $(this);
-		$.get("?t=Thb&f="+img,function(){
-			$(e).css("background-image","url(\"?t=Thb&f="+img+"\")");			
-		});
+		if(e.children(".img_bg").text() != img){
+			e.children(".img_bg").html(img);
+			$.get("?t=Thb&f="+img,function(){
+				$(e).css("background-image","url(\"?t=Thb&f="+img+"\")");			
+			});
+		}
 	});
 
 
