@@ -210,7 +210,7 @@ class Comments implements HTMLObject
 		$c->addChild("date"		, $comment->date);
 		$c->addChild("content"	, $comment->content);
 		$c->addChild("webfile"	, $this->webfile);
-		$c->addChild("path" 	, $this->file);
+		$c->addChild("path" 	, File::a2r($this->file));
 
 		while($xml->count() > Settings::$max_comments){
 			unset($xml->comment[0]);
