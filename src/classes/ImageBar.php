@@ -59,11 +59,11 @@ class ImageBar
 
 		$file = urlencode(File::a2r(CurrentUser::$path));
 
-		if($fs){
-			$t = "?t=Fs&";
-		}else{
+//		if($fs){
+//			$t = "?t=Fs&";
+//		}else{
 			$t = "?";
-		}
+//		}
 
 		$this->buttons['prev'] = 	$t."p=p&f=".$file;
 		$this->buttons['back'] = 	"?f=".urlencode(File::a2r(dirname(CurrentUser::$path)));
