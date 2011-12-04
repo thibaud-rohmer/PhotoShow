@@ -173,6 +173,9 @@ class Board implements HTMLObject
 	 */
 	private function foldergrid(){
 		foreach($this->dirs as $d){
+			if(!(Judge::view($d))){
+				continue;
+			}
 			$f = Menu::list_files($d,true);
 			if(sizeof($f) > 0){
 				$item = new BoardDir($d,$f);
