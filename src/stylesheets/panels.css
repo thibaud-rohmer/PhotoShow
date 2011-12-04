@@ -268,7 +268,7 @@ div#comments > .display_comments {
 	right:			0;
 	left:			0;
 	bottom:			200px;
-	overflow-x:		none;
+	overflow-x:		hidden;
 	overflow-y:		auto;
 }
 
