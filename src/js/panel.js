@@ -30,7 +30,11 @@ function init_panel(){
 		var i = $(this).children(".alt_dir_img");
 		var x = Math.floor(i.length * (e.pageX - $(this).offset().left) / $(this).width());
 		var img = $(i[x]).text();
-		$(this).css("background-image","url(\"?t=Thb&f="+img+"\")");
+
+		e = $(this);
+		$.get("?t=Thb&f="+img,function(){
+			$(e).css("background-image","url(\"?t=Thb&f="+img+"\")");			
+		});
 	});
 
 
