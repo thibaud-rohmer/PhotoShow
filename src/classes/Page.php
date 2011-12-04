@@ -84,7 +84,7 @@ abstract class Page implements HTMLObject
 			echo "<script src='src/js/image_panel.js'></script>\n";
 			echo "<script src='src/js/keyboard.js'></script>\n";
 			
-			if(CurrentUser::$admin){
+			if(CurrentUser::$admin || CurrentUser::$uploader){
 				echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
 				echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
 

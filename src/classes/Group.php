@@ -90,6 +90,7 @@ class Group
 			$xml=new SimpleXMLElement('<groups></groups>');
 			$xml->asXML(CurrentUser::$groups_file);
 			Group::create("root");
+			Group::create("uploaders");
 			Group::create("user");
 	}
 

@@ -88,7 +88,7 @@
  	public function delete(){
 
  		/// Just to be really sure... 
- 		if(!CurrentUser::$admin){
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 

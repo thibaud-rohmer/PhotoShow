@@ -92,7 +92,7 @@
  	public function move(){
 
  		/// Just to be really sure... 
- 		if(!CurrentUser::$admin){
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 

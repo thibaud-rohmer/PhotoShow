@@ -84,7 +84,7 @@
 		$already_set_rights = false;
 
  		/// Just to be really sure... 
- 		if(!CurrentUser::$admin){
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 

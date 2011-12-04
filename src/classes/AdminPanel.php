@@ -98,7 +98,9 @@ class AdminPanel
 
 	public function toHTML(){
 		echo $this->infos;
-		echo $this->j->toHTML();
+		if(CurrentUser::$admin){
+			echo $this->j->toHTML();
+		}
 	}
 }
 

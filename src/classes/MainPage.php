@@ -104,7 +104,7 @@ class MainPage extends Page
 		/// Menu
 		$this->menu			=	new Menu();
 
-		if(CurrentUSer::$admin){
+		if(CurrentUSer::$admin || CurrentUser::$uploader){
 			$this->admin_panel = new AdminPanel();
 		}
 		
@@ -131,7 +131,7 @@ class MainPage extends Page
 
 		$this->menu->toHTML();
 
-		if(CurrentUser::$admin){
+		if(CurrentUser::$admin || CurrentUser::$uploader){
 			echo "<div class='bin'><img src='inc/bin.png'> Delete</div>";
 		}
 		echo "</div>\n";
@@ -149,7 +149,7 @@ class MainPage extends Page
 		echo "</div>\n";
 		/// Stop ImagePanel
 		
-		if(CurrentUser::$admin){
+		if(CurrentUser::$admin || CurrentUser::$uploader){
 			echo "<div class='infos'>\n";
 			$this->admin_panel->toHTML();
 			echo "</div>\n";

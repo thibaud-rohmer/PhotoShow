@@ -50,6 +50,9 @@ class CurrentUser
 	
 	/// Bool : true if current user is an admin
 	public static $admin;
+
+	/// Bool : true if current user is allowed to upload
+	public static $uploader;
 	
 	/// Current path requested by the user
 	public static $path;
@@ -103,7 +106,8 @@ class CurrentUser
 		/// Set CurrentUser account
 		if(isset($_SESSION['login'])){
 				CurrentUser::$account	=	new Account($_SESSION['login']);
-				CurrentUser::$admin = in_array("root",CurrentUser::$account->groups);
+				CurrentUser::$admin 	= 	in_array("root",CurrentUser::$account->groups);
+				CurrentUser::$uploader 	= 	in_array("uploaders",CurrentUser::$account->groups);
 		}
 
 		/// Set action (needed for page layout)
@@ -187,7 +191,7 @@ class CurrentUser
 		}
 
 		if(isset($_GET['a']) && CurrentUser::$action != "Adm"){
-			if(CurrentUser::$admin){
+			if(CurrentUser::$admin || CurrentUser::$uploader){
 				new Admin();
 			}
 		}
@@ -239,9 +243,13 @@ class CurrentUser
 			// Wrong password
 			return false;			
 		}
-		if(in_array('root',$acc->groups))
+		if(in_array('root',$acc->groups)){
 			CurrentUser::$admin = true;
-		
+		}
+		if(in_array('uploaders',$acc->groups)){
+			CurrentUser::$uploader = true;
+		}
+
 		return true;
 	}
 	
@@ -254,6 +262,7 @@ class CurrentUser
 	public static function logout(){
 		CurrentUser::$account	= NULL;
 		CurrentUser::$admin 	= false;
+		CurrentUser::$uploader 	= false;
 		session_unset();
 	}
 
