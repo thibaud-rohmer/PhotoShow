@@ -51,6 +51,9 @@
  	// Stats
  	private $accounts = array();
 
+ 	// Comments
+ 	private $comments = array();
+
  	/**
  	 * Calculate stats of the website
  	 * 
@@ -70,6 +73,13 @@
  		$this->stats['Albums'] = sizeof(Menu::list_dirs(Settings::$photos_dir,true));
 
  		$this->accounts = array_reverse(Account::findAll());
+
+ 		$commentsfile = Settings::$conf_dir."/comments.xml";
+
+ 		if(is_file($commentsfile)){
+ 			$xml = simplexml_load_file($commentsfile);
+ 			$this->comments = $xml->children();
+ 		}
  	}
 
  	public function toHTML(){
@@ -95,6 +105,29 @@
  		foreach($this->accounts as $acc){
  			echo "<tr><td>".htmlentities($acc['login'], ENT_QUOTES ,'UTF-8')."</td></tr>"; 			
  		}
+ 		echo "</tbody>";
+ 		echo "</table>";
+ 		echo "</div>";
+ 		echo "</div>";
+
+
+ 		echo "<div id='commentsblock' class='adminblock'>";
+ 		echo "<h3>Comments (by age)</h3>";
+ 		echo "<div>";
+ 		echo "<table>";
+ 		echo "<tbody>";
+
+		$len = sizeof($this->comments);
+
+		for($i=$len - 1;$i >= 0; $i--){
+			$c = $this->comments[$i];
+ 			echo "<tr>
+ 					<td><a href=\"?f=".htmlentities($c->webfile)."\">".htmlentities($c->path, ENT_QUOTES ,'UTF-8')."</a></td>
+ 					<td>".htmlentities($c->login, ENT_QUOTES ,'UTF-8')."</td>
+ 					<td>".htmlentities($c->content, ENT_QUOTES ,'UTF-8')."</td>
+ 				</tr>";
+ 		}
+
  		echo "</tbody>";
  		echo "</table>";
  		echo "</div>";

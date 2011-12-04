@@ -66,6 +66,10 @@ class Settings extends Page
 	/// Display Google button
 	static public $plusone=false;
 
+	/// Max number of comments
+	static public $max_comments=50;
+
+	/// Folders list
 	private $folders=array();
 
 	/**
@@ -127,14 +131,21 @@ class Settings extends Page
 		if(file_exists(Settings::$admin_settings_file)){
 			$admin_settings = parse_ini_file(Settings::$admin_settings_file);
 
-			Settings::$name			=	stripslashes($admin_settings['name']);
+			if(isset($admin_settings['name'])){
+				Settings::$name			=	stripslashes($admin_settings['name']);
+			}
+
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
+
+			if(isset($admin_settings['max_comments'])){
+				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
+			}
 		}
 	}
 
 	public static function set(){
-		$var = array("name","like","plusone");
+		$var = array("name","like","plusone","max_comments");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -184,6 +195,9 @@ class Settings extends Page
 		}
 
 		echo "</div></fieldset>\n";
+
+
+		echo "<fieldset><span>Comments</span><div><input type='text' name='max_comments' value=\"".htmlentities(Settings::$max_comments, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
 		echo "<fieldset><input type='submit' /></fieldset>\n";
 		echo "</form>\n";

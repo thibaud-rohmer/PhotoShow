@@ -288,10 +288,13 @@ div.groupitem .rmacc:hover{
 	right:		271px;
 }
 
+div#commentsblock{
+	width:800px;
+}
 
 div.adminblock{
-	width:				300px;
-	margin:				20px;
+	width:				375px;
+	margin:				25px;
 	float:				left;
 	background:			#333;
 	box-shadow:			0 3px 6px black;
@@ -308,6 +311,16 @@ div.adminblock table td
 div.adminblock table tr:hover{
 	background:			#555;
 }
+
+div.adminblock table td a,
+div.adminblock table td a:visited{
+	color:				white;
+}
+
+div.adminblock table td a:hover{
+	color:				rgb(0,136,232);
+}
+
 
 div.adminblock > div{
 	height:				120px;

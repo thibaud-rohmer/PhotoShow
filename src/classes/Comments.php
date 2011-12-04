@@ -127,7 +127,10 @@ class Comments implements HTMLObject
 		/// Append comment
 		$comments->comments[] = $new_comm;
 		$comments->save();
+
+		$comments->toMainCommentsFile(array_pop($comments->comments));
 	}
+
 
 
 	/**
@@ -193,6 +196,31 @@ class Comments implements HTMLObject
 		}
 	}
 	
+
+	private function toMainCommentsFile($comment){
+		$maincomm = Settings::$conf_dir."/comments.xml";
+		if(!file_exists($maincomm)){
+			$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><comments></comments>');			
+		}else{
+			$xml = simplexml_load_file($maincomm);
+		}
+
+		$c = $xml->addChild("comment");
+		$c->addChild("login"	, $comment->login);
+		$c->addChild("date"		, $comment->date);
+		$c->addChild("content"	, $comment->content);
+		$c->addChild("webfile"	, $this->webfile);
+		$c->addChild("path" 	, $this->file);
+
+		while($xml->count() > Settings::$max_comments){
+			unset($xml->comment[0]);
+		}
+
+		$xml->asXML($maincomm);
+
+	}
+
+
 	/**
 	 * Display comments on website
 	 *
