@@ -28,6 +28,43 @@ div.panel > .line {
 	margin:			0 0 1px 0;
 	overflow: 		hidden;
 	white-space:	nowrap;
+	clear:			both;
+}
+
+div.directory {
+	position:		relative;
+	width:			120px;
+	float:			left;
+	margin:			10px;
+	height:			180px;
+}
+
+div.directory > .dir_img{
+	height:			120px;
+}
+div.directory > .dirname
+{
+	display:			block;
+	position:			relative;
+	text-align:			center;
+	padding:			5px;
+	text-shadow:		1px 1px 2px #555;
+	-moz-text-shadow: 	1px 1px 2px #555;
+	min-height:			20px;
+}
+
+div.dirname input[type='text']{
+	text-align:			center;
+	text-shadow:		1px 1px 2px #555;
+	-moz-text-shadow: 	1px 1px 2px #555;
+}
+
+div.directory > .dir_img{
+	background-color:		black;
+	border-radius:			4px;
+	-moz-border-radius: 	4px;
+	box-shadow:				0 2px 5px #333;
+	-moz-box-shadow:		0 2px 5px #333;
 }
 
 div.panel > table {
@@ -56,6 +93,10 @@ div.linear_panel {
 	z-index:		10;
 
 	background:		black;
+}
+
+div.linear_panel > .directory{
+	display:		none;
 }
 
 div.linear_panel > .header {
@@ -89,6 +130,8 @@ body > .item {
 .line > .item:hover{
 	border-color: rgb(0,136,232);	
 }
+
+.dir_img > a,
 .line > .item > a {
 	opacity:	0;
 	width:		100%;

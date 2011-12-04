@@ -39,6 +39,16 @@ function init_admin(){
 		revert: 		true
 	});
 
+	$(".directory").draggable({
+		cursor: 		"move",
+		zIndex: 		1000,
+		opacity: 		0.5,
+		helper: 		'clone',
+		appendTo: 		'body',
+		scroll: 		false,
+		revert: 		true
+	});
+
 	$(".panel .item").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
@@ -59,12 +69,11 @@ function init_admin(){
 						from  = dragg.children(".path").text();
 						to 	  = $(this).children(".path").text();
 
-						if($(dragg).hasClass("menu_title")){
-							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
-						}else{
+						if($(dragg).hasClass("item")){
 							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
+						}else{
+							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
 						}
-
 					}
 	});
 
@@ -76,14 +85,14 @@ function init_admin(){
 
 						file  = dragg.children(".path").text();
 
-						if($(dragg).hasClass("menu_title")){
+						if($(dragg).hasClass("item")){
+							$(".panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
+						}else{
 							$("#page").load("?t=Adm&a=Del&j=Pag",{'del' : file },function(){
 								init_panel();
 								init_infos();
 								init_admin();
 							});
-						}else{
-							$(".panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
 						}
 
 					}
@@ -130,8 +139,6 @@ function init_admin(){
 		return false;
 	});
 
-
-	init_delete();
 }
 
 function init_infos(){
@@ -154,12 +161,6 @@ function init_infos(){
 
 	init_forms();
 
-}
-
-function init_delete(){
-	$(".delete a").click(function(){
-//		$(".panel").load($(this).attr("href")+"a="+$(this).parent().children(".name").text());
-	});
 }
 
 function init_forms(){

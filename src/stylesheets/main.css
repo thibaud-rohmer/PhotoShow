@@ -43,6 +43,14 @@ h1 {
 	padding:			5px 0 10px 0;
 }
 
+h2 {
+	clear:				both;
+	padding:			0px 0px 5px 10px;
+	margin-bottom:		15px;
+	font-style:			italic;
+	border-bottom:		1px solid #444;
+}
+
 h3 {
 	font-weight:		normal;
 	color:				#bbb;

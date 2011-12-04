@@ -64,6 +64,8 @@ class Board implements HTMLObject
 	/// Array of each line of the grid
 	private $boardlines=array();
 
+	/// Array of the folders
+	private $boardfolders=array();
 
 	/**
 	 * Board constructor
@@ -94,6 +96,7 @@ class Board implements HTMLObject
 		$this->grid();
 
 
+		$this->foldergrid();
 	}
 	
 	/**
@@ -106,10 +109,20 @@ class Board implements HTMLObject
 		// Output header
 		$this->header->toHTML();
 		
-		// Output grid
-		foreach($this->boardlines as $boardline)
-			$boardline->toHTML();
+		if(sizeof($this->boardfolders)>0){
+			echo "<h2>Directories</h2>";
+			foreach($this->boardfolders as $boardfolder){
+				$boardfolder->toHTML();
+			}
+		}
 
+		if(sizeof($this->boardlines)>0){
+			echo "<h2>Images</h2>";
+		}
+		// Output grid
+		foreach($this->boardlines as $boardline){
+			$boardline->toHTML();
+		}
 	}
 	
 	/**
@@ -121,6 +134,7 @@ class Board implements HTMLObject
 	private function grid(){
 		// Create line
 		$bl =	new BoardLine();
+		$notempty = false;
 		
 		foreach($this->files as $file){
 
@@ -137,15 +151,37 @@ class Board implements HTMLObject
 				$bl->end_line();
 				$this->boardlines[] = $bl;
 				$bl =	new BoardLine();
+				$notempty = false;
 			}
 			
 			// Add item to the line
 			$bl->add_item($file,$ratio);
+			$notempty = true;
 		}
 		$bl->end_line();
-		$this->boardlines[] = $bl;
+
+		if($notempty){
+			$this->boardlines[] = $bl;
+		}
+	}
+
+	/**
+	 * Generate a foldergrid
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	private function foldergrid(){
+		foreach($this->dirs as $d){
+			$f = Menu::list_files($d,true);
+			if(sizeof($f) > 0){
+				$item = new BoardDir($d,$f);
+				$this->boardfolders[] = $item;
+			}
+		}
 
 	}
+
 
 	/**
 	 * Calculate item ratio.

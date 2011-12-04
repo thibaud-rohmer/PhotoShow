@@ -173,7 +173,7 @@ class Menu implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function list_files($dir,$rec = false, $hidden = false){
+	public static function list_files($dir,$rec = false, $hidden = false, $stopatfirst = false){
 		/// Directories list
 		$list=array();
 		
@@ -193,6 +193,11 @@ class Menu implements HTMLObject
 					if(File::Type($path) && File::Type($path) == "Image"){
 						/// Add content to list
 						$list[]=$path;
+
+						/// We found the first one
+						if($stopatfirst){
+							return $list;
+						}
 					}
 				}else{
 

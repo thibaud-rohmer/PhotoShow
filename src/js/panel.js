@@ -26,5 +26,13 @@ function init_panel(){
 
 	});
 
+	$(".dir_img").mousemove(function(e){
+		var i = $(this).children(".alt_dir_img");
+		var x = Math.floor(i.length * (e.pageX - $(this).offset().left) / $(this).width());
+		var img = $(i[x]).text();
+		$(this).css("background"," black url(\"?t=Thb&f="+img+"\") no-repeat center center !important; ");
+	});
+
+
 	init_admin();
 }
