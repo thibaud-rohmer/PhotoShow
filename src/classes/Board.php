@@ -110,7 +110,7 @@ class Board implements HTMLObject
 		$this->header->toHTML();
 		
 		if(sizeof($this->boardfolders)>0){
-			echo "<h2>Directories</h2>";
+			echo "<h2>Albums</h2>";
 			foreach($this->boardfolders as $boardfolder){
 				$boardfolder->toHTML();
 			}
