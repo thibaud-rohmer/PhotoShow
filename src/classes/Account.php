@@ -107,10 +107,10 @@ class Account extends Page
 	 * @param string $password 
 	 * @author Thibaud Rohmer
 	 */ 
-	public static function create($login,$password,$groups=array(),$name='',$email=''){
+	public static function create($login, $password, $verif, $groups=array(),$name='',$email=''){
 		
 		// Check if login already exists
-		if(Account::exists($login) || Settings::$noregister)
+		if(Account::exists($login) || Settings::$noregister || $password != $verif)
 			return false;
 
 		// All users belong to the "user" group

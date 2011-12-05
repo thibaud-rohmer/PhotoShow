@@ -127,7 +127,7 @@ class CurrentUser
 								break;
 				
 				case "Reg"	:	if(isset($_POST['login']) && isset($_POST['password'])){
-									if(!Account::create($_POST['login'],$_POST['password'])){
+									if(!Account::create($_POST['login'],$_POST['password'],$_POST['verif'])){
 										echo "Error creating account.";
 									}
 								}

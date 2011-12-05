@@ -81,6 +81,9 @@ class RegisterPage extends Page
 		echo "<span>Password : minimum 6 characters</span>";
 		echo "<fieldset><span>Password</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
+		echo "Please type your password again :<br/>";
+		echo "<fieldset><span>Verification</span>\n";
+		echo "<div><input type='password' name='verif'></div></fieldset>\n";
 		echo "<input type='submit'> or <a class='inline' href='.'>go back</a>";
 		echo "</form>\n";
 		echo "</div>\n";
