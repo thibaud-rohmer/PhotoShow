@@ -103,6 +103,7 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	private function init_wanted(){
+		$this->wanted['Name'][]			=	'FileName';		
 		$this->wanted['Model'][]		=	'Model';
 		$this->wanted['Make'][]			=	'Make';
 		$this->wanted['Expo'][]			=	'ExposureTime';
@@ -118,10 +119,7 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<table>";
-		echo "<tr><td class='td_data'>Name</td>";
-		echo "<td class='td_value'>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</td></tr>\n";
-		
+		echo "<table>";		
 		foreach($this->exif as $name=>$value){
 			echo "<tr><td class='td_data'>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td>";
 			echo "<td class='td_value'>".htmlentities($value, ENT_QUOTES ,'UTF-8')."</td></tr>\n";
@@ -179,7 +177,11 @@ class Exif implements HTMLObject
 									break;
 			case 'FocalLength':		$v		=	$this->frac2float($raw_exif[$d])." mm";
 									break;
-			case 'ApertureValue':	$v  = 		"1/".number_format($this->frac2float($raw_exif[$d]),"1");
+			case 'ApertureValue':	if($a = number_format($this->frac2float($raw_exif[$d]),"1") > 0){
+										$v = "1/".$a;
+									}else{
+										$v='Unknown';
+									}
 									break;
 		}
 		return $v;
