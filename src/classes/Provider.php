@@ -64,7 +64,7 @@ class Provider
 		if( !Judge::view($file)){
 			return;
 		}
-		if(function_exists(error_reporting)){
+		if(function_exists("error_reporting")){
 			error_reporting(0);
 		}
 
