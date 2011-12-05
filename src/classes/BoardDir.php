@@ -94,14 +94,21 @@ class BoardDir implements HTMLObject
 		echo 	"<span class='img_bg hidden'></span>";
 
 		/// Images in the directory
-		if( sizeof($this->images) > 20 ){
-			for($i=0;$i<20;$i++){
-				$pos = floor(sizeof($this->images) *  $i / 20 );
-				echo "<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($this->images[$pos]), ENT_QUOTES ,'UTF-8'))."</div>";
+		if( sizeof($this->images) > Settings::$max_img_dir ){
+			for($i=0;$i < Settings::$max_img_dir;$i++){
+				
+				$pos = floor(sizeof($this->images) *  $i / Settings::$max_img_dir );
+				
+				if(Judge::view($this->images[$pos])){
+					echo "<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($this->images[$pos]), ENT_QUOTES ,'UTF-8'))."</div>";
+				}
+
 			}
 		}else{
 			foreach($this->images as $img){
-				echo 	"<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($img), ENT_QUOTES ,'UTF-8'))."</div>";
+				if(Judge::view($img)){
+					echo 	"<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($img), ENT_QUOTES ,'UTF-8'))."</div>";
+				}
 			}
 		}
 		echo 	"<a href='?f=$this->url'>";

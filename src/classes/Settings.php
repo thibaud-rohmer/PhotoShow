@@ -75,8 +75,15 @@ class Settings extends Page
 	/// Max number of comments
 	static public $max_comments=50;
 
+	/// Max number of comments
+	static public $max_img_dir=5;
+
+
+
 	/// Folders list
 	private $folders=array();
+
+
 
 	/**
 	 * Create Settings page
@@ -150,11 +157,15 @@ class Settings extends Page
 			if(isset($admin_settings['max_comments'])){
 				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
 			}
+
+			if(isset($admin_settings['max_img_dir'])){
+				Settings::$max_img_dir = 	$admin_settings['max_img_dir'] + 0;
+			}
 		}
 	}
 
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments","max_img_dir");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -224,7 +235,13 @@ class Settings extends Page
 
 
 
+
+		echo "Number of Comments in Admin Stats page<br/>";
 		echo "<fieldset><span>Comments</span><div><input type='text' name='max_comments' value=\"".htmlentities(Settings::$max_comments, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
+
+		echo "Max number of images when hovering an album<br/>";
+		echo "<fieldset><span>Img Dir</span><div><input type='text' name='max_img_dir' value=\"".htmlentities(Settings::$max_img_dir, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
+
 
 		echo "<fieldset><input type='submit' /></fieldset>\n";
 		echo "</form>\n";
