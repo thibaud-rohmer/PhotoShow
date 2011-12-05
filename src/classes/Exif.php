@@ -51,6 +51,9 @@ class Exif implements HTMLObject
 	/// Exif values, nice and clean
 	private $exif=array();
 	
+	/// Name of the file
+	private $filename;
+
 	/**
 	 * Create Exif class
 	 *
@@ -90,6 +93,7 @@ class Exif implements HTMLObject
 				}	
 			}
 		}	
+		$this->filename = basename($file);
 	}
 	
 	/**
@@ -99,7 +103,6 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	private function init_wanted(){
-		$this->wanted['Name'][]			=	'FileName';
 		$this->wanted['Model'][]		=	'Model';
 		$this->wanted['Make'][]			=	'Make';
 		$this->wanted['Expo'][]			=	'ExposureTime';
@@ -116,6 +119,9 @@ class Exif implements HTMLObject
 	 */
 	public function toHTML(){
 		echo "<table>";
+		echo "<tr><td class='td_data'>Name</td>";
+		echo "<td class='td_value'>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</td></tr>\n";
+		
 		foreach($this->exif as $name=>$value){
 			echo "<tr><td class='td_data'>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td>";
 			echo "<td class='td_value'>".htmlentities($value, ENT_QUOTES ,'UTF-8')."</td></tr>\n";
