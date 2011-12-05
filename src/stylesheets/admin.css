@@ -326,3 +326,8 @@ div.adminblock > div{
 	height:				120px;
 	overflow:			auto;
 }
+
+div.leftcolumn > fieldset{
+	margin:				0;
+	width:				100%;
+}

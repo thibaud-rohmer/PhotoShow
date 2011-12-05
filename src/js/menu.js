@@ -33,9 +33,7 @@ function init_menu(){
 		update_url($(this).attr("href"),$(this).text());
 		return false;
 	});
-
 	init_menubar();
-	init_admin();
 }
 
 

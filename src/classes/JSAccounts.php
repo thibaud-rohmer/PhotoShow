@@ -63,6 +63,12 @@ class JSAccounts
 
 		echo "<div class='leftcolumn'>";
 		echo "<h1>Accounts</h1>";
+
+		echo "<fieldset>";
+		$r = new RegisterPage(false,true);
+		$r->toHTML();
+		echo "</fieldset>";
+		
 		foreach($this->accounts as $acc){
 			echo "<div class='accountitem'>
 						<div class='delete'>

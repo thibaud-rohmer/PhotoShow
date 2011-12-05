@@ -18,6 +18,11 @@ fieldset {
 	box-shadow:			0 1px 1px #333;
 }
 
+fieldset fieldset{
+	background:			none;
+	box-shadow:			none;
+}
+
 fieldset > span {
 	font-size:			15pt;
 	color:				#555;

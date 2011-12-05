@@ -48,13 +48,18 @@
 class RegisterPage extends Page
 {
 	
+	private $admin_account;
+
+	private $included;
+
 	/**
 	 * Create Register Page
 	 *
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($admin_account = false){
+	public function __construct($admin_account = false, $included = false){
 		$this->admin_account = $admin_account;		
+		$this->included 	 = $included;
 	}
 	
 	/**
@@ -64,17 +69,22 @@ class RegisterPage extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<div class='panel'>\n";
 
-		$this->header();
-		if($this->admin_account){
-			echo "<h1>Please create the main account</h1>";						
+		if(!$this->included){
+			echo "<div class='panel'>\n";
+
+			$this->header();
+			
+			if($this->admin_account){
+				echo "<h1>Please create the main account</h1>";						
+			}else{
+				echo "<h1>Register</h1>";
+			}
+			
+			echo "<form method='post' action='?t=Reg'>\n";
 		}else{
-			echo "<h1>Register</h1>";
-
+			echo "<form class='adduser' method='post' action='?t=Adm&a=AAc'>\n";
 		}
-		
-		echo "<form method='post' action='?t=Reg'>\n";
 		echo "<span>Login : letters and numbers only</span>";
 		echo "<fieldset><span>Login</span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
@@ -86,7 +96,10 @@ class RegisterPage extends Page
 		echo "<div><input type='password' name='verif'></div></fieldset>\n";
 		echo "<input type='submit'> or <a class='inline' href='.'>go back</a>";
 		echo "</form>\n";
-		echo "</div>\n";
+
+		if(!$this->included){
+			echo "</div>\n";
+		}
 	}
 }
 ?>

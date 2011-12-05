@@ -128,6 +128,10 @@
 				case "GC"		:	Group::create($_POST['group']);
 									$this->page = new JSAccounts();
 									break;
+
+				case "AAc"		:	Account::create($_POST['login'],$_POST['password'],$_POST['verif']);
+									$this->page = new JSAccounts();
+									break;
 				
 				case "AGA"		:	$a = new Account($_POST['acc']);
 									$a->add_group($_POST['group']);
