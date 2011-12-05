@@ -81,6 +81,9 @@ class Index
 			case "Img":		Provider::Image(CurrentUser::$path);
 							break;
 			
+			case "BDl":		Provider::Image(CurrentUser::$path,false,true,true,true);
+							break;
+
 			case "Big":		Provider::Image(CurrentUser::$path,false,true);
 							break;
 

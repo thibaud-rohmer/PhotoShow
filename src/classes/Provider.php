@@ -59,7 +59,7 @@ class Provider
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function image($file,$thumb=false,$large=false,$output=true){
+	public static function image($file,$thumb=false,$large=false,$output=true,$dl=false){
 		
 		if( !Judge::view($file)){
 			return;
@@ -130,19 +130,23 @@ class Provider
 		}
 
 		if($output){
-			$expires = 60*60*24*14;
-			$last_modified_time = filemtime($path); 
-			$last_modified_time = 0;
-			$etag = md5_file($file); 
+			if($dl){
+				header('Content-Disposition: attachment; filename="'.basename($file).'"');
+				header('Content-type: image/jpeg');
+			}else{
+				$expires = 60*60*24*14;
+				$last_modified_time = filemtime($path); 
+				$last_modified_time = 0;
+				$etag = md5_file($file); 
 
-		    header("Last-Modified: " . 0 . " GMT");
-			header("Pragma: public");
-			header("Cache-Control: max-age=360000");
-			header("Etag: $etag"); 
-			header("Cache-Control: maxage=".$expires);
-			header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-			header('Content-type: image/jpeg');
-
+		    	header("Last-Modified: " . 0 . " GMT");
+				header("Pragma: public");
+				header("Cache-Control: max-age=360000");
+				header("Etag: $etag"); 
+				header("Cache-Control: maxage=".$expires);
+				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+				header('Content-type: image/jpeg');
+			}
 			readfile($path);
 		}
 	}
