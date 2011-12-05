@@ -118,7 +118,7 @@ class ImagePanel implements HTMLObject
 		if(Settings::$like){				
 			$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 
-			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.urlencode($pageURL."&t=Big").'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
+			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.urlencode($pageURL).'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
 		
 		}
 		echo "</div>";
