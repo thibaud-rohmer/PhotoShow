@@ -110,7 +110,7 @@ class Account extends Page
 	public static function create($login,$password,$groups=array(),$name='',$email=''){
 		
 		// Check if login already exists
-		if(Account::exists($login))
+		if(Account::exists($login) || Settings::$noregister)
 			return false;
 
 		// All users belong to the "user" group

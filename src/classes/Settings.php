@@ -66,6 +66,12 @@ class Settings extends Page
 	/// Display Google button
 	static public $plusone=false;
 
+	/// Remove comments button
+	static public $nocomments=false;
+
+	/// Remove registering options
+	static public $noregister=false;
+
 	/// Max number of comments
 	static public $max_comments=50;
 
@@ -137,6 +143,9 @@ class Settings extends Page
 
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
+			Settings::$noregister	=	isset($admin_settings['noregister']);
+			Settings::$nocomments	=	isset($admin_settings['nocomments']);
+
 
 			if(isset($admin_settings['max_comments'])){
 				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
@@ -145,7 +154,7 @@ class Settings extends Page
 	}
 
 	public static function set(){
-		$var = array("name","like","plusone","max_comments");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -195,6 +204,24 @@ class Settings extends Page
 		}
 
 		echo "</div></fieldset>\n";
+
+
+		echo "<fieldset><span>Register</span><div class='buttondiv'>\n";
+		if(Settings::$noregister){
+			echo "<label><input type='checkbox' name='noregister' checked>Desactivate registering</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='noregister'>Desactivate registering</label>\n";
+		}
+		echo "</div></fieldset>\n";
+
+		echo "<fieldset><span>Comment</span><div class='buttondiv'>\n";
+		if(Settings::$nocomments){
+			echo "<label><input type='checkbox' name='nocomments' checked>Desactivate comments</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='nocomments'>Desactivate comments</label>\n";
+		}
+		echo "</div></fieldset>\n";
+
 
 
 		echo "<fieldset><span>Comments</span><div><input type='text' name='max_comments' value=\"".htmlentities(Settings::$max_comments, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";

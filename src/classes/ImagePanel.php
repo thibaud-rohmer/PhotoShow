@@ -81,8 +81,10 @@ class ImagePanel implements HTMLObject
 		/// Create EXIF object
 		$this->exif		=	new Exif($file);
 		
-		/// Create Comments object
-		$this->comments	=	new Comments($file);
+		if(!Settings::$nocomments){
+			/// Create Comments object
+			$this->comments	=	new Comments($file);
+		}
 
 		/// Set the Judge
 		$this->judge 	=	new Judge($file);
@@ -136,7 +138,9 @@ class ImagePanel implements HTMLObject
 		echo "</div>\n";
 
 		echo "<div id='comments' class='box'>\n";
-		$this->comments->toHTML();
+		if(!Settings::$nocomments){
+			$this->comments->toHTML();
+		}
 		echo "</div>\n";
 
 	}
