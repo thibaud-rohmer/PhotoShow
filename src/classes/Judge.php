@@ -291,7 +291,7 @@ class Judge
 	public function toHTML(){
 		
 		echo "<div class='adminrights'>\n";
-		echo "<h3>$this->filename</h3>\n";
+		echo "<h3>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h3>\n";
 
 
 		if($this->public){
