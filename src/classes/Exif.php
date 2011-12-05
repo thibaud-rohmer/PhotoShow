@@ -84,13 +84,13 @@ class Exif implements HTMLObject
 		
 		/// Read exif
 		$raw_exif	=	@exif_read_data($file);
-		
+
 		/// Parse exif
 		foreach($this->wanted as $name => $data){
 			foreach($data as $d){
 				if(isset($raw_exif[$d])){
 					$this->exif[$name]	=	$this->parse_exif($d,$raw_exif);
-				}	
+				}
 			}
 		}	
 		$this->filename = basename($file);
@@ -107,7 +107,7 @@ class Exif implements HTMLObject
 		$this->wanted['Make'][]			=	'Make';
 		$this->wanted['Expo'][]			=	'ExposureTime';
 		$this->wanted['Focal Length'][]	=	'FocalLength';
-		$this->wanted['Aperture'][]		=	'FNumber';
+		$this->wanted['Aperture'][]		=	'ApertureValue';
 		$this->wanted['ISO'][]			=	'ISOSpeedRatings';
 	}
 	
@@ -179,7 +179,7 @@ class Exif implements HTMLObject
 									break;
 			case 'FocalLength':		$v		=	$this->frac2float($raw_exif[$d])." mm";
 									break;
-			case 'FNumber':			$v	=	$this->nicefrac($this->frac2float($raw_exif[$d]),$this->frac2float($raw_exif['FocalLength']));
+			case 'ApertureValue':	$v  = 		"1/".number_format($this->frac2float($raw_exif[$d]),"1");
 									break;
 		}
 		return $v;
