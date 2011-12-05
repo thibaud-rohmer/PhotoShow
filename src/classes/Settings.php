@@ -72,6 +72,9 @@ class Settings extends Page
 	/// Remove registering options
 	static public $noregister=false;
 
+	/// Remove download options
+	static public $nodownload=false;
+
 	/// Max number of comments
 	static public $max_comments=50;
 
@@ -152,6 +155,7 @@ class Settings extends Page
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
 			Settings::$noregister	=	isset($admin_settings['noregister']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
+			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 
 
 			if(isset($admin_settings['max_comments'])){
@@ -165,7 +169,7 @@ class Settings extends Page
 	}
 
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments","max_img_dir");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -233,6 +237,13 @@ class Settings extends Page
 		}
 		echo "</div></fieldset>\n";
 
+		echo "<fieldset><span>Comment</span><div class='buttondiv'>\n";
+		if(Settings::$nodownload){
+			echo "<label><input type='checkbox' name='nodownload' checked>Desactivate download, img, get links</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='nodownload'>Desactivate download, img, get links</label>\n";
+		}
+		echo "</div></fieldset>\n";
 
 
 

@@ -116,10 +116,14 @@ class CurrentUser
 				
 				case "Page"	:
 				case "Img"	:
-				case "Thb"	:
+				case "Thb"	:	CurrentUser::$action=$_GET['t'];
+								break;
+
 				case "Big"	:
 				case "BDl"	:
-				case "Zip"	:	CurrentUser::$action=$_GET['t'];
+				case "Zip"	:	if(!Settings::$nodownload){
+									CurrentUser::$action=$_GET['t'];
+								}
 								break;
 				
 				case "Reg"	:	if(isset($_POST['login']) && isset($_POST['password'])){

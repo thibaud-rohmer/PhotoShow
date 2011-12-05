@@ -67,8 +67,11 @@ class ImageBar
 
 		$this->buttons['prev'] = 	$t."p=p&f=".$file;
 		$this->buttons['back'] = 	"?f=".urlencode(File::a2r(dirname(CurrentUser::$path)));
-		$this->buttons['img']  = 	"?t=Big&f=".$file;
-		$this->buttons['get']  = 	"?t=BDl&f=".$file;
+
+		if(!Settings::$nodownload){
+			$this->buttons['img']  = 	"?t=Big&f=".$file;
+			$this->buttons['get']  = 	"?t=BDl&f=".$file;
+		}
 		$this->buttons['next'] = 	$t."p=n&f=".$file;
 
 	}
