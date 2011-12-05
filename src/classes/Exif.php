@@ -144,6 +144,17 @@ class Exif implements HTMLObject
 	}
 	
 	/**
+	 * Create a beautiful fraction
+	 *
+	 * @param string $f 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	function nicefrac($a,$b){
+		return "1/".number_format($b/$a,"1");
+	}
+
+	/**
 	 * Parse exif data
 	 *
 	 * @param string $d 
@@ -168,7 +179,7 @@ class Exif implements HTMLObject
 									break;
 			case 'FocalLength':		$v		=	$this->frac2float($raw_exif[$d])." mm";
 									break;
-			case 'FNumber':			$v	=	$this->frac2float($raw_exif['FocalLength'])/$this->frac2float($raw_exif[$d]);
+			case 'FNumber':			$v	=	$this->nicefrac($this->frac2float($raw_exif[$d]),$this->frac2float($raw_exif['FocalLength']));
 									break;
 		}
 		return $v;
