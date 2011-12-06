@@ -177,7 +177,7 @@ class Board implements HTMLObject
 				continue;
 			}
 			$f = Menu::list_files($d,true);
-			if(sizeof($f) > 0){
+			if( CurrentUser::$admin || CurrentUser::$uploader || sizeof($f) > 0){
 				$item = new BoardDir($d,$f);
 				$this->boardfolders[] = $item;
 			}

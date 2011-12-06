@@ -75,6 +75,11 @@ class Menu implements HTMLObject
 		/// Check rights
 		if(!(Judge::view($dir)))	return;		
 
+
+		if(!CurrentUser::$admin && !CurrentUser::$uploader && sizeof($this->list_files($dir,true,false,true)) == 0){
+			return;
+		}
+
 		/// Set variables
 		$this->title = basename($dir);
 		$this->webdir= urlencode(File::a2r($dir));
