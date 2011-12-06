@@ -132,9 +132,9 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function toHTML(){
- 		echo 	"<h1>Delete</h1>";
+ 		echo 	"<h1>".Settings::_("delete","delete")."</h1>";
  		echo 	"<form action='?t=Adm&a=Del' method='post' enctype='multipart/form-data'>";
- 		echo 	"<fieldset><span>Delete</span><div><select name='del'>";
+ 		echo 	"<fieldset><span>".Settings::_("delete","path")."</span><div><select name='del'>";
 		foreach($this->files as $file){
  				if($file == $this->selected){
  					$selected = "selected";
@@ -146,7 +146,7 @@
 
  		echo 	"</select></div></fieldset>\n";
 
- 		echo 	"<fieldset><input type='submit' /></fieldset>";
+ 		echo 	"<fieldset><input type='submit' value='".Settings::_("delete","submit")."'/></fieldset>";
  		echo 	"</form>";
 
  	}

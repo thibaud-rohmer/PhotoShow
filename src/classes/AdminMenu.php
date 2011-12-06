@@ -52,9 +52,10 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function __construct(){
- 		$this->options['Sta']	= "View Statistics";
- 	 	$this->options['Set']	= "Edit Settings";
- 	 	$this->options['EdA']	= "Edit Accounts";
+ 		$this->options['Abo']	= Settings::_("adminmenu","about");
+ 		$this->options['Sta']	= Settings::_("adminmenu","stats");
+ 	 	$this->options['Set']	= Settings::_("adminmenu","settings");
+ 	 	$this->options['EdA']	= Settings::_("adminmenu","accounts");
  	}
  
  	/**
@@ -77,7 +78,7 @@
  		}
 		echo "<div class='menu_item'>\n";
 		echo "<div class='menu_title'>\n";
-		echo "<a href='.'>Back</a>";
+		echo "<a href='.'>".Settings::_("adminmenu","back")."</a>";
 		echo "</div>\n</div>\n";
 
  	}

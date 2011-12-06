@@ -114,7 +114,7 @@ class Comments implements HTMLObject
 			if(isset(CurrentUser::$account)){
 				$login = CurrentUser::$account->login;
 			}else{
-				$login = "Anonymous";
+				$login = Settings::_("comments","anonymous");
 			}
 		}
 
@@ -239,10 +239,10 @@ class Comments implements HTMLObject
 			if(isset(CurrentUser::$account)){
 				echo "<fieldset><input type='text' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";					
 			}else{
-				echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
+				echo "<fieldset><input type='text' name='login' id='login' value='".Settings::_("comments","anonymous")."'></fieldset>\n";					
 			}
 			echo "<textarea name='content' id='content'></textarea>\n";
-			echo "<input type='submit' value='Post Comment'>\n";
+			echo "<input type='submit' value='".Settings::_("comments","submit")."'>\n";
 		echo "</form>\n";	
 		
 		echo "</div>";		

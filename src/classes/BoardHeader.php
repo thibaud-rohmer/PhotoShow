@@ -75,7 +75,7 @@ class BoardHeader{
 		
 		if(!Settings::$nodownload){
 			/// Zip button
-			echo 	"<a href='?t=Zip&f=$this->path' class='button'>DOWNLOAD</a>\n";
+			echo 	"<a href='?t=Zip&f=$this->path' class='button'>".Settings::_("boardheader","download")."</a>\n";
 		}
 		echo 	"</span>\n";
 		echo 	"</div>\n";

@@ -76,25 +76,25 @@ class RegisterPage extends Page
 			$this->header();
 			
 			if($this->admin_account){
-				echo "<h1>Please create the main account</h1>";						
+				echo "<h1>".Settings::_("register","mainacc")."</h1>";						
 			}else{
-				echo "<h1>Register</h1>";
+				echo "<h1>".Settings::_("register","register")."</h1>";
 			}
 			
 			echo "<form method='post' action='?t=Reg'>\n";
 		}else{
 			echo "<form class='adduser' method='post' action='?t=Adm&a=AAc'>\n";
 		}
-		echo "<span>Login : letters and numbers only</span>";
-		echo "<fieldset><span>Login</span>";
+		echo "<span>".Settings::_("register","logintxt")."</span>";
+		echo "<fieldset><span>".Settings::_("register","login")."</span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
-		echo "<span>Password : minimum 6 characters</span>";
-		echo "<fieldset><span>Password</span>\n";
+		echo "<span>".Settings::_("register","passtxt")."</span>";
+		echo "<fieldset><span>".Settings::_("register","pass")."</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "Please type your password again :<br/>";
-		echo "<fieldset><span>Verification</span>\n";
+		echo "<span>".Settings::_("register","veriftxt")."</span>";
+		echo "<fieldset><span>".Settings::_("register","verif")."</span>\n";
 		echo "<div><input type='password' name='verif'></div></fieldset>\n";
-		echo "<input type='submit'> or <a class='inline' href='.'>go back</a>";
+		echo "<input type='submit' value='".Settings::_("register","submit")."'> ".Settings::_("register","or")." <a class='inline' href='.'>".Settings::_("register","back")."</a>";
 		echo "</form>\n";
 
 		if(!$this->included){

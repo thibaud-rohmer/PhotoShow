@@ -297,8 +297,8 @@ class Judge
 		if($this->public){
 
 			echo "<form action='?t=Pri&f=$this->webpath' method='post'>\n";
-			echo "This item is public.";
-			echo "<input type='submit' class='button blue' value='Go Private' />";
+			echo Settings::_("judge","public");
+			echo "<input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' />";
 			echo "</form>";
 			echo "</div>";
 			return;
@@ -306,14 +306,14 @@ class Judge
 		}else{
 
 			echo "<form action='?t=Pub&f=$this->webpath' method='post'>\n";
-			echo "This item is private.";
-			echo "<input type='submit' class='button blue' value='Go Public' />";
+			echo Settings::_("judge","priv");
+			echo "<input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' />";
 			echo "</form>";
 
 		}
 
 		echo "<form action='?t=Rig&f=$this->webpath' method='post'>\n";
-		echo "<h3>Accounts</h3>";
+		echo "<h3>".Settings::_("judge","accounts")."</h3>";
 
 		foreach(Account::findAll() as $account){
 			
@@ -326,7 +326,7 @@ class Judge
 			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label>";
 		}
 
-		echo "<h3>Groups</h3>";
+		echo "<h3>".Settings::_("judge","groups")."</h3>";
 
 		foreach(Group::findAll() as $group){
 			if($group['name'] == "root"){
@@ -341,7 +341,7 @@ class Judge
 			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
 		}
 
-		echo "</br><input type='submit' class='button blue' value='Set Rights'>\n";
+		echo "</br><input type='submit' class='button blue' value='".Settings::_("judge","set")."'>\n";
 		echo "</form>\n";
 		echo "</div>\n";
 	}

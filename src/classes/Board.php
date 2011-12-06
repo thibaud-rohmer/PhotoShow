@@ -110,14 +110,14 @@ class Board implements HTMLObject
 		$this->header->toHTML();
 		
 		if(sizeof($this->boardfolders)>0){
-			echo "<h2>Albums</h2>";
+			echo "<h2>".Settings::_("board","albums")."</h2>";
 			foreach($this->boardfolders as $boardfolder){
 				$boardfolder->toHTML();
 			}
 		}
 
 		if(sizeof($this->boardlines)>0){
-			echo "<h2>Images</h2>";
+			echo "<h2>".Settings::_("board","images")."</h2>";
 		}
 		// Output grid
 		foreach($this->boardlines as $boardline){

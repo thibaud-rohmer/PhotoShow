@@ -62,7 +62,7 @@ class JSAccounts
 		$groupaccounts = array();
 
 		echo "<div class='leftcolumn'>";
-		echo "<h1>Accounts</h1>";
+		echo "<h1>".Settings::_("jsaccounts","accounts")."</h1>";
 
 		echo "<fieldset>";
 		$r = new RegisterPage(false,true);
@@ -87,16 +87,16 @@ class JSAccounts
 		echo "</div>";
 
 		echo "<div class='rightcolumn'>";
-		echo "<h1>Groups</h1>";
+		echo "<h1>".Settings::_("jsaccounts","groups")."</h1>";
 
 		echo "<div class='newgroup'>";
 		echo "
 		<form class='addgroup' type='post' action='?t=Adm&a=GC'>
 			<fieldset>
-			<span>Add group</span>
+			<span>".Settings::_("jsaccounts","groupname")."</span>
 			<div><input type='text' name='group' value='Group Name' /></div>
 			</fieldset>
-			<fieldset><input type='submit' value='Create'></fieldset>
+			<fieldset><input type='submit' value='".Settings::_("jsaccounts","addgroup")."'></fieldset>
 			</form>\n";
 		echo "</div>";
 

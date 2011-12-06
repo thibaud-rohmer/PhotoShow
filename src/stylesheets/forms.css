@@ -24,13 +24,13 @@ fieldset fieldset{
 }
 
 fieldset > span {
-	font-size:			15pt;
+	font-size:			13pt;
 	color:				#555;
 	text-align:			right;
 	position:			absolute;
 	left:				3px;
 	width:				100px;
-	padding:			2px;
+	padding:			5px;
 	top:				3px;
 	height:				19px;
 }

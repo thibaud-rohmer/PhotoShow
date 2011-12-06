@@ -57,35 +57,53 @@ class Settings extends Page
 	/// File where the admin settings are stored
 	static public $admin_settings_file;
 
+
+	/**** Admin Settings ****/
+
 	/// Website name
-	static public $name="PhotoShow";
+	static public $name 		=	"PhotoShow";
 
 	/// Display Facebook button
-	static public $like=false;
+	static public $like 		=	false;
 
 	/// Display Google button
-	static public $plusone=false;
+	static public $plusone 		=	false;
 
 	/// Remove comments button
-	static public $nocomments=false;
+	static public $nocomments 	=	false;
 
 	/// Remove registering options
-	static public $noregister=false;
+	static public $noregister	=	false;
 
 	/// Remove download options
-	static public $nodownload=false;
+	static public $nodownload	=	false;
 
 	/// Max number of comments
-	static public $max_comments=50;
+	static public $max_comments	=	50;
 
 	/// Max number of comments
-	static public $max_img_dir=5;
+	static public $max_img_dir	=	5;
+
+	/// Selected localization
+	static public $loc 			=	"default";
+
+	/// Default localization
+	static private $loc_default	=	array();
+
+	/// Localization selected
+	static private $loc_chosen 	=	array();
 
 
+	/**** Other ****/
 
 	/// Folders list
-	private $folders=array();
+	private $folders 			=	array();
 
+	/// Path to localizations
+	static private $locpath 	=	array();
+
+	/// Available localizations
+	static private $ava_loc 	=	array();
 
 
 	/**
@@ -144,6 +162,7 @@ class Settings extends Page
 			}
 		}
 
+		// Get Admin Settings
 		if(file_exists(Settings::$admin_settings_file)){
 			$admin_settings = parse_ini_file(Settings::$admin_settings_file);
 
@@ -165,11 +184,53 @@ class Settings extends Page
 			if(isset($admin_settings['max_img_dir'])){
 				Settings::$max_img_dir = 	$admin_settings['max_img_dir'] + 0;
 			}
+
+			if(isset($admin_settings['loc'])){
+				Settings::$loc = $admin_settings['loc'];
+			}
+		}
+
+		// Localization files path
+		Settings::$locpath = dirname(dirname(dirname(__FILE__)))."/inc/loc/";
+
+		// Get Localization array
+		if(is_file(Settings::$locpath."/".Settings::$loc)){
+			Settings::$loc_chosen = parse_ini_file(Settings::$locpath."/".Settings::$loc,true);
+		}
+
+		Settings::$loc_default = parse_ini_file(Settings::$locpath."/default.ini",true);
+
+		// Localization files available
+		Settings::$ava_loc=array();
+		$a = scandir(Settings::$locpath);
+		foreach($a as $f){
+			if(File::Extension($f) == "ini"){
+				Settings::$ava_loc[]=$f;
+			}
 		}
 	}
 
+	/**
+	 * Returns value of $t in selected language
+	 * 
+	 */
+	static public function _($a,$t){
+		if(isset(Settings::$loc_chosen[$a][$t])){
+			return Settings::$loc_chosen[$a][$t];
+		}else if(isset(Settings::$loc_default[$a][$t])){
+			return Settings::$loc_default[$a][$t];
+		}
+		return $t;
+	}
+
+	/**
+	 * Save new settings
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -181,6 +242,10 @@ class Settings extends Page
 		Settings::init(true);
 	}
 
+
+
+
+
 	/**
 	 * Generate thumbs and webimages reccursively inside a folder
 	 *
@@ -189,6 +254,11 @@ class Settings extends Page
 	 */
 	public static function gener_all($folder){
 		$files = Menu::list_files($folder,true);
+
+		if( !ini_get('safe_mode') ){ 
+			set_time_limit(1200); 
+		}
+
 		foreach($files as $file){
 			/// Generate thumb
 			Provider::image($file,true,false,false);
@@ -202,68 +272,82 @@ class Settings extends Page
 	 * Display settings page
 	 */
 	public function toHTML(){
-		echo "<form action='?t=Adm&a=Set' method='post'>\n";
-		echo "<fieldset><span>Title</span><div><input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
-		echo "<fieldset><span>Buttons</span><div class='buttondiv'>\n";
+		echo "<h1>".Settings::_("settings","settings")."</h1>";
+
+		echo "<form action='?t=Adm&a=Set' method='post'>\n";
+		echo "<fieldset><span>".Settings::_("settings","title")."</span><div><input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
+
+		echo "<fieldset><span>".Settings::_("settings","buttons")."</span><div class='buttondiv'>\n";
 		if(Settings::$like){
-			echo "<label><input type='checkbox' name='like' checked>Facebook</label>\n";
+			echo "<label><input type='checkbox' name='like' checked>".Settings::_("settings","fb")."</label>\n";
 		}else{
-			echo "<label><input type='checkbox' name='like'>Facebook</label>\n";
+			echo "<label><input type='checkbox' name='like'>".Settings::_("settings","fb")."</label>\n";
 		}
 
 		if(Settings::$plusone){
-			echo "<label><input type='checkbox' name='plusone' checked>Google +1</label>\n";
+			echo "<label><input type='checkbox' name='plusone' checked>".Settings::_("settings","plusone")."</label>\n";
 		}else{
-			echo "<label><input type='checkbox' name='plusone'>Google +1</label>\n";
+			echo "<label><input type='checkbox' name='plusone'>".Settings::_("settings","plusone")."</label>\n";
 		}
 
 		echo "</div></fieldset>\n";
 
 
-		echo "<fieldset><span>Register</span><div class='buttondiv'>\n";
+		echo "<fieldset><span>".Settings::_("settings","register")."</span><div class='buttondiv'>\n";
 		if(Settings::$noregister){
-			echo "<label><input type='checkbox' name='noregister' checked>Desactivate registering</label>\n";
+			echo "<label><input type='checkbox' name='noregister' checked>".Settings::_("settings","noregister")."</label>\n";
 		}else{
-			echo "<label><input type='checkbox' name='noregister'>Desactivate registering</label>\n";
+			echo "<label><input type='checkbox' name='noregister'>".Settings::_("settings","noregister")."</label>\n";
 		}
 		echo "</div></fieldset>\n";
 
-		echo "<fieldset><span>Comment</span><div class='buttondiv'>\n";
+		echo "<fieldset><span>".Settings::_("settings","comment")."</span><div class='buttondiv'>\n";
 		if(Settings::$nocomments){
-			echo "<label><input type='checkbox' name='nocomments' checked>Desactivate comments</label>\n";
+			echo "<label><input type='checkbox' name='nocomments' checked>".Settings::_("settings","nocomment")."</label>\n";
 		}else{
-			echo "<label><input type='checkbox' name='nocomments'>Desactivate comments</label>\n";
+			echo "<label><input type='checkbox' name='nocomments'>".Settings::_("settings","nocomment")."</label>\n";
 		}
 		echo "</div></fieldset>\n";
 
-		echo "<fieldset><span>Comment</span><div class='buttondiv'>\n";
+		echo "<fieldset><span>".Settings::_("settings","download")."</span><div class='buttondiv'>\n";
 		if(Settings::$nodownload){
-			echo "<label><input type='checkbox' name='nodownload' checked>Desactivate download, img, get links</label>\n";
+			echo "<label><input type='checkbox' name='nodownload' checked>".Settings::_("settings","nodownload")."</label>\n";
 		}else{
-			echo "<label><input type='checkbox' name='nodownload'>Desactivate download, img, get links</label>\n";
+			echo "<label><input type='checkbox' name='nodownload'>".Settings::_("settings","nodownload")."</label>\n";
 		}
 		echo "</div></fieldset>\n";
 
 
 
-		echo "Number of Comments in Admin Stats page<br/>";
-		echo "<fieldset><span>Comments</span><div><input type='text' name='max_comments' value=\"".htmlentities(Settings::$max_comments, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
+		echo Settings::_("settings","numcomments")."<br/>";
+		echo "<fieldset><span>".Settings::_("settings","numcomm")."</span><div><input type='text' name='max_comments' value=\"".htmlentities(Settings::$max_comments, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
-		echo "Max number of images when hovering an album<br/>";
-		echo "<fieldset><span>Img Dir</span><div><input type='text' name='max_img_dir' value=\"".htmlentities(Settings::$max_img_dir, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
+		echo Settings::_("settings","sens")."<br/>";
+		echo "<fieldset><span>".Settings::_("settings","images")."</span><div><input type='text' name='max_img_dir' value=\"".htmlentities(Settings::$max_img_dir, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
+		echo "<fieldset><span>".Settings::_("settings","language")."</span><div><select name='loc'>";
+		foreach(Settings::$ava_loc as $l){
+			$p = htmlentities($l, ENT_QUOTES ,'UTF-8');
+			echo "<option value=\"".addslashes($p)."\"";
+			if($p == Settings::$loc){
+				echo " selected ";
+			}
+			echo ">".substr($p,0,-4)."</option>";
+		}
+		echo "</select></div></fieldset>";
 
-		echo "<fieldset><input type='submit' /></fieldset>\n";
+		echo "<fieldset><input type='submit' value='".Settings::_("settings","submit")."'/></fieldset>\n";
 		echo "</form>\n";
 
-		echo "<h1>Generate all thumbnails and 800x600 images (recursively)</h1>";
+
+		echo "<h1>".Settings::_("settings","generate")."</h1>";
 		echo "<form action='?t=Adm&a=GAl' method='post'>\n";
-		echo "<fieldset><span>Folder</span><div><select name='path'>";
-		echo "<option value='.'>All</option>";
+		echo "<fieldset><span>".Settings::_("settings","folder")."</span><div><select name='path'>";
+		echo "<option value='.'>".Settings::_("settings","all")."</option>";
 		foreach($this->folders as $f){
 			$p = htmlentities(File::a2r($f), ENT_QUOTES ,'UTF-8');
-			echo "<option value=\"".addslashes($p)."\">$p</option>";
+			echo "<option value=\"".addslashes($p)."\">".basename($p)."</option>";
 		}
 		echo "</select></div></fieldset>";
 		echo "<fieldset><input type='submit' value='Generate '/></fieldset>";

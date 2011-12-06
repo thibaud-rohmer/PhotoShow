@@ -68,6 +68,9 @@
  		/// Get actions available for Uploaders too
  		if(isset($_GET['a'])){
 	 		switch($_GET['a']){
+	 			case "Abo" 		: 	$this->page = new AdminAbout();
+	 								break;
+	 								
 		 		case "Upl"		:	if(isset($_POST['path'])){
 		 								AdminUpload::upload();
 		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));

@@ -64,7 +64,7 @@ class JS extends Page
 								$m->toHTML();
 
 								if(CurrentUser::$admin){
-									echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
+									echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 								}
 								echo "</div>\n";
 								echo "<div class='panel'>\n";
@@ -102,7 +102,7 @@ class JS extends Page
 								$m->toHTML();
 
 								if(CurrentUser::$admin){
-									echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
+									echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 								}
 								
 								break;
