@@ -64,48 +64,49 @@ function init_image_panel(){
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
-		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
-			var curr_select = $(".linear_panel .selected");
-			var new_select 	= curr_select.next();
+		var curr_select = $(".linear_panel .selected");
+		var new_select 	= curr_select.next();
 
-			if(! new_select.length){
-				new_select = curr_select.parent().next().children(".item").first();
-			}
+		if(! new_select.length){
+			new_select = curr_select.parent().next().children(".item").first();
+		}
 
-			if(! new_select.length){
-				new_select = $(".linear_panel .item").last();
-			}
-
-			update_url(new_select.children("a").attr("href"),"Image");
-
+		if(! new_select.length){
+			new_select = $(".linear_panel .item").last();
+		}
+		
+		new_url = new_select.children("a").attr("href");
+		
+		$(".image_panel").load(new_url + "&j=Pan",function(){
+			update_url(new_url,"Image");
+			
 			curr_select.removeClass("selected");
 			new_select.addClass("selected");
-		
+			
 			init_image_panel();
 		});
-
-
-
+		 
 		return false;
 	});
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
+		var curr_select = $(".linear_panel .selected");
+		var new_select 	= curr_select.prev();
 		
-		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
+		if(! new_select.length){
+			new_select = curr_select.parent().prev().children(".item").last();
+		}
 		
-			var curr_select = $(".linear_panel .selected");
-			var new_select 	= curr_select.prev();
+		if(! new_select.length){
+			new_select = $(".linear_panel .item").first();
+		}
+		
+		new_url = new_select.children("a").attr("href")
+		
+		$(".image_panel").load(new_url+"&j=Pan",function(){
 
-			if(! new_select.length){
-				new_select = curr_select.parent().prev().children(".item").last();
-			}
-
-			if(! new_select.length){
-				new_select = $(".linear_panel .item").first();
-			}
-
-			update_url(new_select.children("a").attr("href"),"Image");
+			update_url(new_url,"Image");
 
 			curr_select.removeClass("selected");
 			new_select.addClass("selected");
