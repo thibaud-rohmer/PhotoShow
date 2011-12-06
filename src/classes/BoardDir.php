@@ -75,7 +75,7 @@ class BoardDir implements HTMLObject
 	public function toHTML(){
 		
 		/// If item is small, display its thumb. Else, display the item
-		$getfile =	"t=Thb&f=".addslashes(htmlentities(File::a2r($this->images[0]), ENT_QUOTES ,'UTF-8'));
+		$getfile =	"t=Thb&f=".urlencode(File::a2r($this->images[0]));
 				
 		/// We display the image as a background
 		echo 	"<div class='directory'>";
@@ -100,14 +100,14 @@ class BoardDir implements HTMLObject
 				$pos = floor(sizeof($this->images) *  $i / Settings::$max_img_dir );
 				
 				if(Judge::view($this->images[$pos])){
-					echo "<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($this->images[$pos]), ENT_QUOTES ,'UTF-8'))."</div>";
+					echo "<div class='alt_dir_img hidden'>".urlencode(File::a2r($this->images[$pos]))."</div>";
 				}
 
 			}
 		}else{
 			foreach($this->images as $img){
 				if(Judge::view($img)){
-					echo 	"<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($img), ENT_QUOTES ,'UTF-8'))."</div>";
+					echo 	"<div class='alt_dir_img hidden'>".urlencode(File::a2r($img))."</div>";
 				}
 			}
 		}
