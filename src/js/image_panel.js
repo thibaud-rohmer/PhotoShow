@@ -36,6 +36,13 @@ function init_image_panel(){
 	$("#bigimage a, #image_bar #back").unbind();
 	$(".linear_panel .item a, #image_bar #next a, #image_bar #prev a").unbind();
 	$(".linear_panel").unbind();
+	
+	//Selecting the proper image if no thumb is already selected
+	if ($('.linear_panel .selected').length == 0){
+		url = $('#image_big').css('background-image').replace(/^url|[\(\)\"]/g, '');
+		url = url.slice(url.indexOf('f='));
+		$('.linear_panel a[href$="' + url + '"]').parent().addClass("selected");
+	}
 
 	// On clicking the bigimage
 	$("#bigimage a, #image_bar #back").click(function(){
