@@ -29,7 +29,7 @@ fieldset > span {
 	text-align:			right;
 	position:			absolute;
 	left:				3px;
-	width:				100px;
+	width:				150px;
 	padding:			5px;
 	top:				3px;
 	height:				19px;
@@ -37,7 +37,7 @@ fieldset > span {
 
 fieldset > div {
 	position:			relative;
-	margin:				0px 2px 0px 117px;
+	margin:				0px 2px 0px 160px;
 	min-height:			30px;
 	background:			white;
 	text-align:			left;

@@ -93,6 +93,8 @@ class Settings extends Page
 	/// Localization selected
 	static private $loc_chosen 	=	array();
 
+	/// Activate l33t
+	static private $l33t 		=	false;
 
 	/**** Other ****/
 
@@ -175,6 +177,7 @@ class Settings extends Page
 			Settings::$noregister	=	isset($admin_settings['noregister']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
+			Settings::$l33t 		=	isset($admin_settings['l33t']);
 
 
 			if(isset($admin_settings['max_comments'])){
@@ -216,11 +219,28 @@ class Settings extends Page
 	 */
 	static public function _($a,$t){
 		if(isset(Settings::$loc_chosen[$a][$t])){
-			return Settings::$loc_chosen[$a][$t];
+			$t = Settings::$loc_chosen[$a][$t];
 		}else if(isset(Settings::$loc_default[$a][$t])){
-			return Settings::$loc_default[$a][$t];
+			$t = Settings::$loc_default[$a][$t];
 		}
+
+		if(Settings::$l33t){
+			$t = Settings::l33t($t);
+		}
+
 		return $t;
+	}
+	
+	static public function toRegexp($i) {
+		return "!" . $i . "!";
+	}
+
+	static public function l33t($t){
+		$t 		= strtolower($t);
+		$from 	= array("a", "e", "f", "g","l", "o", "s", "t","h", "c", "m","n", "r", "v", "w");
+		$to 	= array("4", "3", "ph", "9","1", "0", "5",  "7",'|-|', '(', '|\/|','|\|', '|2', '\/', '\/\/');
+    	
+    	return preg_replace(array_map(array(Settings,toRegexp), $from), $to, $t);
 	}
 
 	/**
@@ -230,7 +250,7 @@ class Settings extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -241,10 +261,6 @@ class Settings extends Page
 		fclose($f);
 		Settings::init(true);
 	}
-
-
-
-
 
 	/**
 	 * Generate thumbs and webimages reccursively inside a folder
@@ -336,6 +352,14 @@ class Settings extends Page
 			echo ">".substr($p,0,-4)."</option>";
 		}
 		echo "</select></div></fieldset>";
+
+		echo "<fieldset><span>l337</span><div class='buttondiv'>\n";
+		if(Settings::$l33t){
+			echo "<label><input type='checkbox' name='l33t' checked>l337</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='l33t'>l337</label>\n";
+		}
+		echo "</div></fieldset>\n";
 
 		echo "<fieldset><input type='submit' value='".Settings::_("settings","submit")."'/></fieldset>\n";
 		echo "</form>\n";
