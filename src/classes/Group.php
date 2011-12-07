@@ -145,7 +145,6 @@ class Group
 			$i++;
 			if((string)$group->name == $groupname){
 				$found = true;
-				echo "plip";
 				continue;
 			}
 		}

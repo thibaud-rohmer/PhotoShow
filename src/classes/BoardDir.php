@@ -64,7 +64,6 @@ class BoardDir implements HTMLObject
 		$this->path 	= 	$dir;
 		$this->url		=	urlencode(File::a2r($dir));
 		if(sizeof($img) == 0){
-			echo "plip";
 			$this->images 	= array();
 		}else{
 			$this->images	=	$img;
