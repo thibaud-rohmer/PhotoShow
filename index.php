@@ -51,7 +51,7 @@ set_exception_handler('exception_handler');
 ini_set('upload_max_filesize','10M');
 
 function protect_user_send_var($var){
-	return array_map( create_function('$string', 'return htmlentities($string,ENT_QUOTES);'), $var );
+	return array_map('addslashes', $var);
 }
 
 if (!get_magic_quotes_gpc()){
