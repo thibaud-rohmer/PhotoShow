@@ -63,7 +63,7 @@ class LoginPage extends Page
 	public function toHTML(){
 		
 		$this->header();
-		echo "<div class='panel'>\n";
+		echo "<div class='center'>\n";
 		echo "<h1>".Settings::_("login","logintitle")."</h1></br>";
 		echo "<form method='post' action='?t=Log' class='niceform'>\n";
 		echo "<fieldset><span>".Settings::_("login","login")."</span>";

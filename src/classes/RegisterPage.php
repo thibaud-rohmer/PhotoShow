@@ -71,7 +71,7 @@ class RegisterPage extends Page
 	public function toHTML(){
 
 		if(!$this->included){
-			echo "<div class='panel'>\n";
+			echo "<div class='center'>\n";
 
 			$this->header();
 			
