@@ -1,11 +1,11 @@
 
 /* Panel */
 
-body > .panel,
-#page > .panel {
+body > .center,
+#page > .center {
 	position:	absolute;
 	left:		250px;
-	right:		0;
+	right:		270px;
 	top:		0;
 	bottom:		0;
 	padding:	25px 50px 50px 50px;
@@ -179,23 +179,15 @@ div.image_panel > .box:nth-child(1) {
 
 div.image_panel > #bigimage{
 	position:	absolute;
-	left:		15%;
+	left:		5px;
 	top:		0;
-	right:		15%;
+	right:		5px;
 	bottom:		25px;
 	text-align:	center;
 	overflow:	hidden;
 }
 
-div.image_panel > #comments {
-	position:	absolute;
-	width:		15%;
-	top:		0;
-	right:		0;
-	bottom:		0;
-}
-
-div.image_panel > .box > #image_big {
+div#image_big {
 	margin:			auto;
 }
 
@@ -262,6 +254,7 @@ div.comment:nth-child(even) > div:nth-child(2) {
 	border-left:	1px solid rgb(0,160,232);
 }
 
+/*
 div#comments > .display_comments {
 	position:		absolute;
 	top:			0;
@@ -309,7 +302,7 @@ div#comments > form > input[type="submit"] {
 	right:			0;
 	bottom:			0;
 }
-
+*/
 div.adminrights {
 	text-align:		center;
 }

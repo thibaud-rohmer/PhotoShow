@@ -49,7 +49,7 @@ function init_admin(){
 		revert: 		true
 	});
 
-	$(".panel .item").draggable({
+	$(".item").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
 		helper: 		'clone',
@@ -70,7 +70,7 @@ function init_admin(){
 						to 	  = $(this).children(".path").text();
 
 						if($(dragg).hasClass("item")){
-							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
+							$(".panel,.linear_panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
 						}else{
 							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
 						}
@@ -86,7 +86,7 @@ function init_admin(){
 						file  = dragg.children(".path").text();
 
 						if($(dragg).hasClass("item")){
-							$(".panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
+							$(".panel,.linear_panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
 						}else{
 							$("#page").load("?t=Adm&a=Del&j=Pag",{'del' : file },function(){
 								init_panel();

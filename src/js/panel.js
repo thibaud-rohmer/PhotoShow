@@ -13,6 +13,11 @@ function init_panel(){
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel($(this).attr("href"));	
 		});
+
+		// Load infos
+		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
+			init_image_panel($(this).attr("href"));	
+		});
 		
 		update_url($(this).attr("href"));
 
@@ -21,6 +26,7 @@ function init_panel(){
 		$(".image_panel,.linear_panel").slideDown("fast",function(){
 			$(".image_panel a").css("height","100%");
 		});
+
 
 		return false;
 
@@ -43,3 +49,9 @@ function init_panel(){
 
 	init_admin();
 }
+
+$("document").ready(function(){
+	init_infos();
+	init_panel();
+	init_admin();
+});

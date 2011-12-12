@@ -112,7 +112,7 @@ class JS extends Page
 								$f->toHTML();
 								break;
 
-				case "Inf":		$f = new AdminPanel();
+				case "Inf":		$f = new Infos();
 								$f->toHTML();
 								break;
 

@@ -66,8 +66,8 @@ class MainPage extends Page
 	/// Imagepanel object
 	private $menu;
 
-	/// Admin Panel
-	private $admin_panel;
+	/// Infos
+	private $infos;
 
 	/**
 	 * Creates the page
@@ -104,9 +104,7 @@ class MainPage extends Page
 		/// Menu
 		$this->menu			=	new Menu();
 
-		if(CurrentUSer::$admin || CurrentUser::$uploader){
-			$this->admin_panel = new AdminPanel();
-		}
+		$this->infos 		= 	new Infos();
 		
 	}
 	
@@ -137,6 +135,7 @@ class MainPage extends Page
 		echo "</div>\n";
 		/// Stop menu
 
+		echo "<div class='center'>";
 		/// Start Panel
 		echo "<div class='$this->panel_class'>\n";
 		$this->panel->toHTML();
@@ -148,12 +147,12 @@ class MainPage extends Page
 		$this->image_panel->toHTML();
 		echo "</div>\n";
 		/// Stop ImagePanel
-		
-		if(CurrentUser::$admin || CurrentUser::$uploader){
-			echo "<div class='infos'>\n";
-			$this->admin_panel->toHTML();
-			echo "</div>\n";
-		}
+		echo "</div>\n";
+
+		echo "<div class='infos'>\n";
+		$this->infos->toHTML();
+		echo "</div>\n";
+
 		echo "</div>\n";
 		
 		echo "</div>\n";

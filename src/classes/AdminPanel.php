@@ -46,11 +46,13 @@ class AdminPanel
 
 	private $j;
 
+	private $isfile = false;
+
 	public function __construct(){
 
 		$file = CurrentUser::$path;
 		if(is_file($file)){
-			$file = dirname($file);
+			$this->isfile = true;
 		}
 
 		$this->j = new Judge($file);
@@ -75,29 +77,31 @@ class AdminPanel
 				</form>";
 		}
 
-		$ret .=	"<form class='create' action='?a=Upl' method='post'>
-				<fieldset>
-					<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
-					<input id='foldername' name='newdir' type='text' value='".Settings::_("adminpanel","new")."'>
-					<input type='submit' value='".Settings::_("adminpanel","create")."'>
-				</fieldset>
+		if(!($this->isfile)){
+			$ret .=	"<form class='create' action='?a=Upl' method='post'>
+					<fieldset>
+						<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
+						<input id='foldername' name='newdir' type='text' value='".Settings::_("adminpanel","new")."'>
+						<input type='submit' value='".Settings::_("adminpanel","create")."'>
+					</fieldset>
+					</form>";
+
+			/// Upload Images form
+			$ret .= "<div id='files'></div><form class='dropzone' id=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\" 
+				action='?a=Upl' method='POST' enctype='multipart/form-data'>
+				<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
+				<input type='file' name='images[]' multiple >
+				<button>Upload</button>
+				<div>".Settings::_("adminpanel","upload")."</div>
 				</form>";
-
-		/// Upload Images form
-		$ret .= "<div id='files'></div><form class='dropzone' id=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\" 
-			action='?a=Upl' method='POST' enctype='multipart/form-data'>
-			<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
-			<input type='file' name='images[]' multiple >
-			<button>Upload</button>
-			<div>".Settings::_("adminpanel","upload")."</div>
-			</form>";
-
+		}
 		return $ret;
 
 	}
 
 	public function toHTML(){
 		echo $this->infos;
+		
 		if(CurrentUser::$admin){
 			echo $this->j->toHTML();
 		}

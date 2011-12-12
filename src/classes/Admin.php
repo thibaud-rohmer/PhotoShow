@@ -86,9 +86,12 @@
 										}
 									}
 	 								AdminMove::move();
+	 								
 	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
 										try{
-	 										CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+								//			if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
+	 							//				CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+	 							//			}
 										}catch(Exception $e){
 											CurrentUser::$path = Settings::$photos_dir;
 										}
@@ -200,7 +203,7 @@
  		$this->menu->toHTML();
  		echo "</div>\n";
 
-		echo "<div class='panel'>\n";
+		echo "<div class='center'>\n";
 		if($_GET['a']=="JS"){
 			$this->page = new JS();
 		}else{

@@ -109,3 +109,23 @@ div#menu > .adminrights {
 	margin-top:		20px;
 	background:		#aaa;
 }
+
+div.infos{
+	position:		absolute;
+	width:			250px;
+	right:			0;
+	top:			0;
+	bottom:			0;
+	padding:		10px;
+	z-index:		2;
+	overflow: 		auto;
+
+	border-left:	1px solid #888;
+	background:		#454D50;
+	font-size:		11pt;
+}
+
+div.infos h2{
+	color:			white;
+	border-color: 	white;
+}
