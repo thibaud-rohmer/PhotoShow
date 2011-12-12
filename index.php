@@ -54,11 +54,13 @@ function protect_user_send_var($var){
 	return array_map('addslashes', $var);
 }
 
+/*
 if (!get_magic_quotes_gpc()){
 	$_POST = protect_user_send_var($_POST);
 	$_COOKIE = protect_user_send_var($_COOKIE);
 	$_GET = protect_user_send_var($_GET);
 }
+*/
 
 new Index();
 
