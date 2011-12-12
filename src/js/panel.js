@@ -81,4 +81,5 @@ $("document").ready(function(){
 	init_panel();
 	init_admin();
 	init_hiders();
+	$(".menu").scrollTo($(".menu .selected:last"));
 });
