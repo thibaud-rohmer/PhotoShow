@@ -135,6 +135,9 @@ class MainPage extends Page
 		echo "</div>\n";
 		/// Stop menu
 
+
+		echo "<div id='menu_hide'></div>";
+
 		echo "<div class='center'>";
 		/// Start Panel
 		echo "<div class='$this->panel_class'>\n";
@@ -148,6 +151,8 @@ class MainPage extends Page
 		echo "</div>\n";
 		/// Stop ImagePanel
 		echo "</div>\n";
+
+		echo "<div id='infos_hide'></div>";
 
 		echo "<div class='infos'>\n";
 		$this->infos->toHTML();
