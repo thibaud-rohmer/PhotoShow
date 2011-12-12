@@ -52,6 +52,10 @@ function init_image_panel(){
 				init_panel();
 				update_url($(".menu .selected:last a").attr("href"),$(".menu .selected:last a").text());
 			});
+
+			$(".infos").load($(".menu .selected:last a").attr("href")+"&j=Inf",function(){
+				init_infos();	
+			});
 		});
 
 		return false;
@@ -66,6 +70,12 @@ function init_image_panel(){
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel();
 		});
+
+		// Load infos
+		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
+			init_infos();	
+		});
+
 		return false;
 	});
 
@@ -93,6 +103,11 @@ function init_image_panel(){
 			init_image_panel();
 		});
 		 
+		// Load infos
+		$(".infos").load(new_url+"&j=Inf",function(){
+			init_infos();	
+		});
+
 		return false;
 	});
 
@@ -119,6 +134,11 @@ function init_image_panel(){
 			new_select.addClass("selected");
 
 			init_image_panel();	
+		});
+
+		// Load infos
+		$(".infos").load(new_url+"&j=Inf",function(){
+			init_infos();	
 		});
 
 		return false;
