@@ -84,6 +84,9 @@ class Settings extends Page
 	/// Max number of comments
 	static public $max_img_dir	=	5;
 
+	/// Reverse menu order
+	static public $reverse_menu = 	false;
+
 	/// Selected localization
 	static public $loc 			=	"default";
 
@@ -178,6 +181,7 @@ class Settings extends Page
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
+			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 
 
 			if(isset($admin_settings['max_comments'])){
@@ -250,7 +254,7 @@ class Settings extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t","reverse_menu");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -334,6 +338,13 @@ class Settings extends Page
 		}
 		echo "</div></fieldset>\n";
 
+		echo "<fieldset><span>Menu</span><div class='buttondiv'>\n";
+		if(Settings::$reverse_menu){
+			echo "<label><input type='checkbox' name='reverse_menu' checked>Reverse menu order</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='reverse_menu'>Reverse menu order</label>\n";
+		}
+		echo "</div></fieldset>\n";
 
 
 		echo Settings::_("settings","numcomments")."<br/>";

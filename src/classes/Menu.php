@@ -102,7 +102,13 @@ class Menu implements HTMLObject
 		}
 
 		/// Create Menu for each directory
-		foreach($this->list_dirs($dir) as $d){
+		$subdirs = $this->list_dirs($dir);
+
+		if(Settings::$reverse_menu){
+			$subdirs = array_reverse($subdirs);
+		}
+
+		foreach($subdirs as $d){
 			$this->items[]	=	new Menu($d,$level+1);
 		}
 	}
