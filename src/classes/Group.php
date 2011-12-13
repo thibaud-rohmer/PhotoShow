@@ -145,7 +145,7 @@ class Group
 			$i++;
 			if((string)$group->name == $groupname){
 				$found = true;
-				continue;
+				break;
 			}
 		}
 		
