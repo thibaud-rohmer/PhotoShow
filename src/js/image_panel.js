@@ -152,7 +152,7 @@ function init_image_panel(){
 		}
 	});
 
-	$(".linear_panel").scrollTo($(".linear_panel .selected"));
+	$(".linear_panel").scrollTo($(".linear_panel .selected")).scrollTo("-="+$(".linear_panel").width()/2);
 
 	init_comments();
 }

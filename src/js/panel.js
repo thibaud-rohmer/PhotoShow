@@ -79,7 +79,6 @@ function init_hiders(){
 $("document").ready(function(){
 	init_infos();
 	init_panel();
-	init_admin();
 	init_hiders();
 	$(".menu").scrollTo($(".menu .selected:last"));
 });

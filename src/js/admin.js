@@ -117,7 +117,7 @@ function init_admin(){
 								dragg.draggable('option','revert',false);
 								acc = dragg.children(".name").text();
 								group = $(this).children(".name").text();
-								$(".panel").load("?t=Adm&a=AGA&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+								$(".center").load("?t=Adm&a=AGA&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 							}
 						}
 	})
@@ -125,20 +125,19 @@ function init_admin(){
 	$(".rmacc").click(function(){
 		group 	= $(this).parent().parent().children(".name").text();
 		acc 	= $(this).parent().children(".accname").text();
-		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+		$(".center").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 	});
 
 	$(".rmgroup").click(function(){
 		acc		= $(this).parent().parent().children(".name").text();
 		group 	= $(this).parent().children(".groupname").text();
-		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+		$(".center").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 	});
 
 	$(".addgroup").submit(function(){
-		$(".panel").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
+		$(".center").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
 		return false;
 	});
-
 }
 
 function init_infos(){

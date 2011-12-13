@@ -91,7 +91,7 @@ class JSAccounts
 
 		echo "<div class='newgroup'>";
 		echo "
-		<form class='addgroup' type='post' action='?t=Adm&a=GC'>
+		<form class='addgroup' method='post' action='?t=Adm&a=GC'>
 			<fieldset>
 			<span>".Settings::_("jsaccounts","groupname")."</span>
 			<div><input type='text' name='group' value='Group Name' /></div>
