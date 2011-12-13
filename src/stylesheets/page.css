@@ -75,6 +75,7 @@ div.menu {
 
 	background:		#454D50;
 	font-size:		11pt;
+	word-wrap:		break-word;
 }
 
 div.menu_item {
