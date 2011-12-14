@@ -73,6 +73,7 @@ class ImageBar
 			$this->buttons['get']  = 	"?t=BDl&f=".$file;
 		}
 		$this->buttons['next'] = 	$t."p=n&f=".$file;
+		$this->buttons['slideshow'] = 	$t."f=".$file;
 
 	}
 

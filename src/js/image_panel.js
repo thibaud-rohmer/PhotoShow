@@ -155,6 +155,7 @@ function init_image_panel(){
 	$(".linear_panel").scrollTo($(".linear_panel .selected")).scrollTo("-="+$(".linear_panel").width()/2);
 
 	init_comments();
+	init_slideshow_panel();
 }
 
 function init_comments(){
