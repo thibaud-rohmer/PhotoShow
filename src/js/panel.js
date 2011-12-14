@@ -13,6 +13,11 @@ function init_panel(){
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel($(this).attr("href"));	
 		});
+
+		// Load infos
+		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
+			init_image_panel($(this).attr("href"));	
+		});
 		
 		update_url($(this).attr("href"));
 
@@ -21,6 +26,7 @@ function init_panel(){
 		$(".image_panel,.linear_panel").slideDown("fast",function(){
 			$(".image_panel a").css("height","100%");
 		});
+
 
 		return false;
 
@@ -43,3 +49,37 @@ function init_panel(){
 
 	init_admin();
 }
+
+function init_hiders(){
+	$("#infos_hide").click(function(){
+		if ( $('.infos').is(':visible')){
+			$('.infos').hide("slide",{direction:"right"},600);
+			$(this).animate({right:'0'},600);
+			$(".center").animate({right:'12'},600);
+		}else{
+			$('.infos').show("slide",{direction:"right"},600);
+			$(this).animate({right:'249'},600);
+			$(".center").animate({right:'260'},600);
+		}
+	});
+
+	$("#menu_hide").click(function(){
+		if ( $('.menu').is(':visible')){
+			$('.menu').hide("slide",{direction:"left"},600);
+			$(this).animate({left:'0'},600);
+			$(".center").animate({left:'12'},600);
+		}else{
+			$('.menu').show("slide",{direction:"left"},600);
+			$(this).animate({left:'240'},600);
+			$(".center").animate({left:'250'},600);
+		}
+	});
+}
+
+$("document").ready(function(){
+	init_infos();
+	init_panel();
+	init_admin();
+	init_hiders();
+	$(".menu").scrollTo($(".menu .selected:last"));
+});

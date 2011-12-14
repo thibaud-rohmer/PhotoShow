@@ -63,10 +63,4 @@ function update_url(url,name){
 	}
 }
 
-$("document").ready(function(){
-	init_menu();
-	init_infos();
-	init_panel();
-});
-
 

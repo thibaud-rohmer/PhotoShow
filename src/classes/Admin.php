@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
  class Admin extends Page
  {
@@ -68,6 +68,9 @@
  		/// Get actions available for Uploaders too
  		if(isset($_GET['a'])){
 	 		switch($_GET['a']){
+	 			case "Abo" 		: 	$this->page = new AdminAbout();
+	 								break;
+	 								
 		 		case "Upl"		:	if(isset($_POST['path'])){
 		 								AdminUpload::upload();
 		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
@@ -83,9 +86,12 @@
 										}
 									}
 	 								AdminMove::move();
+	 								
 	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
 										try{
-	 										CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+								//			if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
+	 							//				CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+	 							//			}
 										}catch(Exception $e){
 											CurrentUser::$path = Settings::$photos_dir;
 										}
@@ -197,7 +203,7 @@
  		$this->menu->toHTML();
  		echo "</div>\n";
 
-		echo "<div class='panel'>\n";
+		echo "<div class='center'>\n";
 		if($_GET['a']=="JS"){
 			$this->page = new JS();
 		}else{

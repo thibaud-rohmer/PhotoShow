@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -40,7 +40,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class BoardDir implements HTMLObject
 {
@@ -60,10 +60,14 @@ class BoardDir implements HTMLObject
 	 * @param string $ratio 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($dir,$img){
+	public function __construct($dir,$img=array()){
 		$this->path 	= 	$dir;
 		$this->url		=	urlencode(File::a2r($dir));
-		$this->images	=	$img;
+		if(sizeof($img) == 0){
+			$this->images 	= array();
+		}else{
+			$this->images	=	$img;
+		}
 	}
 	
 	/**
@@ -74,9 +78,12 @@ class BoardDir implements HTMLObject
 	 */
 	public function toHTML(){
 		
-		/// If item is small, display its thumb. Else, display the item
-		$getfile =	"t=Thb&f=".addslashes(htmlentities(File::a2r($this->images[0]), ENT_QUOTES ,'UTF-8'));
-				
+		if(sizeof($this->images) > 0){
+			$getfile =	"t=Thb&f=".urlencode(File::a2r($this->images[0]));
+		}else{
+			$getfile = 	"";
+		}			
+		
 		/// We display the image as a background
 		echo 	"<div class='directory'>";
 
@@ -100,14 +107,14 @@ class BoardDir implements HTMLObject
 				$pos = floor(sizeof($this->images) *  $i / Settings::$max_img_dir );
 				
 				if(Judge::view($this->images[$pos])){
-					echo "<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($this->images[$pos]), ENT_QUOTES ,'UTF-8'))."</div>";
+					echo "<div class='alt_dir_img hidden'>".urlencode(File::a2r($this->images[$pos]))."</div>";
 				}
 
 			}
 		}else{
 			foreach($this->images as $img){
 				if(Judge::view($img)){
-					echo 	"<div class='alt_dir_img hidden'>".addslashes(htmlentities(File::a2r($img), ENT_QUOTES ,'UTF-8'))."</div>";
+					echo 	"<div class='alt_dir_img hidden'>".urlencode(File::a2r($img))."</div>";
 				}
 			}
 		}

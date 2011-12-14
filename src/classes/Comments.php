@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -48,7 +48,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class Comments implements HTMLObject
 {
@@ -85,8 +85,12 @@ class Comments implements HTMLObject
 		$this->webfile = urlencode(File::a2r($file));
 
 		/// Build relative path to comments file
-		$comments	=	dirname($basepath)."/.".basename($file)."_comments.xml";
-		
+		if(is_file($file)){
+			$comments	=	dirname($basepath)."/.".basename($file)."_comments.xml";
+		}else{
+			$comments 	=	$basepath."/.comments.xml";
+		}
+
 		/// Set absolute path to comments file
 		$this->commentsfile =	File::r2a($comments,Settings::$thumbs_dir);
 		
@@ -114,7 +118,7 @@ class Comments implements HTMLObject
 			if(isset(CurrentUser::$account)){
 				$login = CurrentUser::$account->login;
 			}else{
-				$login = "Anonymous";
+				$login = Settings::_("comments","anonymous");
 			}
 		}
 
@@ -228,24 +232,25 @@ class Comments implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){	
-	
+		echo '<h2>'.Settings::_("comments","comments").'</h2>';
+
 		echo "<div class='display_comments'>";	
 		/// Display each comment
 		foreach($this->comments as $com){
 			$com->toHTML();
 		}
 		echo "</div>";
-		echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'>\n";
+		
+		echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'><fieldset class='transparent'>\n";
 			if(isset(CurrentUser::$account)){
-				echo "<fieldset><input type='text' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";					
+				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";			
 			}else{
-				echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
+				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".Settings::_("comments","anonymous")."'></fieldset>\n";					
 			}
 			echo "<textarea name='content' id='content'></textarea>\n";
-			echo "<input type='submit' value='Post Comment'>\n";
+			echo "<input type='submit' value='".Settings::_("comments","submit")."'></fieldset>\n";
 		echo "</form>\n";	
 		
-		echo "</div>";		
 	}
 }
 

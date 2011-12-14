@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class LoginPage extends Page
@@ -63,14 +63,14 @@ class LoginPage extends Page
 	public function toHTML(){
 		
 		$this->header();
-		echo "<div class='panel'>\n";
-		echo "<h1>Login</h1></br>";
+		echo "<div class='center'>\n";
+		echo "<h1>".Settings::_("login","logintitle")."</h1></br>";
 		echo "<form method='post' action='?t=Log' class='niceform'>\n";
-		echo "<fieldset><span>Login</span>";
+		echo "<fieldset><span>".Settings::_("login","login")."</span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
-		echo "<fieldset><span>Password</span>\n";
+		echo "<fieldset><span>".Settings::_("login","pass")."</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit' class='button blue'> or <a class='inline' href='?t=Reg'>register</a> or <a class='inline' href='.'>go back</a>";
+		echo "<input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
 		echo "</form>\n";
 		echo "</div>\n";
 

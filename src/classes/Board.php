@@ -26,7 +26,7 @@
  * @author	   Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright  2011 Thibaud Rohmer
  * @license	   http://www.gnu.org/licenses/
- * @link	   http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	   http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -42,7 +42,7 @@
  * @author	   Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright  Thibaud Rohmer
  * @license	   http://www.gnu.org/licenses/
- * @link	   http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	   http://github.com/thibaud-rohmer/PhotoShow
  */
 class Board implements HTMLObject
 {
@@ -110,14 +110,14 @@ class Board implements HTMLObject
 		$this->header->toHTML();
 		
 		if(sizeof($this->boardfolders)>0){
-			echo "<h2>Albums</h2>";
+			echo "<h2>".Settings::_("board","albums")."</h2>";
 			foreach($this->boardfolders as $boardfolder){
 				$boardfolder->toHTML();
 			}
 		}
 
 		if(sizeof($this->boardlines)>0){
-			echo "<h2>Images</h2>";
+			echo "<h2>".Settings::_("board","images")."</h2>";
 		}
 		// Output grid
 		foreach($this->boardlines as $boardline){
@@ -177,7 +177,7 @@ class Board implements HTMLObject
 				continue;
 			}
 			$f = Menu::list_files($d,true);
-			if(sizeof($f) > 0){
+			if( CurrentUser::$admin || CurrentUser::$uploader || sizeof($f) > 0){
 				$item = new BoardDir($d,$f);
 				$this->boardfolders[] = $item;
 			}

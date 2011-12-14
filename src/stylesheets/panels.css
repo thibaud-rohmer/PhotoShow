@@ -1,11 +1,11 @@
 
 /* Panel */
 
-body > .panel,
-#page > .panel {
+body > .center,
+#page > .center {
 	position:	absolute;
-	left:		250px;
-	right:		0;
+	left:		249px;
+	right:		259px;
 	top:		0;
 	bottom:		0;
 	padding:	25px 50px 50px 50px;
@@ -179,23 +179,15 @@ div.image_panel > .box:nth-child(1) {
 
 div.image_panel > #bigimage{
 	position:	absolute;
-	left:		15%;
+	left:		5px;
 	top:		0;
-	right:		15%;
+	right:		5px;
 	bottom:		25px;
 	text-align:	center;
 	overflow:	hidden;
 }
 
-div.image_panel > #comments {
-	position:	absolute;
-	width:		15%;
-	top:		0;
-	right:		0;
-	bottom:		0;
-}
-
-div.image_panel > .box > #image_big {
+div#image_big {
 	margin:			auto;
 }
 
@@ -260,54 +252,6 @@ div.comment:nth-child(even) > div:nth-child(1) {
 
 div.comment:nth-child(even) > div:nth-child(2) {
 	border-left:	1px solid rgb(0,160,232);
-}
-
-div#comments > .display_comments {
-	position:		absolute;
-	top:			0;
-	right:			0;
-	left:			0;
-	bottom:			200px;
-	overflow-x:		hidden;
-	overflow-y:		auto;
-}
-
-div#comments > form {
-	position: 		absolute;
-	left:			5px;
-	right:			5px;
-	height:			172px;
-	bottom:			5px;
-	overflow:		hidden;
-	background:		black;
-	background:		#333;
-	border-radius: 	2px;
-}
-
-div#comments > form > fieldset {
-	position:		absolute;
-	left:			5px;
-	right:			5px;
-	top:			2px;
-	width:			auto;
-	height:			24px;
-	background:		white;
-}
-
-div#comments > form > textarea {
-	position:		absolute;
-	left:			4px;
-	right:			4px;
-	height:			80px;
-	bottom:			42px;
-	border-radius:	2px;
-}
-
-div#comments > form > input[type="submit"] {
-	position:		absolute;
-	left:			0;
-	right:			0;
-	bottom:			0;
 }
 
 div.adminrights {

@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -41,7 +41,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class ImagePanel implements HTMLObject
@@ -100,7 +100,7 @@ class ImagePanel implements HTMLObject
 		if(!isset($this->image)){
 			return;
 		}
-
+/*
 		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
 
@@ -128,21 +128,23 @@ class ImagePanel implements HTMLObject
 		}
 
 		echo "</div>\n";
+*/
+		echo "<div id='bigimage'>\n";
 
-		echo "<div id='bigimage' class='box'>\n";
 		$this->image->toHTML();
+
 		echo "</div>\n";
 
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();
 		echo "</div>\n";
-
+/*
 		echo "<div id='comments' class='box'>\n";
 		if(!Settings::$nocomments){
 			$this->comments->toHTML();
 		}
 		echo "</div>\n";
-
+*/
 	}
 	
 }

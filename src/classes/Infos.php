@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the class FileException.
+ * This file implements the class Infos.
  * 
  * PHP versions 4 and 5
  *
@@ -30,9 +30,11 @@
  */
 
 /**
- * FileException
+ * Used to print the info panel
  *
- * Raised when a file is missing.
+ * The ImagePanel contains one image, and the infos
+ * about that image (such as EXIF, Comments).
+ * If the user is logged, it contains even more stuff.
  *
  * @category  Website
  * @package   Photoshow
@@ -42,11 +44,38 @@
  * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
-class FileException 
-extends Exception
-{	
-	/// Path to missing file
-	public $file;
+class Infos implements HTMLObject
+{
+	private $info;
+
+	private $comments;
+
+	public function __construct(){
+
+		if(CurrentUser::$admin){
+			$this->info = new AdminPanel();
+		}else{
+			$this->info = new Exif(CurrentUser::$path);
+		}
+
+		if(!Settings::$nocomments){
+			$this->comments	=	new Comments(CurrentUser::$path);
+		}
+
+	}
+
+	public function toHTML(){
+		echo '<h2>Infos</h2>';
+
+		$this->info->toHTML();
+
+		echo "<div id='comments' class='box'>\n";
+		if(!Settings::$nocomments){
+			$this->comments->toHTML();
+		}
+		echo "</div>\n";
+	}
+
 }
 
 ?>
