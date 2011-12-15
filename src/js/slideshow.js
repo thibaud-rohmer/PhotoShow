@@ -41,6 +41,7 @@ function start_slideshow(){
 	$(".image_panel").css("position","fixed");
 	$(".image_panel").css("z-index",1000);
 	$(".image_panel").animate({bottom:'0'},200);
+	hide_links();
 }
 
 function stop_slideshow(){
@@ -49,6 +50,8 @@ function stop_slideshow(){
 	$(".image_panel").animate({bottom:'120'},200);
 	$(".image_panel").css("position","absolute");
 	$(".image_panel").css("z-index",50);
+	$("#slideshow").unbind();
+	show_links();
 }
 
 function toggle_slideshow(){
@@ -70,4 +73,16 @@ function init_slideshow_panel(){
 	$("#back").click(function(){
 		stop_slideshow();
 	});
+}
+
+function show_links(){
+	$('#image_bar #prev').show();
+	$('#image_bar #back').show();
+	$('#image_bar #next').show();
+}
+
+function hide_links(){
+	$('#image_bar #prev').hide();
+	$('#image_bar #back').hide();
+	$('#image_bar #next').hide();
 }

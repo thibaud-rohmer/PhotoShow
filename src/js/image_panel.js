@@ -57,7 +57,11 @@ function init_image_panel(){
 				init_infos();	
 			});
 		});
-
+		
+		if(slideshow_status == 1){
+			stop_slideshow();
+		}
+		
 		return false;
 	});
 
@@ -101,6 +105,10 @@ function init_image_panel(){
 			new_select.addClass("selected");
 			
 			init_image_panel();
+			
+			if(slideshow_status == 1){
+				hide_links();
+			}
 		});
 		 
 		// Load infos
