@@ -79,10 +79,14 @@ function show_links(){
 	$('#image_bar #prev').show();
 	$('#image_bar #back').show();
 	$('#image_bar #next').show();
+	$('#image_bar #img').show();
+	$('#image_bar #get').show();
 }
 
 function hide_links(){
 	$('#image_bar #prev').hide();
 	$('#image_bar #back').hide();
 	$('#image_bar #next').hide();
+	$('#image_bar #img').hide();
+	$('#image_bar #get').hide();
 }
