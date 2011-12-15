@@ -50,7 +50,7 @@ class Judge
 	public $path;
 	
 	/// True if requested file is public
-	public $public;
+	public $public=false;
 	
 	/// Groups allowed to see requested file
 	public $groups=array();
@@ -76,6 +76,9 @@ class Judge
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($f, $read_rights=true){
+		if(!file_exists($f)){
+			return;
+		}
 		$this->public	=	true;
 		$this->groups	=	array();
 		$this->users	=	array();
@@ -155,7 +158,53 @@ class Judge
 			}
 		}
 	}
-	
+
+	/**
+	 * Returns path to associated file
+	 */
+	public static function associated_file($rf){
+		$associated_dir = File::r2a(File::a2r(dirname($rf),Settings::$thumbs_dir),Settings::$photos_dir);
+		if(basename($rf) == ".rights.xml"){
+			return $associated_dir;
+		}else{
+			return $associated_dir."/".substr(basename($rf),1,-11);
+		}		
+	}
+
+
+	/**
+	 * Check if a file is viewable in a folder, and returns path to that file.
+	 */
+	public static function searchDir($dir){
+		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
+		$rightsfiles=glob($rightsdir."/.*ights.xml");
+
+		// Check files
+		foreach($rightsfiles as $rf){
+			$f = Judge::associated_file($rf);
+			if(Judge::view($f)){
+				if(is_file($f)){
+					return $f;
+				}else{
+					foreach(Menu::list_files($f,true) as $p){
+						if(Judge::view($p)){
+							return $p;
+						}
+					}
+				}
+			}
+		}
+
+		// Check subdirs
+		foreach(Menu::list_dirs($dir) as $d){
+			if(($f=Judge::searchDir($d))){
+				return $f;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Save our judge for this file as an xml file
 	 *

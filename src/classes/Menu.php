@@ -73,8 +73,9 @@ class Menu implements HTMLObject
 			$dir = Settings::$photos_dir;
 			
 		/// Check rights
-		if(!(Judge::view($dir)))	return;		
-
+		if(!(Judge::view($dir) || Judge::searchDir($dir))){
+			return;
+		}	
 
 		if(!CurrentUser::$admin && !CurrentUser::$uploader && sizeof($this->list_files($dir,true,false,true)) == 0){
 			return;

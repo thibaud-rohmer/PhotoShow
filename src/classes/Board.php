@@ -139,8 +139,9 @@ class Board implements HTMLObject
 		foreach($this->files as $file){
 
 			// Check rights
-			if(!(Judge::view($file)))
+			if(!(Judge::view($file))){
 				continue;
+			}
 
 			// Calculate file ratio
 			$ratio	=	$this->ratio($file);
@@ -173,11 +174,17 @@ class Board implements HTMLObject
 	 */
 	private function foldergrid(){
 		foreach($this->dirs as $d){
-			if(!(Judge::view($d))){
+			$firstImg = Judge::searchDir($d);
+			if(!(Judge::view($d) || $firstImg)){
 				continue;
 			}
+
 			$f = Menu::list_files($d,true);
+						
 			if( CurrentUser::$admin || CurrentUser::$uploader || sizeof($f) > 0){
+				if($firstImg){
+					$f[0] = $firstImg;
+				}
 				$item = new BoardDir($d,$f);
 				$this->boardfolders[] = $item;
 			}
