@@ -51,16 +51,19 @@ set_exception_handler('exception_handler');
 ini_set('upload_max_filesize','10M');
 
 function protect_user_send_var($var){
-	return array_map('addslashes', $var);
+	if(is_array($var))
+		return array_map('protect_user_send_var', $var);
+	else 
+		return addslashes($var);
 }
 
-/*
+
 if (!get_magic_quotes_gpc()){
 	$_POST = protect_user_send_var($_POST);
 	$_COOKIE = protect_user_send_var($_COOKIE);
 	$_GET = protect_user_send_var($_GET);
 }
-*/
+
 
 new Index();
 
