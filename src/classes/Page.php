@@ -77,6 +77,8 @@ abstract class Page implements HTMLObject
 			echo "<script src='inc/mousewheel.js'></script>\n";
 			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
 			echo "<script src='inc/jquery.fileupload.js'></script>\n";
+			echo "<script src='inc/jquery.validationEngine.js'></script>\n";
+			echo "<script src='inc/languages/jquery.validationEngine-en.js'></script>\n";
 
 
 			echo "<script src='src/js/menu.js'></script>\n";
