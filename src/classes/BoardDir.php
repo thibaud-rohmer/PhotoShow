@@ -123,10 +123,9 @@ class BoardDir implements HTMLObject
 		echo 	"</a>\n";
 		echo 	"</div>\n";
 		echo 	"<div class='dirname'>";
+		echo 	htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8');			
 
-		if(!(CurrentUser::$admin || CurrentUser::$uploader)){
-			echo 	htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8');			
-		}else{
+		if(CurrentUser::$admin || CurrentUser::$uploader){
 			$w 	= File::a2r($this->path);
 
 			echo 	"<form class='rename' action='?a=Mov' method='post'>
