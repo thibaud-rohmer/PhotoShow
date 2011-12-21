@@ -105,8 +105,8 @@ class Index
 							$page->toHTML();
 							break;
 			case "Ajax":	$ajaxCall = new Ajax();
-							$ajaxCall->response();
-							break; 
+							echo $ajaxCall->response();
+							break;
 		}
 	}
 }

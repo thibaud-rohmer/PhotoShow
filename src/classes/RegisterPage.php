@@ -81,19 +81,19 @@ class RegisterPage extends Page
 				echo "<h1>".Settings::_("register","register")."</h1>";
 			}
 			
-			echo "<form method='post' action='?t=Reg'>\n";
+			echo "<form id='register' method='post' action='?t=Reg'>\n";
 		}else{
-			echo "<form class='adduser' method='post' action='?t=Adm&a=AAc'>\n";
+			echo "<form id='register' class='adduser' method='post' action='?t=Adm&a=AAc'>\n";
 		}
 		echo "<span>".Settings::_("register","logintxt")."</span>";
 		echo "<fieldset><span>".Settings::_("register","login")."</span>";
-		echo "<div><input type='text' name='login'></div></fieldset>\n";
+		echo "<div><input id='login' type='text' name='login' class='validate[required,custom[onlyLetterNumber],ajax[userNotExists]]'></div></fieldset>\n";
 		echo "<span>".Settings::_("register","passtxt")."</span>";
 		echo "<fieldset><span>".Settings::_("register","pass")."</span>\n";
-		echo "<div><input type='password' name='password'></div></fieldset>\n";
+		echo "<div><input id='password' type='password' name='password' class='validate[required,minSize[6]]'></div></fieldset>\n";
 		echo "<span>".Settings::_("register","veriftxt")."</span>";
 		echo "<fieldset><span>".Settings::_("register","verif")."</span>\n";
-		echo "<div><input type='password' name='verif'></div></fieldset>\n";
+		echo "<div><input id='verif' type='password' name='verif' class='validate[required,equals[password]]'></div></fieldset>\n";
 		echo "<input type='submit' value='".Settings::_("register","submit")."'> ".Settings::_("register","or")." <a class='inline' href='.'>".Settings::_("register","back")."</a>";
 		echo "</form>\n";
 

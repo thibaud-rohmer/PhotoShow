@@ -6,7 +6,7 @@
             $.validationEngineLanguage.allRules = {
                 "required": { // Add your regex rules here, you can take telephone as an example
                     "regex": "none",
-                    "alertText": "* This field is required",
+                    "alertText": "* " + $.i18n._('This field is required'),
                     "alertTextCheckboxMultiple": "* Please select an option",
                     "alertTextCheckboxe": "* This checkbox is required",
                     "alertTextDateRange": "* Both date range fields are required"
@@ -23,8 +23,8 @@
                 },
                 "minSize": {
                     "regex": "none",
-                    "alertText": "* Minimum ",
-                    "alertText2": " characters allowed"
+                    "alertText": "* " + $.i18n._('Minimum'),
+                    "alertText2": " " + $.i18n._('characters allowed')
                 },
                 "maxSize": {
                     "regex": "none",
@@ -63,7 +63,7 @@
                 },
                 "equals": {
                     "regex": "none",
-                    "alertText": "* Fields do not match"
+                    "alertText": "* " + $.i18n._('Fields do not match')
                 },
                 "creditCard": {
                     "regex": "none",
@@ -110,14 +110,13 @@
                 },
                 "onlyLetterNumber": {
                     "regex": /^[0-9a-zA-Z]+$/,
-                    "alertText": "* No special characters allowed"
+                    "alertText": "* " + $.i18n._('No special char')
                 },
-                // --- CUSTOM RULES -- Those are specific to the demos, they can be removed or changed to your likings
-                "ajaxUserCall": {
-                    "url": "ajaxValidateFieldUser",
-                    // you may want to pass extra data on the ajax call
-                    "alertText": "* " + $.i18n_('user_already_exist'),
-                    "alertTextLoad": "* Validating, please wait"
+                "userNotExists": {
+                    "url": "index.php",
+                    "extraData": "userNotExists&t=Ajax",
+                    "alertText": "* " + $.i18n._('user_already_exist'),
+                    "alertTextLoad": "* "+ $.i18n._('Validating, please wait')
                 }
             };
             

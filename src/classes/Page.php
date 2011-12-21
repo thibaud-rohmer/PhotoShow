@@ -67,6 +67,7 @@ abstract class Page implements HTMLObject
 			echo "<link rel='stylesheet' href='src/stylesheets/page.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/panels.css' type='text/css' media='screen' charset='utf-8'>\n";
 			echo "<link rel='stylesheet' href='src/stylesheets/forms.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/validationEngine.jquery.css' type='text/css' media='screen' charset='utf-8'>\n";
 
 			/// Trick to hide "only-script" parts
 	 		echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>";
@@ -77,8 +78,14 @@ abstract class Page implements HTMLObject
 			echo "<script src='inc/mousewheel.js'></script>\n";
 			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
 			echo "<script src='inc/jquery.fileupload.js'></script>\n";
+			
+			echo "<script src='inc/jquery.i18n.js'></script>\n";
+			echo "<script src='inc/loc/js/" . str_replace('.ini', '', Settings::$loc) . "/dictionnary.js'></script>\n";
+			echo "<script src='src/js/js-localization.js'></script>\n";
+			
 			echo "<script src='inc/jquery.validationEngine.js'></script>\n";
 			echo "<script src='inc/languages/jquery.validationEngine-en.js'></script>\n";
+			echo "<script src='src/js/validation.js'></script>\n";
 
 
 			echo "<script src='src/js/menu.js'></script>\n";
