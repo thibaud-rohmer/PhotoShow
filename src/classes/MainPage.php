@@ -115,7 +115,7 @@ class MainPage extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		$this->header();
+		$this->header($this->image_panel->header);
 		echo "<body>";
 
 		echo "<div id='container'>\n";		
