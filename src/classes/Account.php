@@ -97,7 +97,7 @@ class Account extends Page
 				return;
 			}
 		}
-		throw new Exception("Login $login not found");
+		throw new Exception("Login $login non trouv&eacute;");
 	}
 	
 	/**
@@ -397,19 +397,19 @@ class Account extends Page
 	 public function toHTML(){
 	 	$this->header();
 	 	echo "<div class='panel'>\n";
-	 	echo "<h1>Account</h1>\n";
+	 	echo "<h1>Comptes</h1>\n";
 
-		echo "Editing account $this->login";
+		echo "Edition du compte $this->login";
 	 	echo "<form method='post' action='#'>\n";
 	 	echo "<input type='hidden' value='".htmlentities($this->login)."' name='login' />\n";
-	 	echo "<fieldset><span>Name </span><div><input type='text' value='".htmlentities($this->name)."' name='name' /></div></fieldset>\n";
+	 	echo "<fieldset><span>Nom </span><div><input type='text' value='".htmlentities($this->name)."' name='name' /></div></fieldset>\n";
 	 	echo "<fieldset><span>Email </span><div><input type='text' value='".htmlentities($this->email)."' name='email' /></div></fieldset>\n";
-	 	echo "<fieldset><span>Password </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
+	 	echo "<fieldset><span>M. Passe </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
 
- 		echo "<fieldset><label>Old Password : <input type='password' value='' name='old_password' /></fieldset>\n";
+ 		echo "<fieldset><label>Ancien m. passe : <input type='password' value='' name='old_password' /></fieldset>\n";
 
 	 	echo "<input type='submit' class='button blue'>\n";
-	 	echo "or <a href='.'>Cancel</a>";
+	 	echo "ou <a href='.'>Annuler</a>";
 	 	echo "</form>\n";
 	 	echo "</div>\n";
 	 }

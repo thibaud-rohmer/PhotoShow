@@ -215,7 +215,7 @@ class Comments implements HTMLObject
 					echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
 				}
 				echo "<textarea name='content' id='content'></textarea>\n";
-				echo "<input type='submit' value='Post Comment''>\n";
+				echo "<input type='submit' value='Envoyer commentaire''>\n";
 			echo "</form>\n";			
 	}
 }

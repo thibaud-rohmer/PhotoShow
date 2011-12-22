@@ -104,12 +104,12 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	private function init_wanted(){
-		$this->wanted['Name'][]			=	'FileName';
-		$this->wanted['Model'][]		=	'Model';
-		$this->wanted['Make'][]			=	'Make';
+		$this->wanted['Nom'][]			=	'FileName';
+		$this->wanted['APN'][]		=	'Model';
+		//$this->wanted['Make'][]			=	'Make';
 		$this->wanted['Expo'][]			=	'ExposureTime';
-		$this->wanted['Focal Length'][]	=	'FocalLength';
-		$this->wanted['Aperture'][]		=	'FNumber';
+		$this->wanted['Long. focale'][]	=	'FocalLength';
+		$this->wanted['Ouverture'][]		=	'FNumber';
 		$this->wanted['ISO'][]			=	'ISOSpeedRatings';
 	}
 	

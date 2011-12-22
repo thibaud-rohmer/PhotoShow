@@ -132,7 +132,7 @@ class MainPage extends Page
 		$this->menu->toHTML();
 
 		if(CurrentUser::$admin){
-			echo "<div class='bin'><img src='inc/bin.png'> Delete</div>";
+			echo "<div class='bin'><img src='inc/bin.png'> Supprimer</div>";
 		}
 		echo "</div>\n";
 		/// Stop menu

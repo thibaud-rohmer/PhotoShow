@@ -59,10 +59,10 @@ class ImageBar
 
 		$file = urlencode(File::a2r(CurrentUser::$path));
 
-		$this->buttons['prev'] = 	"?p=p&f=".$file;
-		$this->buttons['back'] = 	"?f=".File::a2r(dirname(CurrentUser::$path));
-		$this->buttons['img']  = 	"?t=Big&f=".$file;
-		$this->buttons['next'] = 	"?p=n&f=".$file;
+		$this->buttons['retour'] = 	"?p=p&f=".$file;
+		$this->buttons['suivant'] = 	"?p=n&f=".$file;
+		$this->buttons['menu'] = 	"?f=".File::a2r(dirname(CurrentUser::$path));
+		$this->buttons['imprimable']  = 	"?t=Big&f=".$file;
 
 	}
 

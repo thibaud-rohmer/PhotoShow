@@ -64,13 +64,13 @@ class LoginPage extends Page
 		
 		$this->header();
 		echo "<div class='panel'>\n";
-		echo "<h1>Login</h1></br>";
+		echo "<h1>Identification</h1></br>";
 		echo "<form method='post' action='?t=Log' class='niceform'>\n";
 		echo "<fieldset><span>Login</span>";
 		echo "<div><input type='text' name='login'></div></fieldset>\n";
-		echo "<fieldset><span>Password</span>\n";
+		echo "<fieldset><span>Mot de passe</span>\n";
 		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit' class='button blue'> or <a class='inline' href='?t=Reg'>register</a> or <a class='inline' href='.'>go back</a>";
+		echo "<input type='submit' class='button blue'> ou <a class='inline' href='?t=Reg'>s'enregistrer</a> ou <a class='inline' href='.'>retour</a>";
 		echo "</form>\n";
 		echo "</div>\n";
 

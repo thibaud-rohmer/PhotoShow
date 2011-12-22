@@ -134,7 +134,7 @@
  	public function toHTML(){
  		echo 	"<h1>Delete</h1>";
  		echo 	"<form action='?t=Adm&a=Del' method='post' enctype='multipart/form-data'>";
- 		echo 	"<fieldset><span>Delete</span><div><select name='del'>";
+ 		echo 	"<fieldset><span>Supprimer</span><div><select name='del'>";
 		foreach($this->files as $file){
  				if($file == $this->selected){
  					$selected = "selected";

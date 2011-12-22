@@ -74,7 +74,7 @@ class BoardHeader{
 		echo 	"<span>";
 		
 		/// Zip button
-		echo 	"<a href='?t=Zip&f=$this->path' class='button'>ZIP</a>\n";
+		echo 	"<a href='?t=Zip&f=$this->path' class='button'>T&eacute;l&eacute;charger (ZIP)</a>\n";
 		
 		echo 	"</span>\n";
 		echo 	"</div>\n";

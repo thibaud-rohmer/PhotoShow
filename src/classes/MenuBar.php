@@ -70,28 +70,28 @@ class MenuBar implements HTMLObject{
 		echo "<div id='menubar'>\n";
 
 		echo "<div class='align_left'>\n";
-		echo "<a href='.'>PhotoShow</a>\n";
+		echo "<a href='.'>Accueil</a>\n";
 		if(isset(CurrentUser::$account)){
 			// User logged in
-			echo "<div class='menubar-button'>- logged as <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login)."</a></div>\n";
+			echo "<div class='menubar-button'>- connect&eacute; en tant que <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login)."</a></div>\n";
 			echo "</div><div class='align_right'>\n";
-			echo "<a href='?t=Log'>LOGOUT</a>\n";
+			echo "<a href='?t=Log'>D&eacute;connexion</a>\n";
 			
 			if(CurrentUser::$admin){
-				echo "<a href='?t=Adm'>ADMIN</a>\n";
+				echo "<a href='?t=Adm'>Administration</a>\n";
 			}
 			
 		}else{
 			// User not logged in
 			echo "</div><div class='align_right'>\n";
-			echo "<a class='login' href='?t=Log'>LOGIN</a>\n";
-			echo "<a class='register' href='?t=Reg'>REGISTER</a>\n";
+			echo "<a class='login' href='?t=Log'>Identification</a>\n";
+			echo "<a class='register' href='?t=Reg'>S'enregistrer</a>\n";
 		}
 		
 		//echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
 		echo "</div>\n";
 
-		echo "<span>Powered by <a href='http://www.photoshow-gallery.com'>PhotoShow</a> - © 2011 Thibaud Rohmer</span>";
+		echo "<span style=\"display:none;\">Powered by <a href='http://www.photoshow-gallery.com'>PhotoShow</a> - © 2011 Thibaud Rohmer</span>";
 
 		echo "</div>\n";
 	}

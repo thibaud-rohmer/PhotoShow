@@ -161,11 +161,11 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function toHTML(){
- 		echo 	"<h1>Upload</h1>";
+ 		echo 	"<h1>T&eacute;l&eacute;charger</h1>";
 
  		echo 	"<form action='?t=Adm&a=Upl' method='post' enctype='multipart/form-data'>";
  		echo 	"<fieldset><span>Images</span><div><input  name='images[]' type='file' multiple /></div></fieldset>";
- 		echo 	"<fieldset><span>Location</span><div><select name='path'>";
+ 		echo 	"<fieldset><span>Localisation</span><div><select name='path'>";
  		echo 	"<option value='.'>.</option>";
 
  		foreach($this->dirs as $dir){
@@ -178,16 +178,16 @@
  		}
 
  		echo 	"</select></div></fieldset>";
- 		echo 	"<fieldset><span>New Dir</span><div><input name='newdir' type='text' /></div></fieldset>";
- 	 	echo 	"<fieldset><span>Rights</span><div><label><input type='checkbox' name='inherit' checked /> Inherit</label></div></fieldset>";
- 		echo 	"<fieldset><span>Public</span><div><label><input type='checkbox' name='public' checked /> Public</label></div></fieldset>";
- 		echo 	"<fieldset><span>Groups</span><div>";
+ 		echo 	"<fieldset><span>Nouveau r&eacute;pertoire</span><div><input name='newdir' type='text' /></div></fieldset>";
+ 	 	echo 	"<fieldset><span>Droits</span><div><label><input type='checkbox' name='inherit' checked /> H&eacute;rit&eacute;s</label></div></fieldset>";
+ 		echo 	"<fieldset><span>Acc&egrave;s</span><div><label><input type='checkbox' name='public' checked /> public</label></div></fieldset>";
+ 		echo 	"<fieldset><span>Groupes</span><div>";
  		foreach(Group::findAll() as $group){
  			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'])."' checked /> ".htmlentities($group['name'])." </label>";
  		}
  		echo 	"</div></fieldset>";
  	
- 		echo 	"<fieldset><span>Users</span><div>";
+ 		echo 	"<fieldset><span>Utilisateurs</span><div>";
  		foreach(Account::findAll() as $account){
  			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'])."' checked /> ".htmlentities($account['login'])." </label>";
  		}

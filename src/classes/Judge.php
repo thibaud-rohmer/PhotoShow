@@ -297,8 +297,8 @@ class Judge
 		if($this->public){
 
 			echo "<form action='?t=Pri&f=$this->webpath' method='post'>\n";
-			echo "This item is public.";
-			echo "<input type='submit' class='button blue' value='Go Private' />";
+			echo "Cet &eacute;l&eacute;ment est public.";
+			echo "<input type='submit' class='button blue' value='Rendre priv&eacute;' />";
 			echo "</form>";
 			echo "</div>";
 			return;
@@ -306,14 +306,14 @@ class Judge
 		}else{
 
 			echo "<form action='?t=Pub&f=$this->webpath' method='post'>\n";
-			echo "This item is private.";
-			echo "<input type='submit' class='button blue' value='Go Public' />";
+			echo "Cet &eacute;l&eacute;ment est priv&eacute;.";
+			echo "<input type='submit' class='button blue' value='Rendre public' />";
 			echo "</form>";
 
 		}
 
 		echo "<form action='?t=Rig&f=$this->webpath' method='post'>\n";
-		echo "<h3>Accounts</h3>";
+		echo "<h3>Personnes</h3>";
 
 		foreach(Account::findAll() as $account){
 			
@@ -326,7 +326,7 @@ class Judge
 			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".$account['login']."</label>";
 		}
 
-		echo "<h3>Groups</h3>";
+		echo "<h3>Groupes</h3>";
 
 		foreach(Group::findAll() as $group){
 			if($group['name'] == "root"){
@@ -341,7 +341,7 @@ class Judge
 			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".$group['name']." </label>";
 		}
 
-		echo "</br><input type='submit' class='button blue' value='Set Rights'>\n";
+		echo "</br><input type='submit' class='button blue' value='Appliquer autorisations'>\n";
 		echo "</form>\n";
 		echo "</div>\n";
 	}

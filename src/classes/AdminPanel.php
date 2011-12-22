@@ -70,7 +70,7 @@ class AdminPanel
 					<input type='hidden' name='pathFrom' value=\"".htmlentities($w)."\">
 				<fieldset>
 					<input type='text' name='pathTo' value=\"".htmlentities(basename($w))."\">
-					<input type='submit' value='Rename'>
+					<input type='submit' value='Renommer'>
 				</fieldset>
 				</form>";
 		}
@@ -78,8 +78,8 @@ class AdminPanel
 		$ret .=	"<form class='create' action='?a=Upl' method='post'>
 				<fieldset>
 					<input type='hidden' name='path' value=\"".htmlentities($w)."\">
-					<input id='foldername' name='newdir' type='text' value='New Folder'>
-					<input type='submit' value='Create'>
+					<input id='foldername' name='newdir' type='text' value='Nouveau r&eacute;pertoire'>
+					<input type='submit' value='Cr&eacute;er'>
 				</fieldset>
 				</form>";
 
@@ -89,7 +89,7 @@ class AdminPanel
 			<input type='hidden' name='path' value=\"".htmlentities($w)."\">
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
-			<div>Upload Images Here</div>
+			<div>T&eacute;l&eacute;charger images</div>
 			</form>";
 
 		return $ret;

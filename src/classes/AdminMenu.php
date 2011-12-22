@@ -52,8 +52,8 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function __construct(){
- 		$this->options['Sta']	= "View Statistics";
- 	 	$this->options['EdA']	= "Edit Accounts";
+ 		$this->options['Sta']	= "Voir statistiques";
+ 	 	$this->options['EdA']	= "Modifier comptes";
  	}
  
  	/**
@@ -76,7 +76,7 @@
  		}
 		echo "<div class='menu_item'>\n";
 		echo "<div class='menu_title'>\n";
-		echo "<a href='.'>Back</a>";
+		echo "<a href='.'>Retour</a>";
 		echo "</div>\n</div>\n";
 
  	}
