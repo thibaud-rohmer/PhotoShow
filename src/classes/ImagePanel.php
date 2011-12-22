@@ -46,6 +46,9 @@
 
 class ImagePanel implements HTMLObject
 {
+
+    /// Header
+    public $header;
 	
 	/// Image object
 	private $image;
@@ -58,7 +61,6 @@ class ImagePanel implements HTMLObject
 	
 	/// Judge object
 	private $judge;
-
 
 	/**
 	 * Create ImagePanel
@@ -85,6 +87,13 @@ class ImagePanel implements HTMLObject
 			/// Create Comments object
 			$this->comments	=	new Comments($file);
 		}
+  
+        $root_url = "http".($_SERVER["HTTPS"]?"s":"")."://".$_SERVER["SERVER_NAME"];
+        $pageurl = $root_url.$_SERVER["REQUEST_URI"];
+        
+        $this->header = "<meta property=\"og:url\" content=\"".$pageurl."\"/>\n"
+            ."<meta property=\"og:title\" content=\"".File::a2r($file)."\"/>\n"
+            ."<meta property=\"og:image\" content=\"".$root_url."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
 
 		/// Set the Judge
 		$this->judge 	=	new Judge($file);

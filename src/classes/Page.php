@@ -52,7 +52,7 @@ abstract class Page implements HTMLObject
 		 * @return void
 		 * @author Thibaud Rohmer
 		 */
-		public function header(){
+		public function header($head_content=NULL){
 			echo "<html>";
 			echo "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n";
 			echo "<head>\n";
@@ -92,6 +92,12 @@ abstract class Page implements HTMLObject
 				echo "<script src='inc/jquery.fileupload-ui.js'></script>\n";
 				echo "<script src='src/js/admin.js'></script>\n";
 			}
+
+            // Add specific head content if needed
+            if ($head_content)
+            {
+                echo $head_content;
+            }
 
 			echo "</head>";
 		}
