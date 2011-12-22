@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -42,7 +42,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class Provider
@@ -53,27 +53,31 @@ class Provider
 	 * Provide an image to the user, if he is allowed to
 	 * see it. If $thumb is true, provide the thumb associated
 	 * to the image.
-	 * 
-	 * TODO : if no thumb is found, generate thumb
 	 *
 	 * @param string $file 
 	 * @param string $thumb 
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function image($file,$thumb=false,$large=false){
+	public static function image($file,$thumb=false,$large=false,$output=true,$dl=false){
 		
 		if( !Judge::view($file)){
 			return;
 		}
-		if(function_exists(error_reporting)){
+		if(function_exists("error_reporting")){
 			error_reporting(0);
 		}
+
+		/// Check item
+		if(!File::Type($file) || File::Type($file) != "Image"){
+			return;
+		}
+
 		if(!$large){
 			try {
 				if($thumb){
 					$path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
-					if(!file_exists($path)){
+					if(!file_exists($path) || filectime($file) > filectime($path) ){
 						require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
 						
 						/// Create directories
@@ -101,7 +105,7 @@ class Provider
 						/// Set absolute path to comments file
 						$path =	File::r2a($webimg,Settings::$thumbs_dir);
 
-						if(!file_exists($path)){
+						if(!file_exists($path) || filectime($file) > filectime($path)  ){
 							/// Create smaller image
 							if(!file_exists(dirname($path))){
 								@mkdir(dirname($path),0755,true);
@@ -125,10 +129,27 @@ class Provider
 			$path = $file;
 		}
 
-		header('Content-type: image/jpeg');
-		readfile($path);			
+		if($output){
+			if($dl){
+				header('Content-Disposition: attachment; filename="'.basename($file).'"');
+				header('Content-type: image/jpeg');
+			}else{
+				$expires = 60*60*24*14;
+				$last_modified_time = filemtime($path); 
+				$last_modified_time = 0;
+				$etag = md5_file($file); 
+
+		    	header("Last-Modified: " . 0 . " GMT");
+				header("Pragma: public");
+				header("Cache-Control: max-age=360000");
+				header("Etag: $etag"); 
+				header("Cache-Control: maxage=".$expires);
+				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+				header('Content-type: image/jpeg');
+			}
+			readfile($path);
+		}
 	}
-	
 	public static function Zip($dir){
 
 		/// Check that user is allowed to acces this content
@@ -155,7 +176,7 @@ class Provider
 		$zip->close();
 		header('Content-Type: application/zip');
 		header('Content-Length: ' . filesize($tmpfile));
-		header("Content-Disposition: attachment; filename=\"$fname.zip\"");
+		header("Content-Disposition: attachment; filename=\"".htmlentities($fname, ENT_QUOTES ,'UTF-8').".zip\"");
 		readfile($tmpfile);
 		unlink($tmpfile);
 

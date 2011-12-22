@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -41,7 +41,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class ImagePanel implements HTMLObject
@@ -81,8 +81,10 @@ class ImagePanel implements HTMLObject
 		/// Create EXIF object
 		$this->exif		=	new Exif($file);
 		
-		/// Create Comments object
-		$this->comments	=	new Comments($file);
+		if(!Settings::$nocomments){
+			/// Create Comments object
+			$this->comments	=	new Comments($file);
+		}
 
 		/// Set the Judge
 		$this->judge 	=	new Judge($file);
@@ -98,42 +100,51 @@ class ImagePanel implements HTMLObject
 		if(!isset($this->image)){
 			return;
 		}
-
+/*
 		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
 
 
 		echo "<div id='share'>";
-		echo "<br/><br/>";
-		echo '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>';
 		
-		echo '<g:plusone></g:plusone>';
-		echo '<br/><br/>';
+		if(Settings::$plusone){	
+			echo "<br/><br/>";
+			echo '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>';
+			
+			echo '<g:plusone></g:plusone>';
+			echo '<br/><br/>';
+		}
 		
-		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-		
-		echo '<iframe src="//www.facebook.com/plugins/like.php?href='.urlencode($pageURL).'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
-		echo "</div>";
+		if(Settings::$like){				
+			$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 
+			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.urlencode($pageURL).'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
+		
+		}
+		echo "</div>";
 
 		if(CurrentUser::$admin){
 			$this->judge->toHTML();
 		}
 
 		echo "</div>\n";
+*/
+		echo "<div id='bigimage'>\n";
 
-		echo "<div id='bigimage' class='box'>\n";
 		$this->image->toHTML();
+
 		echo "</div>\n";
 
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();
 		echo "</div>\n";
-
+/*
 		echo "<div id='comments' class='box'>\n";
-		$this->comments->toHTML();
+		if(!Settings::$nocomments){
+			$this->comments->toHTML();
+		}
 		echo "</div>\n";
-
+*/
 	}
 	
 }

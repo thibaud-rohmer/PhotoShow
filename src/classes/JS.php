@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,9 +39,9 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
-class JS
+class JS extends Page
 {
 	private $toPrint;
 
@@ -64,7 +64,7 @@ class JS
 								$m->toHTML();
 
 								if(CurrentUser::$admin){
-									echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
+									echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 								}
 								echo "</div>\n";
 								echo "<div class='panel'>\n";
@@ -102,7 +102,7 @@ class JS
 								$m->toHTML();
 
 								if(CurrentUser::$admin){
-									echo "<div class='bin'><img src='inc/bin.png'>Delete</div>";
+									echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 								}
 								
 								break;
@@ -112,7 +112,7 @@ class JS
 								$f->toHTML();
 								break;
 
-				case "Inf":		$f = new AdminPanel();
+				case "Inf":		$f = new Infos();
 								$f->toHTML();
 								break;
 
@@ -131,6 +131,10 @@ class JS
 				default:		break;
 			}
 		}
+	}
+
+	public function toHTML(){
+		
 	}
 }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the class LoginPage.
+ * This file implements the class Infos.
  * 
  * PHP versions 4 and 5
  *
@@ -30,9 +30,11 @@
  */
 
 /**
- * LoginPage
+ * Used to print the info panel
  *
- * Lets a user log in.
+ * The ImagePanel contains one image, and the infos
+ * about that image (such as EXIF, Comments).
+ * If the user is logged, it contains even more stuff.
  *
  * @category  Website
  * @package   Photoshow
@@ -42,38 +44,38 @@
  * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
-class LoginPage extends Page
+class Infos implements HTMLObject
 {
-	
-	/**
-	 * Create Login Page
-	 *
-	 * @author Thibaud Rohmer
-	 */
+	private $info;
+
+	private $comments;
+
 	public function __construct(){
-			
-	}
-	
-	/**
-	 * Display Login Page on website
-	 *
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
-	public function toHTML(){
-		
-		$this->header();
-		echo "<div class='center'>\n";
-		echo "<h1>".Settings::_("login","logintitle")."</h1></br>";
-		echo "<form method='post' action='?t=Log' class='niceform'>\n";
-		echo "<fieldset><span>".Settings::_("login","login")."</span>";
-		echo "<div><input type='text' name='login'></div></fieldset>\n";
-		echo "<fieldset><span>".Settings::_("login","pass")."</span>\n";
-		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
-		echo "</form>\n";
-		echo "</div>\n";
+
+		if(CurrentUser::$admin){
+			$this->info = new AdminPanel();
+		}else{
+			$this->info = new Exif(CurrentUser::$path);
+		}
+
+		if(!Settings::$nocomments){
+			$this->comments	=	new Comments(CurrentUser::$path);
+		}
 
 	}
+
+	public function toHTML(){
+		echo '<h2>Infos</h2>';
+
+		$this->info->toHTML();
+
+		echo "<div id='comments' class='box'>\n";
+		if(!Settings::$nocomments){
+			$this->comments->toHTML();
+		}
+		echo "</div>\n";
+	}
+
 }
+
 ?>

@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -40,7 +40,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class Index
@@ -81,6 +81,9 @@ class Index
 			case "Img":		Provider::Image(CurrentUser::$path);
 							break;
 			
+			case "BDl":		Provider::Image(CurrentUser::$path,false,true,true,true);
+							break;
+
 			case "Big":		Provider::Image(CurrentUser::$path,false,true);
 							break;
 

@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
  class Admin extends Page
  {
@@ -59,13 +59,61 @@
  	 */
  	public function __construct(){
 
- 		/// Check that current user is an admin
-	 	if(!CurrentUser::$admin){
+ 		/// Check that current user is an admin or an uploader
+	 	if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
 	 		return;
 	 	}
 
-	 	/// Create menu
-	 	$this->menu = new AdminMenu();
+
+ 		/// Get actions available for Uploaders too
+ 		if(isset($_GET['a'])){
+	 		switch($_GET['a']){
+	 			case "Abo" 		: 	$this->page = new AdminAbout();
+	 								break;
+	 								
+		 		case "Upl"		:	if(isset($_POST['path'])){
+		 								AdminUpload::upload();
+		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
+		 							}
+		 							$this->page = new AdminFiles();
+		 							break;
+				
+				case "Mov"		:	if(isset($_POST['pathFrom'])){
+										try{
+	 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
+										}catch(Exception $e){
+											CurrentUser::$path = Settings::$photos_dir;
+										}
+									}
+	 								AdminMove::move();
+	 								
+	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
+										try{
+								//			if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
+	 							//				CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+	 							//			}
+										}catch(Exception $e){
+											CurrentUser::$path = Settings::$photos_dir;
+										}
+									}
+		 							
+									$this->page = new AdminFiles();
+									break;
+
+				case "Del"		:	if(isset($_POST['del'])){
+		 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
+		 								AdminDelete::delete();
+		 							}
+									$this->page = new AdminFiles();
+									break;
+	 		}
+	 	}
+
+ 		/// Check that current user is an admin
+	 	if( !(CurrentUser::$admin) ){
+	 		return;
+	 	}
+
  		/// Get action
  		if(isset($_GET['a'])){
 	 		switch($_GET['a']){
@@ -84,6 +132,10 @@
 									break;
 
 				case "GC"		:	Group::create($_POST['group']);
+									$this->page = new JSAccounts();
+									break;
+
+				case "AAc"		:	Account::create($_POST['login'],$_POST['password'],$_POST['verif']);
 									$this->page = new JSAccounts();
 									break;
 				
@@ -112,39 +164,6 @@
 									$this->page = new MainPage();
 									break;
 
-		 		case "Upl"		:	if(isset($_POST['path'])){
-		 								AdminUpload::upload();
-		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
-		 							}
-		 							$this->page = new AdminFiles();
-		 							break;
-				
-				case "Mov"		:	if(isset($_POST['pathFrom'])){
-										try{
-	 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
-										}catch(Exception $e){
-											CurrentUser::$path = Settings::$photos_dir;
-										}
-									}
-	 								AdminMove::move();
-	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
-										try{
-	 										CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
-										}catch(Exception $e){
-											CurrentUser::$path = Settings::$photos_dir;
-										}
-									}
-		 							
-									$this->page = new AdminFiles();
-									break;
-
-				case "Del"		:	if(isset($_POST['del'])){
-		 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
-		 								AdminDelete::delete();
-		 							}
-									$this->page = new AdminFiles();
-									break;
-
 				case "Fil"		:	$this->page = new AdminFiles();
 									break;
 
@@ -152,13 +171,24 @@
 
 				case "EdA"		:	$this->page = new JSAccounts();
 									break;
-									
-		 		default 		:	$this->page = new AdminStats();
-	 		}
-		}else{
-			$this->page = new AdminStats();
-		} 		
+				
+				case "GAl"		:	if(isset($_POST['path'])){
+										Settings::gener_all(File::r2a(stripslashes($_POST['path'])));
+									}
+				case "Set" 		:	if(isset($_POST['name'])){
+										Settings::set();
+									}
+									$this->page = new Settings();
+									break;
+		 		}
+		}
+		
+		if(!isset($this->page)){
+			$this->page = new AdminStats();			
+		}
 
+	 	/// Create menu
+	 	$this->menu = new AdminMenu();
 
 	}
 
@@ -173,7 +203,7 @@
  		$this->menu->toHTML();
  		echo "</div>\n";
 
-		echo "<div class='panel'>\n";
+		echo "<div class='center'>\n";
 		if($_GET['a']=="JS"){
 			$this->page = new JS();
 		}else{

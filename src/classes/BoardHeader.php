@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class BoardHeader{
 
@@ -69,13 +69,14 @@ class BoardHeader{
 	public function toHTML(){
 		echo 	"<div class='header'>";
 		/// Title
-		echo 	"<h1>$this->title</h1>";
+		echo 	"<h1>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</h1>";
 		
 		echo 	"<span>";
 		
-		/// Zip button
-		echo 	"<a href='?t=Zip&f=$this->path' class='button'>T&eacute;l&eacute;charger (ZIP)</a>\n";
-		
+		if(!Settings::$nodownload){
+			/// Zip button
+			echo 	"<a href='?t=Zip&f=$this->path' class='button'>".Settings::_("boardheader","download")."</a>\n";
+		}
 		echo 	"</span>\n";
 		echo 	"</div>\n";
 	}

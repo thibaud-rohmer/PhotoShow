@@ -25,7 +25,7 @@
  * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license	  http://www.gnu.org/licenses/
- * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
 
 function init_admin(){
@@ -39,7 +39,17 @@ function init_admin(){
 		revert: 		true
 	});
 
-	$(".panel .item").draggable({
+	$(".directory").draggable({
+		cursor: 		"move",
+		zIndex: 		1000,
+		opacity: 		0.5,
+		helper: 		'clone',
+		appendTo: 		'body',
+		scroll: 		false,
+		revert: 		true
+	});
+
+	$(".item").draggable({
 		cursor: 		"move",
 		zIndex: 		1000,
 		helper: 		'clone',
@@ -59,12 +69,11 @@ function init_admin(){
 						from  = dragg.children(".path").text();
 						to 	  = $(this).children(".path").text();
 
-						if($(dragg).hasClass("menu_title")){
-							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
+						if($(dragg).hasClass("item")){
+							$(".panel,.linear_panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
 						}else{
-							$(".panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
+							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
 						}
-
 					}
 	});
 
@@ -76,14 +85,14 @@ function init_admin(){
 
 						file  = dragg.children(".path").text();
 
-						if($(dragg).hasClass("menu_title")){
+						if($(dragg).hasClass("item")){
+							$(".panel,.linear_panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
+						}else{
 							$("#page").load("?t=Adm&a=Del&j=Pag",{'del' : file },function(){
 								init_panel();
 								init_infos();
 								init_admin();
 							});
-						}else{
-							$(".panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
 						}
 
 					}
@@ -108,7 +117,7 @@ function init_admin(){
 								dragg.draggable('option','revert',false);
 								acc = dragg.children(".name").text();
 								group = $(this).children(".name").text();
-								$(".panel").load("?t=Adm&a=AGA&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+								$(".center").load("?t=Adm&a=AGA&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 							}
 						}
 	})
@@ -116,22 +125,19 @@ function init_admin(){
 	$(".rmacc").click(function(){
 		group 	= $(this).parent().parent().children(".name").text();
 		acc 	= $(this).parent().children(".accname").text();
-		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+		$(".center").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 	});
 
 	$(".rmgroup").click(function(){
 		acc		= $(this).parent().parent().children(".name").text();
 		group 	= $(this).parent().children(".groupname").text();
-		$(".panel").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
+		$(".center").load("?t=Adm&a=AGR&j=Acc",{'acc' : acc, 'group' : group },init_admin);
 	});
 
 	$(".addgroup").submit(function(){
-		$(".panel").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
+		$(".center").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
 		return false;
 	});
-
-
-	init_delete();
 }
 
 function init_infos(){
@@ -154,12 +160,6 @@ function init_infos(){
 
 	init_forms();
 
-}
-
-function init_delete(){
-	$(".delete a").click(function(){
-//		$(".panel").load($(this).attr("href")+"a="+$(this).parent().children(".name").text());
-	});
 }
 
 function init_forms(){

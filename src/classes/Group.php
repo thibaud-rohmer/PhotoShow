@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -46,7 +46,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class Group
@@ -90,6 +90,7 @@ class Group
 			$xml=new SimpleXMLElement('<groups></groups>');
 			$xml->asXML(CurrentUser::$groups_file);
 			Group::create("root");
+			Group::create("uploaders");
 			Group::create("user");
 	}
 
@@ -144,8 +145,7 @@ class Group
 			$i++;
 			if((string)$group->name == $groupname){
 				$found = true;
-				echo "plip";
-				continue;
+				break;
 			}
 		}
 		

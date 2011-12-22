@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
  class AdminMove
  {
@@ -92,7 +92,7 @@
  	public function move(){
 
  		/// Just to be really sure... 
- 		if(!CurrentUser::$admin){
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 
@@ -142,7 +142,7 @@
  				}else{
  					$selected = "";
  				}
- 				echo "<option value='".htmlentities($file)."' $selected>".htmlentities($file)."</option>\n";
+ 				echo "<option value='".htmlentities($file, ENT_QUOTES ,'UTF-8')."' $selected>".htmlentities($file, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
 
  		echo 	"</select></div></fieldset>\n";
@@ -150,7 +150,7 @@
  		echo 	"<fieldset><span>Vers</span><div><select name='pathTo'>";
  		echo "<option value='.'>.</option>\n";
 		foreach($this->dirs as $dir){
- 				echo "<option value='".htmlentities($dir)."'>".htmlentities($dir)."</option>\n";
+ 				echo "<option value='".htmlentities($dir, ENT_QUOTES ,'UTF-8')."'>".htmlentities($dir, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
  		echo 	"</select></div></fieldset>\n";
 

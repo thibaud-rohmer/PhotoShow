@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class JSAccounts
 {
@@ -62,35 +62,41 @@ class JSAccounts
 		$groupaccounts = array();
 
 		echo "<div class='leftcolumn'>";
-		echo "<h1>Accounts</h1>";
+		echo "<h1>".Settings::_("jsaccounts","accounts")."</h1>";
+
+		echo "<fieldset>";
+		$r = new RegisterPage(false,true);
+		$r->toHTML();
+		echo "</fieldset>";
+		
 		foreach($this->accounts as $acc){
 			echo "<div class='accountitem'>
 						<div class='delete'>
 							<form action='?t=Adm&a=ADe' method='post'>
-								<input type='hidden' name='name' value='".$acc['login']."'>
+								<input type='hidden' name='name' value='".htmlentities($acc['login'], ENT_QUOTES ,'UTF-8')."'>
 								<input type='submit' value='x'>
 							</form>
 						</div>";
 			echo "<div class='name'>".$acc['login']."</div>";
 			foreach($acc['groups'] as $g){
 				$groupaccounts["$g"][] = $acc['login'];
-				echo "<div class='inlinedel'><span class='rmgroup'>x</span><span class='groupname'>".$g."</span></div>";
+				echo "<div class='inlinedel'><span class='rmgroup'>x</span><span class='groupname'>".htmlentities($g, ENT_QUOTES ,'UTF-8')."</span></div>";
 			}
 			echo "</div>";
 		}
 		echo "</div>";
 
 		echo "<div class='rightcolumn'>";
-		echo "<h1>Groups</h1>";
+		echo "<h1>".Settings::_("jsaccounts","groups")."</h1>";
 
 		echo "<div class='newgroup'>";
 		echo "
-		<form class='addgroup' type='post' action='?t=Adm&a=GC'>
+		<form class='addgroup' method='post' action='?t=Adm&a=GC'>
 			<fieldset>
-			<span>Add group</span>
+			<span>".Settings::_("jsaccounts","groupname")."</span>
 			<div><input type='text' name='group' value='Group Name' /></div>
 			</fieldset>
-			<fieldset><input type='submit' value='Create'></fieldset>
+			<fieldset><input type='submit' value='".Settings::_("jsaccounts","addgroup")."'></fieldset>
 			</form>\n";
 		echo "</div>";
 
@@ -107,7 +113,7 @@ class JSAccounts
 
 			if(isset($groupaccounts["$gn"])){
 				foreach($groupaccounts["$gn"] as $g){
-					echo "<div class='inlinedel'><span class='rmacc'>x</span><span class='accname'>".$g."</span></div>";
+					echo "<div class='inlinedel'><span class='rmacc'>x</span><span class='accname'>".htmlentities($g, ENT_QUOTES ,'UTF-8')."</span></div>";
 				}
 			}
 			echo "</div>";

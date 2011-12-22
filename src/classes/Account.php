@@ -26,7 +26,7 @@
  * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license	  http://www.gnu.org/licenses/
- * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -49,7 +49,7 @@
  * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license	  http://www.gnu.org/licenses/
- * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
 class Account extends Page
 {
@@ -97,7 +97,7 @@ class Account extends Page
 				return;
 			}
 		}
-		throw new Exception("Login $login non trouv&eacute;");
+		//throw new Exception("Login $login non trouv&eacute;");
 	}
 	
 	/**
@@ -107,10 +107,10 @@ class Account extends Page
 	 * @param string $password 
 	 * @author Thibaud Rohmer
 	 */ 
-	public static function create($login,$password,$groups=array(),$name='',$email=''){
+	public static function create($login, $password, $verif, $groups=array(),$name='',$email=''){
 		
 		// Check if login already exists
-		if(Account::exists($login))
+		if(Account::exists($login) || (!CurrentUser::$admin && Settings::$noregister) || $password != $verif)
 			return false;
 
 		// All users belong to the "user" group
@@ -130,7 +130,7 @@ class Account extends Page
 		}
 
 
-		if( !(preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) || strlen($password) < 6){
+		if( preg_match("/[^a-z0-9]/i", $login) || strlen($password) < 6){
 			return false;
 		}
 
@@ -397,19 +397,21 @@ class Account extends Page
 	 public function toHTML(){
 	 	$this->header();
 	 	echo "<div class='panel'>\n";
-	 	echo "<h1>Comptes</h1>\n";
+	 	echo "<h1>".Settings::_("account","account")."</h1>\n";
 
-		echo "Edition du compte $this->login";
+		echo Settings::_("account","editing").htmlentities($this->login, ENT_QUOTES ,'UTF-8');
 	 	echo "<form method='post' action='#'>\n";
-	 	echo "<input type='hidden' value='".htmlentities($this->login)."' name='login' />\n";
-	 	echo "<fieldset><span>Nom </span><div><input type='text' value='".htmlentities($this->name)."' name='name' /></div></fieldset>\n";
-	 	echo "<fieldset><span>Email </span><div><input type='text' value='".htmlentities($this->email)."' name='email' /></div></fieldset>\n";
-	 	echo "<fieldset><span>M. Passe </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
+	 	echo "<input type='hidden' value='".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."' name='login' />\n";
+	 	echo "<fieldset><span>".Settings::_("account","name")."</span><div><input type='text' value='".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."' name='name' /></div></fieldset>\n";
 
- 		echo "<fieldset><label>Ancien m. passe : <input type='password' value='' name='old_password' /></fieldset>\n";
+	 	echo "<fieldset><span>".Settings::_("account","email")." </span><div><input type='text' value='".htmlentities($this->email, ENT_QUOTES ,'UTF-8')."' name='email' /></div></fieldset>\n";
 
-	 	echo "<input type='submit' class='button blue'>\n";
-	 	echo "ou <a href='.'>Annuler</a>";
+	 	echo "<fieldset><span>".Settings::_("account","password")." </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
+
+ 		echo "<fieldset><span>".Settings::_("account","oldpass")."</span><div><input type='password' value='' name='old_password' /></div></fieldset>\n";
+
+	 	echo "<input type='submit' class='button blue' value='".Settings::_("account","submit")."'>\n";
+	 	echo Settings::_("account","or")." <a href='.'>".Settings::_("account","cancel")."</a>";
 	 	echo "</form>\n";
 	 	echo "</div>\n";
 	 }

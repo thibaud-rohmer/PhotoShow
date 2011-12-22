@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -40,7 +40,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 abstract class Page implements HTMLObject
@@ -57,7 +57,7 @@ abstract class Page implements HTMLObject
 			echo "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n";
 			echo "<head>\n";
 			echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n";
-			echo "<title>photos.chouppy.net</title>\n";
+			echo "<title>".Settings::$name."</title>\n";
 			echo "<meta name='author' content='Thibaud Rohmer'>\n";
 			echo "<link rel='icon' type='image/ico' href='inc/favico.ico'>";
 
@@ -81,10 +81,11 @@ abstract class Page implements HTMLObject
 
 			echo "<script src='src/js/menu.js'></script>\n";
 			echo "<script src='src/js/panel.js'></script>\n";
+			echo "<script src='src/js/slideshow.js'></script>\n";
 			echo "<script src='src/js/image_panel.js'></script>\n";
 			echo "<script src='src/js/keyboard.js'></script>\n";
 			
-			if(CurrentUser::$admin){
+			if(CurrentUser::$admin || CurrentUser::$uploader){
 				echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
 				echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
 

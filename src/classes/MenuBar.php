@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class MenuBar implements HTMLObject{
@@ -73,25 +73,27 @@ class MenuBar implements HTMLObject{
 		echo "<a href='.'>Accueil</a>\n";
 		if(isset(CurrentUser::$account)){
 			// User logged in
-			echo "<div class='menubar-button'>- connect&eacute; en tant que <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login)."</a></div>\n";
+			echo "<div class='menubar-button'>- ".Settings::_("menubar","logged")." <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."</a></div>\n";
 			echo "</div><div class='align_right'>\n";
-			echo "<a href='?t=Log'>D&eacute;connexion</a>\n";
+			echo "<a href='?t=Log'>".Settings::_("menubar","logout")."</a>\n";
 			
 			if(CurrentUser::$admin){
-				echo "<a href='?t=Adm'>Administration</a>\n";
+				echo "<a href='?t=Adm'>".Settings::_("menubar","admin")."</a>\n";
 			}
 			
 		}else{
 			// User not logged in
 			echo "</div><div class='align_right'>\n";
-			echo "<a class='login' href='?t=Log'>Identification</a>\n";
-			echo "<a class='register' href='?t=Reg'>S'enregistrer</a>\n";
+			echo "<a class='login' href='?t=Log'>".Settings::_("menubar","login")."</a>\n";
+			if(!Settings::$noregister){
+				echo "<a class='register' href='?t=Reg'>".Settings::_("menubar","register")."</a>\n";
+			}
 		}
 		
 		//echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
 		echo "</div>\n";
 
-		echo "<span style=\"display:none;\">Powered by <a href='http://www.photoshow-gallery.com'>PhotoShow</a> - © 2011 Thibaud Rohmer</span>";
+		echo "<span>".Settings::_("menubar","powered")." <a href='http://www.photoshow-gallery.com'>PhotoShow</a> - © 2011 Thibaud Rohmer</span>";
 
 		echo "</div>\n";
 	}

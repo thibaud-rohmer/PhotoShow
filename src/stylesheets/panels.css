@@ -1,11 +1,10 @@
-
 /* Panel */
 
-body > .panel,
-#page > .panel {
+body > .center,
+#page > .center {
 	position:	absolute;
-	left:		250px;
-	right:		0;
+	left:		249px;
+	right:		259px;
 	top:		0;
 	bottom:		0;
 	padding:	25px 50px 50px 50px;
@@ -28,6 +27,44 @@ div.panel > .line {
 	margin:			0 0 1px 0;
 	overflow: 		hidden;
 	white-space:	nowrap;
+	clear:			both;
+}
+
+div.directory {
+	position:		relative;
+	width:			120px;
+	float:			left;
+	margin:			10px;
+	height:			180px;
+}
+
+div.directory > .dir_img{
+	height:			120px;
+}
+div.directory > .dirname
+{
+	display:			block;
+	position:			relative;
+	text-align:			center;
+	padding:			5px;
+	text-shadow:		1px 1px 2px #555;
+	-moz-text-shadow: 	1px 1px 2px #555;
+	min-height:			20px;
+	word-wrap:			break-word;
+}
+
+div.dirname input[type='text']{
+	text-align:			center;
+	text-shadow:		1px 1px 2px #555;
+	-moz-text-shadow: 	1px 1px 2px #555;
+}
+
+div.directory > .dir_img{
+	background-color:		black;
+	border-radius:			4px;
+	-moz-border-radius: 	4px;
+	box-shadow:				0 2px 5px #333;
+	-moz-box-shadow:		0 2px 5px #333;
 }
 
 div.panel > table {
@@ -58,7 +95,9 @@ div.linear_panel {
 	background:		black;
 }
 
-div.linear_panel > .header {
+div.linear_panel > .header,
+div.linear_panel > .directory,
+div.linear_panel > h2 {
 	display:		none;
 }
 
@@ -89,6 +128,8 @@ body > .item {
 .line > .item:hover{
 	border-color: rgb(0,136,232);	
 }
+
+.dir_img > a,
 .line > .item > a {
 	opacity:	0;
 	width:		100%;
@@ -138,27 +179,36 @@ div.image_panel > .box:nth-child(1) {
 
 div.image_panel > #bigimage{
 	position:	absolute;
-	left:		15%;
+	left:		5px;
 	top:		0;
-	right:		15%;
+	right:		5px;
 	bottom:		25px;
 	text-align:	center;
 	overflow:	hidden;
 }
 
-div.image_panel > #comments {
-	position:	absolute;
-	width:		15%;
-	top:		0;
-	right:		0;
-	bottom:		0;
-}
-
-div.image_panel > .box > #image_big {
+div#image_big {
 	margin:			auto;
 }
 
-div.image_panel > #image_bar {
+div#fs{
+	position:		absolute;
+	left:			0;
+	right:			0;
+	top:			0;
+	bottom:			0;
+	background:		black;
+}
+
+div#fs > .image_fs{
+	position:		absolute;
+	top:			0;
+	left:			0;
+	right:			0;
+	bottom:			25px;
+}
+
+div#image_bar {
 	position:		absolute;
 	left:			25%;
 	right:			25%;
@@ -168,7 +218,7 @@ div.image_panel > #image_bar {
 	text-align:		center;
 }
 
-div.image_panel > #image_bar > span {
+div#image_bar > span {
 	display:		inline-block;
 	width:			50px;
 
@@ -202,44 +252,6 @@ div.comment:nth-child(even) > div:nth-child(1) {
 
 div.comment:nth-child(even) > div:nth-child(2) {
 	border-left:	1px solid rgb(0,160,232);
-}
-
-div#comments > form {
-	position: 		absolute;
-	left:			5px;
-	right:			5px;
-	height:			172px;
-	bottom:			5px;
-	overflow:		hidden;
-	background:		black;
-	background:		#333;
-	border-radius: 	2px;
-}
-
-div#comments > form > fieldset {
-	position:		absolute;
-	left:			5px;
-	right:			5px;
-	top:			2px;
-	width:			auto;
-	height:			24px;
-	background:		white;
-}
-
-div#comments > form > textarea {
-	position:		absolute;
-	left:			4px;
-	right:			4px;
-	height:			80px;
-	bottom:			42px;
-	border-radius:	2px;
-}
-
-div#comments > form > input[type="submit"] {
-	position:		absolute;
-	left:			0;
-	right:			0;
-	bottom:			0;
 }
 
 div.adminrights {

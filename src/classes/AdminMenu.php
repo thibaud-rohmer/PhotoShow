@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
  class AdminMenu
  {
@@ -52,8 +52,10 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function __construct(){
- 		$this->options['Sta']	= "Voir statistiques";
- 	 	$this->options['EdA']	= "Modifier comptes";
+ 		$this->options['Abo']	= Settings::_("adminmenu","about");
+ 		$this->options['Sta']	= Settings::_("adminmenu","stats");
+ 	 	$this->options['Set']	= Settings::_("adminmenu","settings");
+ 	 	$this->options['EdA']	= Settings::_("adminmenu","accounts");
  	}
  
  	/**
@@ -76,7 +78,7 @@
  		}
 		echo "<div class='menu_item'>\n";
 		echo "<div class='menu_title'>\n";
-		echo "<a href='.'>Retour</a>";
+		echo "<a href='.'>".Settings::_("adminmenu","back")."</a>";
 		echo "</div>\n</div>\n";
 
  	}

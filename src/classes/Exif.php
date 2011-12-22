@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -40,7 +40,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class Exif implements HTMLObject
@@ -51,6 +51,9 @@ class Exif implements HTMLObject
 	/// Exif values, nice and clean
 	private $exif=array();
 	
+	/// Name of the file
+	private $filename;
+
 	/**
 	 * Create Exif class
 	 *
@@ -62,15 +65,10 @@ class Exif implements HTMLObject
 		if(!isset($file)) return;
 		
 		/// File isn't an image
-		if(File::Type($file) != "Image")
-			throw new Exception("$file is not an image");
-			
-		/// File type isn't readable with exif_read_data()
-		if(File::Type($file) == "png"){
-			$infos['']="Impossible to display Exif.";
+		if(!File::Type($file) || File::Type($file) != "Image"){
 			return;
-		}	
-		
+		}
+
 		/// No exif extension installed
 		if (!in_array("exif", get_loaded_extensions())) {
 			$infos['']="Exif extension is not installed on the server available";
@@ -86,15 +84,16 @@ class Exif implements HTMLObject
 		
 		/// Read exif
 		$raw_exif	=	@exif_read_data($file);
-		
+
 		/// Parse exif
 		foreach($this->wanted as $name => $data){
 			foreach($data as $d){
 				if(isset($raw_exif[$d])){
 					$this->exif[$name]	=	$this->parse_exif($d,$raw_exif);
-				}	
+				}
 			}
 		}	
+		$this->filename = basename($file);
 	}
 	
 	/**
@@ -104,12 +103,12 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	private function init_wanted(){
-		$this->wanted['Nom'][]			=	'FileName';
-		$this->wanted['APN'][]		=	'Model';
-		//$this->wanted['Make'][]			=	'Make';
+		$this->wanted['Name'][]			=	'FileName';		
+		$this->wanted['Model'][]		=	'Model';
+		$this->wanted['Make'][]			=	'Make';
 		$this->wanted['Expo'][]			=	'ExposureTime';
-		$this->wanted['Long. focale'][]	=	'FocalLength';
-		$this->wanted['Ouverture'][]		=	'FNumber';
+		$this->wanted['Focal Length'][]	=	'FocalLength';
+		$this->wanted['Aperture'][]		=	'ApertureValue';
 		$this->wanted['ISO'][]			=	'ISOSpeedRatings';
 	}
 	
@@ -120,9 +119,10 @@ class Exif implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<table>";
+		echo "<table>";		
 		foreach($this->exif as $name=>$value){
-			echo "<tr><td class='td_data'>$name</td><td class='td_value'>$value</td></tr>\n";
+			echo "<tr><td class='td_data'>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td>";
+			echo "<td class='td_value'>".htmlentities($value, ENT_QUOTES ,'UTF-8')."</td></tr>\n";
 		}
 		echo "</table>\n";
 	}
@@ -141,6 +141,17 @@ class Exif implements HTMLObject
 		return $float;
 	}
 	
+	/**
+	 * Create a beautiful fraction
+	 *
+	 * @param string $f 
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	function nicefrac($a,$b){
+		return "1/".number_format($b/$a,"1");
+	}
+
 	/**
 	 * Parse exif data
 	 *
@@ -166,7 +177,11 @@ class Exif implements HTMLObject
 									break;
 			case 'FocalLength':		$v		=	$this->frac2float($raw_exif[$d])." mm";
 									break;
-			case 'FNumber':			$v	=	$this->frac2float($raw_exif['FocalLength'])/$this->frac2float($raw_exif[$d]);
+			case 'ApertureValue':	if($a = number_format($this->frac2float($raw_exif[$d]),"1") > 0){
+										$v = "1/".$a;
+									}else{
+										$v='Unknown';
+									}
 									break;
 		}
 		return $v;

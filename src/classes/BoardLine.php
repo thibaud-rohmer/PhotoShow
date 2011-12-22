@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class BoardLine implements HTMLObject
 {
@@ -88,6 +88,11 @@ class BoardLine implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function add_item($file,$ratio){	
+
+		/// Check item
+		if(!File::Type($file) || File::Type($file) != "Image"){
+			return;
+		}
 
 		/// Append item
 		$this->items[]	=	new BoardItem($file,$ratio);

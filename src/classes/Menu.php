@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -40,7 +40,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class Menu implements HTMLObject
 {
@@ -73,7 +73,13 @@ class Menu implements HTMLObject
 			$dir = Settings::$photos_dir;
 			
 		/// Check rights
-		if(!(Judge::view($dir)))	return;		
+		if(!(Judge::view($dir) || Judge::searchDir($dir))){
+			return;
+		}	
+
+		if(!CurrentUser::$admin && !CurrentUser::$uploader && sizeof($this->list_files($dir,true,false,true)) == 0){
+			return;
+		}
 
 		/// Set variables
 		$this->title = basename($dir);
@@ -97,7 +103,13 @@ class Menu implements HTMLObject
 		}
 
 		/// Create Menu for each directory
-		foreach($this->list_dirs($dir) as $d){
+		$subdirs = $this->list_dirs($dir);
+
+		if(Settings::$reverse_menu){
+			$subdirs = array_reverse($subdirs);
+		}
+
+		foreach($subdirs as $d){
 			$this->items[]	=	new Menu($d,$level+1);
 		}
 	}
@@ -114,9 +126,9 @@ class Menu implements HTMLObject
 			
 			echo 	"<div class='menu_title'>\n";
 
-			echo 	"<span class='name hidden'>".htmlentities($this->title)."</span>";
-			echo 	"<span class='path hidden'>".htmlentities($this->path)."</span>";
-			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title)."</a>";
+			echo 	"<span class='name hidden'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</span>";
+			echo 	"<span class='path hidden'>".htmlentities($this->path, ENT_QUOTES ,'UTF-8')."</span>";
+			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
 			echo 	"</div>\n";
 
 			foreach($this->items as $item)
@@ -140,7 +152,7 @@ class Menu implements HTMLObject
 
 		/// Check that $dir is a directory, or throw exception
 		if(!is_dir($dir)) 
-			throw new Exception("$dir is not a directory - list_dirs");
+			throw new Exception("This is not a directory");
 			
 		/// Directory content
 		$dir_content = scandir($dir);
@@ -173,13 +185,13 @@ class Menu implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function list_files($dir,$rec = false, $hidden = false){
+	public static function list_files($dir,$rec = false, $hidden = false, $stopatfirst = false){
 		/// Directories list
 		$list=array();
 		
 		/// Check that $dir is a directory, or throw exception
 		if(!is_dir($dir)) 
-			throw new Exception("$dir is not a directory - list_files");
+			throw new Exception("This is not a directory");
 			
 		/// Directory content
 		$dir_content = scandir($dir);
@@ -190,10 +202,15 @@ class Menu implements HTMLObject
 			/// Content isn't hidden and is a file
 			if($content[0] != '.' || $hidden){
 				if(is_file($path=$dir."/".$content)){
+					if(File::Type($path) && File::Type($path) == "Image"){
+						/// Add content to list
+						$list[]=$path;
 
-					/// Add content to list
-					$list[]=$path;
-
+						/// We found the first one
+						if($stopatfirst){
+							return $list;
+						}
+					}
 				}else{
 
 					if($rec){

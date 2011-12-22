@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -40,7 +40,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class CurrentUser
@@ -50,6 +50,9 @@ class CurrentUser
 	
 	/// Bool : true if current user is an admin
 	public static $admin;
+
+	/// Bool : true if current user is allowed to upload
+	public static $uploader;
 	
 	/// Current path requested by the user
 	public static $path;
@@ -103,7 +106,8 @@ class CurrentUser
 		/// Set CurrentUser account
 		if(isset($_SESSION['login'])){
 				CurrentUser::$account	=	new Account($_SESSION['login']);
-				CurrentUser::$admin = in_array("root",CurrentUser::$account->groups);
+				CurrentUser::$admin 	= 	in_array("root",CurrentUser::$account->groups);
+				CurrentUser::$uploader 	= 	in_array("uploaders",CurrentUser::$account->groups);
 		}
 
 		/// Set action (needed for page layout)
@@ -112,14 +116,19 @@ class CurrentUser
 				
 				case "Page"	:
 				case "Img"	:
-				case "Thb"	:
+				case "Thb"	:	CurrentUser::$action=$_GET['t'];
+								break;
+
 				case "Big"	:
-				case "Zip"	:	CurrentUser::$action=$_GET['t'];
+				case "BDl"	:
+				case "Zip"	:	if(!Settings::$nodownload){
+									CurrentUser::$action=$_GET['t'];
+								}
 								break;
 				
 				case "Reg"	:	if(isset($_POST['login']) && isset($_POST['password'])){
-									if(!Account::create($_POST['login'],$_POST['password'])){
-										echo "Erreur de cr&eacute;ation du compte.";
+									if(!Account::create($_POST['login'],$_POST['password'],$_POST['verif'])){
+										echo "Error creating account.";
 									}
 								}
 
@@ -173,6 +182,11 @@ class CurrentUser
 
 				case "Inf" 	:	CurrentUser::$action = "Inf";
 								break;
+							
+				case "Fs"	:	if(is_file(CurrentUser::$path)){
+									CurrentUser::$action = "Fs";
+								}
+								break;
 
 				default		:	CurrentUser::$action = "Page";
 								break;
@@ -182,7 +196,7 @@ class CurrentUser
 		}
 
 		if(isset($_GET['a']) && CurrentUser::$action != "Adm"){
-			if(CurrentUser::$admin){
+			if(CurrentUser::$admin || CurrentUser::$uploader){
 				new Admin();
 			}
 		}
@@ -234,9 +248,13 @@ class CurrentUser
 			// Wrong password
 			return false;			
 		}
-		if(in_array('root',$acc->groups))
+		if(in_array('root',$acc->groups)){
 			CurrentUser::$admin = true;
-		
+		}
+		if(in_array('uploaders',$acc->groups)){
+			CurrentUser::$uploader = true;
+		}
+
 		return true;
 	}
 	
@@ -249,6 +267,7 @@ class CurrentUser
 	public static function logout(){
 		CurrentUser::$account	= NULL;
 		CurrentUser::$admin 	= false;
+		CurrentUser::$uploader 	= false;
 		session_unset();
 	}
 

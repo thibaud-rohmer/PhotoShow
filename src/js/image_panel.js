@@ -25,7 +25,7 @@
  * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license	  http://www.gnu.org/licenses/
- * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -36,6 +36,13 @@ function init_image_panel(){
 	$("#bigimage a, #image_bar #back").unbind();
 	$(".linear_panel .item a, #image_bar #next a, #image_bar #prev a").unbind();
 	$(".linear_panel").unbind();
+	
+	//If we are in a view mode were there is a linear panel and no image selected in that panel
+	if ($('.linear_panel').length == 1 && $('.linear_panel .selected').length == 0){
+		url = $('#image_big').css('background-image').replace(/^url|[\(\)\"]/g, '');
+		url = url.slice(url.indexOf('f='));
+		$('.linear_panel a[href$="' + url + '"]').parent().addClass("selected");
+	}
 
 	// On clicking the bigimage
 	$("#bigimage a, #image_bar #back").click(function(){
@@ -45,8 +52,16 @@ function init_image_panel(){
 				init_panel();
 				update_url($(".menu .selected:last a").attr("href"),$(".menu .selected:last a").text());
 			});
-		});
 
+			$(".infos").load($(".menu .selected:last a").attr("href")+"&j=Inf",function(){
+				init_infos();	
+			});
+		});
+		
+		if(slideshow_status == 1){
+			stop_slideshow();
+		}
+		
 		return false;
 	});
 
@@ -59,58 +74,79 @@ function init_image_panel(){
 		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
 			init_image_panel();
 		});
+
+		// Load infos
+		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
+			init_infos();	
+		});
+
 		return false;
 	});
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
-		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
-			var curr_select = $(".linear_panel .selected");
-			var new_select 	= curr_select.next();
+		var curr_select = $(".linear_panel .selected");
+		var new_select 	= curr_select.next();
 
-			if(! new_select.length){
-				new_select = curr_select.parent().next().children(".item").first();
-			}
+		if(! new_select.length){
+			new_select = curr_select.parent().next().children(".item").first();
+		}
 
-			if(! new_select.length){
-				new_select = $(".linear_panel .item").last();
-			}
-
-			update_url(new_select.children("a").attr("href"),"Image");
-
+		if(! new_select.length){
+			new_select = $(".linear_panel .item").last();
+		}
+		
+		new_url = new_select.children("a").attr("href");
+		
+		$(".image_panel").load(new_url + "&j=Pan",function(){
+			update_url(new_url,"Image");
+			
 			curr_select.removeClass("selected");
 			new_select.addClass("selected");
-		
+			
 			init_image_panel();
+			
+			if(slideshow_status == 1){
+				hide_links();
+			}
 		});
-
-
+		 
+		// Load infos
+		$(".infos").load(new_url+"&j=Inf",function(){
+			init_infos();	
+		});
 
 		return false;
 	});
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
+		var curr_select = $(".linear_panel .selected");
+		var new_select 	= curr_select.prev();
 		
-		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
+		if(! new_select.length){
+			new_select = curr_select.parent().prev().children(".item").last();
+		}
 		
-			var curr_select = $(".linear_panel .selected");
-			var new_select 	= curr_select.prev();
+		if(! new_select.length){
+			new_select = $(".linear_panel .item").first();
+		}
+		
+		new_url = new_select.children("a").attr("href")
+		
+		$(".image_panel").load(new_url+"&j=Pan",function(){
 
-			if(! new_select.length){
-				new_select = curr_select.parent().prev().children(".item").last();
-			}
-
-			if(! new_select.length){
-				new_select = $(".linear_panel .item").first();
-			}
-
-			update_url(new_select.children("a").attr("href"),"Image");
+			update_url(new_url,"Image");
 
 			curr_select.removeClass("selected");
 			new_select.addClass("selected");
 
 			init_image_panel();	
+		});
+
+		// Load infos
+		$(".infos").load(new_url+"&j=Inf",function(){
+			init_infos();	
 		});
 
 		return false;
@@ -124,9 +160,10 @@ function init_image_panel(){
 		}
 	});
 
-	$(".linear_panel").scrollTo($(".linear_panel .selected"));
+	$(".linear_panel").scrollTo($(".linear_panel .selected")).scrollTo("-="+$(".linear_panel").width()/2);
 
 	init_comments();
+	init_slideshow_panel();
 }
 
 function init_comments(){

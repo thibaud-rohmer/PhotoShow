@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -48,7 +48,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class Comments implements HTMLObject
 {
@@ -74,11 +74,7 @@ class Comments implements HTMLObject
 		
 		/// No item, no comment !
 		if(!isset($file)) return;
-		
-		/// Comments are only supported for Images... who said "for now" ?
-		if(File::Type($file) != "Image")
-			throw new Exception("$file is not an image");
-		
+				
 		/// Set variables
 		$this->file	=	$file;
 		$settings	=	new Settings();
@@ -89,8 +85,12 @@ class Comments implements HTMLObject
 		$this->webfile = urlencode(File::a2r($file));
 
 		/// Build relative path to comments file
-		$comments	=	dirname($basepath)."/.".$basefile->name."_comments.xml";
-		
+		if(is_file($file)){
+			$comments	=	dirname($basepath)."/.".basename($file)."_comments.xml";
+		}else{
+			$comments 	=	$basepath."/.comments.xml";
+		}
+
 		/// Set absolute path to comments file
 		$this->commentsfile =	File::r2a($comments,Settings::$thumbs_dir);
 		
@@ -118,7 +118,7 @@ class Comments implements HTMLObject
 			if(isset(CurrentUser::$account)){
 				$login = CurrentUser::$account->login;
 			}else{
-				$login = "Anonymous";
+				$login = Settings::_("comments","anonymous");
 			}
 		}
 
@@ -131,7 +131,10 @@ class Comments implements HTMLObject
 		/// Append comment
 		$comments->comments[] = $new_comm;
 		$comments->save();
+
+		$comments->toMainCommentsFile(array_pop($comments->comments));
 	}
+
 
 
 	/**
@@ -144,7 +147,7 @@ class Comments implements HTMLObject
 	public static function delete($date){
 		$c 			=	new Comments(CurrentUser::$path);
 		$xml		=	simplexml_load_file($c->commentsfile);
-		
+
 		$i=-1;
 		$found=false;
 		foreach( $xml as $comment ){
@@ -164,7 +167,7 @@ class Comments implements HTMLObject
 
 	public function save(){
 		
-		$xml = new SimpleXMLElement("<comments></comments>");
+		$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><comments></comments>');
 
 		/// Treat each of the comments
 		foreach ($this->comments as $comment){
@@ -197,26 +200,57 @@ class Comments implements HTMLObject
 		}
 	}
 	
+
+	private function toMainCommentsFile($comment){
+		$maincomm = Settings::$conf_dir."/comments.xml";
+		if(!file_exists($maincomm)){
+			$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><comments></comments>');			
+		}else{
+			$xml = simplexml_load_file($maincomm);
+		}
+
+		$c = $xml->addChild("comment");
+		$c->addChild("login"	, $comment->login);
+		$c->addChild("date"		, $comment->date);
+		$c->addChild("content"	, $comment->content);
+		$c->addChild("webfile"	, $this->webfile);
+		$c->addChild("path" 	, File::a2r($this->file));
+
+		while($xml->count() > Settings::$max_comments){
+			unset($xml->comment[0]);
+		}
+
+		$xml->asXML($maincomm);
+
+	}
+
+
 	/**
 	 * Display comments on website
 	 *
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){		
+	public function toHTML(){	
+		echo '<h2>'.Settings::_("comments","comments").'</h2>';
+
+		echo "<div class='display_comments'>";	
 		/// Display each comment
 		foreach($this->comments as $com){
 			$com->toHTML();
 		}
-			echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'>\n";
-				if(isset(CurrentUser::$account)){
-					echo "<fieldset><input type='text' name='login' id='login' value='".htmlentities(CurrentUser::$account->login)."' readonly></fieldset>\n";					
-				}else{
-					echo "<fieldset><input type='text' name='login' id='login' value='Anonymous'></fieldset>\n";					
-				}
-				echo "<textarea name='content' id='content'></textarea>\n";
-				echo "<input type='submit' value='Envoyer commentaire''>\n";
-			echo "</form>\n";			
+		echo "</div>";
+		
+		echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'><fieldset class='transparent'>\n";
+			if(isset(CurrentUser::$account)){
+				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";			
+			}else{
+				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".Settings::_("comments","anonymous")."'></fieldset>\n";					
+			}
+			echo "<textarea name='content' id='content'></textarea>\n";
+			echo "<input type='submit' value='".Settings::_("comments","submit")."'></fieldset>\n";
+		echo "</form>\n";	
+		
 	}
 }
 

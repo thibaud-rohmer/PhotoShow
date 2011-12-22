@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -41,7 +41,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class Judge
@@ -50,7 +50,7 @@ class Judge
 	public $path;
 	
 	/// True if requested file is public
-	public $public;
+	public $public=false;
 	
 	/// Groups allowed to see requested file
 	public $groups=array();
@@ -76,6 +76,9 @@ class Judge
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($f, $read_rights=true){
+		if(!file_exists($f)){
+			return;
+		}
 		$this->public	=	true;
 		$this->groups	=	array();
 		$this->users	=	array();
@@ -103,7 +106,7 @@ class Judge
 		$this->webpath 	= urlencode($basepath);
 
 		if(is_file($f)){
-			$rightsfile	=	dirname($basepath)."/.".$basefile->name."_rights.xml";
+			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
 		}else{
 			$rightsfile	=	$basepath."/.rights.xml";
 		}
@@ -155,7 +158,53 @@ class Judge
 			}
 		}
 	}
-	
+
+	/**
+	 * Returns path to associated file
+	 */
+	public static function associated_file($rf){
+		$associated_dir = File::r2a(File::a2r(dirname($rf),Settings::$thumbs_dir),Settings::$photos_dir);
+		if(basename($rf) == ".rights.xml"){
+			return $associated_dir;
+		}else{
+			return $associated_dir."/".substr(basename($rf),1,-11);
+		}		
+	}
+
+
+	/**
+	 * Check if a file is viewable in a folder, and returns path to that file.
+	 */
+	public static function searchDir($dir){
+		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
+		$rightsfiles=glob($rightsdir."/.*ights.xml");
+
+		// Check files
+		foreach($rightsfiles as $rf){
+			$f = Judge::associated_file($rf);
+			if(Judge::view($f)){
+				if(is_file($f)){
+					return $f;
+				}else{
+					foreach(Menu::list_files($f,true) as $p){
+						if(Judge::view($p)){
+							return $p;
+						}
+					}
+				}
+			}
+		}
+
+		// Check subdirs
+		foreach(Menu::list_dirs($dir) as $d){
+			if(($f=Judge::searchDir($d))){
+				return $f;
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * Save our judge for this file as an xml file
 	 *
@@ -291,14 +340,14 @@ class Judge
 	public function toHTML(){
 		
 		echo "<div class='adminrights'>\n";
-		echo "<h3>$this->filename</h3>\n";
+		echo "<h3>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h3>\n";
 
 
 		if($this->public){
 
 			echo "<form action='?t=Pri&f=$this->webpath' method='post'>\n";
-			echo "Cet &eacute;l&eacute;ment est public.";
-			echo "<input type='submit' class='button blue' value='Rendre priv&eacute;' />";
+			echo Settings::_("judge","public");
+			echo "<input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' />";
 			echo "</form>";
 			echo "</div>";
 			return;
@@ -306,14 +355,14 @@ class Judge
 		}else{
 
 			echo "<form action='?t=Pub&f=$this->webpath' method='post'>\n";
-			echo "Cet &eacute;l&eacute;ment est priv&eacute;.";
-			echo "<input type='submit' class='button blue' value='Rendre public' />";
+			echo Settings::_("judge","priv");
+			echo "<input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' />";
 			echo "</form>";
 
 		}
 
 		echo "<form action='?t=Rig&f=$this->webpath' method='post'>\n";
-		echo "<h3>Personnes</h3>";
+		echo "<h3>".Settings::_("judge","accounts")."</h3>";
 
 		foreach(Account::findAll() as $account){
 			
@@ -323,10 +372,10 @@ class Judge
 				$checked = "";
 			}
 
-			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".$account['login']."</label>";
+			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label>";
 		}
 
-		echo "<h3>Groupes</h3>";
+		echo "<h3>".Settings::_("judge","groups")."</h3>";
 
 		foreach(Group::findAll() as $group){
 			if($group['name'] == "root"){
@@ -338,10 +387,10 @@ class Judge
 				$checked = "";
 			}
 
-			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".$group['name']." </label>";
+			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
 		}
 
-		echo "</br><input type='submit' class='button blue' value='Appliquer autorisations'>\n";
+		echo "</br><input type='submit' class='button blue' value='".Settings::_("judge","set")."'>\n";
 		echo "</form>\n";
 		echo "</div>\n";
 	}

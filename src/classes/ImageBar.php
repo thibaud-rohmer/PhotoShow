@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -41,7 +41,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class ImageBar
 {
@@ -55,14 +55,25 @@ class ImageBar
 	 * 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct(){
+	public function __construct($fs=false){
 
 		$file = urlencode(File::a2r(CurrentUser::$path));
 
-		$this->buttons['retour'] = 	"?p=p&f=".$file;
-		$this->buttons['suivant'] = 	"?p=n&f=".$file;
-		$this->buttons['menu'] = 	"?f=".File::a2r(dirname(CurrentUser::$path));
-		$this->buttons['imprimable']  = 	"?t=Big&f=".$file;
+//		if($fs){
+//			$t = "?t=Fs&";
+//		}else{
+			$t = "?";
+//		}
+
+		$this->buttons['prev'] = 	$t."p=p&f=".$file;
+		$this->buttons['back'] = 	"?f=".urlencode(File::a2r(dirname(CurrentUser::$path)));
+
+		if(!Settings::$nodownload){
+			$this->buttons['img']  = 	"?t=Big&f=".$file;
+			$this->buttons['get']  = 	"?t=BDl&f=".$file;
+		}
+		$this->buttons['next'] = 	$t."p=n&f=".$file;
+		$this->buttons['slideshow'] = 	$t."f=".$file;
 
 	}
 

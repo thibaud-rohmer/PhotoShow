@@ -25,27 +25,26 @@
  * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license	  http://www.gnu.org/licenses/
- * @link	  http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
 $("document").ready(function(){
-	$("body").keydown(function(event){
-
-		// Right
-		if(event.which == 39){
-			$("#image_bar #next a").click();
-			event.preventDefault();
-		}
-
-		// Left
-		if(event.which == 37){
-			$("#image_bar #prev a").click();
-			event.preventDefault();
-		}
-
-				// Left
-		if(event.which == 27){
-			$("#image_bar #back a").click();
-			event.preventDefault();
+	$("*").keypress(function(event){
+	
+	var keyCode = event.which;
+	if (keyCode == 0 && event.keyCode != undefined)
+		keyCode = event.keyCode;
+	
+		switch(keyCode)
+		{
+			case $.ui.keyCode.RIGHT	: 	$("#image_bar #next a").click();
+										event.preventDefault(); break;
+			
+			case $.ui.keyCode.LEFT	: 	$("#image_bar #prev a").click();
+										event.preventDefault(); break;
+				
+			case $.ui.keyCode.UP	: 	$("#image_bar #back a").click();
+										event.preventDefault(); break;
+			
 		}
 
 	});

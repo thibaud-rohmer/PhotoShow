@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 class JSFiles
 {
@@ -65,24 +65,24 @@ class JSFiles
 		/// Folder name
 		if(strlen($w)>1){
 		$ret .=	"<form class='rename'>
-				<fieldset class='".addslashes(htmlentities(File::a2r(dirname($dir))))."'>
-					<input id='foldername' class='".addslashes(htmlentities($w))."' type='text' value='".addslashes(htmlentities(basename($w)))."'>
+				<fieldset class='".addslashes(htmlentities(File::a2r(dirname($dir)), ENT_QUOTES ,'UTF-8'))."'>
+					<input id='foldername' class='".addslashes(htmlentities($w, ENT_QUOTES ,'UTF-8'))."' type='text' value='".addslashes(htmlentities(basename($w), ENT_QUOTES ,'UTF-8'))."'>
 					<input type='submit' value='Rename'>
 				</fieldset>
 				</form>";
 		}
 		$ret .=	"<form class='create'>
 				<fieldset>
-					<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
+					<input type='hidden' name='path' value='".addslashes(htmlentities($w, ENT_QUOTES ,'UTF-8'))."'>
 					<input id='foldername' name='newdir' type='text' value='New Folder'>
 					<input type='submit' value='Create'>
 				</fieldset>
 				</form>";
 
 		/// Upload Images form
-		$ret .= "<form class='dropzone' id='".addslashes(htmlentities($w))."/' 
+		$ret .= "<form class='dropzone' id='".addslashes(htmlentities($w, ENT_QUOTES ,'UTF-8'))."/' 
 			action='?t=Adm&a=Upl&j=Pan' method='POST' enctype='multipart/form-data'>
-			<input type='hidden' name='path' value='".addslashes(htmlentities($w))."'>
+			<input type='hidden' name='path' value='".addslashes(htmlentities($w, ENT_QUOTES ,'UTF-8'))."'>
 			<input type='file' name='images[]' multiple >
 			<button>Upload</button>
 			<div>Upload Images Here</div>
@@ -92,7 +92,7 @@ class JSFiles
 		$ret .= 	"<table id='files'></table>";
 		$ret .= 	"<div class='images'>";
 		foreach (Menu::list_files($dir) as $img){
-			$ret .= "<div class='thmb'><img src='?t=Thb&f=".urlencode(File::a2r($img))."'><span class='".addslashes(htmlentities(File::a2r($img)))."'>".htmlentities(basename($img))."</span></div>";
+			$ret .= "<div class='thmb'><img src='?t=Thb&f=".urlencode(File::a2r($img))."'><span class='".addslashes(htmlentities(File::a2r($img), ENT_QUOTES ,'UTF-8'))."'>".htmlentities(basename($img), ENT_QUOTES ,'UTF-8')."</span></div>";
 		}
 		$ret .=	"</div>";
 
@@ -117,7 +117,7 @@ class JSFiles
 
 		$res 		.= " dir'>";
 		$res 		.= "
-		<div class='title $class'>	<span id='".urlencode(htmlentities(File::a2r($dir)))."' class='".addslashes(htmlentities(File::a2r($dir)))."'>".basename($dir)."</span></div>
+		<div class='title $class'>	<span id='".urlencode(File::a2r($dir))."' class='".addslashes(htmlentities(File::a2r($dir), ENT_QUOTES ,'UTF-8'))."'>".htmlentities(basename($dir), ENT_QUOTES ,'UTF-8')."</span></div>
 			<ul class='subdirs'>
 			";
 

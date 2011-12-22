@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 class MainPage extends Page
@@ -66,8 +66,8 @@ class MainPage extends Page
 	/// Imagepanel object
 	private $menu;
 
-	/// Admin Panel
-	private $admin_panel;
+	/// Infos
+	private $infos;
 
 	/**
 	 * Creates the page
@@ -104,9 +104,7 @@ class MainPage extends Page
 		/// Menu
 		$this->menu			=	new Menu();
 
-		if(CurrentUSer::$admin){
-			$this->admin_panel = new AdminPanel();
-		}
+		$this->infos 		= 	new Infos();
 		
 	}
 	
@@ -131,12 +129,16 @@ class MainPage extends Page
 
 		$this->menu->toHTML();
 
-		if(CurrentUser::$admin){
-			echo "<div class='bin'><img src='inc/bin.png'> Supprimer</div>";
+		if(CurrentUser::$admin || CurrentUser::$uploader){
+			echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 		}
 		echo "</div>\n";
 		/// Stop menu
 
+
+		echo "<div id='menu_hide'></div>";
+
+		echo "<div class='center'>";
 		/// Start Panel
 		echo "<div class='$this->panel_class'>\n";
 		$this->panel->toHTML();
@@ -148,12 +150,14 @@ class MainPage extends Page
 		$this->image_panel->toHTML();
 		echo "</div>\n";
 		/// Stop ImagePanel
-		
-		if(CurrentUser::$admin){
-			echo "<div class='infos'>\n";
-			$this->admin_panel->toHTML();
-			echo "</div>\n";
-		}
+		echo "</div>\n";
+
+		echo "<div id='infos_hide'></div>";
+
+		echo "<div class='infos'>\n";
+		$this->infos->toHTML();
+		echo "</div>\n";
+
 		echo "</div>\n";
 		
 		echo "</div>\n";

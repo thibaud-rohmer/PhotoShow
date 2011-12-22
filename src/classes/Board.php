@@ -26,7 +26,7 @@
  * @author	   Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright  2011 Thibaud Rohmer
  * @license	   http://www.gnu.org/licenses/
- * @link	   http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	   http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -42,7 +42,7 @@
  * @author	   Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright  Thibaud Rohmer
  * @license	   http://www.gnu.org/licenses/
- * @link	   http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link	   http://github.com/thibaud-rohmer/PhotoShow
  */
 class Board implements HTMLObject
 {
@@ -64,6 +64,8 @@ class Board implements HTMLObject
 	/// Array of each line of the grid
 	private $boardlines=array();
 
+	/// Array of the folders
+	private $boardfolders=array();
 
 	/**
 	 * Board constructor
@@ -94,6 +96,7 @@ class Board implements HTMLObject
 		$this->grid();
 
 
+		$this->foldergrid();
 	}
 	
 	/**
@@ -106,10 +109,20 @@ class Board implements HTMLObject
 		// Output header
 		$this->header->toHTML();
 		
-		// Output grid
-		foreach($this->boardlines as $boardline)
-			$boardline->toHTML();
+		if(sizeof($this->boardfolders)>0){
+			echo "<h2>".Settings::_("board","albums")."</h2>";
+			foreach($this->boardfolders as $boardfolder){
+				$boardfolder->toHTML();
+			}
+		}
 
+		if(sizeof($this->boardlines)>0){
+			echo "<h2>".Settings::_("board","images")."</h2>";
+		}
+		// Output grid
+		foreach($this->boardlines as $boardline){
+			$boardline->toHTML();
+		}
 	}
 	
 	/**
@@ -121,12 +134,14 @@ class Board implements HTMLObject
 	private function grid(){
 		// Create line
 		$bl =	new BoardLine();
+		$notempty = false;
 		
 		foreach($this->files as $file){
 
 			// Check rights
-			if(!(Judge::view($file)))
+			if(!(Judge::view($file))){
 				continue;
+			}
 
 			// Calculate file ratio
 			$ratio	=	$this->ratio($file);
@@ -137,15 +152,46 @@ class Board implements HTMLObject
 				$bl->end_line();
 				$this->boardlines[] = $bl;
 				$bl =	new BoardLine();
+				$notempty = false;
 			}
 			
 			// Add item to the line
 			$bl->add_item($file,$ratio);
+			$notempty = true;
 		}
 		$bl->end_line();
-		$this->boardlines[] = $bl;
+
+		if($notempty){
+			$this->boardlines[] = $bl;
+		}
+	}
+
+	/**
+	 * Generate a foldergrid
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	private function foldergrid(){
+		foreach($this->dirs as $d){
+			$firstImg = Judge::searchDir($d);
+			if(!(Judge::view($d) || $firstImg)){
+				continue;
+			}
+
+			$f = Menu::list_files($d,true);
+						
+			if( CurrentUser::$admin || CurrentUser::$uploader || sizeof($f) > 0){
+				if($firstImg){
+					$f[0] = $firstImg;
+				}
+				$item = new BoardDir($d,$f);
+				$this->boardfolders[] = $item;
+			}
+		}
 
 	}
+
 
 	/**
 	 * Calculate item ratio.
@@ -158,9 +204,9 @@ class Board implements HTMLObject
 	 */
 	private function ratio($file){
 		// Non-image file : ratio = 2
-		if(File::type($file) != "Image")
+		if( ! File::Type($file) || File::Type($file) != "Image"){
 			return 2;
-		
+		}
 		// Calculate ratio
 		list($x,$y) = getimagesize($file);
 		

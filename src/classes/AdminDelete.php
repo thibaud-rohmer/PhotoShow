@@ -26,7 +26,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright 2011 Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
 
 /**
@@ -39,7 +39,7 @@
  * @author    Thibaud Rohmer <thibaud.rohmer@gmail.com>
  * @copyright Thibaud Rohmer
  * @license   http://www.gnu.org/licenses/
- * @link      http://github.com/thibaud-rohmer/PhotoShow-v2
+ * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
  class AdminDelete
  {
@@ -88,7 +88,7 @@
  	public function delete(){
 
  		/// Just to be really sure... 
- 		if(!CurrentUser::$admin){
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 
@@ -132,21 +132,21 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function toHTML(){
- 		echo 	"<h1>Delete</h1>";
+ 		echo 	"<h1>".Settings::_("delete","delete")."</h1>";
  		echo 	"<form action='?t=Adm&a=Del' method='post' enctype='multipart/form-data'>";
- 		echo 	"<fieldset><span>Supprimer</span><div><select name='del'>";
+ 		echo 	"<fieldset><span>".Settings::_("delete","path")."</span><div><select name='del'>";
 		foreach($this->files as $file){
  				if($file == $this->selected){
  					$selected = "selected";
  				}else{
  					$selected = "";
  				}
- 				echo "<option value='".htmlentities($file)."' $selected>".htmlentities($file)."</option>\n";
+ 				echo "<option value='".htmlentities($file, ENT_QUOTES ,'UTF-8')."' $selected>".htmlentities($file, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
 
  		echo 	"</select></div></fieldset>\n";
 
- 		echo 	"<fieldset><input type='submit' /></fieldset>";
+ 		echo 	"<fieldset><input type='submit' value='".Settings::_("delete","submit")."'/></fieldset>";
  		echo 	"</form>";
 
  	}
