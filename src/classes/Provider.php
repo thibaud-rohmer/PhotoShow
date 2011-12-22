@@ -47,7 +47,47 @@
 
 class Provider
 {
+	private static function get_orientation_degrees ($filename)
+	{
+		if (in_array("exif", get_loaded_extensions()))
+		{
+			$raw_exif = @exif_read_data ($filename);
+			switch ($raw_exif['Orientation'])
+			{
+				case 1:
+				case 2:
+					$degrees = 0; 
+					break;
+				case 3:
+				case 4:
+					$degrees = 180; 
+					break;
+				case 5:
+				case 6: 
+					$degrees = -90; 
+					break;
+				case 7:
+				case 8: 
+					$degrees = 90; 
+					break;
+				default: 
+					$degrees = 0;
+			}
+		}
+		else
+			$degrees = 0;
+	
+		return $degrees;
+	}
 
+	private static function autorotate_jpeg ($filename)
+	{
+		$raw_image = imagecreatefromjpeg($filename);
+		$degrees = Provider::get_orientation_degrees ($filename);
+		$rotated_image = imagerotate($raw_image, $degrees, 0);
+
+		return $rotated_image;
+	}
 
 	/**
 	 * Provide an image to the user, if he is allowed to
@@ -88,6 +128,7 @@ class Provider
 						/// Create thumbnail
 						$thumb = PhpThumbFactory::create($file);
 						$thumb->resize(200, 200);
+						$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));
 						$thumb->save($path);
 					}
 				}else{
@@ -112,6 +153,7 @@ class Provider
 							}
 							$thumb = PhpThumbFactory::create($file);
 							$thumb->resize(800, 600);
+							$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));
 							$thumb->save($path);
 						}
 
@@ -147,7 +189,7 @@ class Provider
 				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 				header('Content-type: image/jpeg');
 			}
-			readfile($path);
+			imagejpeg (Provider::autorotate_jpeg ($path));
 		}
 	}
 	public static function Zip($dir){
