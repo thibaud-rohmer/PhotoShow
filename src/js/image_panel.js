@@ -88,12 +88,12 @@ function init_image_panel(){
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.next();
 
-		if(! new_select.length){
+		if(! new_select.length){ //if end of line go to the next one
 			new_select = curr_select.parent().next().children(".item").first();
 		}
 
-		if(! new_select.length){
-			new_select = $(".linear_panel .item").last();
+		if(! new_select.length){ //if no next line then go on the first item of the first line
+			new_select = $(".linear_panel .item").parent().first().children(".item").first();
 		}
 		
 		new_url = new_select.children("a").attr("href");
@@ -124,12 +124,12 @@ function init_image_panel(){
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.prev();
 		
-		if(! new_select.length){
+		if(! new_select.length){ //if start of line go to the prev one
 			new_select = curr_select.parent().prev().children(".item").last();
 		}
 		
-		if(! new_select.length){
-			new_select = $(".linear_panel .item").first();
+		if(! new_select.length){ //if no prev line then go on the last item of the last line
+			new_select = $(".linear_panel .item").parent().last().children(".item").last();
 		}
 		
 		new_url = new_select.children("a").attr("href")
