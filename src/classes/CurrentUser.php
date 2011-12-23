@@ -134,17 +134,17 @@ class CurrentUser
 
 				case "Log"	:	if(isset($_SESSION['login'])){
 									CurrentUser::logout();
-									echo "logged out";
+									echo "D&eacute;connect&eacute;";
 									break;
 								}
 
 								if(isset($_POST['login']) && isset($_POST['password'])){
 									try{
 										if(!CurrentUser::login($_POST['login'],$_POST['password'])){
-											echo "Wrong password";
+											echo "Mauvais mot de passe";
 										}
 									}catch(Exception $e){
-										echo "Account not found";
+										echo "Compte non trouv&eacute;";
 									}
 								}
 								

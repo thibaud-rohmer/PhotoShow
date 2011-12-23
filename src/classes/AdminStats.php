@@ -62,13 +62,13 @@
  	public function __construct(){
 
  		/// Calculate number of users, etc...
- 		$this->stats['Users'] = sizeof(Account::findAll());
+ 		$this->stats['Utilisateurs'] = sizeof(Account::findAll());
 
- 		$this->stats['Groups'] = sizeof(Group::findAll());
+ 		$this->stats['Groupes'] = sizeof(Group::findAll());
 
- 		$this->stats['Items'] = sizeof(Menu::list_files(Settings::$photos_dir,true));
+ 		$this->stats['Photos'] = sizeof(Menu::list_files(Settings::$photos_dir,true));
 
- 		$this->stats['Generated items'] = sizeof(Menu::list_files(Settings::$thumbs_dir,true));
+ 		$this->stats['Miniatures g&eacute;n&eacute;r&eacute;es'] = sizeof(Menu::list_files(Settings::$thumbs_dir,true));
 
  		$this->stats['Albums'] = sizeof(Menu::list_dirs(Settings::$photos_dir,true));
 
@@ -98,7 +98,7 @@
  		echo "</div>";
 
  		echo "<div class='adminblock'>";
- 		echo "<h3>Accounts (by age)</h3>";
+ 		echo "<h3>Comptes (par age)</h3>";
  		echo "<div>";
  		echo "<table>";
  		echo "<tbody>";

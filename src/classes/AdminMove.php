@@ -135,7 +135,7 @@
  	public function toHTML(){
  		echo 	"<h1>Move</h1>";
  		echo 	"<form action='?t=Adm&a=Mov' method='post' enctype='multipart/form-data'>";
- 		echo 	"<fieldset><span>From</span><div><select name='pathFrom'>";
+ 		echo 	"<fieldset><span>Depuis</span><div><select name='pathFrom'>";
 		foreach($this->files as $file){
  				if($file == $this->selected){
  					$selected = "selected";
@@ -147,17 +147,17 @@
 
  		echo 	"</select></div></fieldset>\n";
 
- 		echo 	"<fieldset><span>To</span><div><select name='pathTo'>";
+ 		echo 	"<fieldset><span>Vers</span><div><select name='pathTo'>";
  		echo "<option value='.'>.</option>\n";
 		foreach($this->dirs as $dir){
  				echo "<option value='".htmlentities($dir, ENT_QUOTES ,'UTF-8')."'>".htmlentities($dir, ENT_QUOTES ,'UTF-8')."</option>\n";
  		}
  		echo 	"</select></div></fieldset>\n";
 
- 		echo 	"In case you want to move a Directory : ";
- 		echo 	"<fieldset><span>Move</span><div>";
- 		echo 	"<label><input type='radio' name='move' value='directory' checked > Directory </label></br>";
- 		echo 	"<label><input type='radio' name='move' value='content'> Contents (and delete directory) </label>";
+ 		echo 	"Si vous voulez d&eacute;placer un r&eacute;pertoire :";
+ 		echo 	"<fieldset><span>D&eacute;placer</span><div>";
+ 		echo 	"<label><input type='radio' name='move' value='directory' checked > r&eacute;pertoire </label></br>";
+ 		echo 	"<label><input type='radio' name='move' value='content'> Contenu (et supprimer r&eacute;pertoire </label>";
  		echo 	"</div></fieldset>\n";
 
  		echo 	"<fieldset><input type='submit' /></fieldset>";
