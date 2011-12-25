@@ -161,6 +161,21 @@ class MainPage extends Page
 		echo "</div>\n";
 		
 		echo "</div>\n";
+
+		if (Settings::$hide_menu){
+		echo '
+		<script language="javascript" type="text/javascript">
+		menu_hide();
+		</script>
+		';
+		}
+		if (Settings::$hide_infos){
+		echo '
+		<script language="javascript" type="text/javascript">
+		info_hide();
+		</script>
+		';
+		}
 		
 		echo "</body>";
 	}
