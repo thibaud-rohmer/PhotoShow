@@ -86,6 +86,12 @@ class Settings extends Page
 
 	/// Reverse menu order
 	static public $reverse_menu = 	false;
+	
+	// Hidden Menu
+	static public $hide_menu = false;
+	
+	//Hidden Infos Bar
+	static public $hide_infos = false;
 
 	/// Selected localization
 	static public $loc 			=	"default";
@@ -182,6 +188,8 @@ class Settings extends Page
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
+			Settings::$hide_menu	 =	isset($admin_settings['hide_menu']);
+			Settings::$hide_infos	=	isset($admin_settings['hide_infos']);			
 
 
 			if(isset($admin_settings['max_comments'])){
@@ -254,7 +262,7 @@ class Settings extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t","reverse_menu");
+		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t","reverse_menu","hide_menu","hide_infos");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -343,6 +351,16 @@ class Settings extends Page
 			echo "<label><input type='checkbox' name='reverse_menu' checked>Reverse menu order</label>\n";
 		}else{
 			echo "<label><input type='checkbox' name='reverse_menu'>Reverse menu order</label>\n";
+		}
+		if(Settings::$hide_menu){
+			echo "<label><input type='checkbox' name='hide_menu' checked>Hide Menu</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='hide_menu'>Hide menu</label>\n";
+		}
+		if(Settings::$hide_infos){
+			echo "<label><input type='checkbox' name='hide_infos' checked>Hide Infos Bar</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='hide_infos'>Hide Infos Bar</label>\n";
 		}
 		echo "</div></fieldset>\n";
 

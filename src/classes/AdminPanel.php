@@ -100,6 +100,7 @@ class AdminPanel
 	}
 
 	public function toHTML(){
+		echo '<h2>Infos</h2>';
 		echo $this->infos;
 		
 		if(CurrentUser::$admin){
