@@ -102,6 +102,9 @@ class Board implements HTMLObject
             ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
             ."<meta property=\"og:type\" content=\"article\"/>\n"
             ."<meta property=\"og:title\" content=\"".Settings::$name.": ".File::a2r($this->path)."\"/>\n";
+        if (Settings::$fbappid){
+            $this->page_header .= "<meta property=\"fb:app_id\" content=\"".Settings::$fbappid."\"/>\n";
+        }
 
         if (!empty($this->files))
         {

@@ -69,6 +69,9 @@ class Settings extends Page
 	/// Display Facebook button
 	static public $like 		=	false;
 
+	/// Facebook app id (optional for facebook button)
+	static public $fbappid 		=	"";
+
 	/// Display Google button
 	static public $plusone 		=	false;
 
@@ -178,6 +181,10 @@ class Settings extends Page
 				Settings::$name			=	stripslashes($admin_settings['name']);
 			}
 
+			if(isset($admin_settings['fbappid'])){
+				Settings::$fbappid	=	stripslashes($admin_settings['fbappid']);
+			}
+
 			Settings::$site_address	=	$admin_settings['site_address'];
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
@@ -187,6 +194,9 @@ class Settings extends Page
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 
+			if(isset($admin_settings['max_comments'])){
+				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
+			}
 
 			if(isset($admin_settings['max_comments'])){
 				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
@@ -258,7 +268,7 @@ class Settings extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function set(){
-		$var = array("name","site_address","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t","reverse_menu");
+		$var = array("name","site_address","like","plusone","fbappid","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t","reverse_menu");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -317,6 +327,9 @@ class Settings extends Page
 		}
 
 		echo "</div></fieldset>\n";
+
+		echo Settings::_("settings","facebook_appid")."<br/>";
+		echo "<fieldset><span>".Settings::_("settings","fbappid")."</span><div><input type='text' name='fbappid' value=\"".htmlentities(Settings::$fbappid, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
 
 		echo "<fieldset><span>".Settings::_("settings","register")."</span><div class='buttondiv'>\n";
