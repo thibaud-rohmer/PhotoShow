@@ -105,6 +105,30 @@ function init_hiders(){
 	});
 }
 
+function info_hide() {
+if ( $('.infos').is(':visible')){
+$('.infos').hide("slide",{direction:"right"},600);
+$('#infos_hide').animate({right:'0'},600);
+$(".center").animate({right:'12'},600);
+}else{
+$('.infos').show("slide",{direction:"right"},600);
+$('#infos_hide').animate({right:'249'},600);
+$(".center").animate({right:'260'},600);
+}
+}
+
+function menu_hide() {
+if ( $('.menu').is(':visible')){
+$('.menu').hide("slide",{direction:"left"},600);
+$('#menu_hide').animate({left:'0'},600);
+$(".center").animate({left:'12'},600);
+}else{
+$('.menu').show("slide",{direction:"left"},600);
+$('#menu_hide').animate({left:'240'},600);
+$(".center").animate({left:'250'},600);
+}
+}
+
 $("document").ready(function(){
 	init_infos();
 	init_panel();
