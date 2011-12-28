@@ -74,6 +74,30 @@ class Infos implements HTMLObject
 			$this->comments->toHTML();
 		}
 		echo "</div>\n";
+
+		echo "<div id='share'>\n";
+		
+        /*
+		if(Settings::$plusone){	
+			echo "<br/><br/>";
+			echo '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>';
+			
+			echo '<g:plusone></g:plusone>';
+			echo '<br/><br/>';
+		}
+         */
+
+        
+        $rootURL = Settings::$site_address;
+        $pageURL = $rootURL."/?f=".urlencode(File::a2r(CurrentUser::$path));
+		
+		if(Settings::$like){				
+			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.$pageURL.'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
+		}
+         
+
+		echo "</div>";
+
 	}
 
 }

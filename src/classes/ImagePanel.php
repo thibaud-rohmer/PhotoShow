@@ -47,8 +47,8 @@
 class ImagePanel implements HTMLObject
 {
 
-    /// Header
-    public $header;
+    /// Header of the html page
+    public $page_header;
 	
 	/// Image object
 	private $image;
@@ -87,13 +87,15 @@ class ImagePanel implements HTMLObject
 			/// Create Comments object
 			$this->comments	=	new Comments($file);
 		}
-  
-        $root_url = "http".($_SERVER["HTTPS"]?"s":"")."://".$_SERVER["SERVER_NAME"];
-        $pageurl = $root_url.$_SERVER["REQUEST_URI"];
+
+        $pageURL = Settings::$site_address."/?f=".urlencode(File::a2r($file));
         
-        $this->header = "<meta property=\"og:url\" content=\"".$pageurl."\"/>\n"
-            ."<meta property=\"og:title\" content=\"".File::a2r($file)."\"/>\n"
-            ."<meta property=\"og:image\" content=\"".$root_url."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
+        // generate the header - opengraph metatags for facebook
+        $this->page_header = "<meta property=\"og:url\" content=\"".$pageURL."\"/>\n"
+            ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
+            ."<meta property=\"og:type\" content=\"image\"/>\n"
+            ."<meta property=\"og:title\" content=\"".Settings::$name.": ".File::a2r($file)."\"/>\n"
+            ."<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
 
 		/// Set the Judge
 		$this->judge 	=	new Judge($file);
@@ -109,29 +111,13 @@ class ImagePanel implements HTMLObject
 		if(!isset($this->image)){
 			return;
 		}
-/*
+
+        /*
 		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
+         */
 
-
-		echo "<div id='share'>";
-		
-		if(Settings::$plusone){	
-			echo "<br/><br/>";
-			echo '<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>';
-			
-			echo '<g:plusone></g:plusone>';
-			echo '<br/><br/>';
-		}
-		
-		if(Settings::$like){				
-			$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-
-			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.urlencode($pageURL).'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
-		
-		}
-		echo "</div>";
-
+/*
 		if(CurrentUser::$admin){
 			$this->judge->toHTML();
 		}

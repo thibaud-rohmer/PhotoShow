@@ -50,6 +50,9 @@ class MainPage extends Page
 	
 	/// Boardpanel object
 	private $panel;
+
+    /// Specific header content
+    private $header_content;
 	
 	/// Boards class;
 	private $panel_class;
@@ -91,11 +94,14 @@ class MainPage extends Page
 			$this->image_panel_class 	=	"image_panel";
 			$this->panel				=	new Board(dirname(CurrentUser::$path));
 			$this->panel_class			=	"linear_panel";
+            $this->header_content       =   $this->image_panel->page_header;
 		}else{
+            $this->image_div            =   false;
 			$this->image_panel			=	new ImagePanel();
 			$this->image_panel_class	=	"image_panel hidden";
 			$this->panel				=	new Board(CurrentUser::$path);
 			$this->panel_class			=	"panel";
+            $this->header_content       =   $this->panel->page_header;
 		}
 
 		/// Create MenuBar
@@ -115,7 +121,7 @@ class MainPage extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		$this->header($this->image_panel->header);
+		$this->header($this->header_content);
 		echo "<body>";
 
 		echo "<div id='container'>\n";		

@@ -48,6 +48,9 @@ class Board implements HTMLObject
 {
 	/// Board title : name of the directory listed
 	private $title;
+    
+    /// Header
+    public $header_content;
 	
 	/// Path to listed directory
 	private $path;
@@ -91,6 +94,40 @@ class Board implements HTMLObject
 		$this->header	=	new BoardHeader($this->title,$this->path);
 		$this->files	=	Menu::list_files($this->path);
 		$this->dirs		=	Menu::list_dirs($this->path);
+
+        $pageURL = Settings::$site_address."/?f=".urlencode(File::a2r($this->path));
+        
+        // generate the header - opengraph metatags for facebook
+        $this->page_header = "<meta property=\"og:url\" content=\"".$pageURL."\"/>\n"
+            ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
+            ."<meta property=\"og:type\" content=\"image\"/>\n"
+            ."<meta property=\"og:title\" content=\"".Settings::$name.": ".File::a2r($this->path)."\"/>\n";
+
+        if (!empty($this->files))
+        {
+            $i = 0;
+            foreach($this->files as $file){
+                if ( $i > 9){
+                    break;
+                }
+                $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
+                $i++;
+            }
+        }
+        else{ // No files in the directory, getting thumbnails from sub-directories
+            $i = 0;
+            foreach($this->dirs as $d){
+                if ( $i > 9){
+                    break;
+                }
+                $img = Judge::searchDir($d);
+                if ($img)
+                {
+                    $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($img))."\"/>\n";
+                    $i++;
+                }
+            }
+        }
 		
 		// Generate the grid
 		$this->grid();
