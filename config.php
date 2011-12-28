@@ -37,4 +37,7 @@ $config->photos_dir   = "path_to_your_photos_dir_goes_here";
 // Must be writable by web server process
 $config->ps_generated   = "path_where_photoshow_generates_files_goes_here";
 
+// Local timezone. Default one is "Europe/Paris".
+#$config->timezone = "Europe/Paris";
+
 ?>
