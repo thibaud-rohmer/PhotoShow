@@ -93,7 +93,7 @@ class ImagePanel implements HTMLObject
         // generate the header - opengraph metatags for facebook
         $this->page_header = "<meta property=\"og:url\" content=\"".$pageURL."\"/>\n"
             ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
-            ."<meta property=\"og:type\" content=\"image\"/>\n"
+            ."<meta property=\"og:type\" content=\"website\"/>\n"
             ."<meta property=\"og:title\" content=\"".Settings::$name.": ".File::a2r($file)."\"/>\n"
             ."<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
 

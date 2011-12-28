@@ -175,25 +175,27 @@ class Judge
 	/**
 	 * Check if a file is viewable in a folder, and returns path to that file.
 	 */
-	public static function searchDir($dir){
+	public static function searchDir($dir,$public = false){
 		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
 		// Check files
 		foreach($rightsfiles as $rf){
 			$f = Judge::associated_file($rf);
-			if(Judge::view($f)){
-				if(is_file($f)){
-					return $f;
-				}else{
-					foreach(Menu::list_files($f,true) as $p){
-						if(Judge::view($p)){
-							return $p;
-						}
-					}
-				}
-			}
-		}
+            if($public && Judge::is_public($f)
+                || !$public && Judge::view($f)){
+                    if(is_file($f)){
+                        return $f;
+                    }else{
+                        foreach(Menu::list_files($f,true) as $p){
+                            if($public && Judge::is_public($p)
+                                || !$public && Judge::view($p)){
+                                    return $p;
+                                }
+                        }
+                    }
+                }
+        }
 
 		// Check subdirs
 		foreach(Menu::list_dirs($dir) as $d){
@@ -330,6 +332,18 @@ class Judge
 		}
 		return false;
 	}
+
+	/**
+	 * Returns true if the file is public
+	 *
+	 * @param string $f file to access
+	 * @return bool
+	 * @author Franck Royer
+	 */
+    public static function is_public($f){
+        $judge	=	new Judge($f);
+        return($judge->public);
+    }
 
 	/**
 	 * Display the rights on website, and let

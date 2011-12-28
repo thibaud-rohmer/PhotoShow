@@ -100,7 +100,7 @@ class Board implements HTMLObject
         // generate the header - opengraph metatags for facebook
         $this->page_header = "<meta property=\"og:url\" content=\"".$pageURL."\"/>\n"
             ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
-            ."<meta property=\"og:type\" content=\"image\"/>\n"
+            ."<meta property=\"og:type\" content=\"article\"/>\n"
             ."<meta property=\"og:title\" content=\"".Settings::$name.": ".File::a2r($this->path)."\"/>\n";
 
         if (!empty($this->files))
@@ -110,8 +110,11 @@ class Board implements HTMLObject
                 if ( $i > 9){
                     break;
                 }
-                $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
-                $i++;
+                if (Judge::is_public($file))
+                {
+                    $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
+                    $i++;
+                }
             }
         }
         else{ // No files in the directory, getting thumbnails from sub-directories
@@ -120,7 +123,7 @@ class Board implements HTMLObject
                 if ( $i > 9){
                     break;
                 }
-                $img = Judge::searchDir($d);
+                $img = Judge::searchDir($d, true);
                 if ($img)
                 {
                     $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($img))."\"/>\n";
