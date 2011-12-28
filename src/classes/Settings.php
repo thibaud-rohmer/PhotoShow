@@ -143,22 +143,24 @@ class Settings extends Page
 		/// Settings already created
 		if(Settings::$photos_dir !== NULL && !$forced) return;
 
-		/// Set TimeZone
-		date_default_timezone_set("Europe/Paris");
 
-		/// Parse conf.ini file 
-		$ini_file		=	realpath(dirname(__FILE__)."/../../conf.ini");
+        /// Set default values for $config
+        $config->timezone = "Europe/Paris";
 
-		if(!($ini_settings	=	@parse_ini_file($ini_file))){
+		/// Load config.php file 
+		$config_file		=	realpath(dirname(__FILE__)."/../../config.php");
+		if(!include($config_file)){
 			throw new Exception("You need to create a configuration file.");
 		}
 
 		/// Setup variables
-		Settings::$photos_dir	=	$ini_settings['photos_dir'];
-		Settings::$thumbs_dir	=	$ini_settings['ps_generated']."/Thumbs/";
-		Settings::$conf_dir		=	$ini_settings['ps_generated']."/Conf/";
-		Settings::$admin_settings_file = $ini_settings['ps_generated']."/Conf/admin_settings.ini";
+		Settings::$photos_dir	=	$config->photos_dir;
+		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
+		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
+		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
 
+		/// Set TimeZone
+		date_default_timezone_set($config->timezone);
 
 		// Now, check that this stuff exists.
 		if(!file_exists(Settings::$photos_dir)){
