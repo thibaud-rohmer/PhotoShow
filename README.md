@@ -24,7 +24,7 @@ Note : you may create those directories wherever you want, and give them the nam
 
 ### Edit your settings
 
-Edit the file `conf.ini` that is inside your PhotoShow folder. It is advised to put absolute paths for each of the entries, although relative paths should work fine.
+Edit the file `config.php` that is inside your PhotoShow folder. It is advised to put absolute paths for each of the entries, although relative paths should work fine.
 
 ### Go to your website
 
