@@ -63,8 +63,14 @@ class Settings extends Page
 	/// Website name
 	static public $name 		=	"PhotoShow";
 
+	/// Website root address
+	static public $site_address	=	"http://example.com/PhotoShow";
+
 	/// Display Facebook button
 	static public $like 		=	false;
+
+	/// Facebook app id (optional for facebook button)
+	static public $fbappid 		=	"";
 
 	/// Display Google button
 	static public $plusone 		=	false;
@@ -181,6 +187,11 @@ class Settings extends Page
 				Settings::$name			=	stripslashes($admin_settings['name']);
 			}
 
+			if(isset($admin_settings['fbappid'])){
+				Settings::$fbappid	=	stripslashes($admin_settings['fbappid']);
+			}
+
+			Settings::$site_address	=	$admin_settings['site_address'];
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
 			Settings::$noregister	=	isset($admin_settings['noregister']);
@@ -191,6 +202,9 @@ class Settings extends Page
 			Settings::$hide_menu	 =	isset($admin_settings['hide_menu']);
 			Settings::$hide_infos	=	isset($admin_settings['hide_infos']);			
 
+			if(isset($admin_settings['max_comments'])){
+				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
+			}
 
 			if(isset($admin_settings['max_comments'])){
 				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
@@ -262,7 +276,21 @@ class Settings extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function set(){
-		$var = array("name","like","plusone","max_comments","noregister","nocomments","nodownload","max_img_dir","loc","l33t","reverse_menu","hide_menu","hide_infos");
+        $var = array("name",
+            "site_address",
+            "like",
+            "plusone",
+            "fbappid",
+            "max_comments",
+            "noregister",
+            "nocomments",
+            "nodownload",
+            "max_img_dir",
+            "loc",
+            "l33t",
+            "reverse_menu",
+            "hide_menu",
+            "hide_infos");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -305,6 +333,7 @@ class Settings extends Page
 
 		echo "<form action='?t=Adm&a=Set' method='post'>\n";
 		echo "<fieldset><span>".Settings::_("settings","title")."</span><div><input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
+		echo "<fieldset><span>".Settings::_("settings","site_address")."</span><div><input type='text' name='site_address' value=\"".htmlentities(Settings::$site_address, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
 		echo "<fieldset><span>".Settings::_("settings","buttons")."</span><div class='buttondiv'>\n";
 		if(Settings::$like){
@@ -320,6 +349,9 @@ class Settings extends Page
 		}
 
 		echo "</div></fieldset>\n";
+
+		echo Settings::_("settings","facebook_appid")."<br/>";
+		echo "<fieldset><span>".Settings::_("settings","fbappid")."</span><div><input type='text' name='fbappid' value=\"".htmlentities(Settings::$fbappid, ENT_QUOTES ,'UTF-8')."\"></div></fieldset>\n";
 
 
 		echo "<fieldset><span>".Settings::_("settings","register")."</span><div class='buttondiv'>\n";
