@@ -64,7 +64,7 @@ class Settings extends Page
 	static public $name 		=	"PhotoShow";
 
 	/// Website root address
-	static public $site_address	=   "http://example.com/PhotoShow";
+	static public $site_address	=   "";
 
 	/// Display Facebook button
 	static public $like 		=	false;
