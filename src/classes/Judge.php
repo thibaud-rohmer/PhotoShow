@@ -176,20 +176,21 @@ class Judge
 	 * Check if a file is viewable in a folder, and returns path to that file.
 	 */
 	public static function searchDir($dir,$public = false){
+        echo "DEBUG: searchDir: public is ".($public?"true":"false")."\n";
 		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
 		// Check files
 		foreach($rightsfiles as $rf){
 			$f = Judge::associated_file($rf);
-            if($public && Judge::is_public($f)
-                || !$public && Judge::view($f)){
+            if(($public and Judge::is_public($f))
+                or (!$public and Judge::view($f))){
                     if(is_file($f)){
                         return $f;
                     }else{
                         foreach(Menu::list_files($f,true) as $p){
-                            if($public && Judge::is_public($p)
-                                || !$public && Judge::view($p)){
+                            if(($public and Judge::is_public($p))
+                                or (!$public and Judge::view($p))){
                                     return $p;
                                 }
                         }
@@ -199,7 +200,7 @@ class Judge
 
 		// Check subdirs
 		foreach(Menu::list_dirs($dir) as $d){
-			if(($f=Judge::searchDir($d))){
+			if(($f=Judge::searchDir($d, $public))){
 				return $f;
 			}
 		}

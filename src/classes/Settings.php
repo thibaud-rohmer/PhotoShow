@@ -64,7 +64,7 @@ class Settings extends Page
 	static public $name 		=	"PhotoShow";
 
 	/// Website root address
-	static public $site_address	=	"http://example.com/PhotoShow";
+	static public $site_address	=   "http://example.com/PhotoShow";
 
 	/// Display Facebook button
 	static public $like 		=	false;
@@ -190,10 +190,15 @@ class Settings extends Page
 			}
 
 			if(isset($admin_settings['fbappid'])){
-				Settings::$fbappid	=	stripslashes($admin_settings['fbappid']);
+				Settings::$fbappid	=	$admin_settings['fbappid'];
 			}
 
-			Settings::$site_address	=	$admin_settings['site_address'];
+            if ($admin_settings['site_address']){
+                Settings::$site_address	=	$admin_settings['site_address'];
+            }else{
+                Settings::$site_address	= "http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+            }
+
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
 			Settings::$noregister	=	isset($admin_settings['noregister']);
