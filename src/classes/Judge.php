@@ -176,7 +176,6 @@ class Judge
 	 * Check if a file is viewable in a folder, and returns path to that file.
 	 */
 	public static function searchDir($dir,$public = false){
-        echo "DEBUG: searchDir: public is ".($public?"true":"false")."\n";
 		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
