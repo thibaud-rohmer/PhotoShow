@@ -61,19 +61,25 @@ class LoginPage extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		
-		$this->header();
-		echo "<div class='center'>\n";
-		echo "<h1>".Settings::_("login","logintitle")."</h1></br>";
-		echo "<form method='post' action='?t=Log' class='niceform'>\n";
-		echo "<fieldset><span>".Settings::_("login","login")."</span>";
-		echo "<div><input type='text' name='login'></div></fieldset>\n";
-		echo "<fieldset><span>".Settings::_("login","pass")."</span>\n";
-		echo "<div><input type='password' name='password'></div></fieldset>\n";
-		echo "<input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
-		echo "</form>\n";
-		echo "</div>\n";
 
-	}
+        if (Settings::$forcehttps && !$_SERVER["HTTPS"]){
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: https://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"]);
+            exit();
+        }else{
+            $this->header();
+            echo "<div class='center'>\n";
+            echo "<h1>".Settings::_("login","logintitle")."</h1></br>";
+            echo "<form method='post' action='?t=Log' class='niceform'>\n";
+            echo "<fieldset><span>".Settings::_("login","login")."</span>";
+            echo "<div><input type='text' name='login'></div></fieldset>\n";
+            echo "<fieldset><span>".Settings::_("login","pass")."</span>\n";
+            echo "<div><input type='password' name='password'></div></fieldset>\n";
+            echo "<input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
+            echo "</form>\n";
+            echo "</div>\n";
+
+        }
+    }
 }
 ?>
