@@ -165,19 +165,19 @@ class Settings extends Page
 		// Now, check that this stuff exists.
 		if(!file_exists(Settings::$photos_dir)){
 			if(! @mkdir(Settings::$photos_dir,0750,true)){	
-				throw new Exception("PHOTOS dir doesn't exist and couldn't be created !");
+				throw new Exception("PHOTOS dir '".Settings::$photos_dir."' doesn't exist and couldn't be created !");
 			}
 		}
 
 		if(!file_exists(Settings::$thumbs_dir)){
 			if(! @mkdir(Settings::$thumbs_dir,0750,true)){
-				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
+				throw new Exception("PS_GENERATED dir '".Settings::$thumbs_dir."' doesn't exist or doesn't have the good rights.");
 			}
 		}
 
 		if(!file_exists(Settings::$conf_dir)){
 			if(! @mkdir(Settings::$conf_dir,0750,true)){
-				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
+				throw new Exception("PS_GENERATED dir '".Settings::$conf_dir."' doesn't exist or doesn't have the good rights.");
 			}
 		}
 
