@@ -144,6 +144,7 @@
 		        }
 
 		        /// Setup rights
+			/*
 	 			if(!$already_set_rights && !isset($_POST['inherit'])){
  					if(isset($_POST['public'])){
  						Judge::edit($path);
@@ -151,6 +152,7 @@
  						Judge::edit($path,$_POST['users'],$_POST['groups']);					
  					}
  				}
+			*/
 			}
 		}
 	}
