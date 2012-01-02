@@ -73,7 +73,18 @@ class File
 		$this->extension	=	self::Extension($path);
 		$this->name			=	self::Name($path);	
 		$this->type			=	self::Type($path);
+		$this->root			=	self::Root();		
 	}
+	
+	/**
+	 * Return the root directory
+	 *
+	 * @return void
+	 * @author Cédric Levasseur
+	 */
+	public static function Root(){
+		return realpath(dirname(__FILE__)."/../../");
+	}	
 	
 	/**
 	 * Return the extension of $file
@@ -127,6 +138,11 @@ class File
 		$types['Video'][]	=	"flv";
 		$types['Video'][]	=	"mov";
 		$types['Video'][]	=	"mpg";
+		$types['Video'][]	=	"mp4";		
+		$types['Video'][]	=	"ogv";		
+		$types['Video'][]	=	"mts";		
+		$types['Video'][]	=	"3gp";		
+		$types['Video'][]	=	"webm";			
 		
 		
 		$types['File'][]	=	"xml";
