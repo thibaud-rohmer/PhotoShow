@@ -69,19 +69,8 @@ class Provider
 		}
 
 		/// Check item
-		//~ if(!File::Type($file) || File::Type($file) != "Image"){
-			//~ return;
-		//~ }
-
-		if (File::Type($file)=="Video") {
-			
-			$basefile	= 	new File($file);
-			$basepath	=	File::a2r($file);
-
-			/// Build relative path to webimg
-			$path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".jpg";	
-			Video::FastEncodeVideo($file,$basefile->extension);
-			$large = true;
+		if(!File::Type($file) || File::Type($file) != "Image"){
+			return;
 		}
 
 		if(!$large){

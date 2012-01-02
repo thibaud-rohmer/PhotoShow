@@ -121,17 +121,6 @@ class Settings extends Page
 
 	/// Available localizations
 	static private $ava_loc 	=	array();
-	
-	/*** Video ***/
-	
-	///Video encode enable/disable
-	static public $encode_video	=	false;
-	
-	/// FFMPEg path (unix : /usr/bin/ffmpeg or win : c:\ffmpeg.exe)
-	static public $ffmpeg_path 		=	"/usr/bin/ffmpeg";
-	
-	///FFMPEG Option
-	static public $ffmpeg_option	=	"-qmax 40 -acodec libvorbis -ab 128k";	
 
 
 	/**
@@ -230,15 +219,6 @@ class Settings extends Page
 			if(isset($admin_settings['loc'])){
 				Settings::$loc = $admin_settings['loc'];
 			}
-			
-			/*** Video ***/
-			Settings::$encode_video	=	isset($admin_settings['encode_video']);
-			if(isset($admin_settings['ffmpeg_path'])){
-				Settings::$ffmpeg_path	=	$admin_settings['ffmpeg_path'];
-			}
-			if(isset($admin_settings['ffmpeg_option'])){
-				Settings::$ffmpeg_option	=	$admin_settings['ffmpeg_option'];
-			}
 		}
 
 		// Localization files path
@@ -312,11 +292,7 @@ class Settings extends Page
             "l33t",
             "reverse_menu",
             "hide_menu",
-            "hide_infos",
-	    "encode_video",
-	    "ffmpeg_path",
-	    "ffmpeg_option"
-	    );
+            "hide_infos");
 		$f = fopen(Settings::$admin_settings_file,"w");
 
 		foreach($var as $v){
@@ -447,19 +423,6 @@ class Settings extends Page
 			echo "<label><input type='checkbox' name='l33t'>l337</label>\n";
 		}
 		echo "</div></fieldset>\n";
-		
-		/*** Video Options ***/
-		echo Settings::_("settings","video_comment")."<br/>";
-		echo "<fieldset><span>Video</span><div class='buttondiv'>\n";
-		if(Settings::$encode_video){
-			echo "<label><input type='checkbox' name='encode_video' checked> Encode Video : enable</label>\n";
-		}else{
-			echo "<label><input type='checkbox' name='encode_video'>Encode Video</label>\n";
-		}
-		echo "</div></fieldset>\n";
-		echo "<fieldset><span>".Settings::_("settings","ffmpeg_path")."</span><div><input type='text' name='ffmpeg_path' value=\"".htmlentities(Settings::$ffmpeg_path, ENT_QUOTES ,'UTF-8')."\" /></div></fieldset>\n";
-		echo "<fieldset><span>".Settings::_("settings","ffmpeg_option")."</span><div><input type='text' name='ffmpeg_option' value=\"".Settings::$ffmpeg_option."\" /></div></fieldset>\n";		
-		/*** --------------------------***/
 
 		echo "<fieldset><input type='submit' value='".Settings::_("settings","submit")."'/></fieldset>\n";
 		echo "</form>\n";
