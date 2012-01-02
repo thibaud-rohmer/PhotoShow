@@ -77,6 +77,9 @@ class ImagePanel implements HTMLObject
 		/// Create Image object
 		$this->image	=	new Image($file);
 		
+		/// Create Video object
+		$this->video	=	new Video($file);		
+		
 		/// Create Image object
 		$this->imagebar	=	new ImageBar($file);
 
@@ -127,11 +130,18 @@ class ImagePanel implements HTMLObject
 
 		echo "</div>\n";
 */
-		echo "<div id='bigimage'>\n";
+		if(!File::Type($this->file) || File::Type($this->file) == "Image"){
+			echo "<div id='bigimage'>\n";
+			$this->image->toHTML();
+			echo "</div>\n";
 
-		$this->image->toHTML();
-
-		echo "</div>\n";
+		}
+		
+		if(!File::Type($this->file) || File::Type($this->file) == "Video"){
+			echo "<div id='bigvideo'>\n";
+			$this->video->toHTML();
+			echo "</div>\n";
+		}		
 
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();
