@@ -79,7 +79,7 @@ class Judge
 		if(!file_exists($f)){
 			return;
 		}
-		$this->public	=	true;
+		$this->public	=	false;
 		$this->groups	=	array();
 		$this->users	=	array();
 		$this->file 	=	$f;
@@ -152,7 +152,7 @@ class Judge
 			}catch(Exception $e){
 				
 				// We are as high as possible
-				$this->public	=	true;
+				$this->public	=	false;
 				$this->groups	=	array();
 				$this->users	=	array();		
 			}
@@ -175,21 +175,21 @@ class Judge
 	/**
 	 * Check if a file is viewable in a folder, and returns path to that file.
 	 */
-	public static function searchDir($dir,$public = false){
+	public static function searchDir($dir,$public_search = false){
 		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
 		// Check files
 		foreach($rightsfiles as $rf){
 			$f = Judge::associated_file($rf);
-            if(($public and Judge::is_public($f))
-                or (!$public and Judge::view($f))){
+            if(($public_search and Judge::is_public($f))
+                or (!$public_search and Judge::view($f))){
                     if(is_file($f)){
                         return $f;
                     }else{
                         foreach(Menu::list_files($f,true) as $p){
-                            if(($public and Judge::is_public($p))
-                                or (!$public and Judge::view($p))){
+                            if(($public_search and Judge::is_public($p))
+                                or (!$public_search and Judge::view($p))){
                                     return $p;
                                 }
                         }
@@ -199,7 +199,7 @@ class Judge
 
 		// Check subdirs
 		foreach(Menu::list_dirs($dir) as $d){
-			if(($f=Judge::searchDir($d, $public))){
+			if(($f=Judge::searchDir($d, $public_search))){
 				return $f;
 			}
 		}
