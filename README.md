@@ -11,7 +11,7 @@
 
 First, you need to copy the repository into whatever you like (here, toto)
 
-`git clone git://github.com/thibaud-rohmer/PhotoShow-v2.git toto`
+`git clone https://github.com/thibaud-rohmer/PhotoShow.git toto`
 
 ### Create two directories
 
