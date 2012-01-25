@@ -64,7 +64,7 @@ class Settings extends Page
 	static public $name 		=	"PhotoShow";
 
 	/// Website root address
-	static public $site_address	=	"http://example.com/PhotoShow";
+	static public $site_address	=   "";
 
 	/// Display Facebook button
 	static public $like 		=	false;
@@ -80,6 +80,9 @@ class Settings extends Page
 
 	/// Remove registering options
 	static public $noregister	=	false;
+    
+	/// Force https on login/register screens
+	static public $forcehttps	    =	false;
 
 	/// Remove download options
 	static public $nodownload	=	false;
@@ -165,19 +168,19 @@ class Settings extends Page
 		// Now, check that this stuff exists.
 		if(!file_exists(Settings::$photos_dir)){
 			if(! @mkdir(Settings::$photos_dir,0750,true)){	
-				throw new Exception("PHOTOS dir doesn't exist and couldn't be created !");
+				throw new Exception("PHOTOS dir '".Settings::$photos_dir."' doesn't exist and couldn't be created !");
 			}
 		}
 
 		if(!file_exists(Settings::$thumbs_dir)){
 			if(! @mkdir(Settings::$thumbs_dir,0750,true)){
-				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
+				throw new Exception("PS_GENERATED dir '".Settings::$thumbs_dir."' doesn't exist or doesn't have the good rights.");
 			}
 		}
 
 		if(!file_exists(Settings::$conf_dir)){
 			if(! @mkdir(Settings::$conf_dir,0750,true)){
-				throw new Exception("PS_GENERATED dir doesn't exist or doesn't have the good rights.");
+				throw new Exception("PS_GENERATED dir '".Settings::$conf_dir."' doesn't exist or doesn't have the good rights.");
 			}
 		}
 
@@ -190,13 +193,19 @@ class Settings extends Page
 			}
 
 			if(isset($admin_settings['fbappid'])){
-				Settings::$fbappid	=	stripslashes($admin_settings['fbappid']);
+				Settings::$fbappid	=	$admin_settings['fbappid'];
 			}
 
-			Settings::$site_address	=	$admin_settings['site_address'];
+            if ($admin_settings['site_address']){
+                Settings::$site_address	=	$admin_settings['site_address'];
+            }else{
+                Settings::$site_address	= "http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+            }
+
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
 			Settings::$noregister	=	isset($admin_settings['noregister']);
+			Settings::$forcehttps     =   isset($admin_settings['forcehttps']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
@@ -285,6 +294,7 @@ class Settings extends Page
             "fbappid",
             "max_comments",
             "noregister",
+            "forcehttps",
             "nocomments",
             "nodownload",
             "max_img_dir",
@@ -362,6 +372,11 @@ class Settings extends Page
 		}else{
 			echo "<label><input type='checkbox' name='noregister'>".Settings::_("settings","noregister")."</label>\n";
 		}
+		if(Settings::$forcehttps){
+			echo "<label><input type='checkbox' name='forcehttps' checked>".Settings::_("settings","forcehttps")."</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='forcehttps'>".Settings::_("settings","forcehttps")."</label>\n";
+        }
 		echo "</div></fieldset>\n";
 
 		echo "<fieldset><span>".Settings::_("settings","comment")."</span><div class='buttondiv'>\n";
