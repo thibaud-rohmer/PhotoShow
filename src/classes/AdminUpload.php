@@ -80,6 +80,11 @@
  	public function upload(){
 
  		$allowedExtensions = array("tiff","jpg","jpeg","gif","png");
+		
+		/// Just to be really sure ffmpeg enable - necessary generate thumbnail jpg and webm
+		if (Settings::$encode_video) {
+			array_push($allowedExtensions,"flv","mov","mpg","mp4","ogv","mts","3gp","webm");
+		}
 
 		$already_set_rights = false;
 
@@ -141,6 +146,7 @@
 				// Save the files
 		        if(move_uploaded_file($tmp_name, "$path/$name")){
 		    	//	$done .= "Successfully uploaded $name";
+				Video::FastEncodeVideo("$path/$name");
 		        }
 
 		        /// Setup rights

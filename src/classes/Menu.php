@@ -202,7 +202,7 @@ class Menu implements HTMLObject
 			/// Content isn't hidden and is a file
 			if($content[0] != '.' || $hidden){
 				if(is_file($path=$dir."/".$content)){
-					if(File::Type($path) && File::Type($path) == "Image"){
+					if(File::Type($path) && (File::Type($path) == "Image" || File::Type($path)=="Video")){
 						/// Add content to list
 						$list[]=$path;
 
