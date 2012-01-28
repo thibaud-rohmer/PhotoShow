@@ -55,6 +55,22 @@ class Video implements HTMLObject
 	}
 	
 	/**
+	 * Create Asynchrone Execution (compatibles Linux/Windows)
+	 *
+	 * @param string $file 
+	 * @author Cédric Levasseur
+	 */	
+	public function execInBackground($cmd) {	
+		error_log('Background Execution : '.$cmd,0);
+		if (substr(php_uname(), 0, 7) == "Windows"){
+		   pclose(popen('start /b '.$cmd.' 2>&1', 'r'));
+		} else {
+		    exec($cmd . " > /dev/null &");   
+		}
+	} 
+	
+	
+	/**
 	 * Asyncrhonous Convert all Video format to video/webm
 	 *   
 	 * Use ffmpeg for conversion
@@ -62,6 +78,11 @@ class Video implements HTMLObject
 	 * @author Cédric Levasseur
 	 */
 	public static function FastEncodeVideo($file) {
+	
+		/// Check item
+		if(!File::Type($file) || File::Type($file) != "Video"){
+			return;
+		}
 	
 		$basefile	= 	new File($file);
 		$basepath	=	File::a2r($file);	
@@ -74,25 +95,20 @@ class Video implements HTMLObject
 				@mkdir(dirname($path_thumb_webm),0755,true);
 			}
 		}
-
-		 error_log($file,0);
-		 error_log($path_thumb_webm,0);
 		
 		if ($basefile->extension !="webm") {
 			if (!file_exists($path_thumb_webm)){
 				///Create Thumbnail jpg in  Thumbs folder
-				$u=Settings::$ffmpeg_path.' -itsoffset -4  -i '.$file.' -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y '.$path_thumb_jpg;
-				error_log($u,0);				
-				pclose(popen('start /b '.$u.'', 'r'));
+				$u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$path_thumb_jpg.'"';
+				self::execInBackground($u);
 				///Convert video to webm format in Thumbs folder
-				$u=Settings::$ffmpeg_path.' -threads 4 -i '.$file.' '.Settings::$ffmpeg_option.' -y '.$path_thumb_webm.' 2>&1';		
-				error_log($u,0);
-				pclose(popen('start /b '.$u.'', 'r'));
+				$u=Settings::$ffmpeg_path.' -threads 4 -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$path_thumb_webm.'"';		
+				self::execInBackground($u);
 			}
 		} else {
 			//Create Thumbnail jpg in Thumbs folder
-			$u=Settings::$ffmpeg_path.' -itsoffset -4  -i '.$file.' -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y '.$path_thumb_jpg;
-			pclose(popen('start /b '.$u.'', 'r'));
+			$u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$path_thumb_jpg.'"';
+			self::execInBackground($u);
 			///Copy original webm video to Thumbs folder
 			copy($file,$path_thumb_webm);
 		}
