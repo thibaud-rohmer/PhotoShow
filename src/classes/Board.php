@@ -136,7 +136,7 @@ class Board implements HTMLObject
         }
 		
 		// Generate the grid
-		$this->grid();
+		//~ $this->grid();
 
 
 		$this->foldergrid();
@@ -158,9 +158,18 @@ class Board implements HTMLObject
 				$boardfolder->toHTML();
 			}
 		}
-
+		$this->grid("Image");
 		if(sizeof($this->boardlines)>0){
 			echo "<h2>".Settings::_("board","images")."</h2>";
+		}
+		// Output grid
+		foreach($this->boardlines as $boardline){
+			$boardline->toHTML();
+		}
+		$this->boardlines = array();
+		$this->grid("Video");
+		if(sizeof($this->boardlines)>0){
+			echo "<h2>".Settings::_("board","videos")."</h2>";
 		}
 		// Output grid
 		foreach($this->boardlines as $boardline){
@@ -174,7 +183,7 @@ class Board implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	private function grid(){
+	private function grid($type="Image"){
 		// Create line
 		$bl =	new BoardLine();
 		$notempty = false;
@@ -183,6 +192,10 @@ class Board implements HTMLObject
 
 			// Check rights
 			if(!(Judge::view($file))){
+				continue;
+			}
+			
+			if (File::Type($file) != $type){
 				continue;
 			}
 
