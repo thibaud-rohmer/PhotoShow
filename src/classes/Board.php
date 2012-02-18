@@ -232,7 +232,9 @@ class Board implements HTMLObject
 				$this->boardfolders[] = $item;
 			}
 		}
-
+		if(Settings::$reverse_menu){
+			$this->boardfolders = array_reverse($this->boardfolders);
+		}
 	}
 
 
