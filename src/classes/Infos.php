@@ -54,7 +54,7 @@ class Infos implements HTMLObject
 
 	public function __construct(){
 
-		if(CurrentUser::$admin){
+		if(CurrentUser::$admin || CurrentUser::$uploader){
 			$this->info = new AdminPanel();
 		}
 		
@@ -67,7 +67,7 @@ class Infos implements HTMLObject
 	}
 
 	public function toHTML(){
-		if(CurrentUser::$admin){
+		if(CurrentUser::$admin || CurrentUser::$uploader ){
 		$this->info->toHTML();
 		}
 		
