@@ -47,6 +47,59 @@
 
 class Provider
 {
+	/**
+	 * Get image orientation from exif
+	 */
+	private static function get_orientation_degrees ($filename)
+	{
+		if (in_array("exif", get_loaded_extensions()))
+		{
+
+			$raw_exif = @exif_read_data ($filename);
+			switch ($raw_exif['Orientation'])
+			{
+				case 1:
+				case 2:
+					$degrees = 0; 
+					break;
+				case 3:
+				case 4:
+					$degrees = 180; 
+					break;
+				case 5:
+				case 6: 
+					$degrees = -90; 
+					break;
+				case 7:
+				case 8: 
+					$degrees = 90; 
+					break;
+				default: 
+					$degrees = 0;
+			}
+		}else{
+			$degrees = 0;
+		}
+
+		return $degrees;
+	}
+
+
+	/**
+	 * Autorotate image
+	 */
+	private static function autorotate_jpeg ($filename)
+	{
+		$raw_image = imagecreatefromjpeg($filename);
+		$degrees = Provider::get_orientation_degrees ($filename);
+		if($degrees > 0){
+			$rotated_image = imagerotate($raw_image, $degrees, 0);
+		}else{
+			$rotated_image = $raw_image;
+		}
+
+		return $rotated_image;
+	}
 
 
 	/**
@@ -98,6 +151,9 @@ class Provider
 						
 						/// Create thumbnail
 						$thumb = PhpThumbFactory::create($file);
+						if(File::Type($file)=="Image"){
+							$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
+						}
 						$thumb->resize(200, 200);
 						$thumb->save($path);
 					}
@@ -122,6 +178,9 @@ class Provider
 								@mkdir(dirname($path),0755,true);
 							}
 							$thumb = PhpThumbFactory::create($file);
+							if(File::Type($file)=="Image"){
+								$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
+							}
 							$thumb->resize(800, 600);
 							$thumb->save($path);
 						}
@@ -158,7 +217,12 @@ class Provider
 				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 				header('Content-type: image/jpeg');
 			}
-			readfile($path);
+
+			if(File::Type($file)=="Image"){
+				imagejpeg(Provider::autorotate_jpeg ($path));	
+			}else{
+				readfile($path);
+			}
 		}
 	}
 	public static function Zip($dir){
