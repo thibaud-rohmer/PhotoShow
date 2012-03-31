@@ -83,6 +83,13 @@ class CurrentUser
 
 		CurrentUser::$groups_file	=	Settings::$conf_dir."/groups.xml";
 
+		if(isset($_GET['login']) && isset($_GET['pass'])){
+			try{
+				CurrentUser::login(stripslashes($_GET['login']),stripslashes($_GET['pass']));
+			}catch(Exception $e){
+
+			}
+		}
 
 		/// Set path
 		if(isset($_GET['f'])){
