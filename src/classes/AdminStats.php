@@ -61,7 +61,11 @@
  	 */
  	public function __construct(){
 
- 		/// Calculate number of users, etc...
+ 	}
+	
+	public function Calculate() {
+	
+		/// Calculate number of users, etc...
  		$this->stats['Users'] = sizeof(Account::findAll());
 
  		$this->stats['Groups'] = sizeof(Group::findAll());
@@ -80,10 +84,11 @@
  			$xml = simplexml_load_file($commentsfile);
  			$this->comments = $xml->children();
  		}
- 	}
+	
+	}
 
  	public function toHTML(){
-
+		self::Calculate() ;
  		echo "<div class='adminblock'>";
  		echo "<h3>Stats</h3>";
  		echo "<div>";
