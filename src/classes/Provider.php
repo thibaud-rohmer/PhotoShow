@@ -181,7 +181,6 @@ class Provider
 							if(File::Type($file)=="Image"){
 								$thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
 							}
-							$thumb->resize(800, 600);
 							$thumb->save($path);
 						}
 
