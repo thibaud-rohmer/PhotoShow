@@ -42,6 +42,8 @@
  * - Password (Encryption : sha1)
  * - Email
  * - Groups -> Group names
+ * - Language
+ * - Key
  *
  * 
  * @package	  PhotoShow
@@ -64,6 +66,12 @@ class Account extends Page
 
 	/// Email of the user (optional)
 	public $email;
+
+	/// Language of the user (optional)
+	public $language;
+
+	/// Key of the user (optional)
+	public $key;
 
 	/// List of the groups the user is in. No duplicates. Minimum list : array("user")
 	public $groups;
@@ -88,6 +96,9 @@ class Account extends Page
 				$this->password = (string)$account->password;
 				$this->name		= (string)$account->name;
 				$this->email	= (string)$account->email;
+				$this->language	= (string)$account->language;
+				$this->key		= (string)$account->key;
+
 				$this->groups 	= array();
 
 				foreach($account->groups->children() as $group){
@@ -140,6 +151,8 @@ class Account extends Page
 		$acc->groups	=	$groups;
 		$acc->name		=	$name;
 		$acc->email		=	$email;
+		$acc->language 	=	"";
+		$acc->key 		=	"";
 		$acc->save();
 		return true;
 	}
@@ -155,7 +168,16 @@ class Account extends Page
 		return sha1($password);
 	}
 		
-	
+	/**
+	 * Generate key
+	 *
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	private function key(){
+		return sha1($this->login.$this->password);
+	}
+
 	/**
 	 * Add a group to this user
 	 *
@@ -209,6 +231,8 @@ class Account extends Page
 			$account->password	=	$this->password;
 			$account->name		=	$this->name;
 			$account->email		=	$this->email;
+			$account->language 	=	$this->language;
+			$account->key 		=	$this->key;
 			unset($account->groups);
 		}else{
 			$account=$xml->addChild('account');
@@ -216,6 +240,8 @@ class Account extends Page
 			$account->addChild(		'password', $this->password);
 			$account->addChild(		'name'	,		$this->name);
 			$account->addChild(		'email' ,		$this->email);
+			$account->addChild(		'language' ,		$this->language);
+			$account->addChild(		'key' ,		$this->key);
 		}
 		// Create the groups
 		$groups = $account->addChild('groups');
@@ -243,10 +269,9 @@ class Account extends Page
 	 * @param string $email
 	 * @author Thibaud Rohmer
 	 */
-	public static function edit($login=NULL, $old_password=NULL, $password=NULL, $name=NULL, $email=NULL, $groups=array()){
-		
+	public static function edit($login=NULL, $old_password=NULL, $password=NULL, $name=NULL, $email=NULL, $groups=array(), $language=NULL){
 		/// Only the admin can modify other accounts
-		if( $login != CurrentUser::$account->login ){
+		if( !CurrentUser::$admin && $login != CurrentUser::$account->login ){
 			return;
 		}
 
@@ -257,7 +282,7 @@ class Account extends Page
 		}
 
 		/// Check password
-		if( Account::password($old_password) != $acc->password ){
+		if( !CurrentUser::$admin && Account::password($old_password) != $acc->password ){
 			return;
 		}
 
@@ -272,6 +297,12 @@ class Account extends Page
 
 		if(isset($email)){
 			$acc->email = $email;
+		}
+
+
+		if(isset($language)){
+			echo "woot";
+			$acc->language = $language;
 		}
 
 		if(CurrentUser::$admin && sizeof($groups) > 0){
@@ -354,6 +385,8 @@ class Account extends Page
 			$new_acc['password']	= $account->password;
 			$new_acc['name']		= $account->name;
 			$new_acc['email']		= $account->email;
+			$new_acc['language']	= $account->language;
+			$new_acc['key']			= $account->key;
 			$new_acc['groups']		= array();
 			foreach($account->groups->children() as $group){
 				$new_acc['groups'][]= $group;
@@ -399,17 +432,52 @@ class Account extends Page
 	 	echo "<div class='panel'>\n";
 	 	echo "<h1>".Settings::_("account","account")."</h1>\n";
 
-		echo Settings::_("account","editing").htmlentities($this->login, ENT_QUOTES ,'UTF-8');
+
+		if(CurrentUser::$admin){
+			echo "<form method='post' action='#'>";
+			echo "<fieldset><span>".Settings::_("account","editing")."</span><div><select name='login'>";
+			foreach(Account::findall() as $a){
+				echo "<option value=\"".addslashes($a['login'])."\"";
+				if($this->login == $a['login']){
+					echo " selected ";
+				}
+				echo ">".$a['login']."</option>";
+
+			}
+	 		echo "</select></div></fieldset>\n";
+	 		echo "<input type='submit' class='button blue'>\n";
+
+			echo "</form>";
+		}else{
+			echo Settings::_("account","editing").htmlentities($this->login, ENT_QUOTES ,'UTF-8');		
+		}
+
 	 	echo "<form method='post' action='#'>\n";
 	 	echo "<input type='hidden' value='".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."' name='login' />\n";
 	 	echo "<fieldset><span>".Settings::_("account","name")."</span><div><input type='text' value='".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."' name='name' /></div></fieldset>\n";
 
 	 	echo "<fieldset><span>".Settings::_("account","email")." </span><div><input type='text' value='".htmlentities($this->email, ENT_QUOTES ,'UTF-8')."' name='email' /></div></fieldset>\n";
 
+		echo "<fieldset><span>".Settings::_("settings","language")."</span><div><select name='language'>";
+		foreach(Settings::$ava_loc as $l){
+			$p = substr(htmlentities($l, ENT_QUOTES ,'UTF-8'),0,-4);
+			echo "<option value=\"".addslashes($p)."\"";
+			if($p == $this->language){
+				echo " selected ";
+			}
+			echo ">".$p."</option>";
+		}
+		echo "</select></div></fieldset>";
+
+		//echo "<fieldset><span>".Settings::_("account","key")." </span><div>".htmlentities($this->key, ENT_QUOTES ,'UTF-8')."</div></fieldset>\n";
+
 	 	echo "<fieldset><span>".Settings::_("account","password")." </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
 
- 		echo "<fieldset><span>".Settings::_("account","oldpass")."</span><div><input type='password' value='' name='old_password' /></div></fieldset>\n";
-
+	 	if(CurrentUser::$admin){
+	 		echo "<input type='hidden' value='plip' name='edit'>";
+ 		}else{
+ 			echo "<fieldset><span>".Settings::_("account","oldpass")."</span><div><input type='password' value='' name='old_password' /></div></fieldset>\n";
+ 		}
 	 	echo "<input type='submit' class='button blue' value='".Settings::_("account","submit")."'>\n";
 	 	echo Settings::_("account","or")." <a href='.'>".Settings::_("account","cancel")."</a>";
 	 	echo "</form>\n";

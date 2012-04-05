@@ -120,8 +120,8 @@
 		 		case "Sta"		:	$this->page = new AdminStats();
 		 							break;
 
-		 		case "Acc"		:	if(isset($_POST['old_password'])){
-										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+		 		case "Acc"		:	if(isset($_POST['edit'])){
+										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email'],NULL,$_POST['language']);
 									}
 									if(isset($_POST['login'])){
 										$this->page = new Account($_POST['login']);

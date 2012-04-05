@@ -103,7 +103,7 @@ class Settings extends Page
 	static public $hide_infos = false;
 
 	/// Selected localization
-	static public $loc 			=	"default";
+	static private $loc 			=	"default";
 
 	/// Default localization
 	static private $loc_default	=	array();
@@ -123,7 +123,7 @@ class Settings extends Page
 	static private $locpath 	=	array();
 
 	/// Available localizations
-	static private $ava_loc 	=	array();
+	static public $ava_loc 	=	array();
 	
 	/*** Video ***/
 	
@@ -267,6 +267,16 @@ class Settings extends Page
 			if(File::Extension($f) == "ini"){
 				Settings::$ava_loc[]=$f;
 			}
+		}
+	}
+
+	/**
+	 * Set website language
+	 */
+	static public function set_lang($l){
+		// Get Localization array
+		if(is_file(Settings::$locpath."/".$l.".ini")){
+			Settings::$loc_chosen = parse_ini_file(Settings::$locpath."/".$l.".ini",true);
 		}
 	}
 
