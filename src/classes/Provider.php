@@ -50,11 +50,10 @@ class Provider
 	/**
 	 * Get image orientation from exif
 	 */
-	private static function get_orientation_degrees ($filename)
+	public static function get_orientation_degrees ($filename)
 	{
 		if (in_array("exif", get_loaded_extensions()))
 		{
-
 			$raw_exif = @exif_read_data ($filename);
 			switch ($raw_exif['Orientation'])
 			{
@@ -151,10 +150,10 @@ class Provider
 						
 						/// Create thumbnail
 						$thumb = PhpThumbFactory::create($file);
+						$thumb->resize(200, 200);
 						if(File::Type($file)=="Image"){
 							$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
 						}
-						$thumb->resize(200, 200);
 						$thumb->save($path);
 					}
 				}else{
@@ -178,8 +177,9 @@ class Provider
 								@mkdir(dirname($path),0755,true);
 							}
 							$thumb = PhpThumbFactory::create($file);
+							$thumb->resize(800, 800);
 							if(File::Type($file)=="Image"){
-								$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
+								$thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
 							}
 							$thumb->resize(800, 600);
 							$thumb->save($path);
