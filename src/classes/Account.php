@@ -91,7 +91,7 @@ class Account extends Page
 
 		// Look each account
 		foreach( $xml as $account ){
-			if((string)$account->login == $login || (string)$account->key == $key){
+			if((string)$account->login == $login || (isset($key) && $key != '' && (string)$account->key == $key)){
 				$this->login	= (string)$account->login;
 				$this->password = (string)$account->password;
 				$this->name		= (string)$account->name;
