@@ -276,6 +276,36 @@ class CurrentUser
 	}
 
 	/**
+	 * Log the user in
+	 *
+	 * @param string $login User login
+	 * @param string $password User password
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	public static function keyin($key){
+
+		CurrentUser::$admin	=	false;
+
+		$acc =	new Account(NULL,$key);
+		if(!isset($acc->login)){
+			return false;
+		}
+
+		CurrentUser::$account = $acc;
+		$_SESSION['login']		=	$acc->login;
+
+		if(in_array('root',$acc->groups)){
+			CurrentUser::$admin = true;
+		}
+		if(in_array('uploaders',$acc->groups)){
+			CurrentUser::$uploader = true;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Log the user out
 	 *
 	 * @return void

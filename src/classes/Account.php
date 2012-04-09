@@ -82,16 +82,16 @@ class Account extends Page
 	 * @param string $login 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($login=NULL){
-		if(!isset($login))
-			return;
+	public function __construct($login=NULL,$key=NULL){
+		if(!isset($login) && !isset($key))
+			return false;
 		
 		$xml_infos	=	CurrentUser::$accounts_file;
 		$xml		=	simplexml_load_file($xml_infos);
 
 		// Look each account
 		foreach( $xml as $account ){
-			if((string)$account->login == $login){
+			if((string)$account->login == $login || (string)$account->key == $key){
 				$this->login	= (string)$account->login;
 				$this->password = (string)$account->password;
 				$this->name		= (string)$account->name;
@@ -105,10 +105,11 @@ class Account extends Page
 					$this->groups[] = (string)$group;
 				}
 
-				return;
+				return true;
 			}
 		}
 		//throw new Exception("Login $login not found");
+		return false;
 	}
 	
 	/**
@@ -175,7 +176,19 @@ class Account extends Page
 	 * @author Thibaud Rohmer
 	 */
 	private function key(){
-		return sha1($this->login.$this->password);
+		$salt = sha1(rand());
+		$salt = substr($salt, 0, 4);
+		return substr(sha1($this->password.$salt),0,5);
+	}
+
+
+	public function get_key(){
+		if(!isset($this->key) || $this->key == ''){
+			$this->key = $this->key();
+			$this->save();
+		}
+
+		return $this->key;
 	}
 
 	/**
@@ -366,6 +379,19 @@ class Account extends Page
 	}
 	
 	
+	public function get_acc(){			
+		$acc=array();
+		$acc['login']		= $this->login;
+		$acc['password']	= $this->password;
+		$acc['name']		= $this->name;
+		$acc['email']		= $this->email;
+		$acc['language']	= $this->language;
+		$acc['key']			= $this->key;
+		$acc['groups']		= $this->groups;
+
+		return $acc;
+	}
+
 	/**
 	 * Returns an array containing all accounts
 	 *
@@ -470,6 +496,7 @@ class Account extends Page
 		echo "</select></div></fieldset>";
 
 		//echo "<fieldset><span>".Settings::_("account","key")." </span><div>".htmlentities($this->key, ENT_QUOTES ,'UTF-8')."</div></fieldset>\n";
+	 	echo "<fieldset><span>".Settings::_("account","key")." </span><div>".htmlentities($this->get_key())."</div></fieldset>\n";
 
 	 	echo "<fieldset><span>".Settings::_("account","password")." </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
 
