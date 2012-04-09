@@ -38,9 +38,15 @@ if(function_exists("error_reporting")){
 }
 
 /// Autoload classes
-function __autoload($class){
-	require_once(realpath(dirname(__FILE__)."/src/classes/$class.php"));
+function my_autoload($class){
+	if(file_exists(dirname(__FILE__)."/src/classes/$class.php")){
+		require(dirname(__FILE__)."/src/classes/$class.php");
+	}else{
+		return FALSE;
+	}
 }
+
+spl_autoload_register("my_autoload");
 
 /// Take care of nasty exceptions
 function exception_handler($exception) {
@@ -64,8 +70,9 @@ if (!get_magic_quotes_gpc()){
 	$_GET = protect_user_send_var($_GET);
 }
 
-
-new Index();
-
-
+if(isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'text/xml'){
+	new API();
+}else{
+	new Index();
+}
 ?>
