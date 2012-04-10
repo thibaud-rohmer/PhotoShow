@@ -120,6 +120,8 @@ class CurrentUser
 
 			self::$admin = in_array("root", $groups);
 			self::$uploader = in_array("uploaders", $groups);
+			Settings::set_lang(self::$account->language);
+
 		}
 
 		/// Set action (needed for page layout)
@@ -168,7 +170,10 @@ class CurrentUser
 								break;
 
 				case "Acc"	:	if(isset($_POST['old_password'])){
-									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email']);
+									Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email'],NULL,$_POST['language']);
+									unset($_POST['old_password']);
+									CurrentUser::init();
+									return;
 								}
 								CurrentUser::$action = "Acc";
 								break;
@@ -261,6 +266,36 @@ class CurrentUser
 			// Wrong password
 			return false;
 		}
+		if(in_array('root',$acc->groups)){
+			CurrentUser::$admin = true;
+		}
+		if(in_array('uploaders',$acc->groups)){
+			CurrentUser::$uploader = true;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Log the user in
+	 *
+	 * @param string $login User login
+	 * @param string $password User password
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
+	public static function keyin($key){
+
+		CurrentUser::$admin	=	false;
+
+		$acc =	new Account(NULL,$key);
+		if(!isset($acc->login)){
+			return false;
+		}
+
+		CurrentUser::$account = $acc;
+		$_SESSION['login']		=	$acc->login;
+
 		if(in_array('root',$acc->groups)){
 			CurrentUser::$admin = true;
 		}

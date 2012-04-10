@@ -149,6 +149,58 @@ class Provider
         readfile($path);
     }
 
+	public static function thumb($file){
+        require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
+
+        $path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
+
+        if(!file_exists($path) || filectime($file) > filectime($path) ){
+
+            /// Create directories
+            if(!file_exists(dirname($path))){
+                @mkdir(dirname($path),0750,true);
+            }
+
+            /// Create thumbnail
+			$thumb = PhpThumbFactory::create($file);
+			$thumb->resize(200, 200);
+			if(File::Type($file)=="Image"){
+				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
+			}
+			$thumb->save($path);
+		}
+		return $path;
+	}
+
+	public static function small($file){
+		require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
+
+		$basefile	= 	new File($file);
+		$basepath	=	File::a2r($file);
+		$webimg	=	dirname($basepath)."/".$basefile->name."_small.".$basefile->extension;
+		
+		list($x,$y) = getimagesize($file);
+		if($x <= 800 && $y <= 600){	
+			return $file;
+		}
+		
+		$path =	File::r2a($webimg,Settings::$thumbs_dir);
+
+		if(!file_exists($path) || filectime($file) > filectime($path)  ){
+			/// Create smaller image
+			if(!file_exists(dirname($path))){
+				@mkdir(dirname($path),0755,true);
+			}
+			$thumb = PhpThumbFactory::create($file);
+			$thumb->resize(800, 800);
+			if(File::Type($file)=="Image"){
+				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
+			}
+			$thumb->save($path);
+		}
+		return $path;
+	}
+
 	/**
 	 * Provide an image to the user, if he is allowed to
 	 * see it. If $thumb is true, provide the thumb associated
@@ -168,9 +220,9 @@ class Provider
 			error_reporting(0);
 		}
 
-		/// Check item
+        /// Check item
         $file_type = File::Type($file);
-   
+
         if ($file_type == "Image"){
             $is_video = false;
         } elseif ($file_type == "Video"){
@@ -180,7 +232,7 @@ class Provider
         }
         //error_log('DEBUG/Provider::image: '.$file.' '.($is_video?'is_video':''));
 
-		if(!$large){
+        if(!$large){
             try {
                 if ($is_video){
                     //TODO: fix so when opening the folder the first time no need to do F5 to see
@@ -190,54 +242,9 @@ class Provider
                     $basepath	=	File::a2r($file);
                     $path =	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".jpg";	
                 } elseif($thumb){ // Img called on a video, return the thumbnail
-                    // Setting $path
-                    $path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
-                    if(!file_exists($path) || filectime($file) > filectime($path) ){
-                        require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
-
-                        /// Create directories
-                        if(!file_exists(dirname($path))){
-                            @mkdir(dirname($path),0750,true);
-                        }
-
-                        /// Create thumbnail
-                        $thumb = PhpThumbFactory::create($file);
-                        $thumb->resize(200, 200);
-                        $thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
-                        $thumb->save($path);
-                    }
+                    $path = Provider::thumb($file);
                 }else{
-                    list($x,$y) = getimagesize($file);
-                    if($x > 800 || $y > 600){
-
-                        require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
-
-                        $basefile	= 	new File($file);
-                        $basepath	=	File::a2r($file);
-
-                        /// Build relative path to webimg
-                        $webimg	=	dirname($basepath)."/".$basefile->name."_small.".$basefile->extension;
-
-                        /// Set absolute path to comments file
-                        $path =	File::r2a($webimg,Settings::$thumbs_dir);
-
-                        if(!file_exists($path) || filectime($file) > filectime($path)  ){
-                            /// Create smaller image
-                            if(!file_exists(dirname($path))){
-                                @mkdir(dirname($path),0755,true);
-                            }
-                            $thumb = PhpThumbFactory::create($file);
-                            $thumb->resize(800, 800);
-                            if(File::Type($file)=="Image"){
-                                $thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
-                            }
-                            $thumb->save($path);
-                        }
-
-                    }else{
-                        $path = $file;
-                    }
-
+                    $path = Provider::small($file);
                 }
             }catch(Exception $e){
                 // do nothing
@@ -267,14 +274,18 @@ class Provider
 			}
             header('Content-type: image/jpeg');
 
-            try {
-                imagejpeg(Provider::autorotate_jpeg ($path));	
-            }catch(Exception $e){
-                error_log('ERROR/Provider.php: cannot rotate '.$path.': '.$e);
+            if(File::Type($path)=="Image"){
+                try {
+                    imagejpeg(Provider::autorotate_jpeg ($path));	
+                }catch(Exception $e){
+                    error_log('ERROR/Provider.php: cannot rotate '.$path.': '.$e);
+                    readfile($path);
+                }
+            }else{
                 readfile($path);
             }
-		}
-	}
+        }
+    }
 
 	public static function Zip($dir){
 
