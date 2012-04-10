@@ -128,6 +128,7 @@ class CurrentUser
 
 				case "Page"	:
 				case "Img"	:
+				case "Vid"	:
 				case "Thb"	:	CurrentUser::$action=$_GET['t'];
 								break;
 

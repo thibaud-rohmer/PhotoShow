@@ -53,6 +53,9 @@ class ImagePanel implements HTMLObject
 	/// Image object
 	private $image;
 	
+	/// Video object
+	private $video;
+	
 	/// Exif object
 	private $exif;
 	
@@ -74,11 +77,16 @@ class ImagePanel implements HTMLObject
 			return;
 		}
 
-		/// Create Image object
-		$this->image	=	new Image($file);
-		
-		/// Create Video object
-		$this->video	=	new Video($file);		
+        $file_type = File::Type($file);
+
+        if($file_type == "Image"){
+            /// Create Image object
+            $this->image	=	new Image($file);
+        }
+        elseif($file_type == "Video"){
+            /// Create Video object
+            $this->video	=	new Video($file);		
+        }		
 		
 		/// Create Image object
 		$this->imagebar	=	new ImageBar($file);
@@ -114,30 +122,20 @@ class ImagePanel implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		if(!isset($this->image)){
-			return;
-		}
-
+        if (!isset($this->image) && !isset($this->video)){
+            return;
+        }
         /*
 		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
          */
 
-/*
-		if(CurrentUser::$admin){
-			$this->judge->toHTML();
-		}
-
-		echo "</div>\n";
-*/
-		if(!File::Type($this->file) || File::Type($this->file) == "Image"){
+		if(isset($this->image)){
 			echo "<div id='bigimage'>\n";
 			$this->image->toHTML();
 			echo "</div>\n";
-
 		}
-		
-		if(!File::Type($this->file) || File::Type($this->file) == "Video"){
+        elseif(isset($this->video)){
 			echo "<div id='bigvideo'>\n";
 			$this->video->toHTML();
 			echo "</div>\n";
