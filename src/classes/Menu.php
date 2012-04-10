@@ -177,6 +177,32 @@ class Menu implements HTMLObject
 		/// Return directories list
 		return $list;
 	}
+
+	private static function get_file_exif_date ($filename)
+	{
+		if (in_array ("exif", get_loaded_extensions ()))
+		{
+			$raw_exif = @exif_read_data ($filename);
+			$result = date_create ($raw_exif['DateTimeOriginal']);
+		}
+		else $result = date_create ('1980-05-19 00:00:00');
+
+		return $result->getTimeStamp ();
+	}
+
+	private static function sort_file_list_by_exif_date ($file_list)
+	{
+		$sorted_list = array ();
+
+		foreach ($file_list as $in_file)
+		{
+			$sorted_list[$in_file] = Menu::get_file_exif_date ($in_file);
+		}
+
+		asort ($sorted_list);
+
+		return array_keys ($sorted_list);
+	}
 	
 	/**
 	 * List files in $dir, omit hidden files
@@ -223,7 +249,7 @@ class Menu implements HTMLObject
 		}
 
 		/// Return files list
-		return $list;
+		return Menu::sort_file_list_by_exif_date ($list);
 	}
 	
 }
