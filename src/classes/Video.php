@@ -79,14 +79,8 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1', $output);
-        foreach($output as $line){
-            unset($matches);
-            if (preg_match('/Duration: (.*?),/', $line, $matches) != 0){
-                $duration = $matches[0];
-                break;
-            }
-        }
+        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Duration', $output);
+        $duration = $output[0];
 
         $duration_array = split(':', $duration);
         $duration = intval($duration_array[1]) * 3600 + intval($duration_array[2]) * 60 + intval($duration_array[3]);
@@ -95,6 +89,46 @@ class Video implements HTMLObject
         return $duration;
     }
 
+    /**
+     * Compute the dimension of a video using ffmpeg
+     *
+     * @return the dimension in a array of int
+     * @author Franck Royer
+     */
+    public function GetScaledDimension($file, $x = 0, $y = 0){
+
+        if(!File::Type($file) || File::Type($file) != "Video"){
+            return;
+        }
+
+        //TODO Windows
+        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Video', $output);
+        $line = $output[0];
+        preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
+        $match = $matches[0];
+
+
+        $dimensions_array = split('x', $match);
+        $orig_x = intval($dimensions_array[0]);
+        $orig_y = intval($dimensions_array[1]);
+        //error_log('DEBUG/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
+
+        $dimensions = array( 'x' => $orig_x, 'y' => $orig_y );
+
+        if ($x != 0){// wants to know y for the given x
+            $y = ($x*$orig_y) / $orig_x;
+            $dimensions['x'] = $x;
+            $dimensions['y'] = intval($y);
+        }
+        elseif ($x != 0){// wants to know x for the given y
+            $x = ($y*$orig_x) / $orig_y;
+            $dimensions['x'] = intval($x);
+            $dimensions['y'] = $y;
+        }// if both 0 we return original dimensions
+
+        //error_log('DEBUG/Video: *scaled* dimension of '.$file.' is '.$dimensions['x'].'x'.$dimensions['y']);
+        return $dimensions;
+    }
 	
 	
 	/**
@@ -128,8 +162,9 @@ class Video implements HTMLObject
             //TODO: scaled thumbnail would be better
 
             $offset = self::GetDuration($file)/2;
+            $dimensions = self::GetScaledDimension($file, 320);
             
-            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$thumb_path_jpg.'"';
+            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s '.$dimensions['x'].'x'.$dimensions['y'].' -y "'.$thumb_path_jpg.'"';
             self::ExecInBackground($u);
         }
 
