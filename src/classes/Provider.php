@@ -251,36 +251,26 @@ class Provider
             }
         }
 
-        $header_expires = 60*60*24*14;
-        if(!isset($path) || ){
-            error_log('ERROR/Provider::image path is not set, using '.$file);
+        if(!isset($path) || !file_exists($path)){
+            error_log('ERROR/Provider::image path:'.$path.' does not exist, using '.$file);
             $path = $file;
-        } elseif (!file_exists($path)){
-            if ($is_video){ // Thumbnail is probably being created
-                $header_expires = 60; // give it a minute
-            } else {
-                error_log('ERROR/Provider::image '.$path.' does not exist, using '.$file);
-                $path = $file;
-            }
         }
-
 
         if($output){
 			if($dl){
 				header('Content-Disposition: attachment; filename="'.basename($file).'"');
 			}else{
+				$expires = 60*60*24*14;
 				$last_modified_time = filemtime($path); 
 				$last_modified_time = 0;
 				$etag = md5_file($file); 
 
-                //TODO: this is ugly, lets try to really use the mtime
-                // and do a common function with Video
 		    	header("Last-Modified: " . 0 . " GMT");
 				header("Pragma: public");
-				header("Cache-Control: max-age=".$header_expires);
+				header("Cache-Control: max-age=360000");
 				header("Etag: $etag"); 
-				header("Cache-Control: maxage=".$header_expires);
-				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$header_expires) . ' GMT');
+				header("Cache-Control: maxage=".$expires);
+				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 			}
             header('Content-type: image/jpeg');
 
