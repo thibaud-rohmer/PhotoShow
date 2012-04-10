@@ -100,12 +100,12 @@ class API
 	/**
 	 * List directories contained in $dir
 	 */
-	public static function list_dirs($key,$dir){
+	public static function list_dirs($key,$dir,$rec=false){
 		CurrentUser::keyin($key);
 
 		$res = array();
 		
-		$m = Menu::list_dirs(File::r2a($dir));
+		$m = Menu::list_dirs(File::r2a($dir),$rec);
 		
 		if(sizeof($m) == 0){
 			return $res;
