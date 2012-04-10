@@ -92,6 +92,7 @@ class Video implements HTMLObject
         if (!file_exists($thumb_path_jpg) || filectime($file) > filectime($thumb_path_jpg)) {
             //Create Thumbnail jpg in Thumbs folder
             //TODO: taking 4 seconds within the video won't work for video >4s
+            //TODO: scaled thumbnail would be better
             $u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$thumb_path_jpg.'"';
             self::execInBackground($u);
         }
@@ -99,6 +100,8 @@ class Video implements HTMLObject
         if (!file_exists($thumb_path_webm) || filectime($file) > filectime($thumb_path_webm)){
             if ($basefile->extension !="webm") {
                 ///Convert video to webm format in Thumbs folder
+                //TODO: it would be better to enqueue that properly or have a max job limit
+                //TODO: Also a lock file should be created to avoid many encoding of the same video
                 $u=Settings::$ffmpeg_path.' -threads 4 -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$thumb_path_webm.'"';		
                 self::execInBackground($u);
             }
@@ -109,6 +112,7 @@ class Video implements HTMLObject
         }
     }
 
+    //TODO: make the video so it is centered on y axis
     public function VideoDiv($width='100%',$height='100%',$control=false){
 		$c = null;
 		Video::FastEncodeVideo($this->file);
