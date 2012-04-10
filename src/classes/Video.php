@@ -66,6 +66,35 @@ class Video implements HTMLObject
 		}
         return $pid;
 	} 
+
+    /**
+     * Compute the duration of a video using ffmpeg
+     *
+     * @return the duration in seconds
+     * @author Franck Royer
+     */
+    public function GetDuration($file){
+        if(!File::Type($file) || File::Type($file) != "Video"){
+            return;
+        }
+
+        //TODO Windows
+        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1', $output);
+        foreach($output as $line){
+            unset($matches);
+            if (preg_match('/Duration: (.*?),/', $line, $matches) != 0){
+                $duration = $matches[0];
+                break;
+            }
+        }
+
+        $duration_array = split(':', $duration);
+        $duration = intval($duration_array[1]) * 3600 + intval($duration_array[2]) * 60 + intval($duration_array[3]);
+
+        //error_log('DEBUG/Video: duration of '.$file.' is '.$duration.' seconds');
+        return $duration;
+    }
+
 	
 	
 	/**
@@ -93,11 +122,14 @@ class Video implements HTMLObject
             @mkdir(dirname($thumb_path_webm),0755,true);
         }
 
+
         if (!file_exists($thumb_path_jpg) || filectime($file) > filectime($thumb_path_jpg)) {
             //Create Thumbnail jpg in Thumbs folder
-            //TODO: taking 4 seconds within the video won't work for video >4s
             //TODO: scaled thumbnail would be better
-            $u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$thumb_path_jpg.'"';
+
+            $offset = self::GetDuration($file)/2;
+            
+            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$thumb_path_jpg.'"';
             self::ExecInBackground($u);
         }
 
@@ -198,9 +230,14 @@ class Video implements HTMLObject
 		$c = null;
 		self::FastEncodeVideo($this->file);
 		$wh = ' height="'.$height.'" width="'.$width.'"';
-		if ($control) { $c = ' controls="controls"';}
-		echo '<video'.$wh.$c.'><source src="?t=Vid&f='.$this->fileweb.'" type="video/webm" /></video>';
-		//echo 'Webm Video Codec not found.Plaese up to date the brower or Download the codec <a href="http://tools.google.com/dlpage/webmmf">Download</a>';
+        if ($control) {
+            $c = ' controls="controls"';
+        }
+        echo '<video'.$wh.$c.'><source src="?t=Vid&f='.$this->fileweb.'" type="video/webm" />';
+        echo 'Your browser does not support the video tag.<br />';
+        echo 'Please upgrade your brower or Download the codec <a href="http://tools.google.com/dlpage/webmmf">Download</a>';
+        echo '</video>';
+        //TODO: verify the message above works/do translations
 	}	
 	
 	/**
