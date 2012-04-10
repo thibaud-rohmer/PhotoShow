@@ -89,6 +89,9 @@ class Index
 
 			case "Thb":		Provider::Image(CurrentUser::$path,true);
 							break;
+
+			case "Vid":		Provider::Video(CurrentUser::$path);
+							break;
 						
 			case "Zip":		Provider::Zip(CurrentUser::$path);
 							break;

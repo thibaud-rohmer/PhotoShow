@@ -100,20 +100,68 @@ class Provider
 		return $rotated_image;
 	}
 
+	/**
+	 * Provide a video  to the user, if he is allowed to
+	 * see it. 
+	 *
+	 * @param string $file 
+	 * @return void
+	 * @author Franck Royer
+	 */
+    public static function Video($file){
+        //error_log('DEBUG/Provider::video: '.$file);
+
+        if( !Judge::view($file)){
+            return;
+        }
+
+        /// Check item
+        $file_type = File::Type($file);
+
+        if (!$file_type == "Video"){
+            error_log('ERROR/Provider.php: Vid called on a non-video file '.$file);
+            return;
+        }
+
+        Video::FastEncodeVideo($file);
+
+        $basefile	= 	new File($file);
+        $basepath	=	File::a2r($file);
+        $path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".webm";	
+
+        if(!isset($path) || !file_exists($path)){
+            error_log('ERROR/Provider::Video: path:'.$path.' does not exist, using '.$file);
+            $path = $file;
+        }
+
+        $expires = 60*60*24*14;
+        $last_modified_time = filemtime($path); 
+        $last_modified_time = 0;
+        $etag = md5_file($file); 
+
+        header("Last-Modified: " . 0 . " GMT");
+        header("Pragma: public");
+        header("Cache-Control: max-age=360000");
+        header("Etag: $etag"); 
+        header("Cache-Control: maxage=".$expires);
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+        header('Content-type: video/webm');
+        readfile($path);
+    }
 
 	public static function thumb($file){
-		require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
+        require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
 
-		$path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
+        $path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
 
-		if(!file_exists($path) || filectime($file) > filectime($path) ){
+        if(!file_exists($path) || filectime($file) > filectime($path) ){
 
-			/// Create directories
-			if(!file_exists(dirname($path))){
-				@mkdir(dirname($path),0750,true);
-			}
+            /// Create directories
+            if(!file_exists(dirname($path))){
+                @mkdir(dirname($path),0750,true);
+            }
 
-			/// Create thumbnail
+            /// Create thumbnail
 			$thumb = PhpThumbFactory::create($file);
 			$thumb->resize(200, 200);
 			if(File::Type($file)=="Image"){
@@ -163,7 +211,7 @@ class Provider
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function image($file,$thumb=false,$large=false,$output=true,$dl=false){
+	public static function Image($file,$thumb=false,$large=false,$output=true,$dl=false){
 		
 		if( !Judge::view($file)){
 			return;
@@ -172,42 +220,45 @@ class Provider
 			error_reporting(0);
 		}
 
-		/// Check item
-		//~ if(!File::Type($file) || File::Type($file) != "Image"){
-			//~ return;
-		//~ }
+        /// Check item
+        $file_type = File::Type($file);
 
-		if (File::Type($file)=="Video") {
-			
-			$basefile	= 	new File($file);
-			$basepath	=	File::a2r($file);
+        if ($file_type == "Image"){
+            $is_video = false;
+        } elseif ($file_type == "Video"){
+            $is_video = true;
+        } else{
+            return;
+        }
+        //error_log('DEBUG/Provider::image: '.$file.' '.($is_video?'is_video':''));
 
-			/// Build relative path to webimg
-			$path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".jpg";	
-			Video::FastEncodeVideo($file,$basefile->extension);
-			$large = true;
-		}
+        if(!$large){
+            try {
+                if ($is_video){
+                    //TODO: fix so when opening the folder the first time no need to do F5 to see
+                    //the freshly created thumbnail
+                    Video::FastEncodeVideo($file);
+                    $basefile	= 	new File($file);
+                    $basepath	=	File::a2r($file);
+                    $path =	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".jpg";	
+                } elseif($thumb){ // Img called on a video, return the thumbnail
+                    $path = Provider::thumb($file);
+                }else{
+                    $path = Provider::small($file);
+                }
+            }catch(Exception $e){
+                // do nothing
+            }
+        }
 
-		if(!$large){
-			try {
-				if($thumb){
-					$path = Provider::thumb($file);
-				}else{
-					$path = Provider::small($file);
-				}
-			}catch(Exception $e){
-				// do nothing
-			}
-		}
-		
-		if(!isset($path) || !file_exists($path)){
-			$path = $file;
-		}
+        if(!isset($path) || !file_exists($path)){
+            error_log('ERROR/Provider::image path:'.$path.' does not exist, using '.$file);
+            $path = $file;
+        }
 
-		if($output){
+        if($output){
 			if($dl){
 				header('Content-Disposition: attachment; filename="'.basename($file).'"');
-				header('Content-type: image/jpeg');
 			}else{
 				$expires = 60*60*24*14;
 				$last_modified_time = filemtime($path); 
@@ -220,15 +271,21 @@ class Provider
 				header("Etag: $etag"); 
 				header("Cache-Control: maxage=".$expires);
 				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-				header('Content-type: image/jpeg');
 			}
-			if(File::Type($file)=="Image"){
-				imagejpeg(Provider::autorotate_jpeg ($path));	
-			}else{
-				readfile($path);
-			}
-		}
-	}
+            header('Content-type: image/jpeg');
+
+            if(File::Type($path)=="Image"){
+                try {
+                    imagejpeg(Provider::autorotate_jpeg ($path));	
+                }catch(Exception $e){
+                    error_log('ERROR/Provider.php: cannot rotate '.$path.': '.$e);
+                    readfile($path);
+                }
+            }else{
+                readfile($path);
+            }
+        }
+    }
 
 	public static function Zip($dir){
 

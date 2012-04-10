@@ -21,19 +21,7 @@ class Video implements HTMLObject
 {
 	/// URLencoded version of the relative path to file
 	static public $fileweb;
-	
-	/// URLencoded version of the relative path to directory containing file
-	private $dir;
-	
-	/// Width of the image
-	private $x;
-	
-	/// Height of the image
-	private $y;
-
-	/// Force big image or not
-	private $t;
-	
+     
 	/**
 	 * Create Video
 	 *
@@ -47,11 +35,17 @@ class Video implements HTMLObject
 		}
 		
 		/// Check file type
-		if(!isset($file) || !File::Type($file) || File::Type($file) != "Video")
+		if(!isset($file) || !File::Type($file) || File::Type($file) != "Video") {
 			return;
+        }
 
+        
 		/// File object
 		$this->file = $file;
+		
+		/// Set relative path (url encoded)
+		$this->fileweb	=	urlencode(File::a2r($file));
+		
 	}
 	
 	/**
@@ -71,72 +65,56 @@ class Video implements HTMLObject
 	
 	
 	/**
-	 * Asyncrhonous Convert all Video format to video/webm
+	 * Asynchronous Convert all Video format to video/webm
 	 *   
 	 * Use ffmpeg for conversion
 	 * @return void
 	 * @author Cédric Levasseur
 	 */
-	public static function FastEncodeVideo($file) {
-	
-		/// Check item
-		if(!File::Type($file) || File::Type($file) != "Video"){
-			return;
-		}
-	
-		$basefile	= 	new File($file);
-		$basepath	=	File::a2r($file);	
-		$path_thumb_webm	=	File::Root().'/'.Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.'.webm';	
-		$path_thumb_jpg	=	File::Root().'/'.Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.'.jpg';	
-		
-		if(!file_exists($path_thumb_webm) || filectime($file) > filectime($path_thumb_webm)  ){
-			/// Create Folder
-			if(!file_exists(dirname($path_thumb_webm))){
-				@mkdir(dirname($path_thumb_webm),0755,true);
-			}
-		}
-		
-		if ($basefile->extension !="webm") {
-			if (!file_exists($path_thumb_webm)){
-				///Create Thumbnail jpg in  Thumbs folder
-				$u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$path_thumb_jpg.'"';
-				self::execInBackground($u);
-				///Convert video to webm format in Thumbs folder
-				$u=Settings::$ffmpeg_path.' -threads 4 -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$path_thumb_webm.'"';		
-				self::execInBackground($u);
-			}
-		} else {
-			//Create Thumbnail jpg in Thumbs folder
-			$u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$path_thumb_jpg.'"';
-			self::execInBackground($u);
-			///Copy original webm video to Thumbs folder
-			copy($file,$path_thumb_webm);
-		}
-	}
-	
-	public static function Video($file,$width='100%',$height='100%',$control=false){
-	
-		if( !Judge::view($file)){
-			return;
-		}
-		if(function_exists("error_reporting")){
-			error_reporting(0);
-		}
+    public static function FastEncodeVideo($file) {
 
-		/// Check item
-		if(!File::Type($file) || File::Type($file) != "Video"){
-			return;
-		}
-		
-		$basefile	= 	new File($file);
-		$basepath	=	File::a2r($file);	
-		$path_webm	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.'.webm';			
+        /// Check item
+        if(!File::Type($file) || File::Type($file) != "Video"){
+            return;
+        }
 
+        $basefile	     = new File($file);
+        $basepath	     = File::a2r($file);	
+        $thumb_path_webm = Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.'.webm';	
+        $thumb_path_jpg	 = Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.'.jpg';	
+
+
+        // Check if thumb folder exist
+        if(!file_exists(dirname($thumb_path_webm))){
+            @mkdir(dirname($thumb_path_webm),0755,true);
+        }
+
+        if (!file_exists($thumb_path_jpg) || filectime($file) > filectime($thumb_path_jpg)) {
+            //Create Thumbnail jpg in Thumbs folder
+            //TODO: taking 4 seconds within the video won't work for video >4s
+            $u=Settings::$ffmpeg_path.' -itsoffset -4  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 320x240 -y "'.$thumb_path_jpg.'"';
+            self::execInBackground($u);
+        }
+
+        if (!file_exists($thumb_path_webm) || filectime($file) > filectime($thumb_path_webm)){
+            if ($basefile->extension !="webm") {
+                ///Convert video to webm format in Thumbs folder
+                $u=Settings::$ffmpeg_path.' -threads 4 -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$thumb_path_webm.'"';		
+                self::execInBackground($u);
+            }
+            else {
+                ///Copy original webm video to Thumbs folder
+                copy($file,$thumb_path_webm);
+            }
+        }
+    }
+
+    public function VideoDiv($width='100%',$height='100%',$control=false){
 		$c = null;
-		Video::FastEncodeVideo($file);
+		Video::FastEncodeVideo($this->file);
 		$wh = ' height="'.$height.'" width="'.$width.'"';
 		if ($control) { $c = ' controls="controls"';}
-		echo '<video'.$wh.$c.'><source src="'.$path_webm.'" type="video/webm" /></video>';
+		echo '<video'.$wh.$c.'><source src="?t=Vid&f='.$this->fileweb.'" type="video/webm" /></video>';
 		//echo 'Webm Video Codec not found.Plaese up to date the brower or Download the codec <a href="http://tools.google.com/dlpage/webmmf">Download</a>';
 	}	
 	
@@ -147,7 +125,7 @@ class Video implements HTMLObject
 	 * @author Cédric Levasseur
 	 */
 	public function toHTML(){	
-	self::Video($this->file,'',400,true);
+        self::VideoDiv('',400,true);
 	}
 
 }
