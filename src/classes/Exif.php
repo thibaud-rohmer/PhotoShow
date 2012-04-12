@@ -68,16 +68,16 @@ class Exif implements HTMLObject
 		if(!File::Type($file) || File::Type($file) != "Image"){
 			return;
 		}
+		
+		/// No right to view
+		if(!Judge::view($file))
+			return;
 
 		/// No exif extension installed
 		if (!in_array("exif", get_loaded_extensions())) {
 			$infos['']="Exif extension is not installed on the server available";
 			return;
 		}
-		
-		/// No right to view
-		if(!Judge::view($file))
-			return;
 
 		/// Create wanted table
 		$this->init_wanted();
@@ -110,6 +110,7 @@ class Exif implements HTMLObject
 		$this->wanted['Focal Length'][]	=	'FocalLength';
 		$this->wanted['Aperture'][]		=	'ApertureValue';
 		$this->wanted['ISO'][]			=	'ISOSpeedRatings';
+		$this->wanted['Original Date'][]=	'DateTimeOriginal';
 	}
 	
 	/**
@@ -166,7 +167,8 @@ class Exif implements HTMLObject
 	private function parse_exif($d,$raw_exif){
 		
 		/// Values that don't need to be processed
-		$untouched=array('FileName','Model','Make','ISOSpeedRatings');
+        $untouched=array('FileName','Model','Make','ISOSpeedRatings',
+            'DateTimeOriginal', 'DateTimeDigitized', 'DateTime');
 		
 		/// If value doesn't need to be processed, return it
 		if(in_array($d,$untouched)) 
