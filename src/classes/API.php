@@ -141,17 +141,28 @@ class API
 	}
 
 	/**
-	 * Return image $img
+	 * Return image(s) $img
 	 */
 	public static function get_img($key,$img,$t='large'){
-		$i=File::r2a($img);
-		if(Judge::view($i)){
-			switch($t){
-				case("thumb"):	return file_get_contents(Provider::thumb($i));
-				case("small"):	return file_get_contents(Provider::small($i));
-				case("large"):
-				default:
-								return file_get_contents($i);
+		if(is_array($img)){
+			$res = array();
+			foreach($img as $i){
+				$p = get_img($key,$i,$t);
+				if(isset($p)){
+					$res[] = $p;
+				}
+			}
+			return $res;
+		}else{
+			$i=File::r2a($img);
+			if(Judge::view($i)){
+				switch($t){
+					case("thumb"):	return file_get_contents(Provider::thumb($i));
+					case("small"):	return file_get_contents(Provider::small($i));
+					case("large"):
+					default:
+							return file_get_contents($i);
+				}
 			}
 		}
 	}
