@@ -99,6 +99,7 @@ class Cleaning
 
             if (empty($files)){
                 error_log("ERROR/Cleaning::PerformClean: no file found for job ".$jobfilename.", deleting\n");
+                unlink(Settings::$thumbs_dir.'/'.$jobfilename);
                 continue;
             }
 
