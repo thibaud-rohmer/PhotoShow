@@ -198,7 +198,7 @@ class Video implements HTMLObject
                 if ($file_file->extension !="webm") {
                     ///Convert video to webm format in Thumbs folder
                     //TODO: Max job limit
-                    $u = Settings::$ffmpeg_path.' -threads 4 -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$thumb_path_webm.'"';		
+                    $u = Settings::$ffmpeg_path.' -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$thumb_path_webm.'"';		
                     $pid = self::ExecInBackground($u);
                     self::CreateJob($file, $pid);
                 }
