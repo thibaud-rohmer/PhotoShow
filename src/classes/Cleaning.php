@@ -68,19 +68,17 @@ class Cleaning
         }
 
         //TODO Windows
+        // Clean Old thumbnails
         exec("cd ".Settings::$thumbs_dir." && find . -type f -iregex '.*[^\(xml\)\(job\)]$' 2>&1", $output, $ret_var);
 
         if ($ret_var != 0) {
             error_log("ERROR/Cleaning::PerformClean: Execution failed: ".print_r($output));
         }
 
-        $count = 0;
         foreach ($output as $file) {
             if (!file_exists(Settings::$photos_dir.'/'.$file) ){
                 error_log('DEBUG/Cleaning::PerformClean: erase '.Settings::$thumbs_dir.'/'.$file."\n");
-                if (unlink(Settings::$thumbs_dir.'/'.$file)){
-                    $count++;
-                }
+                unlink(Settings::$thumbs_dir.'/'.$file);
             }
         }
 
@@ -105,11 +103,19 @@ class Cleaning
             }
 
             //error_log('DEBUG/Cleaning::PerformClean: calling NoJob with '.$files[0]."\n");
-            if (Video::NoJob($files[0])){
-                $count++;
-            }
+            Video::NoJob($files[0]);
         }
 
+        // Finally clean empty files
+        unset($output); unset($ret_var);
+        exec("cd ".Settings::$thumbs_dir." && find . -size 0b 2>&1", $output, $ret_var);
+        if ($ret_var != 0) {
+            error_log("ERROR/Cleaning::PerformClean: Execution failed: ".print_r($output));
+            return;
+        }
+        foreach ($output as $emptyfile) {
+            unlink(Settings::$thumbs_dir.'/'.$emptyfile);
+        }
     }
 }
 ?>
