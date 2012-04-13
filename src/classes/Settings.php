@@ -388,11 +388,13 @@ class Settings extends Page
 			echo "<label><input type='checkbox' name='like'>".Settings::_("settings","fb")."</label>\n";
 		}
 
+        /*
 		if(Settings::$plusone){
 			echo "<label><input type='checkbox' name='plusone' checked>".Settings::_("settings","plusone")."</label>\n";
 		}else{
 			echo "<label><input type='checkbox' name='plusone'>".Settings::_("settings","plusone")."</label>\n";
 		}
+         */
 
 		echo "</div></fieldset>\n";
 
