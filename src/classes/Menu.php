@@ -156,6 +156,11 @@ class Menu implements HTMLObject
 			
 		/// Directory content
 		$dir_content = scandir($dir);
+
+        if (empty($dir_content)){
+            // Directory is empty or no right to read
+            return $list;
+        }
 		
 		/// Check each content
 		foreach ($dir_content as $content){
@@ -195,6 +200,11 @@ class Menu implements HTMLObject
 			
 		/// Directory content
 		$dir_content = scandir($dir);
+
+        if (empty($dir_content)){
+            // Directory is empty or no right to read
+            return $list;
+        }
 		
 		/// Check each content
 		foreach ($dir_content as $content){
