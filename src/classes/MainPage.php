@@ -135,10 +135,10 @@ class MainPage extends Page
 
 		$this->menu->toHTML();
 
+		echo "</div>\n";
 		if(CurrentUser::$admin || CurrentUser::$uploader){
 			echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 		}
-		echo "</div>\n";
 		/// Stop menu
 
 
