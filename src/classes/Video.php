@@ -137,6 +137,14 @@ class Video implements HTMLObject
         $orig_y = intval($dimensions_array[1]);
         //error_log('DEBUG/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
 
+        //If for some reason ffmpeg cannot get the dimension
+        if ($orig_x == 0 || $orig_y == 0){
+            error_log('ERROR/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
+            $orig_x = 320;
+            $orig_y = 240;
+        }
+
+
         $dimensions = array( 'x' => $orig_x, 'y' => $orig_y );
 
         if ($x != 0){// wants to know y for the given x
