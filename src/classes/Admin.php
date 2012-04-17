@@ -120,6 +120,15 @@
 		 		case "Sta"		:	$this->page = new AdminStats();
 		 							break;
 
+		 		case "VTk"		:	$this->page = new GuestToken();
+		 							break;
+
+				case "DTk" 		:	if(isset($_POST['tokenkey'])){
+										GuestToken::delete($_POST['tokenkey']);
+									}
+									$this->page = new GuestToken();
+									break;
+
 		 		case "Acc"		:	if(isset($_POST['edit'])){
 										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email'],NULL,$_POST['language']);
 									}

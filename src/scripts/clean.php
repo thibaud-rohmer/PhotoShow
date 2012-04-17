@@ -60,3 +60,4 @@ foreach ( $toinclude as $class_file ){
 
 // Perform the cleaning
 Cleaning::PerformClean();
+?>

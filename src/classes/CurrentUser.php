@@ -47,6 +47,9 @@ class CurrentUser
 {
 	///	Current user account
 	public static $account;
+    
+	///	Current user guest token
+	public static $token;
 
 	/// Bool : true if current user is an admin
 	public static $admin;
@@ -69,6 +72,9 @@ class CurrentUser
 	/// File containing groups info
 	static public $groups_file;
 
+	/// File containing tokens info
+	static public $tokens_file;
+
 	/// Is this a JS query ?
 	static public $js = false;
 
@@ -83,6 +89,8 @@ class CurrentUser
 
 		CurrentUser::$groups_file	=	Settings::$conf_dir."/groups.xml";
 
+		CurrentUser::$tokens_file	=	Settings::$conf_dir."/guest_tokens.xml";
+
 		if(isset($_GET['login']) && isset($_GET['pass'])){
 			try{
 				CurrentUser::login(stripslashes($_GET['login']),stripslashes($_GET['pass']));
@@ -90,6 +98,19 @@ class CurrentUser
 
 			}
 		}
+
+        if(isset($_GET['token'])){
+            $token = $_GET['token'];
+            if (GuestToken::exist($token)){
+                if (isset($_SESSION['login']) || isset(CurrentUser::$account)){
+                    CurrentUser::logout();
+                }
+                CurrentUser::$token = $token;
+                $_SESSION['token'] = CurrentUser::$token;
+            }
+        } elseif (isset($_SESSION['token'])){
+            CurrentUser::$token = $_SESSION['token'];
+        }
 
 		/// Set path
 		if(isset($_GET['f'])){
@@ -121,6 +142,8 @@ class CurrentUser
 			self::$admin = in_array("root", $groups);
 			self::$uploader = in_array("uploaders", $groups);
 			Settings::set_lang(self::$account->language);
+
+            $_SESSION['token'] = "";
 
 		}
 
@@ -187,6 +210,10 @@ class CurrentUser
 								break;
 
 				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups'],true);
+								CurrentUser::$action = "Judge";
+								break;
+
+                case "CTk"	:	GuestToken::create(CurrentUser::$path);
 								CurrentUser::$action = "Judge";
 								break;
 
@@ -262,6 +289,7 @@ class CurrentUser
 		if(Account::password($password) == $acc->password){
 			$_SESSION['login']		=	$login;
 			CurrentUser::$account	=	$acc;
+            $_SESSION['token']      =   NULL;
 		}else{
 			// Wrong password
 			return false;
@@ -295,6 +323,7 @@ class CurrentUser
 
 		CurrentUser::$account = $acc;
 		$_SESSION['login']		=	$acc->login;
+		$_SESSION['token']		=	"";
 
 		if(in_array('root',$acc->groups)){
 			CurrentUser::$admin = true;
@@ -314,6 +343,7 @@ class CurrentUser
 	 */
 	public static function logout(){
 		CurrentUser::$account	= NULL;
+		CurrentUser::$token 	= NULL;
 		CurrentUser::$admin 	= false;
 		CurrentUser::$uploader 	= false;
 		session_unset();

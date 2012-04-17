@@ -337,20 +337,15 @@ class Account extends Page
 		$xml_infos 	=	CurrentUser::$accounts_file;
 		$xml		=	simplexml_load_file($xml_infos);
 		
-		$i=-1;
-		$found = false;
+		$i=0;
 		foreach( $xml as $acc ){
-			$i++;
 			if((string)$acc->login == $login){
-				$found = true;
-				continue;
+                unset($xml->account[$i]);
+                break;
 			}
+            $i++;
 		}
 		
-		if($found){
-			unset($xml->account[$i]);
-		}
-
 		$xml->asXML($xml_infos);
 	}
 

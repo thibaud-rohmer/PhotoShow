@@ -270,9 +270,13 @@ div#commentsblock{
 	width:800px;
 }
 
+div#tokensblock{
+	width:800px;
+}
+
 div.adminblock{
 	width:				375px;
-	margin:				25px;
+	margin:				20px;
 	float:				left;
 	background:			#333;
 	box-shadow:			0 3px 6px black;
