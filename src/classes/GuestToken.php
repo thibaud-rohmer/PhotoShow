@@ -1,0 +1,331 @@
+<?php
+/**
+ * This file implements the class Guest Token
+ * 
+ * PHP versions 4 and 5
+ *
+ * LICENSE:
+ * 
+ * This file is part of PhotoShow.
+ *
+ * PhotoShow is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * PhotoShow is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with PhotoShow.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package	  PhotoShow
+ * @category  Website
+ * @author	  Franck Royer <royer.franck@gmail.com>
+ * @author	  Franck Royer <thibaud.rohmer@gmail.com>
+ * @copyright 2012 Franck Royer
+ * @license	  http://www.gnu.org/licenses/
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
+ */
+
+/**
+ * Account
+ *
+ * Implements functions to work with a Guest Token (or key)
+ * Read the account from the Guest Token XML file,
+ * edit it, and save it.
+ * 
+ * 
+ * @package	  PhotoShow
+ * @category  Website
+ * @author	  Franck Royer <royer.franck@gmail.com>
+ * @author	  Thibaud Rohmer <thibaud.rohmer@gmail.com>
+ * @copyright Thibaud Rohmer
+ * @license	  http://www.gnu.org/licenses/
+ * @link	  http://github.com/thibaud-rohmer/PhotoShow
+ */
+class GuestToken extends Page
+{
+    /// Value of the key
+    public $key;
+
+    /// Path this key allows access to
+    public $path;
+
+    public function __construct(){}
+
+    /**
+     * Creates a new token in the base
+     *
+     * @param string $key 
+     * @param array  $path 
+     * @author Franck Royer
+     */ 
+        public static function create($path, $key = NULL){
+
+            // A token with no path is useless
+            // Only admin can create a token for now
+            if(!isset($path) || !CurrentUser::$admin){
+                return false;
+            }
+
+            if (!isset($key)){
+                $key = self::generate_key();
+            }
+
+            if (self::exist($key)){
+                error_log("ERROR/GuestToken: Key ".$key." already exist, aborting creation");
+                return false;
+            }
+
+            if(!file_exists(CurrentUser::$tokens_file) || sizeof(self::findAll()) == 0 ){
+                // Create file
+                $xml	=	new SimpleXMLElement('<tokens></tokens>');
+                $xml->asXML(CurrentUser::$tokens_file);
+            }
+
+            // I like big keys
+            if( strlen($key) < 10){
+                return false;
+            }
+
+            $token			=	new GuestToken();
+            $token->key     =   $key;
+            $token->path	=	File::a2r($path);
+            $token->save();
+            return true;
+        }
+
+    /**
+     * Save token in the base
+     *
+     * @return void
+     * @author Franck Royer
+     */
+    public function save(){
+        // For now we do not allow an edit on tokens
+
+        $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
+
+        if (self::exist($this->key)){
+            //We cannot change an existing key
+            return false;
+        }
+
+        $xml_token=$xml->addChild('token');
+        $xml_token->addChild('key' ,$this->key);
+        $xml_token->addChild('path' ,$this->path);
+
+        // Saving into file
+        $xml->asXML(CurrentUser::$tokens_file);
+    }
+
+    /**
+     * Delete a token
+     *
+     * @param string $key 
+     * @return void
+     * @author Franck Royer
+     */
+    public static function delete($key){
+        if (!CurrentUser::$admin){
+            // Only admin can delete the tokens for now
+            return false;
+        }
+
+        $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
+
+        $i=0;
+        $found = false;
+        foreach( $xml as $tk ){
+            if((string)$tk->key == $key){
+                unset($xml->token[$i]);
+                break;
+            }
+            $i++;
+        }
+
+        $xml->asXML(CurrentUser::$tokens_file);
+    }
+
+    /**
+     * Check if a token already exists
+     *
+     * @param string $key
+     * @return bool
+     * @author Franck Royer
+     */
+    public static function exist($key){
+
+        // Check if the accounts file exists
+        if(!file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
+        $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
+
+        foreach( $xml as $token ){
+            if((string)$token->key == (string)$key)
+                return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Returns an array containing all tokens
+     *
+     * @return array $tokens
+     * @author Franck Royer
+     */
+    public static function findAll(){
+        $tokens	=	array();
+
+        $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
+
+        foreach( $xml as $token ){
+            $new_token=array();
+
+            $new_token['key']	= $token->key;
+            $new_token['path']	= $token->path;
+
+            $tokens[]=$new_token;
+        }
+        return $tokens;
+    }
+
+    /**
+     * Returns an array containing all tokens
+     * which has access to the given path
+     *
+     * @param string $path
+     * @return array $tokens
+     * @author Franck Royer
+     */
+    public static function find_for_path($path){
+        $tokens	=	array();
+
+        foreach( self::findAll() as $token ){
+            if (self::view($token['key'], $path)){
+                $tokens[]=$token;
+            }
+        }
+        return $tokens;
+    }
+
+    /**
+     * Returns the allowed path of a guest token
+     *
+     * @param string $key 
+     * @return path
+     * @author Franck Royer
+     */
+    public static function get_path($key){
+        $path = "";
+        $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
+
+        foreach( self::findAll() as $token ){
+            if((string)$token['key'] == (string)$key){
+                $path = $token['path'];
+                break;
+            }
+        }
+
+        return $path;
+    }
+
+    /**
+     * Returns the url to use a token
+     * 
+     * @param string $key 
+     * @return path
+     * @author Franck Royer
+     */
+    public static function get_url($key){
+        $url = "";
+
+        if (self::exist($key)){
+            $url = Settings::$site_address."?f=".urlencode(self::get_path($key))."&token=".$key;
+        }
+
+        return $url;
+    }
+
+    /**
+     * Returns true if the token is allowed to view the file
+     * in the given path
+     *
+     * @param string $key
+     * @param string $path
+     * $return bool
+     * @author Franck Royer
+     */
+    public static function view($key,$path){
+        $rpath = File::a2r($path);
+        $apath = self::get_path($key);
+
+        if (!$apath || !$rpath){
+            return false;
+        }
+
+        if(preg_match("/^".preg_quote($apath, '/')."/", $rpath)){
+            return true;
+        }
+        return false;
+
+    }
+
+
+    /**
+     * Generate a new key
+     *
+     * @return generated key
+     * @author Franck Royer
+     */
+    public static function generate_key(){
+        $key = sha1(uniqid(rand(), true));
+        return $key;
+    }
+
+
+    /**
+     * Display a list of existing tokens
+     * 
+     */
+    public function toHTML(){
+        if (!CurrentUser::$admin){
+            // Only admin can see the tokens for now
+            return false;
+        }
+        echo "<div id='tokensblock' class='adminblock'>";
+        echo "<h3>".Settings::_("token","tokens")."</h3>\n";
+        echo "<div>";
+
+        foreach(self::findAll() as $t){
+            echo "<table>";
+            echo "<tbody>";
+            echo "<tr>";
+            echo "<td>".$t['key']."</td>";
+            echo "<td>";
+            echo "<form action='?t=Adm&a=DTk' method='post'>\n";
+            echo "<input type='hidden' name='tokenkey' value='".$t['key']."' />";
+            echo "<input type='submit' class='button blue' value='".Settings::_("token","deletetoken")."' />";
+            echo "</form>";
+            echo "</td>";
+            echo "</tr>";
+
+            echo "<tr><td>".$t['path']."</td></tr>\n";
+            echo "<tr><td><a href='".self::get_url($t['key'])."' >".self::get_url($t['key'])."</a></td></tr>\n";
+
+        }
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>";
+        echo "</div>";
+    }
+
+}
+
+?>

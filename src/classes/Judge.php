@@ -300,7 +300,7 @@ class Judge
 	public static function view($f){
 		
 		// Check if user has an account		
-		if(!isset(CurrentUser::$account)){
+		if(!isset(CurrentUser::$account) && !isset(CurrentUser::$token)){
 			// User is not logged in
 			$judge	=	new Judge($f);
 			return($judge->public);
@@ -321,15 +321,25 @@ class Judge
 			return true;
 		}
 
-		// User allowed
-		if(in_array(CurrentUser::$account->login,$judge->users))
-			return true;
-			
-		// User in allowed group
-		foreach(CurrentUser::$account->groups as $group){
-			if(in_array($group,$judge->groups))
-				return true;
-		}
+        if (isset(CurrentUser::$account)){
+            // User allowed
+            if(in_array(CurrentUser::$account->login,$judge->users)){
+                return true;
+            }
+
+            // User in allowed group
+            foreach(CurrentUser::$account->groups as $group){
+                if(in_array($group,$judge->groups)){
+                    return true;
+                }
+            }
+        }
+        if (isset(CurrentUser::$token)){
+            if (GuestToken::view(CurrentUser::$token,$f)){
+                return true;
+            }
+        }
+        
 		return false;
 	}
 
@@ -406,6 +416,16 @@ class Judge
 
 		echo "</br><input type='submit' class='button blue' value='".Settings::_("judge","set")."'>\n";
 		echo "</form>\n";
+        
+        // Token creation
+        echo "<h3>".Settings::_("token","tokens")."</h3>\n";
+        foreach(GuestToken::find_for_path($this->file) as $token){
+            echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
+        }
+        echo "<form action='?t=CTk&f=$this->webpath' method='post'>\n";
+        echo "<input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' />";
+        echo "</form>";
+
 		echo "</div>\n";
 	}
 

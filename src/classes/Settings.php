@@ -208,20 +208,25 @@ class Settings extends Page
 			}
 
             if ($admin_settings['site_address']){
-                Settings::$site_address	=	$admin_settings['site_address'];
+                Settings::$site_address = $admin_settings['site_address'];
             }else{
                 Settings::$site_address	= "http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+            }
+
+            // Formatting the address so we can directly append "?t=..." to it without worry
+            if (!preg_match("/ndex.php$/", Settings::$site_address) && !preg_match("/.*\/$/", Settings::$site_address)){
+                Settings::$site_address	=	Settings::$site_address."/";
             }
 
 			Settings::$like 		=	isset($admin_settings['like']);
 			Settings::$plusone 		=	isset($admin_settings['plusone']);
 			Settings::$noregister	=	isset($admin_settings['noregister']);
-			Settings::$forcehttps     =   isset($admin_settings['forcehttps']);
+			Settings::$forcehttps   =   isset($admin_settings['forcehttps']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
-			Settings::$hide_menu	 =	isset($admin_settings['hide_menu']);
+			Settings::$hide_menu    =   isset($admin_settings['hide_menu']);
 			Settings::$hide_infos	=	isset($admin_settings['hide_infos']);			
 
 			if(isset($admin_settings['max_comments'])){

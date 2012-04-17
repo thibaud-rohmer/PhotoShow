@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the cleaning script
+ * This file implements tools for unit tests
  * 
  * PHP versions 4 and 5
  *
@@ -30,34 +30,44 @@
  */
 
 /**
- * Clean
+ * Unit test tools
  *
- * Your config.php file is read and thumbnails and job get cleaned
- * call the script on the command line or in cron job:
- * > php <path_to_clean.php>
- * The folder from which you call the script does not matter
+ * I used that for some debug. It's incomplete and I guess
+ * It would be better to have a proper framework for unit 
+ * test on PHP website. Anyway, it does not harm anyone for now
  *
  * @category  Website
  * @package   Photoshow
  * @license   http://www.gnu.org/licenses/
  */
 
-// Include class files
-$toinclude = array( realpath(dirname(__FILE__)."/../classes/HTMLObject.php"),
-    realpath(dirname(__FILE__)."/../classes/Page.php"),
-    realpath(dirname(__FILE__)."/../classes/Video.php"),
-    realpath(dirname(__FILE__)."/../classes/File.php"),
-    realpath(dirname(__FILE__)."/../classes/Cleaning.php"),
-    realpath(dirname(__FILE__)."/../classes/Settings.php")
-);
+class UnitTest extends PHPUnit_Framework_TestCase
+{
 
-foreach ( $toinclude as $class_file ){
-    if(!include($class_file)){
-        throw new Exception("Cannot find ".$class_file." file");
+    /**
+     * constructor
+     */
+    function __construct(){
+        parent::__construct();
+        set_include_path(realpath(dirname(__FILE__)."/../classes/"));
     }
+
+    /**
+     * To login as admin for tests needing it
+     * 
+     */
+    public function login_as_admin(){
+        //Make Current User admin
+    }
+
+    /**
+     * Functions used to setup the environment for other tests
+     *
+     */
+    public function init_config(){
+        //Somehow setup a config.ini and init
+        //some temporary folders that can be used for testing
+    }
+
 }
-
-
-// Perform the cleaning
-Cleaning::PerformClean();
 ?>
