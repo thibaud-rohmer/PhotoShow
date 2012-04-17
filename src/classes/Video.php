@@ -126,7 +126,7 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Video', $output);
+        exec(Settings::$ffmpeg_path." -i ".$file." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
         $line = $output[0];
         preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
         $match = $matches[0];
