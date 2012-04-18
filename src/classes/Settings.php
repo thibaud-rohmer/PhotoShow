@@ -61,13 +61,13 @@ class Settings extends Page
 	/**** Admin Settings ****/
 
 	/// Website name
-	static public $name 		=	"PhotoShow";
+	static public $name			=	"PhotoShow";
 
 	/// Website root address
-	static public $site_address	=   "";
+	static public $site_address	=	"";
 
 	/// Display Facebook button
-	static public $like 		=	false;
+	static public $like			=	false;
 
 	/// Facebook app id (optional for facebook button)
 	static public $fbappid 		=	"";
@@ -78,11 +78,14 @@ class Settings extends Page
 	/// Remove comments button
 	static public $nocomments 	=	false;
 
+	/// Remove anonymous comments button
+	static public $anonymouscomments 	=	false;
+
 	/// Remove registering options
 	static public $noregister	=	false;
     
 	/// Force https on login/register screens
-	static public $forcehttps	    =	false;
+	static public $forcehttps	=	false;
 
 	/// Remove download options
 	static public $nodownload	=	false;
@@ -94,16 +97,16 @@ class Settings extends Page
 	static public $max_img_dir	=	5;
 
 	/// Reverse menu order
-	static public $reverse_menu = 	false;
+	static public $reverse_menu =	false;
 	
 	// Hidden Menu
-	static public $hide_menu = false;
+	static public $hide_menu 	=	false;
 	
 	//Hidden Infos Bar
-	static public $hide_infos = false;
+	static public $hide_infos 	=	false;
 
 	/// Selected localization
-	static private $loc 			=	"default";
+	static private $loc			=	"default";
 
 	/// Default localization
 	static private $loc_default	=	array();
@@ -123,7 +126,7 @@ class Settings extends Page
 	static private $locpath 	=	array();
 
 	/// Available localizations
-	static public $ava_loc 	=	array();
+	static public $ava_loc		=	array();
 	
 	/*** Video ***/
 	
@@ -131,7 +134,7 @@ class Settings extends Page
 	static public $encode_video	=	false;
 	
 	/// FFMPEg path (unix : /usr/bin/ffmpeg or win : c:\ffmpeg.exe)
-	static public $ffmpeg_path 		=	"/usr/bin/ffmpeg";
+	static public $ffmpeg_path 	=	"/usr/bin/ffmpeg";
 	
 	///FFMPEG Option
 	static public $ffmpeg_option	=	"-threads 4 -qmax 40 -acodec libvorbis -ab 128k -ar 41000 -vcodec libvpx";	
@@ -213,15 +216,16 @@ class Settings extends Page
                 Settings::$site_address	= "http://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
             }
 
-			Settings::$like 		=	isset($admin_settings['like']);
-			Settings::$plusone 		=	isset($admin_settings['plusone']);
+			Settings::$like			=	isset($admin_settings['like']);
+			Settings::$plusone		=	isset($admin_settings['plusone']);
 			Settings::$noregister	=	isset($admin_settings['noregister']);
-			Settings::$forcehttps     =   isset($admin_settings['forcehttps']);
+			Settings::$forcehttps	=   isset($admin_settings['forcehttps']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
+			Settings::$anonymouscomments	=	isset($admin_settings['anonymouscomments']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
-			Settings::$l33t 		=	isset($admin_settings['l33t']);
+			Settings::$l33t			=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
-			Settings::$hide_menu	 =	isset($admin_settings['hide_menu']);
+			Settings::$hide_menu 	=	isset($admin_settings['hide_menu']);
 			Settings::$hide_infos	=	isset($admin_settings['hide_infos']);			
 
 			if(isset($admin_settings['max_comments'])){
@@ -326,6 +330,7 @@ class Settings extends Page
             "noregister",
             "forcehttps",
             "nocomments",
+            "anonymouscomments",
             "nodownload",
             "max_img_dir",
             "loc",
@@ -417,9 +422,14 @@ class Settings extends Page
 
 		echo "<fieldset><span>".Settings::_("settings","comment")."</span><div class='buttondiv'>\n";
 		if(Settings::$nocomments){
-			echo "<label><input type='checkbox' name='nocomments' checked>".Settings::_("settings","nocomment")."</label>\n";
+			echo "<label><input type='checkbox' name='nocomments' checked>".Settings::_("settings","nocomments")."</label>\n";
 		}else{
-			echo "<label><input type='checkbox' name='nocomments'>".Settings::_("settings","nocomment")."</label>\n";
+			echo "<label><input type='checkbox' name='nocomments'>".Settings::_("settings","nocomments")."</label>\n";
+		}
+		if(Settings::$anonymouscomments){
+			echo "<label><input type='checkbox' name='anonymouscomments' checked>".Settings::_("settings","anonymouscomments")."</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='anonymouscomments'>".Settings::_("settings","anonymouscomments")."</label>\n";
 		}
 		echo "</div></fieldset>\n";
 

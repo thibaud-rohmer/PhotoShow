@@ -230,26 +230,32 @@ class Comments implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){	
+	public function toHTML(){
 		echo '<h2>'.Settings::_("comments","comments").'</h2>';
 
 		echo "<div class='display_comments'>";	
-		/// Display each comment
-		foreach($this->comments as $com){
-			$com->toHTML();
+		
+		if (count($this->comments) > 0) {
+			/// Display each comment
+			foreach($this->comments as $com){
+				$com->toHTML();
+			}
+		}else {
+			echo Settings::_("comments","nocomment");
 		}
 		echo "</div>";
 		
-		echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'><fieldset class='transparent'>\n";
-			if(isset(CurrentUser::$account)){
-				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";			
-			}else{
-				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".Settings::_("comments","anonymous")."'></fieldset>\n";					
-			}
-			echo "<textarea name='content' id='content'></textarea>\n";
-			echo "<input type='submit' value='".Settings::_("comments","submit")."'></fieldset>\n";
-		echo "</form>\n";	
-		
+		if(isset(CurrentUser::$account) || Settings::$anonymouscomments){
+			echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'><fieldset class='transparent'>\n<fieldset><input type='text' class='visible' name='login' id='login' value='";
+				if(isset(CurrentUser::$account)){
+					echo htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8');			
+				}else{
+					echo Settings::_("comments","anonymous");					
+				}
+				echo "' readonly></fieldset>\n<textarea name='content' id='content'></textarea>\n";
+				echo "<input type='submit' value='".Settings::_("comments","submit")."'></fieldset>\n";
+			echo "</form>\n";
+		}
 	}
 }
 
