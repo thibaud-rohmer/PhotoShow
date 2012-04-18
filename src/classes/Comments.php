@@ -113,13 +113,12 @@ class Comments implements HTMLObject
 		if($content == ""){
 			return;
 		}
-
-		if($login == ""){
-			if(isset(CurrentUser::$account)){
-				$login = CurrentUser::$account->login;
-			}else{
-				$login = Settings::_("comments","anonymous");
-			}
+		
+		/// find login
+		if(isset(CurrentUser::$account)){
+			$login = CurrentUser::$account->login;
+		}else{
+			$login = Settings::_("comments","anonymous");
 		}
 
 		/// Get existing comments
