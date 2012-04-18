@@ -1,0 +1,10 @@
+<phpunit>
+    <php>
+        <includePath>.</includePath>
+    </php>
+    <testsuites>
+        <testsuite name="PhotoShow">
+            <file>GuestTokenTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>

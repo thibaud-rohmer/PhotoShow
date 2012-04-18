@@ -1,6 +1,6 @@
 <?php
 /**
- * This file implements the cleaning script
+ * This file implements unit tests for GuestToken class
  * 
  * PHP versions 4 and 5
  *
@@ -30,34 +30,52 @@
  */
 
 /**
- * Clean
+ * Unit test Guest Token
  *
- * Your config.php file is read and thumbnails and job get cleaned
- * call the script on the command line or in cron job:
- * > php <path_to_clean.php>
- * The folder from which you call the script does not matter
+ * I used that for some debug. It's incomplete and I guess
+ * It would be better to have a proper framework for unit 
+ * test on PHP website. Anyway, it does not harm anyone for now
  *
  * @category  Website
  * @package   Photoshow
  * @license   http://www.gnu.org/licenses/
  */
 
-// Include class files
-$toinclude = array( realpath(dirname(__FILE__)."/../classes/HTMLObject.php"),
-    realpath(dirname(__FILE__)."/../classes/Page.php"),
-    realpath(dirname(__FILE__)."/../classes/Video.php"),
-    realpath(dirname(__FILE__)."/../classes/File.php"),
-    realpath(dirname(__FILE__)."/../classes/Cleaning.php"),
-    realpath(dirname(__FILE__)."/../classes/Settings.php")
-);
+class GuestTokenTest extends UnitTest
+{
 
-foreach ( $toinclude as $class_file ){
-    if(!include($class_file)){
-        throw new Exception("Cannot find ".$class_file." file");
+    /**
+     * Test if keys are generated
+     * @test
+     */
+    public function test_generate_key()
+    {
+        $key = GuestToken::generate_key();
+        $this->assertGreaterThan(strlen($key.size()), 10);
     }
+
+    /**
+     * Quick test on the randomness of the keys
+     * @test
+     * @depends test_generate_key
+     */
+    public function test_generate_key_random()
+    {
+        $key1 = GuestToken::generate_key();
+        $key2 = GuestToken::generate_key();
+        $this->assertNotEquals($key1, $key2);
+    }
+
+    /**
+     * Verify toHTML gives an output
+     * @test
+     */
+    public function test_toHTML()
+    {
+        $this->expectOutputRegex("/^<div.+>.+</div>/");
+        $guest_token = new GuestToken();
+        $guest_token->toHTML();
+    }
+
 }
-
-
-// Perform the cleaning
-Cleaning::PerformClean();
 ?>

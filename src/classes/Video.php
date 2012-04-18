@@ -126,7 +126,7 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Video', $output);
+        exec(Settings::$ffmpeg_path." -i ".$file." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
         $line = $output[0];
         preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
         $match = $matches[0];
@@ -136,6 +136,14 @@ class Video implements HTMLObject
         $orig_x = intval($dimensions_array[0]);
         $orig_y = intval($dimensions_array[1]);
         //error_log('DEBUG/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
+
+        //If for some reason ffmpeg cannot get the dimension
+        if ($orig_x == 0 || $orig_y == 0){
+            error_log('ERROR/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
+            $orig_x = 320;
+            $orig_y = 240;
+        }
+
 
         $dimensions = array( 'x' => $orig_x, 'y' => $orig_y );
 
