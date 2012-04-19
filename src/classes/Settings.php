@@ -149,10 +149,11 @@ class Settings extends Page
 	 * Read the settings in the files.
 	 * If a settings file is missing, raise an exception.
 	 *
+     * @param string $config_file (for testing purpose only)
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	static public function init($forced = false){
+	static public function init($forced = false, $config_file = NULL){
 
 		/// Settings already created
 		if(Settings::$photos_dir !== NULL && !$forced) return;
@@ -162,7 +163,9 @@ class Settings extends Page
         $config->timezone = "Europe/Paris";
 
 		/// Load config.php file 
-		$config_file		=	realpath(dirname(__FILE__)."/../../config.php");
+        if (!isset($config_file)){
+            $config_file		=	realpath(dirname(__FILE__)."/../../config.php");
+        }
 		if(!include($config_file)){
 			throw new Exception("You need to create a configuration file.");
 		}

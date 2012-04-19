@@ -1,10 +1,11 @@
 <phpunit>
     <php>
         <includePath>.</includePath>
+        <includePath>../classes/</includePath>
     </php>
     <testsuites>
         <testsuite name="PhotoShow">
-            <file>GuestTokenTest.php</file>
+            <directory>.</directory>
         </testsuite>
     </testsuites>
 </phpunit>

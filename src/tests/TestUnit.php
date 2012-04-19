@@ -59,7 +59,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
     {
         parent::__construct();
         self::include_all();
-        $this->config_file = realpath(dirname(__FILE__)."/config.php");
+        $this->config_file = realpath(dirname(__FILE__)."/test_config.php");
         self::prepare_files();
         self::init_config();
         self::create_accounts();

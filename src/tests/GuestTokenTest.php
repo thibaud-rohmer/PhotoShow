@@ -41,17 +41,19 @@
  * @license   http://www.gnu.org/licenses/
  */
 
-class GuestTokenTest extends UnitTest
+require_once(realpath(dirname(__FILE__)."/TestUnit.php"));
+class GuestTokenTest extends TestUnit
 {
 
     /**
      * Test if keys are generated
      * @test
+     * @author Franck Royer
      */
     public function test_generate_key()
     {
         $key = GuestToken::generate_key();
-        $this->assertGreaterThan(strlen($key.size()), 10);
+        $this->assertGreaterThan(10, strlen($key));
     }
 
     /**
@@ -72,7 +74,10 @@ class GuestTokenTest extends UnitTest
      */
     public function test_toHTML()
     {
-        $this->expectOutputRegex("/^<div.+>.+</div>/");
+        self::login_as_admin();
+        self::create_token();
+
+        $this->expectOutputRegex("/..*/");
         $guest_token = new GuestToken();
         $guest_token->toHTML();
     }
