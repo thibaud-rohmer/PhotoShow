@@ -46,31 +46,22 @@ class CurrentUserTest extends TestUnit
 {
 
     /**
-     * Test login
+     * Test login & logout
      * @test
      */
-    public function test_login(){
-		session_unset();
-        CurrentUser::logout();
-        self::login_as_user();
+    public function test_login_logout(){
+
+        CurrentUser::login("testuser", "testpassword");
 
         $this->assertEquals("testuser", $_SESSION['login']);
         $this->assertNull($_SESSION['token']);
         $this->assertNotNull(CurrentUser::$account);
+        $this->assertEquals("testuser", CurrentUser::$account->login);
         $this->assertFalse(CurrentUser::$admin);
-    }
 
-    /**
-     * Test logout
-     * @test
-     * @depends test_login
-     */
-    public function test_logout(){
-		session_unset();
-        self::login_as_user();
         CurrentUser::logout();
-
-        //TODO: I guess we need to read the doc to use phpunit, _SESSION and session_unset()
+        
+        //TODO: Failure because I do require_once. Autoload may solve the issue
         $this->assertNull($_SESSION['login']);
         $this->assertNull(CurrentUser::$account);
         $this->assertNull($_SESSION['token']);
