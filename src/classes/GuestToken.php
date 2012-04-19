@@ -54,7 +54,8 @@ class GuestToken extends Page
     /// Path this key allows access to
     public $path;
 
-    public function __construct(){}
+    public function __construct(){
+    }
 
     /**
      * Creates a new token in the base
@@ -63,40 +64,40 @@ class GuestToken extends Page
      * @param array  $path 
      * @author Franck Royer
      */ 
-        public static function create($path, $key = NULL){
+    public static function create($path, $key = NULL){
 
-            // A token with no path is useless
-            // Only admin can create a token for now
-            if(!isset($path) || !CurrentUser::$admin){
-                return false;
-            }
-
-            if (!isset($key)){
-                $key = self::generate_key();
-            }
-
-            if (self::exist($key)){
-                error_log("ERROR/GuestToken: Key ".$key." already exist, aborting creation");
-                return false;
-            }
-
-            if(!file_exists(CurrentUser::$tokens_file) || sizeof(self::findAll()) == 0 ){
-                // Create file
-                $xml	=	new SimpleXMLElement('<tokens></tokens>');
-                $xml->asXML(CurrentUser::$tokens_file);
-            }
-
-            // I like big keys
-            if( strlen($key) < 10){
-                return false;
-            }
-
-            $token			=	new GuestToken();
-            $token->key     =   $key;
-            $token->path	=	File::a2r($path);
-            $token->save();
-            return true;
+        // A token with no path is useless
+        // Only admin can create a token for now
+        if(!isset($path) || !CurrentUser::$admin){
+            return false;
         }
+
+        if (!isset($key)){
+            $key = self::generate_key();
+        }
+
+        if (self::exist($key)){
+            error_log("ERROR/GuestToken: Key ".$key." already exist, aborting creation");
+            return false;
+        }
+
+        if(!file_exists(CurrentUser::$tokens_file) || sizeof(self::findAll()) == 0 ){
+            // Create file
+            $xml	=	new SimpleXMLElement('<tokens></tokens>');
+            $xml->asXML(CurrentUser::$tokens_file);
+        }
+
+        // I like big keys
+        if( strlen($key) < 10){
+            return false;
+        }
+
+        $token			=	new GuestToken();
+        $token->key     =   $key;
+        $token->path	=	File::a2r($path);
+        $token->save();
+        return true;
+    }
 
     /**
      * Save token in the base
@@ -204,12 +205,18 @@ class GuestToken extends Page
      * @return array $tokens
      * @author Franck Royer
      */
-    public static function find_for_path($path){
+    public static function find_for_path($path, $exact_path = false){
         $tokens	=	array();
 
         foreach( self::findAll() as $token ){
-            if (self::view($token['key'], $path)){
-                $tokens[]=$token;
+            if ($exact_path){
+                if ($token['path'] == $path){
+                    $tokens[]=$token;
+                }
+            } else {
+                if (self::view($token['key'], $path)){
+                    $tokens[]=$token;
+                }
             }
         }
         return $tokens;

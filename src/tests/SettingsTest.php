@@ -41,8 +41,18 @@
  * @license   http://www.gnu.org/licenses/
  */
 
-class SettingsTest extends UnitTest 
+require_once(realpath(dirname(__FILE__)."/TestUnit.php"));
+class SettingsTest extends TestUnit
 {
+    /**
+     * test set_lang
+     * @test
+     */
+    public function test_set_lang(){
+        Settings::set_lang("francais");
+        $this->assertEquals(Settings::_("settings", "noregister"), "Bloquer les inscriptions");
+    }
+
 
 }
 ?>
