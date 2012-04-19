@@ -51,18 +51,32 @@ class TestUnit extends PHPUnit_Framework_TestCase
     /**************************************************/
 
     /**
-     * Constructor 
+     * General setupbeforeClasse
      * @author Franck Royer
      */
-
-    function __construct()
+    public static function setUpBeforeClass()
     {
-        parent::__construct();
         self::include_all();
-        $this->config_file = realpath(dirname(__FILE__)."/test_config.php");
+        $GLOBALS['config_file'] = realpath(dirname(__FILE__))."/test_config.php";
         self::prepare_files();
         self::init_config();
         self::create_accounts();
+    }
+
+    /**
+     * General setup
+     * @author Franck Royer
+     */
+    protected function setUp()
+    {
+        //always reset the session before a method
+        session_unset();
+    }
+
+    function __construct()
+    {
+        require_once('PHPUnit'.DIRECTORY_SEPARATOR.'Framework'.DIRECTORY_SEPARATOR.'TestCase.php');
+        parent::__construct();
     }
 
     /**
@@ -74,7 +88,6 @@ class TestUnit extends PHPUnit_Framework_TestCase
     static public function include_all()
     {
         $toinclude = array( 
-            'PHPUnit'.DIRECTORY_SEPARATOR.'Framework'.DIRECTORY_SEPARATOR.'TestCase.php',
             realpath(dirname(__FILE__)."/../classes/HTMLObject.php"),
             realpath(dirname(__FILE__)."/../classes/Page.php"),
             realpath(dirname(__FILE__)."/../classes/File.php"),
@@ -98,8 +111,8 @@ class TestUnit extends PHPUnit_Framework_TestCase
     /**
      * Load the config
      */
-    public function init_config(){
-        Settings::init(false,$this->config_file);
+    public static function init_config(){
+        Settings::init(false,$GLOBALS['config_file']);
         try {
             CurrentUser::init();
         } catch(Exception $e){
@@ -110,8 +123,8 @@ class TestUnit extends PHPUnit_Framework_TestCase
     /**
      * Function to prepare the files
      */
-    public function prepare_files(){
-        if (!include($this->config_file)){
+    public static function prepare_files(){
+        if (!include($GLOBALS['config_file'])){
             throw new Exception("Cannot include config file!\n");
         }
 
