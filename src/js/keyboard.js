@@ -30,21 +30,23 @@
 $("document").ready(function(){
 	$("*").keypress(function(event){
 	
-	var keyCode = event.which;
-	if (keyCode == 0 && event.keyCode != undefined)
-		keyCode = event.keyCode;
+		var keyCode = event.which;
+		if (keyCode == 0 && event.keyCode != undefined) {
+			
+			keyCode = event.keyCode;
 	
-		switch(keyCode)
-		{
-			case $.ui.keyCode.RIGHT	: 	$("#image_bar #next a").click();
-										event.preventDefault(); break;
+			switch(keyCode)
+			{
+				case $.ui.keyCode.RIGHT	: 	$("#image_bar #next a").click();
+											event.preventDefault(); break;
 			
-			case $.ui.keyCode.LEFT	: 	$("#image_bar #prev a").click();
-										event.preventDefault(); break;
+				case $.ui.keyCode.LEFT	: 	$("#image_bar #prev a").click();
+											event.preventDefault(); break;
 				
-			case $.ui.keyCode.UP	: 	$("#image_bar #back a").click();
-										event.preventDefault(); break;
+				case $.ui.keyCode.UP	: 	$("#image_bar #back a").click();
+											event.preventDefault(); break;
 			
+			}
 		}
 
 	});
