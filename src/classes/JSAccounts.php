@@ -63,11 +63,6 @@ class JSAccounts
 
 		echo "<div class='leftcolumn'>";
 		echo "<h1>".Settings::_("jsaccounts","accounts")."</h1>";
-
-		echo "<fieldset>";
-		$r = new RegisterPage(false,true);
-		$r->toHTML();
-		echo "</fieldset>";
 		
 		foreach($this->accounts as $acc){
 			echo "<div class='accountitem'>

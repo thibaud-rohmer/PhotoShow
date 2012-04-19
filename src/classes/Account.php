@@ -453,6 +453,10 @@ class Account extends Page
 	 	echo "<div class='center'>\n";
 
 		if(CurrentUser::$admin){
+
+			$r = new RegisterPage(false,true);
+			$r->toHTML();
+
 			echo "<div class='section'><h2>".Settings::_("account","account")."</h2>";
 			echo "<form method='post' action='#'>";
 			echo "<fieldset><div class='fieldname'><span>".Settings::_("account","editing")."</span></div><div><select name='login'>";
@@ -483,7 +487,7 @@ class Account extends Page
 					<span>".Settings::_("account","Login")."</span>
 				</div>
 				<div class='fieldoptions'>
-					<input type='text' name='name' readonly='readonly' value=\"".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."\">
+					<input type='text' name='login' readonly='readonly' value=\"".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."\">
 				</div>
 			</fieldset>\n";
 
@@ -493,7 +497,7 @@ class Account extends Page
 					<span>".Settings::_("account","name")."</span>
 				</div>
 				<div class='fieldoptions'>
-					<input type='text' name='login' value=\"".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."\">
+					<input type='text' name='name' value=\"".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."\">
 				</div>
 			</fieldset>\n";
 
