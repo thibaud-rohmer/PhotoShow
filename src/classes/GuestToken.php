@@ -195,8 +195,8 @@ class GuestToken extends Page
         foreach( $xml as $token ){
             $new_token=array();
 
-            $new_token['key']	= $token->key;
-            $new_token['path']	= $token->path;
+            $new_token['key']	= (string)$token->key;
+            $new_token['path']	= (string)$token->path;
 
             $tokens[]=$new_token;
         }

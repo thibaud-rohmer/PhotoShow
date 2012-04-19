@@ -69,8 +69,51 @@ class GuestTokenTest extends TestUnit
     }
 
     /**
+     * Test the create feature
+     * @test
+     * @depends test_generate_key
+     */
+    public function test_create(){
+        // From scratch
+        self::delete_tokens_file();
+        self::login_as_admin();
+       
+        $folder1 = Settings::$photos_dir."tokenfolder";
+        $ret = GuestToken::create($folder1);
+        $this->assertTrue($ret);
+
+        $tokens = GuestToken::findAll();
+        $this->assertCount(1, $tokens);
+        $this->assertArrayHasKey('key', $tokens[0]);
+        $this->assertArrayHasKey('path', $tokens[0]);
+        $this->assertEquals(File::a2r($folder1), $tokens[0]['path']);
+        $this->assertRegexp('/.{10}.*/',$tokens[0]['key']);
+
+        $folder2 = Settings::$photos_dir."tokenfolder2";
+        if (file_exists($folder2)){
+            rmdir($folder2);
+        }
+        // we shouldn't create key for non-existing folders
+        try {
+            $ret = GuestToken::create($folder2);
+        } catch(Exception $e) {
+            $this->assertCount(1, GuestToken::findAll());
+
+            mkdir($folder2);
+            $ret = GuestToken::create($folder2);
+            $this->assertTrue($ret);
+            $this->assertCount(2, GuestToken::findAll());
+
+            return;
+        }
+        $this->fail('Token has been creating on an inexisting folder');
+    }
+
+
+    /**
      * Verify toHTML gives an output
      * @test
+     * @depends test_create
      */
     public function test_toHTML()
     {
