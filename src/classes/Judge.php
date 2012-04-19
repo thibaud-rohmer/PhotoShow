@@ -419,15 +419,18 @@ class Judge
         
         // Token creation
         echo "<h3>".Settings::_("token","tokens")."</h3>\n";
-        foreach(GuestToken::find_for_path($this->file) as $token){
-            echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
+        $tokens = GuestToken::find_for_path($this->file);
+        if ($tokens && !empty($tokens)){
+            foreach($tokens as $token){
+                echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
+            }
         }
         echo "<form action='?t=CTk&f=$this->webpath' method='post'>\n";
         echo "<input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' />";
         echo "</form>";
 
-		echo "</div>\n";
-	}
+        echo "</div>\n";
+    }
 
 
 }

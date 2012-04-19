@@ -160,10 +160,11 @@ class GuestToken extends Page
      */
     public static function exist($key){
 
-        // Check if the accounts file exists
+        // Check if the tokens file exists
         if(!file_exists(CurrentUser::$tokens_file)){
             return false;
         }
+
         $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
 
         foreach( $xml as $token ){
@@ -178,11 +179,16 @@ class GuestToken extends Page
     /**
      * Returns an array containing all tokens
      *
-     * @return array $tokens
+     * @return array $tokens, False if not found
      * @author Franck Royer
      */
     public static function findAll(){
         $tokens	=	array();
+        
+        // Check if the tokens file exists
+        if(!file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
 
         $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
 
@@ -202,11 +208,16 @@ class GuestToken extends Page
      * which has access to the given path
      *
      * @param string $path
-     * @return array $tokens
+     * @return array $tokens, False if not found
      * @author Franck Royer
      */
     public static function find_for_path($path, $exact_path = false){
         $tokens	=	array();
+        
+        // Check if the tokens file exists
+        if(!file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
 
         foreach( self::findAll() as $token ){
             if ($exact_path){
@@ -226,11 +237,17 @@ class GuestToken extends Page
      * Returns the allowed path of a guest token
      *
      * @param string $key 
-     * @return path
+     * @return path, False if not found
      * @author Franck Royer
      */
     public static function get_path($key){
         $path = "";
+        
+        // Check if the tokens file exists
+        if(!file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
+
         $xml		=	simplexml_load_file(CurrentUser::$tokens_file);
 
         foreach( self::findAll() as $token ){
@@ -247,11 +264,16 @@ class GuestToken extends Page
      * Returns the url to use a token
      * 
      * @param string $key 
-     * @return path
+     * @return url, False if not found
      * @author Franck Royer
      */
     public static function get_url($key){
         $url = "";
+        
+        // Check if the tokens file exists
+        if(!file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
 
         if (self::exist($key)){
             $url = Settings::$site_address."?f=".urlencode(self::get_path($key))."&token=".$key;
@@ -272,6 +294,11 @@ class GuestToken extends Page
     public static function view($key,$path){
         $rpath = File::a2r($path);
         $apath = self::get_path($key);
+         
+        // Check if the tokens file exists
+        if(!file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
 
         if (!$apath || !$rpath){
             return false;
@@ -302,10 +329,11 @@ class GuestToken extends Page
      * 
      */
     public function toHTML(){
-        if (!CurrentUser::$admin){
+        if (!CurrentUser::$admin || !file_exists(CurrentUser::$tokens_file)){
             // Only admin can see the tokens for now
             return false;
         }
+
         echo "<div id='tokensblock' class='adminblock'>";
         echo "<h3>".Settings::_("token","tokens")."</h3>\n";
         echo "<div>";
