@@ -450,13 +450,12 @@ class Account extends Page
 	 */
 	 public function toHTML(){
 	 	$this->header();
-	 	echo "<div class='panel'>\n";
-	 	echo "<h1>".Settings::_("account","account")."</h1>\n";
-
+	 	echo "<div class='center'>\n";
 
 		if(CurrentUser::$admin){
+			echo "<div class='section'><h2>".Settings::_("account","account")."</h2>";
 			echo "<form method='post' action='#'>";
-			echo "<fieldset><span>".Settings::_("account","editing")."</span><div><select name='login'>";
+			echo "<fieldset><div class='fieldname'><span>".Settings::_("account","editing")."</span></div><div><select name='login'>";
 			foreach(Account::findall() as $a){
 				echo "<option value=\"".addslashes($a['login'])."\"";
 				if($this->login == $a['login']){
@@ -466,20 +465,56 @@ class Account extends Page
 
 			}
 	 		echo "</select></div></fieldset>\n";
-	 		echo "<input type='submit' class='button blue'>\n";
+	 		echo "<fieldset class='alignright'><input type='submit' class='button blue'></fieldset>\n";
 
 			echo "</form>";
+			echo "</div>";
 		}else{
 			echo Settings::_("account","editing").htmlentities($this->login, ENT_QUOTES ,'UTF-8');		
 		}
 
+		echo "<div class='section'><h2>".Settings::_("account","account")."</h2>";
+
 	 	echo "<form method='post' action='#'>\n";
-	 	echo "<input type='hidden' value='".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."' name='login' />\n";
-	 	echo "<fieldset><span>".Settings::_("account","name")."</span><div><input type='text' value='".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."' name='name' /></div></fieldset>\n";
 
-	 	echo "<fieldset><span>".Settings::_("account","email")." </span><div><input type='text' value='".htmlentities($this->email, ENT_QUOTES ,'UTF-8')."' name='email' /></div></fieldset>\n";
+		/// Login
+		echo "<fieldset>
+				<div class='fieldname'>
+					<span>".Settings::_("account","Login")."</span>
+				</div>
+				<div class='fieldoptions'>
+					<input type='text' name='name' readonly='readonly' value=\"".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."\">
+				</div>
+			</fieldset>\n";
 
-		echo "<fieldset><span>".Settings::_("settings","language")."</span><div><select name='language'>";
+		/// Name
+		echo "<fieldset>
+				<div class='fieldname'>
+					<span>".Settings::_("account","name")."</span>
+				</div>
+				<div class='fieldoptions'>
+					<input type='text' name='login' value=\"".htmlentities($this->name, ENT_QUOTES ,'UTF-8')."\">
+				</div>
+			</fieldset>\n";
+
+		/// Email
+		echo "<fieldset>
+				<div class='fieldname'>
+					<span>".Settings::_("account","email")."</span>
+				</div>
+				<div class='fieldoptions'>
+					<input type='text' name='email' value=\"".htmlentities($this->email, ENT_QUOTES ,'UTF-8')."\">
+				</div>
+			</fieldset>\n";
+
+
+		/// Language
+		echo "<fieldset>
+				<div class='fieldname'>
+					<span>".Settings::_("settings","language")."</span>
+				</div>
+				<div class='fieldoptions'><select>
+				";
 		foreach(Settings::$ava_loc as $l){
 			$p = substr(htmlentities($l, ENT_QUOTES ,'UTF-8'),0,-4);
 			echo "<option value=\"".addslashes($p)."\"";
@@ -488,21 +523,45 @@ class Account extends Page
 			}
 			echo ">".$p."</option>";
 		}
-		echo "</select></div></fieldset>";
+		echo	"</select></div>
+			</fieldset>\n";
 
-		//echo "<fieldset><span>".Settings::_("account","key")." </span><div>".htmlentities($this->key, ENT_QUOTES ,'UTF-8')."</div></fieldset>\n";
-	 	echo "<fieldset><span>".Settings::_("account","key")." </span><div>".htmlentities($this->get_key())."</div></fieldset>\n";
+		/// Login
+		echo "<fieldset>
+				<div class='fieldname'>
+					<span>".Settings::_("account","Key")."</span>
+				</div>
+				<div class='fieldoptions'>
+					<input type='text' name='key' readonly='readonly' value=\"".htmlentities($this->get_key(), ENT_QUOTES ,'UTF-8')."\">
+				</div>
+			</fieldset>\n";
 
-	 	echo "<fieldset><span>".Settings::_("account","password")." </span><div><input type='password' value='' name='password' /></div></fieldset>\n";
+		/// Password
+		echo "<fieldset>
+				<div class='fieldname'>
+					<span>".Settings::_("account","password")."</span>
+				</div>
+				<div class='fieldoptions'>
+					<input type='password' name='password' value=''>
+				</div>
+			</fieldset>\n";
 
 	 	if(CurrentUser::$admin){
 	 		echo "<input type='hidden' value='plip' name='edit'>";
  		}else{
- 			echo "<fieldset><span>".Settings::_("account","oldpass")."</span><div><input type='password' value='' name='old_password' /></div></fieldset>\n";
+	 		/// Old Pass
+			echo "<fieldset>
+					<div class='fieldname'>
+						<span>".Settings::_("account","oldpass")."</span>
+					</div>
+					<div class='fieldoptions'>
+						<input type='password' name='old_password' value=''>
+					</div>
+				</fieldset>\n";
  		}
-	 	echo "<input type='submit' class='button blue' value='".Settings::_("account","submit")."'>\n";
-	 	echo Settings::_("account","or")." <a href='.'>".Settings::_("account","cancel")."</a>";
-	 	echo "</form>\n";
+
+	 	echo "<fieldset class='alignright'><input type='submit' class='button blue' value='".Settings::_("account","submit")."'>\n";
+	 	echo "</fieldset></form>\n";
 	 	echo "</div>\n";
 	 }
 

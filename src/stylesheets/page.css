@@ -153,3 +153,25 @@ div#infos_hide:hover,
 div#menu_hide:hover{
 	background: 	#aaa;
 }
+
+
+div.section{
+	clear:				both;
+	background: 		#333;
+	padding:			0px 25px 5px 25px;
+	margin-top:			15px;
+	box-shadow:			0px 1px 7px black;
+}
+
+div.section > h2{
+	font-style:			normal;
+	background: 		rgb(160,232,0);
+	background: 		-webkit-gradient(linear, left top, left bottom, from(rgb(160,232,0)), to(rgb(100,200,0)));
+	background:			-moz-linear-gradient(-90deg, rgb(160,232,0), rgb(100,200,0));
+	margin:				0px -30px 20px -30px;
+	padding:			6px 6px 6px 15px;
+	color:				white;
+	text-shadow:		1px 1px 3px black;
+	box-shadow:			0 2px 5px black;
+	border-radius:		2px;
+}
