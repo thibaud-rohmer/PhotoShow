@@ -69,14 +69,33 @@ class LoginPage extends Page
         }else{
             $this->header();
             echo "<div class='center'>\n";
-            echo "<h1>".Settings::_("login","logintitle")."</h1></br>";
             echo "<form method='post' action='?t=Log' class='niceform'>\n";
-            echo "<fieldset><span>".Settings::_("login","login")."</span>";
-            echo "<div><input type='text' name='login'></div></fieldset>\n";
-            echo "<fieldset><span>".Settings::_("login","pass")."</span>\n";
-            echo "<div><input type='password' name='password'></div></fieldset>\n";
-            echo "<input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
-            echo "</form>\n";
+
+            echo "<div class='section'><h2>Login</h2>";
+
+            /// Login
+            echo "<fieldset>
+                <div class='fieldname'>
+                    <span>".Settings::_("login","login")."</span>
+                </div>
+                <div class='fieldoptions'>
+                    <input type='text' name='login' value=''>
+                </div>
+            </fieldset>\n";
+
+
+            /// Password
+            echo "<fieldset>
+                <div class='fieldname'>
+                    <span>".Settings::_("login","pass")."</span>
+                </div>
+                <div class='fieldoptions'>
+                    <input type='password' name='password' value=''>
+                </div>
+            </fieldset>\n";
+
+            echo "<fieldset class='alignright'><input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
+            echo "</fieldset></form>\n";
             echo "</div>\n";
 
         }

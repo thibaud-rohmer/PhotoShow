@@ -313,3 +313,7 @@ div.leftcolumn > fieldset{
 	margin:				0;
 	width:				100%;
 }
+
+div.center{
+	right:				0;
+}
