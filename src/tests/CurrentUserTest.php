@@ -41,8 +41,41 @@
  * @license   http://www.gnu.org/licenses/
  */
 
-class SettingsTest extends UnitTest
+require_once(realpath(dirname(__FILE__)."/TestUnit.php"));
+class CurrentUserTest extends TestUnit
 {
+
+    /**
+     * Test login
+     * @test
+     */
+    public function test_login(){
+		session_unset();
+        CurrentUser::logout();
+        self::login_as_user();
+
+        $this->assertEquals("testuser", $_SESSION['login']);
+        $this->assertNull($_SESSION['token']);
+        $this->assertNotNull(CurrentUser::$account);
+        $this->assertFalse(CurrentUser::$admin);
+    }
+
+    /**
+     * Test logout
+     * @test
+     * @depends test_login
+     */
+    public function test_logout(){
+		session_unset();
+        self::login_as_user();
+        CurrentUser::logout();
+
+        //TODO: I guess we need to read the doc to use phpunit, _SESSION and session_unset()
+        $this->assertNull($_SESSION['login']);
+        $this->assertNull(CurrentUser::$account);
+        $this->assertNull($_SESSION['token']);
+        $this->assertFalse(CurrentUser::$admin);
+    }
 
 
 }
