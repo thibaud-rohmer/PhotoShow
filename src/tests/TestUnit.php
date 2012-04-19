@@ -85,7 +85,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
      * @author Franck Royer
      */
 
-    static public function include_all()
+    public static function include_all()
     {
         $toinclude = array( 
             realpath(dirname(__FILE__)."/../classes/HTMLObject.php"),
@@ -148,7 +148,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
     /**
      * prepare test accounts
      */
-    public function create_accounts(){
+    public static function create_accounts(){
         // Create admin account
 
         // First account is always admin
@@ -207,11 +207,9 @@ class TestUnit extends PHPUnit_Framework_TestCase
         }
 
         // do we already have a token ?
-        if (file_exists(CurrentUser::$tokens_file)){
-            $tokens = GuestToken::find_for_path(File::a2r($path), true);
-            if (!empty($tokens)){
-                return $tokens[0]['key'];
-            }
+        $tokens = GuestToken::find_for_path(File::a2r($path), true);
+        if (!empty($tokens)){
+            return $tokens[0]['key'];
         }
 
         // No token found, Creating a token to allow guest view for the given path
@@ -222,5 +220,14 @@ class TestUnit extends PHPUnit_Framework_TestCase
         return $key;
     }
 
+
+    /**
+     * Delete the token file
+     */
+    public static function delete_tokens_file(){
+        if (file_exists(CurrentUser::$tokens_file)){
+            unlink(CurrentUser::$tokens_file);
+        }
+    }
 }
 ?>

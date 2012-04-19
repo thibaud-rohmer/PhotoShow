@@ -82,5 +82,19 @@ class GuestTokenTest extends TestUnit
         $guest_token->toHTML();
     }
 
+    /**
+     * Verify toHTML gives an output when there is not token file
+     * @test
+     */
+    public function test_toHTML_no_tokens_file()
+    {
+        self::login_as_admin();
+        self::delete_tokens_file();
+
+        $this->expectOutputString("");
+        $guest_token = new GuestToken();
+        $guest_token->toHTML();
+    }
+
 }
 ?>
