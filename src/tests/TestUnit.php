@@ -78,6 +78,11 @@ class TestUnit extends PHPUnit_Framework_TestCase
         require_once('PHPUnit'.DIRECTORY_SEPARATOR.'Framework'.DIRECTORY_SEPARATOR.'TestCase.php');
         parent::__construct();
     }
+    function __destruct()
+    {
+        self::clean_files();
+    }
+
 
     /**
      * includes all PhotoShow classes
@@ -163,6 +168,39 @@ class TestUnit extends PHPUnit_Framework_TestCase
                 throw new Exception ("Cannot create testuser account");
             }
         }
+    }
+
+    /**
+     * Function to clean the files
+     */
+    public static function clean_files(){
+        if (!include($GLOBALS['config_file'])){
+            throw new Exception("Cannot include config file!\n");
+        }
+
+        $parent_folder= dirname($config->photos_dir);
+        if (!file_exists($parent_folder)){
+            return;
+        }
+
+        if (!preg_match('/.*tmp\/?$/', $parent_folder)){
+            echo ("Folder is not named tmp, I am not taking the risk to delete it");
+            return;
+        }
+        self::rrmdir($parent_folder);
+    }
+
+    /**
+     * Recursively delete a folder
+     */
+    protected function rrmdir($dir) {
+        foreach(glob($dir . '/*') as $file) {
+            if(is_dir($file))
+                self::rrmdir($file);
+            else
+                unlink($file);
+        }
+        rmdir($dir);
     }
 
     /*****************************************************/
