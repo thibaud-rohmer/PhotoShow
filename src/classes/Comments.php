@@ -235,7 +235,7 @@ class Comments implements HTMLObject
 
 		echo "<div class='display_comments'>";	
 		
-		if (count($this->comments) > 0) {
+		if (!empty($this->comments)) {
 			/// Display each comment
 			foreach($this->comments as $com){
 				$com->toHTML();
