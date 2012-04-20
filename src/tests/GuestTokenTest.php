@@ -242,7 +242,7 @@ class GuestTokenTest extends TestUnit
         self::login_as_admin();
         self::delete_tokens_file();
 
-        $this->expectOutputString("");
+        $this->expectOutputRegex("/<div.+<\/div>/");
         $guest_token = new GuestToken();
         $guest_token->toHTML();
     }

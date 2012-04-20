@@ -350,7 +350,9 @@ class GuestToken extends Page
         
         // We still want to display the title so the page is not empty
         if ( !file_exists(CurrentUser::$tokens_file)){
-            return false;
+            echo "</div>";
+            echo "</div>";
+            return true;
         }
 
         foreach(self::findAll() as $t){
