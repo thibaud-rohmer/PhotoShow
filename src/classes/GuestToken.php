@@ -131,7 +131,7 @@ class GuestToken extends Page
      * @author Franck Royer
      */
     public static function delete($key){
-        if (!CurrentUser::$admin){
+        if (!CurrentUser::$admin || !file_exists(CurrentUser::$tokens_file)){
             // Only admin can delete the tokens for now
             return false;
         }
@@ -143,12 +143,17 @@ class GuestToken extends Page
         foreach( $xml as $tk ){
             if((string)$tk->key == $key){
                 unset($xml->token[$i]);
+                $found = true;
                 break;
             }
             $i++;
         }
 
-        $xml->asXML(CurrentUser::$tokens_file);
+        if ($found && $xml->asXML(CurrentUser::$tokens_file)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -195,8 +200,8 @@ class GuestToken extends Page
         foreach( $xml as $token ){
             $new_token=array();
 
-            $new_token['key']	= $token->key;
-            $new_token['path']	= $token->path;
+            $new_token['key']	= (string)$token->key;
+            $new_token['path']	= (string)$token->path;
 
             $tokens[]=$new_token;
         }
@@ -292,8 +297,13 @@ class GuestToken extends Page
      * @author Franck Royer
      */
     public static function view($key,$path){
-        $rpath = File::a2r($path);
-        $apath = self::get_path($key);
+        $rpath = File::a2r($path)."/";
+        $apath = self::get_path($key)."/";
+
+        // Remove double slashes
+        preg_replace('/\/\/+/','/', $rpath);
+        preg_replace('/\/\/+/','/', $apath);
+
          
         // Check if the tokens file exists
         if(!file_exists(CurrentUser::$tokens_file)){
