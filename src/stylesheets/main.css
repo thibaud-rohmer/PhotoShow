@@ -18,7 +18,7 @@ body {
 a,
 a:visited {
 	text-decoration:	none;
-	color:				#333;
+	color:				rgb(0,160,232);
 	display:			block;
 }
 

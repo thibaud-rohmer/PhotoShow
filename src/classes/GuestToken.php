@@ -344,8 +344,8 @@ class GuestToken extends Page
             return false;
         }
 
-        echo "<div id='tokensblock' class='adminblock'>";
-        echo "<h3>".Settings::_("token","tokens")."</h3>\n";
+        echo "<div id='tokensblock' class='section'>";
+        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
         echo "<div>";
         
         // We still want to display the title so the page is not empty
