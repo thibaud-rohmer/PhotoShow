@@ -18,7 +18,6 @@ div#menubar{
 	background:		#ccc;
 	border-bottom:	1px solid #aaa;	
 }
-
 div#menubar > div:nth-child(1) {
 	font-size:		9pt;
 }
@@ -33,6 +32,7 @@ div#menubar > div:nth-child(2) {
 
 div#menubar * a {
 	display:		inline-block;
+	color:			#333;
 }
 
 div#menubar > div > * {
@@ -124,11 +124,6 @@ div.infos{
 	font-size:		11pt;
 }
 
-div.infos h2{
-	color:			white;
-	border-color: 	white;
-}
-
 div#menu_hide{
 	position:		absolute;
 	left:			237px;
@@ -161,9 +156,10 @@ div.section{
 	padding:			0px 25px 5px 25px;
 	margin-top:			15px;
 	box-shadow:			0px 1px 7px black;
+	text-align:			left;
 }
 
-div.section > h2{
+div.section h2{
 	font-style:			normal;
 	background: 		rgb(160,232,0);
 	background: 		-webkit-gradient(linear, left top, left bottom, from(rgb(160,232,0)), to(rgb(100,200,0)));

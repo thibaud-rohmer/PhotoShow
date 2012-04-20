@@ -121,6 +121,7 @@ class Exif implements HTMLObject
 	 */
 	public function toHTML(){
 		if($this->exif){
+			echo "<div class='section'>";
 			echo '<h2>Exif</h2>';
 			echo "<table>";		
 			foreach($this->exif as $name=>$value){
@@ -128,6 +129,7 @@ class Exif implements HTMLObject
 				echo "<td class='td_value'>".htmlentities($value, ENT_QUOTES ,'UTF-8')."</td></tr>\n";
 			}
 			echo "</table>\n";
+			echo "</div>";
 		}
 	}
 	
