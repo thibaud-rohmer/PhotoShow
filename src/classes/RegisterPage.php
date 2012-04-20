@@ -92,7 +92,7 @@ class RegisterPage extends Page
             }else{
                 echo "<form class='adduser' method='post' action='?t=Adm&a=AAc'>\n";
             }
-            echo "<div class='section'><h2>Create Account</h2>";
+            echo "<div class='section'><h2>".Settings::_("account","createaccount")."</h2>";
 
             /// Login
             echo "<fieldset>
