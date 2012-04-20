@@ -339,7 +339,7 @@ class GuestToken extends Page
      * 
      */
     public function toHTML(){
-        if (!CurrentUser::$admin || !file_exists(CurrentUser::$tokens_file)){
+        if (!CurrentUser::$admin){
             // Only admin can see the tokens for now
             return false;
         }
@@ -347,6 +347,11 @@ class GuestToken extends Page
         echo "<div id='tokensblock' class='adminblock'>";
         echo "<h3>".Settings::_("token","tokens")."</h3>\n";
         echo "<div>";
+        
+        // We still want to display the title so the page is not empty
+        if ( !file_exists(CurrentUser::$tokens_file)){
+            return false;
+        }
 
         foreach(self::findAll() as $t){
             echo "<table>";
