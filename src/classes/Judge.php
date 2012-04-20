@@ -364,14 +364,16 @@ class Judge
 	public function toHTML(){
 		
 		echo "<div class='adminrights'>\n";
-		echo "<h3>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h3>\n";
+		echo "<div class='section'>";
+
+		echo "<h2>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h2>\n";
 
 
 		if($this->public){
 
 			echo "<form action='?t=Pri&f=$this->webpath' method='post'>\n";
 			echo Settings::_("judge","public");
-			echo "<input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' />";
+			echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' /></fieldset>";
 			echo "</form>";
 			echo "</div>";
 			return;
@@ -380,13 +382,13 @@ class Judge
 
 			echo "<form action='?t=Pub&f=$this->webpath' method='post'>\n";
 			echo Settings::_("judge","priv");
-			echo "<input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' />";
+			echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' /></fieldset>";
 			echo "</form>";
 
 		}
 
 		echo "<form action='?t=Rig&f=$this->webpath' method='post'>\n";
-		echo "<h3>".Settings::_("judge","accounts")."</h3>";
+		echo "<h2>".Settings::_("judge","accounts")."</h2>";
 
 		foreach(Account::findAll() as $account){
 			
@@ -396,10 +398,10 @@ class Judge
 				$checked = "";
 			}
 
-			echo "<label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label>";
+			echo "<div><label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label></div>";
 		}
 
-		echo "<h3>".Settings::_("judge","groups")."</h3>";
+		echo "<h2>".Settings::_("judge","groups")."</h2>";
 
 		foreach(Group::findAll() as $group){
 			if($group['name'] == "root"){
@@ -411,14 +413,14 @@ class Judge
 				$checked = "";
 			}
 
-			echo "<label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
+			echo "<div><label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label></div>";
 		}
 
-		echo "</br><input type='submit' class='button blue' value='".Settings::_("judge","set")."'>\n";
+		echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","set")."'></fieldset>\n";
 		echo "</form>\n";
         
         // Token creation
-        echo "<h3>".Settings::_("token","tokens")."</h3>\n";
+        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
         $tokens = GuestToken::find_for_path($this->file);
         if ($tokens && !empty($tokens)){
             foreach($tokens as $token){
@@ -426,8 +428,9 @@ class Judge
             }
         }
         echo "<form action='?t=CTk&f=$this->webpath' method='post'>\n";
-        echo "<input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' />";
+        echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' /></fieldset>";
         echo "</form>";
+		echo "</div>";
 
         echo "</div>\n";
     }
