@@ -86,14 +86,22 @@ class JSAccounts
 
 		echo "<div class='newgroup'>";
 		echo "
+		<div class='section'>
+		<h2>Create group</h2>
 		<form class='addgroup' method='post' action='?t=Adm&a=GC'>
+		
 			<fieldset>
+			<div class='fieldname'>Group Name</div>
+			<div class='fieldoptions'>
 			<span>".Settings::_("jsaccounts","groupname")."</span>
 			<div><input type='text' name='group' value='Group Name' /></div>
+			</div>
 			</fieldset>
-			<fieldset><input type='submit' value='".Settings::_("jsaccounts","addgroup")."'></fieldset>
+			
+			<fieldset class='alignright'><input type='submit' value='".Settings::_("jsaccounts","addgroup")."'></fieldset>
+			
 			</form>\n";
-		echo "</div>";
+		echo "</div></div>";
 
 		foreach($this->groups as $g){
 			$gn = $g['name'];
