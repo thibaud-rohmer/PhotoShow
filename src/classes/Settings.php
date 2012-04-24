@@ -102,6 +102,9 @@ class Settings extends Page
 	//Hidden Infos Bar
 	static public $hide_infos = false;
 
+	/// Fixed width for thumbs
+	static public $thumbs_fixed_width		=	false;
+
 	/// Selected localization
 	static private $loc 			=	"default";
 
@@ -231,6 +234,8 @@ class Settings extends Page
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 			Settings::$hide_menu    =   isset($admin_settings['hide_menu']);
 			Settings::$hide_infos	=	isset($admin_settings['hide_infos']);			
+			Settings::$thumbs_fixed_width	=	isset($admin_settings['thumbs_fixed_width']);			
+
 
 			if(isset($admin_settings['max_comments'])){
 				Settings::$max_comments = 	$admin_settings['max_comments'] + 0;
@@ -336,6 +341,7 @@ class Settings extends Page
             "nocomments",
             "nodownload",
             "max_img_dir",
+			"thumbs_fixed_width",
             "loc",
             "l33t",
             "reverse_menu",
@@ -477,6 +483,13 @@ class Settings extends Page
 			echo "<label><input type='checkbox' name='hide_infos' checked>Hide Infos Bar</label>\n";
 		}else{
 			echo "<label><input type='checkbox' name='hide_infos'>Hide Infos Bar</label>\n";
+		}
+		echo "</br>";
+		
+		if(Settings::$thumbs_fixed_width){
+			echo "<label><input type='checkbox' name='thumbs_fixed_width' checked>Fix thumbs width</label>\n";
+		}else{
+			echo "<label><input type='checkbox' name='thumbs_fixed_width'>Fix thumbs width</label>\n";
 		}
 		echo "</br>";
 

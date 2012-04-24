@@ -200,7 +200,11 @@ class Board implements HTMLObject
 			}
 
 			// Calculate file ratio
-			$ratio	=	$this->ratio($file);
+			if(Settings::$thumbs_fixed_width){
+				$ratio = 1;
+			}else{
+				$ratio	=	$this->ratio($file);
+			}
 			
 			// Create new line when sum 
 			// of ratios reaches 11
