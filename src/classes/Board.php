@@ -201,7 +201,7 @@ class Board implements HTMLObject
 
 			// Calculate file ratio
 			if(Settings::$thumbs_fixed_width){
-				$ratio = 1;
+				$ratio = 1.5;
 			}else{
 				$ratio	=	$this->ratio($file);
 			}
