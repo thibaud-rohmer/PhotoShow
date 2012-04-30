@@ -78,9 +78,6 @@
 div.adminrights{
 	margin-top:		7px;
 	margin-bottom: 	10px;
-	background: 	#bbb;
-	border-radius:	3px;
-	box-shadow:	0 1px 2px #333;
 }
 
 .images{
@@ -153,43 +150,54 @@ form.js > input[type="text"]{
 }
 
 div.accountitem,
-div.rightcolumn > div{
+div.groupitem{
 	padding:			5px;
 	overflow:		hidden;
-	margin:				10px;
+/*	margin:				10px;
 	background: 		#aaa;
 	border-radius:		5px;
 	-moz-border-radius:	5px;
 	box-shadow:	0 1px 2px #333;
 	-moz-box-shadow:	0 1px 2px #333;
+
+*/
+}
+
+
+div.accountitem, div.groupitem
+{
+	clear:				both;
+	background: 		#333;
+	padding:			0px 25px 5px 25px;
+	margin-top:			15px;
+	box-shadow:			0px 1px 7px black;
+	text-align:			left;
 }
 
 div.accountitem
 {
-	border-radius:		50px;
-	-moz-border-radius:	50px;
+	cursor:			pointer;
 }
+
 
 div.accountitem > div.name,
 div.groupitem > div.name{
-	color:		white;
-	font-size:	12pt;
-	text-shadow:1px 1px 3px #333;
-	background:	#555;
-	box-shadow:	inset 0 3px 7px #333;
-	-moz-box-shadow:	inset 0 3px 7px #333;
-
-	float:		left;
-	padding:	23px;
-	border-radius: 	50px;
-	-moz-border-radius: 	50px;
+	font-style:			normal;
+	background: 		rgb(160,232,0);
+	background: 		-webkit-gradient(linear, left top, left bottom, from(rgb(160,232,0)), to(rgb(100,200,0)));
+	background:			-moz-linear-gradient(-90deg, rgb(160,232,0), rgb(100,200,0));
+	margin:				0px -30px 20px -30px;
+	padding:			6px 6px 6px 15px;
+	color:				white;
+	text-shadow:		1px 1px 3px black;
+	box-shadow:			0 2px 5px black;
+	border-radius:		2px;
 
 	-webkit-transition:	background ease-in-out .3s;
 	transition:			background ease-in-out .3s;
 }
 
 div.accountitem:hover > .name,
-div.groupitem:hover > .name,
 div.groupitem.hovered > .name,
 body > div.accountitem > .name {
 	background:	rgb(0,136,232);
@@ -200,15 +208,6 @@ div.leftcolumn > div.accountitem > .inlinedel,
 div.rightcolumn > div.groupitem > .inlinedel
 {
 	display:	block;
-}
-
-div.leftcolumn > div.accountitem,
-div.rightcolumn > div.groupitem
-{
-	position:		relative;
-	cursor:			pointer;
-	border-radius:	50px 3px 3px 50px;
-	-moz-border-radius:	50px 3px 3px 50px;
 }
 
 div.leftcolumn > div.groupitem
