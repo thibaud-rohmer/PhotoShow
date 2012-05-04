@@ -28,8 +28,7 @@
  * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
 $("document").ready(function(){
-	$("*").keypress(function(event){
-	
+	$("*").keyup(function(event){
 	var keyCode = event.which;
 	if (keyCode == 0 && event.keyCode != undefined)
 		keyCode = event.keyCode;
