@@ -71,6 +71,7 @@ class ImageBar
 		if(!Settings::$nodownload){
 			$this->buttons['img']  = 	"?t=Big&f=".$file;
 			$this->buttons['get']  = 	"?t=BDl&f=".$file;
+			$this->buttons['original'] = "?t=Orig&f=" . $file;
 		}
 		$this->buttons['next'] = 	$t."p=n&f=".$file;
 		$this->buttons['slideshow'] = 	$t."f=".$file;
