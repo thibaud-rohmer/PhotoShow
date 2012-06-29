@@ -211,7 +211,7 @@ class Provider
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function Image($file,$thumb=false,$large=false,$output=true,$dl=false){
+	public static function Image($file,$thumb=false,$large=false,$output=true,$dl=false, $orig = false){
 		
 		if( !Judge::view($file)){
 			return;
@@ -274,7 +274,7 @@ class Provider
 			}
             header('Content-type: image/jpeg');
 
-            if(File::Type($path)=="Image"){
+            if(File::Type($path)=="Image" && $orig==false){
                 try {
                     imagejpeg(Provider::autorotate_jpeg ($path));	
                 }catch(Exception $e){

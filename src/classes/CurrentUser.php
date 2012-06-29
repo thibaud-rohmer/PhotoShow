@@ -158,6 +158,7 @@ class CurrentUser
 								break;
 
 				case "Big"	:
+				case "Orig"     :
 				case "BDl"	:
 				case "Zip"	:	if(!Settings::$nodownload){
 									CurrentUser::$action=$_GET['t'];
