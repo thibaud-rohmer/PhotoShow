@@ -81,7 +81,7 @@
 
  		$allowedExtensions = array("tiff","jpg","jpeg","gif","png");
 		
-		/// Just to be really sure ffmpeg enable - necessary generate thumbnail jpg and webm
+		/// Just to be really sure ffmpeg is enabled - necessary to generate thumbnail jpg and webm
 		if (Settings::$encode_video) {
 			array_push($allowedExtensions,"flv","mov","mpg","mp4","ogv","mts","3gp","webm");
 		}
@@ -152,9 +152,9 @@
 		        /// Setup rights
 	 			if(!$already_set_rights && !isset($_POST['inherit'])){
  					if(isset($_POST['public'])){
- 						Judge::edit($path);
+ 						Judge::edit("$path/$name");
  					}else{
- 						Judge::edit($path,$_POST['users'],$_POST['groups']);					
+ 						Judge::edit("$path/$name",$_POST['users'],$_POST['groups']);					
  					}
  				}
 			}
