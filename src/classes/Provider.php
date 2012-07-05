@@ -93,6 +93,9 @@ class Provider
 		$degrees = Provider::get_orientation_degrees ($filename);
 		if($degrees > 0){
 			$rotated_image = imagerotate($raw_image, $degrees, 0);
+			if($rotated_image == NULL){
+				return $raw_image;
+			}
 		}else{
 			$rotated_image = $raw_image;
 		}
@@ -223,13 +226,14 @@ class Provider
         /// Check item
         $file_type = File::Type($file);
 
-        if ($file_type == "Image"){
-            $is_video = false;
-        } elseif ($file_type == "Video"){
-            $is_video = true;
-        } else{
-            return;
+        switch($file_type){
+        	case "Image":	$is_video = false;
+        					break;
+        	case "Video":	$is_video = true;
+        					break;
+        	default:		return;
         }
+
         //error_log('DEBUG/Provider::image: '.$file.' '.($is_video?'is_video':''));
 
         if(!$large){
@@ -275,6 +279,8 @@ class Provider
             header('Content-type: image/jpeg');
 
             if(File::Type($path)=="Image"){
+            	readfile($path);
+            	return;
                 try {
                     imagejpeg(Provider::autorotate_jpeg ($path));	
                 }catch(Exception $e){
