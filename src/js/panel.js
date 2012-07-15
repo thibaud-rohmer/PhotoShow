@@ -29,7 +29,8 @@
  */
  function init_panel(){
 
-	$(".panel .item a").unbind();
+	$(".panel .item a .textinfo").unbind();
+	$('.textinfo').show();
 
 	// On clicking an item
 	$(".panel .item a").click(function(){
@@ -55,6 +56,7 @@
 		$(".image_panel,.linear_panel").slideDown("fast",function(){
 			$(".image_panel a").css("height","100%");
 		});
+		$(".textinfo,.textinfoadmin").hide();
 
 
 		return false;
@@ -101,6 +103,17 @@ function init_hiders(){
 			$('.menu').show("slide",{direction:"left"},600);
 			$(this).animate({left:'240'},600);
 			$(".center").animate({left:'250'},600);
+		}
+	});
+	
+	$("#edit_textinfo").click(function(){
+		if ( $('.textinfoadmin').is(':visible')){
+			$('.textinfo').show("slide",{direction:"down"},600);
+			$('.textinfoadmin').hide("slide",{direction:"up"},600);
+		}else{
+			$('.textinfoadmin').show("slide",{direction:"up"},600);
+			$('.textinfo').hide("slide",{direction:"down"},600);
+
 		}
 	});
 }

@@ -45,6 +45,7 @@ fieldset.alignright{
 }
 
 a.button, 
+input[type='button'],
 input[type='submit'] {
 	display:			inline-block;
 	min-width:			100px;
@@ -69,6 +70,7 @@ input[type='submit'] {
 }
 
 a.button:hover, 
+input[type='button']:hover,
 input[type='submit']:hover {
 	text-shadow:		1px 1px 2px rgba(0,0,0,0.5);
 	box-shadow: 		inset 0px 1px 1px rgba(0,0,0,0.4), 0 1px 1px rgba(0,0,0,0.2);

@@ -48,6 +48,9 @@ class BoardHeader{
 	
 	/// Path of the directory listed in parent Board
 	public $path;
+	
+	/// TestInfo , containing the title and explain
+	public $textinfo;	
 
 	/**
 	 * Create BoardHeader
@@ -58,6 +61,7 @@ class BoardHeader{
 	public function __construct($title,$path){
 		$this->path 	=	urlencode(File::a2r($path));
 		$this->title 	=	$title;
+		$this->textinfo 	=	new TextInfo($path);
 	}
 	
 	/**
@@ -69,16 +73,28 @@ class BoardHeader{
 	public function toHTML(){
 		echo 	"<div class='header'>";
 		/// Title
-		echo 	"<h1>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</h1>";
+		if ($this->textinfo->title) { 
+			echo 	"<h1>".$this->textinfo->title."</h1>";
+		} else { 
+			echo 	"<h1>".(htmlentities($this->title, ENT_QUOTES ,'UTF-8'))."</h1>";	
+		}
 		
-		echo 	"<span>";
+			if(CurrentUser::$admin){
+			/// Edit button
+			echo 	"<span>\n";
+			echo 	"<div id='edit_textinfo'><a href='#' class='button'>".Settings::_("textinfo","edit")."</a></div>\n";
+			echo 	"</span>\n";
+		}		
 		
 		if(!Settings::$nodownload){
 			/// Zip button
+			echo 	"<span>\n";
 			echo 	"<a href='?t=Zip&f=$this->path' class='button'>".Settings::_("boardheader","download")."</a>\n";
+			echo 	"</span>\n";
 		}
-		echo 	"</span>\n";
+		
 		echo 	"</div>\n";
+		$this->textinfo->toHTML();
 	}
 }
 
