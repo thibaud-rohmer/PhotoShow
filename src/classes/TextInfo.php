@@ -191,8 +191,7 @@ class TextInfo
 		
 		if (is_file($this->path) && !empty($this->contain) )  {
 			echo "<div  class='textinfo'>\n";
-			echo "<span>".nl2br($this->contain)."</span>";
-			echo "<span style='font-size:12px;text-align:right'>$this->author</span>";
+			echo "<span>".nl2br($this->contain)."<p style='font-size:12px;text-align:right'>$this->author</p></span>";
 			echo "</div>\n";
 		}
 	}
