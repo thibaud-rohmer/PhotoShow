@@ -189,6 +189,16 @@
 									}
 									$this->page = new Settings();
 									break;
+									
+				case "Tis"	:		if(isset($_POST['f'])){
+										TextInfo::Save_File($_POST['f'],$_POST['title'],$_POST['author'],$_POST['contain']);
+									}
+									break;	
+									
+				case "Tid"	:		if(isset($_POST['f'])){
+										TextInfo::Delete_File($_POST['f']);
+									}
+									break;									
 		 		}
 		}
 		

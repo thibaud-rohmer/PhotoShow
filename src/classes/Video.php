@@ -83,10 +83,13 @@ class Video implements HTMLObject
 		error_log('DEBUG/Video: Background Execution : '.$cmd,0);
         $pid = 0;
 		if (substr(php_uname(), 0, 7) == "Windows"){
-		   pclose(popen('start /b '.$cmd.' 2>&1', 'r'));
+		   $valti = rand();
+		   exec("wmic process call create '".$cmd."','".File::root()."'",$output);
+		   $out = split('=',$output[5]);
+		   $pid = intval($out[1]);
 		} else {
-		    exec($cmd . " > /dev/null 2>&1 & echo $!", $output);   
-            $pid = intval($output[0]);
+		   exec($cmd . " > /dev/null 2>&1 & echo $!", $output);   
+		   $pid = intval($output[0]);
 		}
         return $pid;
 	} 
@@ -102,8 +105,12 @@ class Video implements HTMLObject
             return;
         }
 
-        //TODO Windows
-        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Duration', $output);
+	if (substr(php_uname(), 0, 7) == "Windows"){
+		exec(Settings::$ffmpeg_path.' -i "'.$file.'" 2>&1|findstr Duration', $output);
+	} else {
+	        exec(Settings::$ffmpeg_path.' -i "'.$file.'" 2>&1|grep Duration', $output);
+	}
+	
         $duration = $output[0];
 
         $duration_array = split(':', $duration);
@@ -125,10 +132,13 @@ class Video implements HTMLObject
             return;
         }
 
-        //TODO Windows
-        exec(Settings::$ffmpeg_path." -i ".$file." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
+	if (substr(php_uname(), 0, 7) == "Windows"){
+		exec(Settings::$ffmpeg_path.' -i "'.$file.'" 2>&1|findstr Video', $output);
+	} else {
+		exec(Settings::$ffmpeg_path.' -i "'.$file.'" 2>&1|grep Video', $output);
+	}
         $line = $output[0];
-        preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
+        preg_match('/[0-9]{2,4}x[0-9]{2,4}/', $line, $matches);
         $match = $matches[0];
 
 
@@ -247,8 +257,11 @@ class Video implements HTMLObject
         $pid = fgets($job_file);
         fclose($job_file);
 
-        //TODO: windows
-        exec('ps ax | grep '.$pid.' | grep -v grep -c', $output);
+	if (substr(php_uname(), 0, 7) == "Windows"){
+		exec('tasklist |find /N /C "'.$pid.' "', $output);
+	} else {
+		exec('ps ax | grep '.$pid.' | grep -v grep -c', $output);
+	}
         if ($pid && $pid != '' && $pid != '0' && intval($output[0]) > 0) {
             // Process is still running
             //error_log('DEBUG/Video: job '.$pid.' is still running for '.$file);

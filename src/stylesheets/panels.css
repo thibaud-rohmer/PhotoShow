@@ -79,6 +79,24 @@ div.panel > table > tbody > tr:nth-child(even){
 background: #aaa;
 }
 
+/* TextInfo Panel */
+div.textinfo {
+padding : 5px;
+margin : 15px;
+background-color: #bbbbbb;
+display : none;
+-moz-border-radius: 4px;
+border-radius: 4px;
+box-shadow: 0 2px 5px #333;
+-moz-box-shadow: 0 2px 5px #333;
+-webkit-box-shadow: 0 2px 5px #333;
+}
+
+div.textinfoadmin {
+	display : none;
+	margin-bottom : 10px;
+}
+
 /* Linear Panel */
 
 div.linear_panel {
