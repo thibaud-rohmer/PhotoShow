@@ -89,7 +89,9 @@ class AdminPanel
 					</form>";
 
 			/// Upload Images form
-			$ret .= "<div id='files'></div><form class='dropzone' id=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\" 
+			$ret .= "<div id='files'></div>";
+			$w=File::a2r(CurrentUser::$path);
+			$ret .= "<form class='dropzone' id=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\" 
 				action='?a=Upl' method='POST' enctype='multipart/form-data'>
 				<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
 				<input type='file' name='images[]' multiple >
