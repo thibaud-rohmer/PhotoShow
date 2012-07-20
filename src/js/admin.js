@@ -188,7 +188,7 @@ function init_infos(){
 }
 
 function init_forms(){
-
+	readyselect();
 	$(".adminrights form").submit(function(){
 		$.post($(this).attr('action') + "&j=Jud",$(this).serialize(),function(data){
             //TODO: translate this, put the guest url here when it is token creation

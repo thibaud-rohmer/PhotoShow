@@ -1,6 +1,6 @@
-$("document").ready(function(){
+function readyselect(){
+	$("#multiselectbutton").unbind();
 	$("#multiselectbutton").click(function(){
-		multiselect = true;
 		$("#selection_overlay").show();
 		$(".selectzone").mousedown(function(init){
 			// init .select
@@ -38,17 +38,17 @@ $("document").ready(function(){
 
 			$(".selectzone").mouseup(function(sel){
 				// stop .select
-				$(".selectzone").unbind().click(function(){
+				$(".selectzone").unbind();
+				$(".selectzone").mouseup(function(){
 					$(".selectzone").unbind();
 					$(".item.selected").removeClass("selected");
 				});
-				$(".select").fadeOut();
+				$(".select").fadeOut("slow");
 				$("#selection_overlay").hide();
 			});
-
 		});
 	});
-});
+}
 
 
 function select(startx,starty,endx,endy){
