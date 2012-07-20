@@ -77,6 +77,8 @@ class AdminPanel
 				</form>";
 		}
 
+		$ret .=	"<input type='submit' id='multiselectbutton' value='".Settings::_("adminpanel","multiselect")."'>";
+
 		if(!($this->isfile)){
 			$ret .=	"<form class='create' action='?a=Upl' method='post'>
 					<fieldset>

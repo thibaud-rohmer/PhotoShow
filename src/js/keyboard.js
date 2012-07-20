@@ -43,7 +43,6 @@ $("document").ready(function(){
 				
 			case $.ui.keyCode.UP	: 	$("#image_bar #back a").click();
 										event.preventDefault(); break;
-			
 		}
 
 	});

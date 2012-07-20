@@ -68,7 +68,7 @@
  	public function toHTML(){
 
 		foreach($this->options as $op=>$val){
-			if( $_GET['a'] == $op){
+			if( isset($_GET['a']) && $_GET['a'] == $op){
 				$class = "menu_item selected";
 			}else{
 				$class = "menu_item";

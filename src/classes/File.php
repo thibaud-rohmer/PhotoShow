@@ -106,7 +106,11 @@ class File
 	 */
 	public static function Name($file){
 		$info	=	pathinfo($file);
-		return	basename($file,'.'.$info['extension']);
+		if(isset($info['extension'])){
+			return	basename($file,'.'.$info['extension']);
+		}else{
+			return basename($file);
+		}
 	}
 	
 	/**

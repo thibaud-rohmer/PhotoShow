@@ -89,9 +89,9 @@
 	 								
 	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
 										try{
-								//			if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
-	 							//				CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
-	 							//			}
+											if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
+	 											CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+	 										}
 										}catch(Exception $e){
 											CurrentUser::$path = Settings::$photos_dir;
 										}
@@ -101,7 +101,11 @@
 									break;
 
 				case "Del"		:	if(isset($_POST['del'])){
-		 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
+										if(!is_array($_POST['del'])){
+			 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'])));
+										}else{
+			 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'][0])));
+										}
 		 								AdminDelete::delete();
 		 							}
 									$this->page = new AdminFiles();
@@ -213,7 +217,7 @@
  		echo "</div>\n";
 
 		echo "<div class='center'>\n";
-		if($_GET['a']=="JS"){
+		if(isset($_GET['a']) && $_GET['a']=="JS"){
 			$this->page = new JS();
 		}else{
 		 	$this->page->toHTML();			

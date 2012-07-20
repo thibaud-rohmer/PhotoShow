@@ -47,7 +47,7 @@ class BoardLine implements HTMLObject
 	public $items = array();
 	
 	/// Sum of the ratios of the contents
-	public static $ratio;
+	public $ratio;
 	
 	/**
 	 * Create BoardLine
@@ -57,7 +57,7 @@ class BoardLine implements HTMLObject
 	public function __construct(){
 
 		/// Initialize total ratio
-		$ratio=0;
+		$this->ratio=0;
 
 	}
 	

@@ -92,12 +92,15 @@
  			return;
  		}
 
- 		$del 	=	File::r2a(stripslashes($_POST['del']));
- 		if($del == Settings::$photos_dir){
- 			return;
+ 		if(!is_array($_POST['del'])){
+	 		$del 	=	File::r2a(stripslashes($_POST['del']));
+	 		return 	AdminDelete::rec_del($del);
+ 		}else{
+ 			foreach($_POST['del'] as $todel){
+		 		$del 	=	File::r2a(stripslashes($todel));
+		 		AdminDelete::rec_del($del);
+ 			}
  		}
-
- 		return 	AdminDelete::rec_del($del);
 	}
 
 	/**
@@ -107,6 +110,10 @@
 	 * @author Thibaud Rohmer
 	 */
 	public function rec_del($dir){
+ 		if($dir == Settings::$photos_dir){
+ 			return;
+ 		}
+
 		if(is_file($dir)){
 			return unlink($dir);
 		}
