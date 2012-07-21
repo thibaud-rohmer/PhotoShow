@@ -69,14 +69,22 @@ function init_admin(){
 						from  = dragg.children(".path").text();
 						to 	  = $(this).children(".path").text();
 
-						if($(dragg).hasClass("item")){
-							$(".panel,.linear_panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
+						if($(dragg).hasClass("selected")){
+							$(".item.selected").each(function(){
+								from  = $(this).children(".path").text();
+								$(".panel,.linear_panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
+							});
 						}else{
-							$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
+							if($(dragg).hasClass("item")){
+								$(".panel,.linear_panel").load(".?t=Adm&a=Mov&j=Pan",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);	
+							}else{
+								$(".menu").load(".?t=Adm&a=Mov&j=Men",{'pathFrom' : from,'pathTo' : to, 'move':'directory'},init_menu);						
+							}
 						}
 					}
 	});
 
+	$(".bin").unbind();
 	$(".bin").droppable({
 		hoverClass: "hovered",
 		drop: 		function(event, ui){
@@ -85,18 +93,33 @@ function init_admin(){
 
 						file  = dragg.children(".path").text();
 
-						if($(dragg).hasClass("item")){
-							$(".panel,.linear_panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
-						}else{
-							$("#page").load("?t=Adm&a=Del&j=Pag",{'del' : file },function(){
-								init_panel();
-								init_infos();
-								init_admin();
+						if($(dragg).hasClass("selected")){
+							$(".item.selected").each(function(){
+								file  = $(this).children(".path").text();
+								$(".panel,.linear_panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
 							});
+						}else{
+							if($(dragg).hasClass("item")){
+								$(".panel,.linear_panel").load("?t=Adm&a=Del&j=Pan",{'del' : file },init_panel);
+							}else{
+								$("#page").load("?t=Adm&a=Del&j=Pag",{'del' : file },function(){
+									init_panel();
+									init_infos();
+									init_admin();
+								});
+							}
 						}
-
 					}
 	});
+
+
+	$(".bin").click(function(){
+		var mylist = [];
+		$(".line").children(".selected").each(function(){
+			mylist.push($(this).children(".path").text());
+		});
+		$(".panel,.linear_panel").load("?t=Adm&a=Del&j=Pan",{'del' : mylist },init_panel);
+	})
 
 	$(".accountitem").draggable({
 		cursor: 		"move",
@@ -138,6 +161,8 @@ function init_admin(){
 		$(".center").load($(this).attr('action') + "&j=Acc",{"group": $(this).find("input[type='text']").val() },init_admin);
 		return false;
 	});
+
+	var multiselect = false;
 }
 
 function init_infos(){
@@ -163,7 +188,7 @@ function init_infos(){
 }
 
 function init_forms(){
-
+	readyselect();
 	$(".adminrights form").submit(function(){
 		$.post($(this).attr('action') + "&j=Jud",$(this).serialize(),function(data){
             //TODO: translate this, put the guest url here when it is token creation

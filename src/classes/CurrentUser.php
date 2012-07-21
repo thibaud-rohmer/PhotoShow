@@ -209,7 +209,7 @@ class CurrentUser
 				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
 								break;
 
-				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],$_POST['groups'],true);
+				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],isset($_POST['groups'])?$_POST['groups']:null,true);
 								CurrentUser::$action = "Judge";
 								break;
 

@@ -171,3 +171,22 @@ div.section h2{
 	box-shadow:			0 2px 5px black;
 	border-radius:		2px;
 }
+
+div.select{
+	position:			fixed;
+	background-color: 	rgba(60,60,60,.3);
+	border: 			1px solid #ccc;
+	z-index:			9001;
+	display: 			hidden;
+}
+
+div#selection_overlay{
+	z-index: 			777;
+	position: 			absolute;
+	left:				0;
+	top:				0;
+	right:				0;
+	bottom:				0;
+	cursor: 			crosshair;
+	display:			none;
+}

@@ -1,6 +1,6 @@
-.infos > .file_upload,
-.infos > .file_upload_large,
-.infos > .file_upload_small {
+.file_upload,
+.file_upload_large,
+.file_upload_small {
 	position:		relative;
 	overflow:		hidden;
 	cursor:			pointer;
@@ -19,12 +19,12 @@
 
 }
 
-.infos > .file_upload_highlight{
+.file_upload_highlight{
 	background:		#333;
 }
 
 
-.infos > .file_upload input {
+.file_upload input {
 	position:		absolute;
 	top:			0;
 	right: 			0;
@@ -46,20 +46,26 @@
 	width: 			80px;
 }
 
+
 .file_upload_progress .ui-progressbar-value {
-	background: 	url(../inc/pbar-ani.gif);
+	background:		grey;
 }
 
 .file_upload_progress div {
-	width: 150px;
+	width: 200px;
 	height: 15px;
 }
 
 .file_upload_cancel button {
-	display: hidden;
-	cursor: pointer;
+	display: none;
 }
 
 #files{
-	margin:	5px;
+	position:	fixed;
+	bottom:		-4px;
+	right:		300px;
+	background:	white;
+	border: 	1px solid #aaa;
+	max-height:	300px;
+	padding:	4px;
 }
