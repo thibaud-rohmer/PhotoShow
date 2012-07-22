@@ -120,6 +120,8 @@ class BoardHeader{
 			echo 	"<a href='?t=Zip&f=$this->path' class='button'>".Settings::_("boardheader","download")."</a>\n";
 		}
 		echo "</div>";
+
+		if(CurrentUser::$admin){
 		/// Upload Images form
 			echo "<div id='files'></div>";
 			echo "<form class='dropzone' id=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\" 
@@ -129,6 +131,7 @@ class BoardHeader{
 				<button>Upload</button>
 				<div>".Settings::_("adminpanel","upload")."</div>
 				</form>";
+		}
 
 		echo 	"</span>\n";
 
