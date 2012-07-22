@@ -73,11 +73,20 @@ class BoardHeader{
 		
 		echo 	"<span>";
 		
+		// Outputting Facebook Like Button
+		if(Settings::$like){				
+			$rootURL = Settings::$site_address;
+			$pageURL = $rootURL."/?f=".urlencode(File::a2r(CurrentUser::$path));
+			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.$pageURL.'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
+		}
+
 		if(!Settings::$nodownload){
 			/// Zip button
 			echo 	"<a href='?t=Zip&f=$this->path' class='button'>".Settings::_("boardheader","download")."</a>\n";
 		}
+
 		echo 	"</span>\n";
+
 		echo 	"</div>\n";
 	}
 }
