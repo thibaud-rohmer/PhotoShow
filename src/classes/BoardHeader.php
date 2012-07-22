@@ -76,6 +76,7 @@ class BoardHeader{
 
 	if(CurrentUser::$admin){
 		echo 	"<h1><div class='box'>";
+		if(strlen($this->w)>1){
 		echo 	"<form class='rename' action='?a=Mov' method='post'>
 					<input type='hidden' name='move' value='rename'>
 					<input type='hidden' name='pathFrom' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
@@ -85,7 +86,7 @@ class BoardHeader{
 				</fieldset>
 				</form>";
 		echo 	"</div>";
-
+		}
 		echo 	"<div class='box'><form class='create' action='?a=Upl' method='post'>
 					<fieldset>
 						<input type='hidden' name='path' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
