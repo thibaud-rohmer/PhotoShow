@@ -10,8 +10,8 @@ form > a {
 
 fieldset {
 	position:			relative;
-	margin:				5px 0 15px 0;
-	padding:			3px 0 3px 0;
+	margin:				5px 0;
+	padding:			0;
 	max-width:			100%;
 	min-height:			30px;
 }

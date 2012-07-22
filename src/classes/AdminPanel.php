@@ -108,10 +108,8 @@ class AdminPanel
 	}
 
 	public function toHTML(){
-		//echo '<div class="section">';
-		//echo '<h2>Infos</h2>';
-		echo $this->infos;
-		//echo "</div>";
+
+		//echo $this->infos;
 
 		if(CurrentUser::$admin){
 			echo $this->j->toHTML();

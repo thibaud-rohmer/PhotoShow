@@ -27,7 +27,7 @@
  * @license	  http://www.gnu.org/licenses/
  * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
- function init_admin(){
+function init_admin(){
 	// Dummy function
 }
 
@@ -62,6 +62,8 @@ function init_menu(){
 		update_url($(this).attr("href"),$(this).text());
 		return false;
 	});
+	init_panel();
+
 	init_menubar();
 }
 

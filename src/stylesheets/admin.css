@@ -47,15 +47,16 @@
 	background:		#aaa;
 }
 
-.infos fieldset{
+.box fieldset{
 	position:	relative;
-	width:		100%;
 	text-align: right;
+	width:		270px;
 }
 
-.infos input[type="text"]{
-	width:		103px;
+.box input[type="text"]{
+	width:		150px;
 }
+
 
 
 .explanations{

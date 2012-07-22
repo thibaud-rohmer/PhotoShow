@@ -152,6 +152,9 @@ class Board implements HTMLObject
 		// Output header
 		$this->header->toHTML();
 		
+		echo "<div id='selection_overlay'></div>\n";
+		echo "<div class='select'></div>\n";
+
 		if(sizeof($this->boardfolders)>0){
 			echo "<h2>".Settings::_("board","albums")."</h2>";
 			foreach($this->boardfolders as $boardfolder){

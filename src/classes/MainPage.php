@@ -147,9 +147,6 @@ class MainPage extends Page
 		echo "<div class='center selectzone'>";
 		/// Start Panel
 		echo "<div class='$this->panel_class'>\n";
-			echo "<div id='selection_overlay'></div>\n";
-
-			echo "<div class='select'></div>\n";
 			$this->panel->toHTML();
 		echo "</div>\n";
 		/// Stop Panel
