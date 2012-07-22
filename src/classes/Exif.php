@@ -65,7 +65,7 @@ class Exif implements HTMLObject
 		if(!isset($file)) return;
 		
 		/// File isn't an image
-		if(!File::Type($file) || File::Type($file) != "Image"){
+		if(is_array($file) || !File::Type($file) || File::Type($file) != "Image"){
 			return;
 		}
 		

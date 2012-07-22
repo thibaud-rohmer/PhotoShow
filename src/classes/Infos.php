@@ -67,10 +67,11 @@ class Infos implements HTMLObject
 	}
 
 	public function toHTML(){
+
 		if(CurrentUser::$admin || CurrentUser::$uploader ){
 		$this->info->toHTML();
 		}
-		
+
 		$this->exif->toHTML();
 
 		echo "<div id='comments' class='box'>\n";

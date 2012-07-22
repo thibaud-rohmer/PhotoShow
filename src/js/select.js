@@ -42,9 +42,22 @@ function readyselect(){
 				$(".selectzone").mouseup(function(){
 					$(".selectzone").unbind();
 					$(".item.selected").removeClass("selected");
+					$(".infos").load($(".menu .selected:last a").attr("href")+"&j=Inf",function(){
+						init_infos();	
+					});
 				});
 				$(".select").fadeOut("slow");
 				$("#selection_overlay").hide();
+
+				var loader = "?";
+				$(".item.selected a").each(function(){
+					loader = loader + $(this).attr("href").replace("?f=","&f[]=");
+				});
+
+				$(".infos").load(loader+"&j=Inf",function(){
+					init_infos();
+				});
+				
 			});
 		});
 	});

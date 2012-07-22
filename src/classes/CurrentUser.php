@@ -114,8 +114,17 @@ class CurrentUser
 
 		/// Set path
 		if(isset($_GET['f'])){
-			CurrentUser::$path = stripslashes(File::r2a($_GET['f']));
-
+			if(is_array($_GET['f'])){
+				if(sizeof($_GET['f'])>1){
+					foreach($_GET['f'] as $file){
+						CurrentUser::$path[] = stripslashes(File::r2a($file));
+					}
+				}else{
+					CurrentUser::$path = stripslashes(File::r2a($_GET['f'][0]));
+				}
+			}else{
+				CurrentUser::$path = stripslashes(File::r2a($_GET['f']));
+			}
 			if(isset($_GET['p'])){
 				switch($_GET['p']){
 					case 'n':	CurrentUser::$path = File::next(CurrentUser::$path);
@@ -129,7 +138,6 @@ class CurrentUser
 			/// Path not defined in URL
 			CurrentUser::$path = Settings::$photos_dir;
 		}
-
 
 		/// Set CurrentUser account
 		if (isset($_SESSION['login'])) {

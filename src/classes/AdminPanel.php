@@ -51,13 +51,17 @@ class AdminPanel
 	public function __construct(){
 
 		$file = CurrentUser::$path;
-		if(is_file($file)){
+		if(!is_array($file) && is_file($file)){
 			$this->isfile = true;
 		}
 
 		$this->j = new Judge($file);
+		if(is_array($file)){
+			$this->infos = "";
 
-		$this->infos 		= $this->infodirtoHTML($file);
+		}else{
+			$this->infos 		= $this->infodirtoHTML($file);
+		}
 	}
 
 

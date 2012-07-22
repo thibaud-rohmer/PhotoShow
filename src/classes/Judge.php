@@ -67,6 +67,8 @@ class Judge
 	/// Path to the file
 	public $file;
 
+	/// Are we working with multiple items ?
+	private $multi;
 
 	/**
 	 * Create a Judge for a specific file.
@@ -76,7 +78,8 @@ class Judge
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($f, $read_rights=true){
-		if(!file_exists($f)){
+
+		if(! is_array($f) && !file_exists($f) ){
 			return;
 		}
 		$this->public	=	false;
@@ -84,10 +87,21 @@ class Judge
 		$this->users	=	array();
 		$this->file 	=	$f;
 
-		$this->set_path($f);
-		
-		if($read_rights)
-			$this->set_rights();
+		// Multiple files
+		if(is_array($f)){
+			$this->multi = true;
+			$this->filename = sizeof($f) . " files selected";
+			$this->webpath = "";
+			foreach ($f as $file) {
+				$this->webpath .= "&f[]=".urlencode(File::a2r($file));
+			}
+		}else{
+			$this->multi = false;
+			$this->set_path($f);
+			if($read_rights){
+				$this->set_rights();
+			}
+		}
 	}
 	
 	/**
@@ -103,7 +117,7 @@ class Judge
 		$basepath	=	File::a2r($f);
 
 		$this->filename = $basefile->name;
-		$this->webpath 	= urlencode($basepath);
+		$this->webpath 	= "&f=".urlencode($basepath);
 
 		if(is_file($f)){
 			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
@@ -251,6 +265,12 @@ class Judge
 		if(!CurrentUser::$admin)
 			return;
 
+		if(is_array($f)){
+			foreach($f as $file){
+				Judge::edit($file,$users,$groups,$private);
+			}
+			return;
+		}
 		// Create new Judge, no need to read its rights
 		$rights			=	new Judge($f,false);
 
@@ -369,25 +389,29 @@ class Judge
 		echo "<h2>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h2>\n";
 
 
-		if($this->public){
+		if(!$this->multi){
+			if($this->public){
 
-			echo "<form action='?t=Pri&f=$this->webpath' method='post'>\n";
-			echo Settings::_("judge","public");
-			echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' /></fieldset>";
-			echo "</form>";
-			echo "</div>";
-			return;
+				echo "<form action='?t=Pri$this->webpath' method='post'>\n";
+				echo Settings::_("judge","public");
+				echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' /></fieldset>";
+				echo "</form>";
+				echo "</div>";
+				return;
 
+			}else{
+				echo "<form action='?t=Pub$this->webpath' method='post'>\n";
+				echo Settings::_("judge","priv");
+				echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' /></fieldset>";
+				echo "</form>";
+			}
 		}else{
-
-			echo "<form action='?t=Pub&f=$this->webpath' method='post'>\n";
-			echo Settings::_("judge","priv");
-			echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' /></fieldset>";
-			echo "</form>";
-
+				echo "<form action='?t=Pub$this->webpath' method='post'>\n";
+				echo "<fieldset><input type='submit' class='button blue' value='"."Set those items as Public"."' /></fieldset>";
+				echo "</form>";
 		}
 
-		echo "<form action='?t=Rig&f=$this->webpath' method='post'>\n";
+		echo "<form action='?t=Rig$this->webpath' method='post'>\n";
 		echo "<h2>".Settings::_("judge","accounts")."</h2>";
 
 		foreach(Account::findAll() as $account){
@@ -419,18 +443,20 @@ class Judge
 		echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","set")."'></fieldset>\n";
 		echo "</form>\n";
         
-        // Token creation
-        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
-        $tokens = GuestToken::find_for_path($this->file);
-        if ($tokens && !empty($tokens)){
-            foreach($tokens as $token){
-                echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
-            }
-        }
-        echo "<form action='?t=CTk&f=$this->webpath' method='post'>\n";
-        echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' /></fieldset>";
-        echo "</form>";
-		echo "</div>";
+        if(!$this->multi){
+	        // Token creation
+	        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
+	        $tokens = GuestToken::find_for_path($this->file);
+	        if ($tokens && !empty($tokens)){
+	            foreach($tokens as $token){
+	                echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
+	            }
+	        }
+	        echo "<form action='?t=CTk$this->webpath' method='post'>\n";
+	        echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' /></fieldset>";
+	        echo "</form>";
+			echo "</div>";
+		}
 
         echo "</div>\n";
     }

@@ -73,7 +73,7 @@ class Comments implements HTMLObject
 	public function __construct($file=null){
 		
 		/// No item, no comment !
-		if(!isset($file)) return;
+		if(!isset($file) || is_array($file)) return;
 				
 		/// Set variables
 		$this->file	=	$file;
