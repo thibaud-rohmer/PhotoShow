@@ -2,6 +2,8 @@ function readyselect(){
 	$("#multiselectbutton").unbind();
 	$("#multiselectbutton").click(function(){
 		$("#selection_overlay").show();
+		$("#multiselectbutton").css("color","yellow");
+
 		$(".selectzone").mousedown(function(init){
 			// init .select
 			var start = init
@@ -11,6 +13,7 @@ function readyselect(){
 			$(".select").css("top",start.pageY+"px");
 			$(".select").width(0);
 			$(".select").height(0);
+
 
 			$(".selectzone").mousemove(function(e){
 				if(e.pageX > start.pageX){
@@ -57,7 +60,9 @@ function readyselect(){
 				$(".infos").load(loader+"&j=Inf",function(){
 					init_infos();
 				});
-				
+
+				$("#multiselectbutton").css("color","white");
+
 			});
 		});
 	});
