@@ -194,7 +194,7 @@ class Judge
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
 		// Check files
-		if(!isset($rightsfiles) || len($rightsfiles) < 1 ){
+		if(!isset($rightsfiles) || count($rightsfiles) < 1 ){
 			$rightsfiles = NULL;
 		}
 
