@@ -73,6 +73,9 @@ class ImageBar
 			$this->buttons['get']  = 	"?t=BDl&f=".$file;
 		}
 		$this->buttons['next'] = 	$t."p=n&f=".$file;
+		$this->buttons['pause'] = 	$t."f=".$file;
+		$this->buttons['play'] = 	$t."f=".$file;
+		$this->buttons['stop'] = 	$t."f=".$file;
 		$this->buttons['slideshow'] = 	$t."f=".$file;
 
 	}

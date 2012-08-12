@@ -44,49 +44,87 @@ function start_slideshow(){
 	hide_links();
 }
 
+function play_pause_slideshow(){
+	if(slideshow_status == 1){
+		pause_slideshow();
+	}else{
+		play_slideshow();
+	}
+}
+
+function play_slideshow(){
+	start_slideshow();
+	$("#pause").show();
+	$("#play").hide();
+}
+
+function pause_slideshow(){
+	slideshow_status = 2;
+	clearInterval(timer);
+	$("#play").show();
+	$("#pause").hide();
+}
+
 function stop_slideshow(){
 	slideshow_status = 0;
 	clearInterval(timer);
 	$(".image_panel").animate({bottom:'120'},200);
 	$(".image_panel").css("position","absolute");
 	$(".image_panel").css("z-index",50);
-	$("#slideshow").unbind();
 	show_links();
 }
 
-function toggle_slideshow(){
-	if(slideshow_status == 1){
-		stop_slideshow();
-	}else{
-		start_slideshow();
-	}
-}
-
 function init_slideshow_panel(){
-	$("#slideshow").unbind();
+	$("#image_bar #pause").hide();
+	$("#image_bar #play").hide();
+	$("#image_bar #stop").hide();
 
+	$("#slideshow").unbind();
 	$("#slideshow").click(function(){
-		toggle_slideshow();
+		start_slideshow();
 		return false;
 	});
-
-	$("#back").click(function(){
+	
+	$("#stop").unbind();
+	$("#stop").click(function(){
 		stop_slideshow();
+		return false;
+	});
+	
+	$("#pause").unbind();
+	$("#pause").click(function(){
+		pause_slideshow();
+		return false;
+	});
+	
+	$("#play").unbind();
+	$("#play").click(function(){
+		play_slideshow();
+		return false;
 	});
 }
 
 function show_links(){
-	$('#image_bar #prev').show();
 	$('#image_bar #back').show();
-	$('#image_bar #next').show();
 	$('#image_bar #img').show();
 	$('#image_bar #get').show();
+	$('#image_bar #slideshow').show();
+	$('#image_bar #pause').hide();
+	$('#image_bar #play').hide();
+	$('#image_bar #stop').hide();
 }
 
 function hide_links(){
-	$('#image_bar #prev').hide();
 	$('#image_bar #back').hide();
-	$('#image_bar #next').hide();
 	$('#image_bar #img').hide();
 	$('#image_bar #get').hide();
+	$('#image_bar #slideshow').hide();
+	$('#image_bar #stop').show();
+	if(slideshow_status == 1){
+		$('#image_bar #pause').show();
+		$('#image_bar #play').hide();
+	}else{
+		$('#image_bar #play').show();
+		$('#image_bar #pause').hide();
+	}
 }
