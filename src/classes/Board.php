@@ -210,8 +210,8 @@ class Board implements HTMLObject
 			}
 			
 			// Create new line when sum 
-			// of ratios reaches 11
-			if($bl->ratio + $ratio > 11){
+			// of ratios reaches 9
+			if($bl->ratio + $ratio > 9){
 				$bl->end_line();
 				$this->boardlines[] = $bl;
 				$bl =	new BoardLine();
