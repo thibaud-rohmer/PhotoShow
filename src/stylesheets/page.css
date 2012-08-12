@@ -172,6 +172,10 @@ div.section h2{
 	border-radius:		2px;
 }
 
+div.section a {
+    overflow: hidden;
+}
+
 div.select{
 	position:			fixed;
 	background-color: 	rgba(60,60,60,.3);
