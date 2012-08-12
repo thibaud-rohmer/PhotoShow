@@ -143,5 +143,5 @@ $("document").ready(function(){
 	init_infos();
 	init_panel();
 	init_hiders();
-	$(".menu").scrollTo($(".menu .selected:last"));
+	if ($(".menu .selected:last").length > 0) $(".menu").scrollTo($(".menu .selected:last"));
 });
