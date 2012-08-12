@@ -95,11 +95,11 @@ abstract class Page implements HTMLObject
 				echo "<script src='src/js/admin.js'></script>\n";
 			}
 
-            // Add specific head content if needed
-            if ($head_content)
-            {
-                echo $head_content;
-            }
+			// Add specific head content if needed
+			if ($head_content)
+			{
+				echo $head_content;
+			}
 
 			echo "</head>";
 		}
