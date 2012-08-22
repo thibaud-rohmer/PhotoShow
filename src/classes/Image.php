@@ -88,11 +88,11 @@ class Image implements HTMLObject
 		}else{
 			$this->t = "Img";
 
-			if($this->x >= 1600 || $this->y >= 1600){
+			if($this->x >= 1200 || $this->y >= 1200){
 				if ($this->x > $this->y){
-					$this->x = 1600;
+					$this->x = 1200;
 				}else{
-					$this->x = $this->x * 1600 / $this->y;
+					$this->x = $this->x * 1200 / $this->y;
 				}
 			}
 		}
