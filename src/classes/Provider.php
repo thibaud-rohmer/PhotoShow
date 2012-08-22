@@ -166,7 +166,7 @@ class Provider
 
             /// Create thumbnail
 			$thumb = PhpThumbFactory::create($file);
-			$thumb->resize(200, 200);
+			$thumb->resize(400, 400);
 			if(File::Type($file)=="Image"){
 				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
 			}
