@@ -299,32 +299,52 @@ class Provider
 		if( !Judge::view($dir)){
 			return;
 		}	
-			
-		/// Prepare file
-		$tmpfile = tempnam("tmp", "zip");
-		$zip = new ZipArchive();
-		$zip->open($tmpfile, ZipArchive::OVERWRITE);
 
-		/// Staff with content
+
+                // Get the relative path of the files
+		$delimPosition = strrpos($dir, '/');
+		if (strlen($dir) == $delimPosition) {
+		        echo "Error: Directory has a slash at the end";
+		        return;
+		}
+
+		// Create list with all filenames
 		$items = Menu::list_files($dir,true);
+		$itemsString = '';
 
 		foreach($items as $item){
 			if(Judge::view($item)){
-				$zip->addFile($item,basename(dirname($item))."/".basename($item));
+                                // Use only the relative path of the filename
+				$itemsString.=" '".substr($item,$delimPosition+1)."'";
 			}
 		}
 
 		// Close and send to user
-		$fname=basename($dir);
-		$zip->close();
 		header('Content-Type: application/zip');
-		header('Content-Length: ' . filesize($tmpfile));
-		header("Content-Disposition: attachment; filename=\"".htmlentities($fname, ENT_QUOTES ,'UTF-8').".zip\"");
-		readfile($tmpfile);
-		unlink($tmpfile);
+		header("Content-Disposition: attachment; filename=\"".htmlentities(basename($dir), ENT_QUOTES ,'UTF-8').".zip\"");
 
+                // Store the current working directory and change to the albums directory
+		$cwd = getcwd();
+		chdir(substr($dir,0,$delimPosition));
 
-
+		// ZIP-on-the-fly method copied from http://stackoverflow.com/questions/4357073
+		//
+		// use popen to execute a unix command pipeline
+		// and grab the stdout as a php stream
+		$fp = popen('zip -0 - ' . $itemsString, 'r');
+		
+		// pick a bufsize that makes you happy (8192 has been suggested).
+		$bufsize = 8192;
+		$buff = '';
+		while( !feof($fp) ) {
+		        $buff = fread($fp, $bufsize);
+                        echo $buff;
+                        flush();
+                }
+                pclose($fp);
+                
+                // Chang to the previous working directory
+                chdir($cwd);
 	}
 
 }
