@@ -124,7 +124,10 @@ class BoardDir implements HTMLObject
 		echo 	"</div>\n";
 		echo 	"<div class='dirname'>";
 
-		echo 	htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8');			
+		// Fix when 1st letter is É,À, ... .
+		//echo 	htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8');
+		(array)$name = explode('/', $this->path);
+		echo 	htmlentities(end($name), ENT_QUOTES ,'UTF-8');
 
 
 		echo 	"</div>\n";
