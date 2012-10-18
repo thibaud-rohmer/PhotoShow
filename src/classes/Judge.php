@@ -194,7 +194,7 @@ class Judge
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
 		// Check files
-		if(isset($rightsfiles) || count($rightsfiles) > 0){
+		if(isset($rightsfiles) && count($rightsfiles) > 0){
 			foreach($rightsfiles as $rf){
 				$f = Judge::associated_file($rf);
 	            if(($public_search and Judge::is_public($f))
