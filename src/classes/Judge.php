@@ -194,26 +194,25 @@ class Judge
 		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
 		// Check files
-		if(!isset($rightsfiles) || count($rightsfiles) < 1 ){
+		if(isset($rightsfiles) || count($rightsfiles) > 0){
+			foreach($rightsfiles as $rf){
+				$f = Judge::associated_file($rf);
+	            if(($public_search and Judge::is_public($f))
+	                or (!$public_search and Judge::view($f))){
+	                    if(is_file($f)){
+	                        return $f;
+	                    }else{
+	                        foreach(Menu::list_files($f,true) as $p){
+	                            if(($public_search and Judge::is_public($p))
+	                                or (!$public_search and Judge::view($p))){
+	                                    return $p;
+	                                }
+	                        }
+	                    }
+	                }
+	        }
 			$rightsfiles = NULL;
 		}
-
-		foreach($rightsfiles as $rf){
-			$f = Judge::associated_file($rf);
-            if(($public_search and Judge::is_public($f))
-                or (!$public_search and Judge::view($f))){
-                    if(is_file($f)){
-                        return $f;
-                    }else{
-                        foreach(Menu::list_files($f,true) as $p){
-                            if(($public_search and Judge::is_public($p))
-                                or (!$public_search and Judge::view($p))){
-                                    return $p;
-                                }
-                        }
-                    }
-                }
-        }
 
 		// Check subdirs
 		foreach(Menu::list_dirs($dir) as $d){
