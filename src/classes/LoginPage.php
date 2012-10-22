@@ -71,7 +71,7 @@ class LoginPage extends Page
             echo "<div class='center'>\n";
             echo "<form method='post' action='?t=Log' class='niceform'>\n";
 
-            echo "<div class='section'><h2>Login</h2>";
+            echo "<div class='section'><h2>".Settings::_("login","logintitle")."</h2>";
 
             /// Login
             echo "<fieldset>
