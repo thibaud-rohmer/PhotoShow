@@ -46,304 +46,303 @@
 
 class Judge
 {
-	/// Absolute path to rights file for requested file
-	public $path;
-	
-	/// True if requested file is public
-	public $public=false;
-	
-	/// Groups allowed to see requested file
-	public $groups=array();
-	
-	/// Users allowed to see requested file
-	public $users=array();
-	
-	/// Name of requested file
-	public $filename;
+    /// Absolute path to rights file for requested file
+    public $path;
 
-	/// Urlencoded relative path
-	public $webpath;
+    /// True if requested file is public
+    public $public=false;
 
-	/// Path to the file
-	public $file;
+    /// Groups allowed to see requested file
+    public $groups=array();
 
-	/// Are we working with multiple items ?
-	private $multi;
+    /// Users allowed to see requested file
+    public $users=array();
 
-	/**
-	 * Create a Judge for a specific file.
-	 *
-	 * @param string $f 
-	 * @param string $read_rights 
-	 * @author Thibaud Rohmer
-	 */
-	public function __construct($f, $read_rights=true){
+    /// Name of requested file
+    public $filename;
 
-		if(! is_array($f) && !file_exists($f) ){
-			return;
-		}
-		$this->public	=	false;
-		$this->groups	=	array();
-		$this->users	=	array();
-		$this->file 	=	$f;
+    /// Urlencoded relative path
+    public $webpath;
 
-		// Multiple files
-		if(is_array($f)){
-			$this->multi = true;
-			$this->filename = sizeof($f) . " files selected";
-			$this->webpath = "";
-			foreach ($f as $file) {
-				$this->webpath .= "&f[]=".urlencode(File::a2r($file));
-			}
-		}else{
-			$this->multi = false;
-			$this->set_path($f);
-			if($read_rights){
-				$this->set_rights();
-			}
-		}
-	}
-	
-	/**
-	 * Get path to rights file associated to our file
-	 *
-	 * @param string $f 
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
-	private function set_path($f){
-		
-		$basefile	= 	new File($f);
-		$basepath	=	File::a2r($f);
+    /// Path to the file
+    public $file;
 
-		$this->filename = $basefile->name;
-		$this->webpath 	= "&f=".urlencode($basepath);
+    /// Are we working with multiple items ?
+    private $multi;
 
-		if(is_file($f)){
-			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
-		}else{
-			$rightsfile	=	$basepath."/.rights.xml";
-		}
-		$this->path =	File::r2a($rightsfile,Settings::$thumbs_dir);
+    /**
+     * Create a Judge for a specific file.
+     *
+     * @param string $f 
+     * @param string $read_rights 
+     * @author Thibaud Rohmer
+     */
+    public function __construct($f, $read_rights=true){
 
-	}
-	
-	/**
-	 * Get rights (recursively) for the file
-	 *
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
-	private function set_rights(){
+        if(! is_array($f) && !file_exists($f) ){
+            return;
+        }
+        $this->public   =   false;
+        $this->groups   =   array();
+        $this->users    =   array();
+        $this->file     =   $f;
 
-		/// First, parse the rights file (if it exists)
-		try{
-			$xml_infos	=	new File($this->path);
-			$xml		=	simplexml_load_file($this->path);
+        // Multiple files
+        if(is_array($f)){
+            $this->multi = true;
+            $this->filename = sizeof($f) . " files selected";
+            $this->webpath = "";
+            foreach ($f as $file) {
+                $this->webpath .= "&f[]=".urlencode(File::a2r($file));
+            }
+        }else{
+            $this->multi = false;
+            $this->set_path($f);
+            if($read_rights){
+                $this->set_rights();
+            }
+        }
+    }
 
-			$this->public	=	($xml->public == 1);
+    /**
+     * Get path to rights file associated to our file
+     *
+     * @param string $f 
+     * @return void
+     * @author Thibaud Rohmer
+     */
+    private function set_path($f){
 
-			foreach($xml->groups->children() as $g)
-				$this->groups[]=(string)$g;
+        $basefile   =   new File($f);
+        $basepath   =   File::a2r($f);
 
-			foreach($xml->users->children() as $u)
-				$this->users[]=(string)$u;
+        $this->filename = $basefile->name;
+        $this->webpath  = "&f=".urlencode($basepath);
 
-		}catch(Exception $e){
-		
-			/// If no rights file found, check in the containing directory
-			try{
-				// Look up
+        if(is_file($f)){
+            $rightsfile =   dirname($basepath)."/.".basename($f)."_rights.xml";
+        }else{
+            $rightsfile =   $basepath."/.rights.xml";
+        }
+        $this->path =   File::r2a($rightsfile,Settings::$thumbs_dir);
 
-				$up		=	dirname($this->file);
-				$j = new Judge($up);
-				
-				$this->groups 	= $j->groups;
-				$this->users 	= $j->users;
-				$this->public 	= $j->public;
+    }
 
+    /**
+     * Get rights (recursively) for the file
+     *
+     * @return void
+     * @author Thibaud Rohmer
+     */
+    private function set_rights(){
 
-			}catch(Exception $e){
-				
-				// We are as high as possible
-				$this->public	=	false;
-				$this->groups	=	array();
-				$this->users	=	array();		
-			}
-		}
-	}
+        /// First, parse the rights file (if it exists)
+        try{
+            $xml_infos  =   new File($this->path);
+            $xml        =   simplexml_load_file($this->path);
 
-	/**
-	 * Returns path to associated file
-	 */
-	public static function associated_file($rf){
-		$associated_dir = File::r2a(File::a2r(dirname($rf),Settings::$thumbs_dir),Settings::$photos_dir);
-		if(basename($rf) == ".rights.xml"){
-			return $associated_dir;
-		}else{
-			return $associated_dir."/".substr(basename($rf),1,-11);
-		}		
-	}
+            $this->public   =   ($xml->public == 1);
+
+            foreach($xml->groups->children() as $g)
+                $this->groups[]=(string)$g;
+
+            foreach($xml->users->children() as $u)
+                $this->users[]=(string)$u;
+
+        }catch(Exception $e){
+
+            /// If no rights file found, check in the containing directory
+            try{
+                // Look up
+
+                $up     =   dirname($this->file);
+                $j = new Judge($up);
+
+                $this->groups   = $j->groups;
+                $this->users    = $j->users;
+                $this->public   = $j->public;
 
 
-	/**
-	 * Check if a file is viewable in a folder, and returns path to that file.
-	 */
-	public static function searchDir($dir,$public_search = false){
-		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
-		$rightsfiles=glob($rightsdir."/.*ights.xml");
+            }catch(Exception $e){
 
-		// Check files
-		if(!isset($rightsfiles) || count($rightsfiles) < 1 ){
-			$rightsfiles = NULL;
-		}
+                // We are as high as possible
+                $this->public   =   false;
+                $this->groups   =   array();
+                $this->users    =   array();        
+            }
+        }
+    }
 
-		foreach($rightsfiles as $rf){
-			$f = Judge::associated_file($rf);
-            if(($public_search and Judge::is_public($f))
-                or (!$public_search and Judge::view($f))){
-                    if(is_file($f)){
-                        return $f;
-                    }else{
-                        foreach(Menu::list_files($f,true) as $p){
-                            if(($public_search and Judge::is_public($p))
-                                or (!$public_search and Judge::view($p))){
-                                    return $p;
-                                }
+    /**
+     * Returns path to associated file
+     */
+    public static function associated_file($rf){
+        $associated_dir = File::r2a(File::a2r(dirname($rf),Settings::$thumbs_dir),Settings::$photos_dir);
+        if(basename($rf) == ".rights.xml"){
+            return $associated_dir;
+        }else{
+            return $associated_dir."/".substr(basename($rf),1,-11);
+        }       
+    }
+
+
+    /**
+     * Check if a file is viewable in a folder, and returns path to that file.
+     */
+    public static function searchDir($dir,$public_search = false){
+        $rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
+        $rightsfiles=glob($rightsdir."/.*ights.xml");
+
+        // Check files
+        if(isset($rightsfiles) || count($rightsfiles) > 0){
+            foreach($rightsfiles as $rf){
+                $f = Judge::associated_file($rf);
+                if(($public_search and Judge::is_public($f))
+                    or (!$public_search and Judge::view($f))){
+                        if(is_file($f)){
+                            return $f;
+                        }else{
+                            foreach(Menu::list_files($f,true) as $p){
+                                if(($public_search and Judge::is_public($p))
+                                    or (!$public_search and Judge::view($p))){
+                                        return $p;
+                                    }
+                            }
                         }
                     }
-                }
+            }
+            $rightsfiles = NULL;
         }
 
-		// Check subdirs
-		foreach(Menu::list_dirs($dir) as $d){
-			if(($f=Judge::searchDir($d, $public_search))){
-				return $f;
-			}
-		}
+        // Check subdirs
+        foreach(Menu::list_dirs($dir) as $d){
+            if(($f=Judge::searchDir($d, $public_search))){
+                return $f;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Save our judge for this file as an xml file
-	 *
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
-	public function save(){
-		
-		/// Create xml
-		$xml		=	new SimpleXMLElement('<rights></rights>');
-		
-		/// Put values in xml
-		$xml->addChild('public',$this->public);
-		$xml_users	=	$xml->addChild('users');
-		$xml_groups	=	$xml->addChild('groups');
+    /**
+     * Save our judge for this file as an xml file
+     *
+     * @return void
+     * @author Thibaud Rohmer
+     */
+    public function save(){
 
-		foreach($this->users as $user)
-			$xml_users->addChild("login",$user);
+        /// Create xml
+        $xml        =   new SimpleXMLElement('<rights></rights>');
 
-		foreach($this->groups as $group)
-			$xml_groups->addChild("group",$group);
-		
-		if(!file_exists(dirname($this->path))){
-			@mkdir(dirname($this->path),0750,true);
-		}
-		/// Save xml
-		$xml->asXML($this->path);
-	}
-	
-	/**
-	 * Edit rights of the Judge. Because you can.
-	 *
-	 * @param string $f 
-	 * @param string $groups 
-	 * @param string $users 
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
-	public static function edit($f,$users=array(),$groups=array(),$private=false){
+        /// Put values in xml
+        $xml->addChild('public',$this->public);
+        $xml_users  =   $xml->addChild('users');
+        $xml_groups =   $xml->addChild('groups');
 
-		/// Just to be sure, check that user is admin
-		if(!CurrentUser::$admin)
-			return;
+        foreach($this->users as $user)
+            $xml_users->addChild("login",$user);
 
-		if(is_array($f)){
-			foreach($f as $file){
-				Judge::edit($file,$users,$groups,$private);
-			}
-			return;
-		}
-		// Create new Judge, no need to read its rights
-		$rights			=	new Judge($f,false);
+        foreach($this->groups as $group)
+            $xml_groups->addChild("group",$group);
 
-		/// Put the values in the Judge (poor guy)
-		if(isset($groups)){
-			$rights->groups =	$groups;
-		}
+        if(!file_exists(dirname($this->path))){
+            @mkdir(dirname($this->path),0750,true);
+        }
+        /// Save xml
+        $xml->asXML($this->path);
+    }
 
-		if(isset($users)){
-			$rights->users =	$users;
-		}
-		
-		$rights->public	=	( !$private ) ? 1 : 0;
-		
-		// Save the Judge
-		$rights->save();
-	}
-	
-	/**
-	 * Returns true if the file to access is in the sub-path of the main directory
-	 *
-	 * @param string $f file to access
-	 * @return bool
-	 * @author Thibaud Rohmer
-	 */
-	public static function inGoodPlace($f){
+    /**
+     * Edit rights of the Judge. Because you can.
+     *
+     * @param string $f 
+     * @param string $groups 
+     * @param string $users 
+     * @return void
+     * @author Thibaud Rohmer
+     */
+    public static function edit($f,$users=array(),$groups=array(),$private=false){
 
-		$rf =	realpath($f);
-		$rd =	realpath(Settings::$photos_dir);
-		
-		if($rf == $rd) return true;
+        /// Just to be sure, check that user is admin
+        if(!CurrentUser::$admin)
+            return;
 
-		if( substr($rf,0,strlen($rd)) == $rd ){
-			return true;
-		}
-		return false;
+        if(is_array($f)){
+            foreach($f as $file){
+                Judge::edit($file,$users,$groups,$private);
+            }
+            return;
+        }
+        // Create new Judge, no need to read its rights
+        $rights         =   new Judge($f,false);
 
-	}
+        /// Put the values in the Judge (poor guy)
+        if(isset($groups)){
+            $rights->groups =   $groups;
+        }
 
-	/**
-	 * Returns true if the current user may access this file
-	 *
-	 * @param string $f file to access
-	 * @return bool
-	 * @author Thibaud Rohmer
-	 */
-	public static function view($f){
-		
-		// Check if user has an account		
-		if(!isset(CurrentUser::$account) && !isset(CurrentUser::$token)){
-			// User is not logged in
-			$judge	=	new Judge($f);
-			return($judge->public);
-		}
+        if(isset($users)){
+            $rights->users =    $users;
+        }
 
-		if(!Judge::inGoodPlace($f))
-			return false;
+        $rights->public =   ( !$private ) ? 1 : 0;
 
-		// No Judge required for the admin. This guy rocks.
-		if(CurrentUser::$admin)
-			return true;
+        // Save the Judge
+        $rights->save();
+    }
 
-		// Create Judge
-		$judge	=	new Judge($f);
-		
-		// Public file
-		if($judge->public){
-			return true;
-		}
+    /**
+     * Returns true if the file to access is in the sub-path of the main directory
+     *
+     * @param string $f file to access
+     * @return bool
+     * @author Thibaud Rohmer
+     */
+    public static function inGoodPlace($f){
+
+        $rf =   realpath($f);
+        $rd =   realpath(Settings::$photos_dir);
+
+        if($rf == $rd) return true;
+
+        if( substr($rf,0,strlen($rd)) == $rd ){
+            return true;
+        }
+        return false;
+
+    }
+
+    /**
+     * Returns true if the current user may access this file
+     *
+     * @param string $f file to access
+     * @return bool
+     * @author Thibaud Rohmer
+     */
+    public static function view($f){
+
+        // Check if user has an account     
+        if(!isset(CurrentUser::$account) && !isset(CurrentUser::$token)){
+            // User is not logged in
+            $judge  =   new Judge($f);
+            return($judge->public);
+        }
+
+        if(!Judge::inGoodPlace($f))
+            return false;
+
+        // No Judge required for the admin. This guy rocks.
+        if(CurrentUser::$admin)
+            return true;
+
+        // Create Judge
+        $judge  =   new Judge($f);
+
+        // Public file
+        if($judge->public){
+            return true;
+        }
 
         if (isset(CurrentUser::$account)){
             // User allowed
@@ -364,103 +363,103 @@ class Judge
             }
         }
         
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Returns true if the file is public
-	 *
-	 * @param string $f file to access
-	 * @return bool
-	 * @author Franck Royer
-	 */
+    /**
+     * Returns true if the file is public
+     *
+     * @param string $f file to access
+     * @return bool
+     * @author Franck Royer
+     */
     public static function is_public($f){
-        $judge	=	new Judge($f);
+        $judge  =   new Judge($f);
         return($judge->public);
     }
 
-	/**
-	 * Display the rights on website, and let
-	 * the admin edit them.
-	 * 
-	 * @author Thibaud Rohmer
-	 */
-	public function toHTML(){
-		
-		echo "<div class='adminrights'>\n";
-		echo "<div class='section'>";
+    /**
+     * Display the rights on website, and let
+     * the admin edit them.
+     * 
+     * @author Thibaud Rohmer
+     */
+    public function toHTML(){
 
-		echo "<h2>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h2>\n";
+        echo "<div class='adminrights'>\n";
+        echo "<div class='section'>";
+
+        echo "<h2>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h2>\n";
 
 
-		if(!$this->multi){
-			if($this->public){
+        if(!$this->multi){
+            if($this->public){
 
-				echo "<form action='?t=Pri$this->webpath' method='post'>\n";
-				echo Settings::_("judge","public");
-				echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' /></fieldset>";
-				echo "</form>";
-				echo "</div>";
-				return;
+                echo "<form action='?t=Pri$this->webpath' method='post'>\n";
+                echo Settings::_("judge","public");
+                echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' /></fieldset>";
+                echo "</form>";
+                echo "</div>";
+                return;
 
-			}else{
-				echo "<form action='?t=Pub$this->webpath' method='post'>\n";
-				echo Settings::_("judge","priv");
-				echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' /></fieldset>";
-				echo "</form>";
-			}
-		}else{
-				echo "<form action='?t=Pub$this->webpath' method='post'>\n";
-				echo "<fieldset><input type='submit' class='button blue' value='"."Set those items as Public"."' /></fieldset>";
-				echo "</form>";
-		}
+            }else{
+                echo "<form action='?t=Pub$this->webpath' method='post'>\n";
+                echo Settings::_("judge","priv");
+                echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' /></fieldset>";
+                echo "</form>";
+            }
+        }else{
+                echo "<form action='?t=Pub$this->webpath' method='post'>\n";
+                echo "<fieldset><input type='submit' class='button blue' value='"."Set those items as Public"."' /></fieldset>";
+                echo "</form>";
+        }
 
-		echo "<form action='?t=Rig$this->webpath' method='post'>\n";
-		echo "<h2>".Settings::_("judge","accounts")."</h2>";
+        echo "<form action='?t=Rig$this->webpath' method='post'>\n";
+        echo "<h2>".Settings::_("judge","accounts")."</h2>";
 
-		foreach(Account::findAll() as $account){
-			
-			if(in_array($account['login'], $this->users)){
-				$checked = "checked";
-			}else{
-				$checked = "";
-			}
+        foreach(Account::findAll() as $account){
 
-			echo "<div><label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label></div>";
-		}
+            if(in_array($account['login'], $this->users)){
+                $checked = "checked";
+            }else{
+                $checked = "";
+            }
 
-		echo "<h2>".Settings::_("judge","groups")."</h2>";
+            echo "<div><label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label></div>";
+        }
 
-		foreach(Group::findAll() as $group){
-			if($group['name'] == "root"){
-				continue;
-			}
-			if(in_array($group['name'], $this->groups)){
-				$checked = "checked";
-			}else{
-				$checked = "";
-			}
+        echo "<h2>".Settings::_("judge","groups")."</h2>";
 
-			echo "<div><label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label></div>";
-		}
+        foreach(Group::findAll() as $group){
+            if($group['name'] == "root"){
+                continue;
+            }
+            if(in_array($group['name'], $this->groups)){
+                $checked = "checked";
+            }else{
+                $checked = "";
+            }
 
-		echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","set")."'></fieldset>\n";
-		echo "</form>\n";
+            echo "<div><label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label></div>";
+        }
+
+        echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","set")."'></fieldset>\n";
+        echo "</form>\n";
         
         if(!$this->multi){
-	        // Token creation
-	        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
-	        $tokens = GuestToken::find_for_path($this->file);
-	        if ($tokens && !empty($tokens)){
-	            foreach($tokens as $token){
-	                echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
-	            }
-	        }
-	        echo "<form action='?t=CTk$this->webpath' method='post'>\n";
-	        echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' /></fieldset>";
-	        echo "</form>";
-			echo "</div>";
-		}
+            // Token creation
+            echo "<h2>".Settings::_("token","tokens")."</h2>\n";
+            $tokens = GuestToken::find_for_path($this->file);
+            if ($tokens && !empty($tokens)){
+                foreach($tokens as $token){
+                    echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."<\a><br />\n";
+                }
+            }
+            echo "<form action='?t=CTk$this->webpath' method='post'>\n";
+            echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' /></fieldset>";
+            echo "</form>";
+            echo "</div>";
+        }
 
         echo "</div>\n";
     }
