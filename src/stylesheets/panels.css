@@ -223,8 +223,8 @@ bottom: 25px;
 
 div#image_bar {
 position: absolute;
-left: 25%;
-right: 25%;
+left: 20%;
+right: 20%;
 height: 20px;
 bottom: 0;
 font-size: 15px;
@@ -233,8 +233,7 @@ text-align: center;
 
 div#image_bar > span {
 display: inline-block;
-width: 50px;
-
+margin: 0 4px;
 }
 
 
