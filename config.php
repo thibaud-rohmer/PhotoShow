@@ -40,4 +40,7 @@ $config->ps_generated   = "path_where_photoshow_generates_files_goes_here";
 // Local timezone. Default one is "Europe/Paris".
 #$config->timezone = "Europe/Paris";
 
+// i18n. Default one is "default". Available languages are in inc/loc
+#$config->i18n = "francais";
+
 ?>
