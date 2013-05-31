@@ -100,7 +100,7 @@ class Image implements HTMLObject
 	public function toHTML(){
 		echo 	"<div id='image_big' ";
 		echo 	"style='";
-		echo 		" max-width:".$this->x."px;";
+		echo 		" max-width:800px; max-height:800px;";
 		echo 		" background: black url(\"?t=".$this->t."&f=$this->fileweb\") no-repeat center center;";
 		echo 		" background-size: contain;";
 		echo 		" -moz-background-size: contain;";
