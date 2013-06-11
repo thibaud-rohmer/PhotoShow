@@ -106,7 +106,7 @@ class Video implements HTMLObject
         exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Duration', $output);
         $duration = $output[0];
 
-        $duration_array = split(':', $duration);
+        $duration_array = explode(':', $duration);
         $duration = intval($duration_array[1]) * 3600 + intval($duration_array[2]) * 60 + intval($duration_array[3]);
 
         //error_log('DEBUG/Video: duration of '.$file.' is '.$duration.' seconds');
@@ -132,7 +132,7 @@ class Video implements HTMLObject
         $match = $matches[0];
 
 
-        $dimensions_array = split('x', $match);
+        $dimensions_array = explode('x', $match);
         $orig_x = intval($dimensions_array[0]);
         $orig_y = intval($dimensions_array[1]);
         //error_log('DEBUG/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
