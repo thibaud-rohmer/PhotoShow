@@ -161,7 +161,8 @@ class Settings extends Page
 		/// Settings already created
 		if(Settings::$photos_dir !== NULL && !$forced) return;
 
-
+		// Fix Strict Standards error
+		$config = new stdClass();
         /// Set default values for $config
         $config->timezone = "Europe/Paris";
 
