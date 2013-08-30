@@ -94,8 +94,11 @@ class LoginPage extends Page
                 </div>
             </fieldset>\n";
 
-            echo "<fieldset class='alignright'><input type='submit' value='".Settings::_("login","submit")."' > ".Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";
-            echo "</fieldset></form>\n";
+	    echo "<fieldset class='alignright'><input type='submit' value='".Settings::_("login","submit")."' > ";
+            if (!Settings::$noregister){
+                echo Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ";
+            }
+            echo Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>";            echo "</fieldset></form>\n";
             echo "</div>\n";
 
         }

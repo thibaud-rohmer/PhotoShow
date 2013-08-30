@@ -198,6 +198,7 @@ right: 5px;
 bottom: 25px;
 text-align: center;
 overflow: hidden;
+background: black url('../../inc/ajax-loader.gif') center no-repeat;
 }
 
 div#image_big {
