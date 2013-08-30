@@ -101,7 +101,7 @@ class Image implements HTMLObject
 		echo 	"<div id='image_big' ";
 		echo 	"style='";
 		echo 		" max-width:".$this->x."px;";
-		echo 		" background: black url(\"?t=".$this->t."&f=$this->fileweb\") no-repeat center center;";
+		echo 		" background: url(\"?t=".$this->t."&f=$this->fileweb\") no-repeat center center;";
 		echo 		" background-size: contain;";
 		echo 		" -moz-background-size: contain;";
 		echo 		" height:100%;";
