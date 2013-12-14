@@ -165,7 +165,7 @@ class Provider
 
             /// Create thumbnail
 			$thumb = PhpThumbFactory::create($file);
-			$thumb->resize(200, 200);
+			$thumb->resize(400, 400);
 			if(File::Type($file)=="Image"){
 				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
 			}
@@ -182,7 +182,7 @@ class Provider
 		$webimg	=	dirname($basepath)."/".$basefile->name."_small.".$basefile->extension;
 		
 		list($x,$y) = getimagesize($file);
-		if($x <= 800 && $y <= 600){	
+		if($x <= 1200 && $y <= 1200){
 			return $file;
 		}
 		
@@ -194,7 +194,7 @@ class Provider
 				@mkdir(dirname($path),0755,true);
 			}
 			$thumb = PhpThumbFactory::create($file);
-			$thumb->resize(800, 800);
+			$thumb->resize(1200, 1200);
 			if(File::Type($file)=="Image"){
 				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
 			}

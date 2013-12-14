@@ -87,6 +87,14 @@ class Image implements HTMLObject
 			$this->t = "Big";
 		}else{
 			$this->t = "Img";
+
+			if($this->x >= 1200 || $this->y >= 1200){
+				if ($this->x > $this->y){
+					$this->x = 1200;
+				}else{
+					$this->x = $this->x * 1200 / $this->y;
+				}
+			}
 		}
 	}
 	
