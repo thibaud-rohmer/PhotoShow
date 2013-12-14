@@ -1,5 +1,4 @@
-<?php
-/**
+<?php /**
  * This file implements the class Provider.
  * 
  * PHP versions 4 and 5
@@ -315,7 +314,7 @@ class Provider
 		foreach($items as $item){
 			if(Judge::view($item)){
                                 // Use only the relative path of the filename
-				$itemsString.=" '".substr($item,$delimPosition+1)."'";
+				$itemsString.=" '".substr($item,$delimPosition+2)."'";
 			}
 		}
 
@@ -339,7 +338,7 @@ class Provider
 		while( !feof($fp) ) {
 		        $buff = fread($fp, $bufsize);
                         echo $buff;
-                        flush();
+                        /// flush();
                 }
                 pclose($fp);
                 
