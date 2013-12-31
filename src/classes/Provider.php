@@ -314,7 +314,8 @@ class Provider
 		foreach($items as $item){
 			if(Judge::view($item)){
                                 // Use only the relative path of the filename
-				$itemsString.=" '".substr($item,$delimPosition+2)."'";
+				$item = str_replace('//', '/', $item);
+				$itemsString.=" '".substr($item,$delimPosition+1)."'";
 			}
 		}
 
@@ -331,7 +332,7 @@ class Provider
 		// use popen to execute a unix command pipeline
 		// and grab the stdout as a php stream
 		$fp = popen('zip -n .jpg:.JPG:.jpeg:.JPEG -0 - ' . $itemsString, 'r');
-		
+
 		// pick a bufsize that makes you happy (8192 has been suggested).
 		$bufsize = 8192;
 		$buff = '';
