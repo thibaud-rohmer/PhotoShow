@@ -37,7 +37,7 @@ function run_slideshow(){
 
 function start_slideshow(){
 	slideshow_status = 1;
-	timer = setInterval('run_slideshow()',3000);
+	timer = setInterval('run_slideshow()',7000);
 	$(".image_panel").css("position","fixed");
 	$(".image_panel").css("z-index",1000);
 	$(".image_panel").animate({bottom:'0'},200);
