@@ -128,6 +128,7 @@ class BoardHeader{
 			echo "<form class='dropzone' id=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\" 
 				action='?a=Upl' method='POST' enctype='multipart/form-data'>
 				<input type='hidden' name='path' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
+				<input type='hidden' name='inherit' value='1' />
 				<input type='file' name='images[]' multiple >
 				<button>Upload</button>
 				<div>".Settings::_("adminpanel","upload")."</div>
