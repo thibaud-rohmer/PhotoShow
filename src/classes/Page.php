@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class Page.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -74,6 +74,7 @@ abstract class Page implements HTMLObject
 			/// JS
 			echo "<script src='inc/jquery.js'></script>\n";
 			echo "<script src='inc/jquery-ui.js'></script>\n";
+			echo "<script src='inc/jquery.ui.touch-punch.js'></script>\n";
 			echo "<script src='inc/mousewheel.js'></script>\n";
 			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
 			echo "<script src='inc/jquery.fileupload.js'></script>\n";
@@ -86,7 +87,7 @@ abstract class Page implements HTMLObject
 			echo "<script src='src/js/keyboard.js'></script>\n";
 			echo "<script src='src/js/select.js'></script>\n";
 
-			
+
 			if(CurrentUser::$admin || CurrentUser::$uploader){
 				echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
 				echo "<link rel='stylesheet' href='src/stylesheets/admin.css' type='text/css' media='screen' charset='utf-8'>\n";
