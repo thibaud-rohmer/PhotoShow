@@ -150,9 +150,13 @@ class Menu implements HTMLObject
 		/// Directories list
 		$list=array();
 
+        /// Check we have read permissions first, return empty list if not
+        if(!is_readable($dir)) 
+            return $list;
+
 		/// Check that $dir is a directory, or throw exception
 		if(!is_dir($dir)) 
-			throw new Exception("'".$dir."' is not a directory");
+			throw new Exception("'".$dir."' is not a directory (list_dirs)");
 			
 		/// Directory content
 		$dir_content = scandir($dir);
@@ -193,10 +197,14 @@ class Menu implements HTMLObject
 	public static function list_files($dir,$rec = false, $hidden = false, $stopatfirst = false){
 		/// Directories list
 		$list=array();
+
+        /// Check we have read permissions first, return empty list if not
+        if(!is_readable($dir)) 
+            return $list;
 		
 		/// Check that $dir is a directory, or throw exception
 		if(!is_dir($dir)) 
-			throw new Exception("'".$dir."' is not a directory");
+			throw new Exception("'".$dir."' is not a directory (list_files)");
 
 		/// Directory content
 		$dir_content = scandir($dir);
