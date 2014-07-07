@@ -83,8 +83,8 @@ class Comment implements HTMLObject
 
 		echo "<div class='pure-g'>\n";
 
-		echo "<div class='pure-u-1-3 commentauthor'>$login</div>\n";
-		echo "<div class='pure-u-2-3 commentcontent'>$content\n";
+		echo "<div class='pure-u-1-2 commentauthor'><div>$login</div></div>\n";
+		echo "<div class='pure-u-1-2 commentcontent'>$content\n";
 		if(CurrentUser::$admin){
 			echo "<div class='commentdelete'><form action='?t=Adm&a=CDe' method='post'>
 								<input type='hidden' name='image' value='".htmlentities(File::a2r($this->file), ENT_QUOTES ,'UTF-8')."'>

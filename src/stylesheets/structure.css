@@ -293,12 +293,18 @@ div.commentauthor{
 	text-align: center;
 	padding: 5px 0 5px 0;
 	font-style: bold;
+	word-break: break-all;
+}
+
+div.commentauthor div{
+	margin: 2px;
 }
 
 div.commentcontent {
 	padding: 5px 0 5px 0;
 	border-bottom: 1px solid #ccc;
 	position:relative;
+	word-break: break-all;
 }
 
 div.commentdelete {
