@@ -190,10 +190,9 @@ div.linear_panel {
 	z-index: 10;
 }
 
-div.linear_panel > .header,
-div.linear_panel > .directory,
-div.linear_panel > .section,
-div.linear_panel > h2 {
+div.linear_panel > .sectionvid,
+div.linear_panel > .sectiondir,
+{
 	display: none;
 }
 
