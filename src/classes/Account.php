@@ -260,13 +260,6 @@ class Account extends Page
 		$groups = $account->addChild('groups');
 		foreach($this->groups as $group){
 			$groups->addChild('group',$group);
-			
-			try{
-				$g	=	new Group($g);
-				$g->save();
-			}catch(Exception $e){
-				// This group already exists
-			}
 		}
 		// Saving into file
 		$xml->asXML($xml_infos);
