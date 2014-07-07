@@ -1,0 +1,24 @@
+body {
+    color: blue;
+    background-color:red;
+}
+
+h2{
+	color: green;
+}
+
+h3{
+	color: brown;
+}
+
+#menu{
+	background:pink;
+}
+
+#menuright{
+	background: pink;
+}
+
+#menuright-header{
+	background: black;
+}
