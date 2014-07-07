@@ -100,7 +100,7 @@ class Settings extends Page
 	static private $loc 			=	"default";
 
 	/// Selected theme
-	static public $user_theme 		=	"default";
+	static public $user_theme 		=	"Default";
 
 	/// Default localization
 	static private $loc_default	=	array();
