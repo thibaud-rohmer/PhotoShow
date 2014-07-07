@@ -1,0 +1,129 @@
+.pure-button{
+    max-width:100%;
+    white-space:normal;
+}
+
+.pure-button-disabled{
+    cursor: pointer;
+}
+
+.pure-button-disabled:hover{
+    cursor: pointer;
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    color: white;
+    border-radius: 2px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.button-success {
+    background: rgb(28, 184, 65); /* this is a green */
+}
+
+.button-error {
+    background: rgb(202, 60, 60); /* this is a maroon */
+}
+
+.button-warning {
+    background: rgb(223, 117, 20); /* this is an orange */
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.button-xsmall {
+    font-size: 70%;
+}
+
+.button-small {
+    font-size: 85%;
+}
+
+.button-large {
+    font-size: 110%;
+}
+
+.button-xlarge {
+    font-size: 125%;
+}
+
+.buttongroup > .pure-button{
+    border-radius: 0;
+    margin: 0;
+}
+
+.buttongroup > .pure-button:first-child{
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+}
+
+
+.buttongroup > .pure-button{
+    margin:0;
+    border-radius:0px;
+}
+
+.buttongroup > .pure-button:last-child{
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.buttongroup-vertical{
+    position:relative;
+    z-index:250;
+}
+
+.buttongroup-vertical > .pure-button{
+    border-radius: 0px;
+}
+
+.buttongroup-vertical > .pure-button:first-child{
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.buttongroup-vertical > .pure-button:last-child{
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+
+.buttongroup-vertical > .pure-button{
+    width: 65%;
+    margin: auto;
+    z-index:250;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.35);
+}
+
+.buttongroup-vertical > .button-hidden {
+
+}
+
+.buttongroup-vertical:hover > .button-hidden {
+    display: block;
+}
+
+.buttongroup-vertical > .button-hidden:hover {
+    display: block;
+}
+
+.button-round{
+    margin: auto;
+    display:block;
+    width:50px;
+    height:50px;
+    line-height:50px;
+    border-radius: 50%;
+    color:#f5f5f5;
+    text-align:center;
+    text-decoration:none;
+    box-shadow: 0 2px 5px rgba(0,0,0,.35);
+    font-size:20px;
+    font-weight:bold;
+    border:0;
+}

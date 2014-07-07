@@ -68,37 +68,32 @@ class LoginPage extends Page
             exit();
         }else{
             $this->header();
+            echo "<div class='header'>";
+            echo "<h1>".Settings::_("login","logintitle")."</h1>";
+                        echo "</div>";
+
             echo "<div class='center'>\n";
-            echo "<form method='post' action='?t=Log' class='niceform'>\n";
-
-            echo "<div class='section'><h2>".Settings::_("login","logintitle")."</h2>";
-
-            /// Login
+            echo "<form method='post' action='?t=Login' class='pure-form pure-form-aligned niceform'>\n";
             echo "<fieldset>
-                <div class='fieldname'>
-                    <span>".Settings::_("login","login")."</span>
+                 <div class='pure-control-group'>
+                 <label>".Settings::_("login","login")."</label>
+                    <input type='text' name='login' value='' placeholder='".Settings::_("login","login")."'>
                 </div>
-                <div class='fieldoptions'>
-                    <input type='text' name='login' value=''>
+                 <div class='pure-control-group'>
+                 <label>".Settings::_("login","pass")."</label>
+                    <input type='password' name='password' value='' placeholder='".Settings::_("login","pass")."'>
+                    </div>
+                 <div class='pure-control-group'>
+                    <input type='submit' class='pure-button pure-button-primary' value='".Settings::_("login","submit")."'>
                 </div>
-            </fieldset>\n";
+            </fieldset>
+            </form>\n";
 
-
-            /// Password
-            echo "<fieldset>
-                <div class='fieldname'>
-                    <span>".Settings::_("login","pass")."</span>
-                </div>
-                <div class='fieldoptions'>
-                    <input type='password' name='password' value=''>
-                </div>
-            </fieldset>\n";
-
-	    echo "<fieldset class='alignright'><input type='submit' value='".Settings::_("login","submit")."' > ";
+	   
             if (!Settings::$noregister){
-                echo Settings::_("login","or")." <a class='inline' href='?t=Reg'>".Settings::_("login","register")."</a> ";
+               echo " <a class='pure-button button-success' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or");
             }
-            echo Settings::_("login","or")." <a class='inline' href='.'>".Settings::_("login","back")."</a>"; echo "</fieldset></form>\n";
+            echo " <a class='pure-button button-warning' href='.'>".Settings::_("login","back")."</a>"; echo "</fieldset></form>\n";
             echo "</div>\n";
         }
     }

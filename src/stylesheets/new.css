@@ -1,0 +1,144 @@
+@font-face {
+    font-family: Roboto-Regular;
+    src: url(../../inc/fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: RobotoCondensed-Bold;
+    src: url(../../inc/fonts/RobotoCondensed-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Bold;
+    src: url(../../inc/fonts/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url(../../inc/fonts/Roboto-Medium.ttf);
+}
+
+body {
+    color: black;
+    font-family: "Roboto-Regular", sans-serif;
+    background-color:#f9f9f9;
+}
+
+legend{
+	white-space: normal;
+	max-width:100%;
+	word-break:break-all;
+}
+
+
+
+.section{
+	clear:both;
+}
+
+
+.center{
+	margin: auto;
+	text-align: center;
+}
+
+.header {
+     font-family: "Roboto-Regular", sans-serif;
+     margin: 0 auto;
+     background-color: #00bcd4;
+     height: 64px;
+     box-shadow: 0 2px 5px rgba(0,0,0,.26);
+ }
+    .header h1 {
+    line-height:64px;
+    font-family: "Roboto-Regular", sans-serif;
+    font-size: 24px;
+        font-weight: 400;
+        color: #fff;
+        margin: 0;
+    }
+
+
+
+.hidden{
+	display:none;
+}
+
+ul.selected > ul{
+	position: relative;
+	visibility: visible;
+	left: auto;
+	top: auto;
+	margin-left: 12px;
+}
+
+
+.pure-menu ul{
+	border-top: 0;
+}
+
+li {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+.item img {
+	vertical-align:middle;
+	width: 100%;
+}
+
+.line{
+}
+
+.pure-menu li a{
+	font-family: 'Roboto-Bold',sans-serif;
+	font-size: 13px;
+	color: black;
+}
+
+
+li.currentSelected{
+
+}
+
+li.currentSelected a{
+	color: #0085be !important;
+}
+
+h2{
+	font-family: "Roboto-Normal", sans-serif;
+	font-size: 34px;
+	line-height: 40px;
+	margin-bottom: 30px;
+	padding-left: 40px;
+	font-weight: 400;
+	color: #00bcd4;
+}
+
+
+.item.selected a{
+	opacity:1;
+}
+
+#menu{
+	background:white;
+}
+
+#menuright{
+	background: #efefef;
+}
+
+h3{
+	font-family: "Roboto-Normal", sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+	margin-bottom: 10px;
+	padding-left: 15px;
+	font-weight: 600;
+	color: #00bcd4;
+}
+
+.littlemargin{
+	margin: 0 5px 0 5px;
+}

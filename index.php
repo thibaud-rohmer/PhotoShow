@@ -71,7 +71,8 @@ if (!get_magic_quotes_gpc()){
 }
 
 if(isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] == 'text/xml'){
-	new API();
+// Nope, definitely not ready yet.
+//	new API();
 }else{
 	new Index();
 }

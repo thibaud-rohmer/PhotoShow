@@ -65,7 +65,7 @@ class Board implements HTMLObject
 	private $header;
 	
 	/// Array of each line of the grid
-	private $boardlines=array();
+	private $boarditems=array();
 
 	/// Array of the folders
 	private $boardfolders=array();
@@ -119,8 +119,7 @@ class Board implements HTMLObject
                     $i++;
                 }
             }
-        }
-        else{ // No files in the directory, getting thumbnails from sub-directories
+        }else{ // No files in the directory, getting thumbnails from sub-directories
             $i = 0;
             foreach($this->dirs as $d){
                 if ( $i > 9){
@@ -135,51 +134,10 @@ class Board implements HTMLObject
             }
         }
 		
-		// Generate the grid
-		//~ $this->grid();
-
-
 		$this->foldergrid();
 	}
 	
-	/**
-	 * Display board on website
-	 *
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
-	public function toHTML(){		
-		// Output header
-		$this->header->toHTML();
-		
-		echo "<div id='selection_overlay'></div>\n";
-		echo "<div class='select'></div>\n";
 
-		if(sizeof($this->boardfolders)>0){
-			echo "<h2>".Settings::_("board","albums")."</h2>";
-			foreach($this->boardfolders as $boardfolder){
-				$boardfolder->toHTML();
-			}
-		}
-		$this->grid("Image");
-		if(sizeof($this->boardlines)>0){
-			echo "<h2>".Settings::_("board","images")."</h2>";
-		}
-		// Output grid
-		foreach($this->boardlines as $boardline){
-			$boardline->toHTML();
-		}
-		$this->boardlines = array();
-		$this->grid("Video");
-		if(sizeof($this->boardlines)>0){
-			echo "<h2>".Settings::_("board","videos")."</h2>";
-		}
-		// Output grid
-		foreach($this->boardlines as $boardline){
-			$boardline->toHTML();
-		}
-	}
-	
 	/**
 	 * Generate the grid, line by line
 	 *
@@ -187,45 +145,20 @@ class Board implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	private function grid($type="Image"){
-		// Create line
-		$bl =	new BoardLine();
-		$notempty = false;
+		$this->boarditems =	array();
 		
 		foreach($this->files as $file){
-
 			// Check rights
 			if(!(Judge::view($file))){
 				continue;
 			}
 			
+			// Check filetype
 			if (File::Type($file) != $type){
 				continue;
 			}
 
-			// Calculate file ratio
-			if(Settings::$thumbs_fixed_width){
-				$ratio = 1.5;
-			}else{
-				$ratio	=	$this->ratio($file);
-			}
-			
-			// Create new line when sum 
-			// of ratios reaches 9
-			if($bl->ratio + $ratio > 9){
-				$bl->end_line();
-				$this->boardlines[] = $bl;
-				$bl =	new BoardLine();
-				$notempty = false;
-			}
-			
-			// Add item to the line
-			$bl->add_item($file,$ratio);
-			$notempty = true;
-		}
-		$bl->end_line();
-
-		if($notempty){
-			$this->boardlines[] = $bl;
+			$this->boarditems[] = new BoardItem($file);
 		}
 	}
 
@@ -238,19 +171,18 @@ class Board implements HTMLObject
 	private function foldergrid(){
 		foreach($this->dirs as $d){
 			$firstImg = Judge::searchDir($d);
-			if(!(Judge::view($d) || $firstImg)){
-				continue;
+			if(!$firstImg){
+				if(CurrentUser::$admin){
+					$firstImg = NULL;
+				}else{
+					continue;
+				}
 			}
 
-			$f = Menu::list_files($d,true);
-						
-			if( CurrentUser::$admin || CurrentUser::$uploader || sizeof($f) > 0){
-				if($firstImg){
-					$f[0] = $firstImg;
-				}
-				$item = new BoardDir($d,$f);
-				$this->boardfolders[] = $item;
-			}
+
+			$item = new BoardDir($d,$firstImg);
+			$this->boardfolders[] = $item;
+
 		}
 		if(Settings::$reverse_menu){
 			$this->boardfolders = array_reverse($this->boardfolders);
@@ -259,24 +191,50 @@ class Board implements HTMLObject
 
 
 	/**
-	 * Calculate item ratio.
-	 * - Image -> floor(width/height) + 1
-	 * - Autre -> 2
+	 * Display board on website
 	 *
-	 * @param string $file 
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	private function ratio($file){
-		// Calculate ratio
-		list($x,$y) = getimagesize($file);
+	public function toHTML(){		
+		// Output header
+		$this->header->toHTML();
 
-		// Non-image file : ratio = 2
-		if( ! File::Type($file) || File::Type($file) != "Image" || $y == 0 ){
-			return 2;
+		if(sizeof($this->boardfolders)>0){
+			echo "<div class='section'>";
+			echo "<h2>".Settings::_("board","albums")."</h2>";
+			echo "<div class='pure-g'>";
+			foreach($this->boardfolders as $boardfolder){
+				$boardfolder->toHTML();
+			}
+			echo "</div>";
+			echo "</div>";
 		}
-		
-		return floor($x/$y)+1;
 
+		$this->grid("Image");
+		if(sizeof($this->boarditems)>0){
+			echo "<h2>".Settings::_("board","images")."</h2>";
+			echo "<div class='pure-g line'>";
+			foreach($this->boarditems as $item){
+				$item->toHTML();
+			}
+			echo "</div>";
+
+		}
+
+
+		$this->grid("Video");
+		if(sizeof($this->boarditems)>0){
+			echo "<h2>".Settings::_("board","videos")."</h2>";
+			echo "<div class='pure-g'>";
+			// Output grid
+			foreach($this->boarditems as $item){
+				$item->toHTML();
+			}
+			echo "</div>";
+		}
+
+		
 	}
+	
 }

@@ -156,7 +156,21 @@ class Provider
 
         $path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
 
-        if(!file_exists($path) || filectime($file) > filectime($path) ){
+        // We check that the thumb already exists, was created after the image, at the right size
+        $goodThumb = false;
+        if(file_exists($path) && filectime($file) < filectime($path) ){
+        	$dim = getimagesize($path);
+        	$goodThumb = ($dim[0] == Settings::$thumbs_size && $dim[1] == Settings::$thumbs_size );
+        }
+
+        if( !$goodThumb ){
+        	/// If we need to create a thumb, then this is a new picture
+
+        	if(Judge::is_public($file)){
+	        	$r = new RSS(Settings::$conf_dir."/photos_feed.txt");
+	        	$webpath = Settings::$site_address."?f=".urlencode(File::a2r($file));
+	        	$r->add(basename($file),$webpath, "<img src='$webpath&t=Thb' />");
+	        }
 
             /// Create directories
             if(!file_exists(dirname($path))){
@@ -165,12 +179,22 @@ class Provider
 
             /// Create thumbnail
 			$thumb = PhpThumbFactory::create($file);
-			$thumb->resize(400, 400);
+			$thumb->adaptiveResize(Settings::$thumbs_size, Settings::$thumbs_size);
+
 			if(File::Type($file)=="Image"){
 				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
 			}
 			$thumb->save($path);
+			chmod($path,0775);
 		}
+
+		/* Implementation of webp... for later.
+		$webp = $path.".webp";
+		if(!file_exists($webp) ||  filectime($webp) < filectime($path) ){
+			imagewebp(imagecreatefromjpeg($path),$webp);
+		}
+		*/
+
 		return $path;
 	}
 
@@ -193,7 +217,8 @@ class Provider
 			if(!file_exists(dirname($path))){
 				@mkdir(dirname($path),0755,true);
 			}
-			$thumb = PhpThumbFactory::create($file);
+			$options = array('resizeUp' => true, 'jpegQuality' => 70);
+			$thumb = PhpThumbFactory::create($file,$options);
 			$thumb->resize(1200, 1200);
 			if(File::Type($file)=="Image"){
 				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
@@ -244,7 +269,7 @@ class Provider
                     $basefile	= 	new File($file);
                     $basepath	=	File::a2r($file);
                     $path =	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".jpg";	
-                } elseif($thumb){ // Img called on a video, return the thumbnail
+                }elseif($thumb){ // Img called on a video, return the thumbnail
                     $path = Provider::thumb($file);
                 }else{
                     $path = Provider::small($file);
@@ -275,8 +300,8 @@ class Provider
 				header("Cache-Control: maxage=".$expires);
 				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 			}
-            header('Content-type: image/jpeg');
 
+	        header('Content-type: image/jpeg');
             if(File::Type($path)=="Image"){
             	readfile($path);
             	return;
@@ -292,6 +317,13 @@ class Provider
         }
     }
 
+	/**
+	 * Generates a zip.
+	 *
+	 * @param string $dir  
+	 * @return void
+	 * @author Thibaud Rohmer
+	 */
 	public static function Zip($dir){
 
 		/// Check that user is allowed to acces this content

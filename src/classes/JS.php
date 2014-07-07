@@ -63,9 +63,6 @@ class JS extends Page
 								
 								$m->toHTML();
 
-								if(CurrentUser::$admin){
-									echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
-								}
 								echo "</div>\n";
 								echo "<div class='panel'>\n";
 								$p->toHTML();
@@ -100,11 +97,6 @@ class JS extends Page
 
 				case "Men":		$m = new Menu();
 								$m->toHTML();
-
-								if(CurrentUser::$admin){
-									echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
-								}
-								
 								break;
 
 
@@ -120,7 +112,7 @@ class JS extends Page
 								$j->toHTML();
 								break;
 				
-				case "Acc": 	$f = new JSAccounts();
+				case "Acc": 	$f = new Group();
 								$f->toHTML();
 								break;
 				

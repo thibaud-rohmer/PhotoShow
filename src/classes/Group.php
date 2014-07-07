@@ -60,11 +60,15 @@ class Group
 	 * @param string $name 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($name){
+	public function __construct($name = NULL){
 		
 		/// Check if group file exists
 		if(!file_exists(CurrentUser::$groups_file)){
 			Group::create_group_file();
+		}
+
+		if($name == NULL){
+			return;
 		}
 
 		/// Load file
@@ -256,6 +260,71 @@ class Group
 
 	}
 	
+
+	public static function edit($groups){
+		$allgroups = Group::findAll();
+		$allaccounts = Account::findAll();
+		foreach($allaccounts as $acc){
+			$accgroups = array();
+			foreach($allgroups as $g){
+				$gn = (string)$g["name"];
+				if(isset($groups[$gn]) && in_array($acc['login'],$groups[$gn])){
+					$accgroups[] = $gn;
+				}
+			}
+			Account::edit($acc['login'],NULL,NULL,NULL,NULL,$accgroups);
+		}
+	}
+
+	public function toHTML(){
+		$groupaccounts = array();
+
+
+		echo "<div class='header'><h1>Groups</h1></div>";
+
+		echo "<form class='pure-form pure-form-aligned' method='post' action='?t=Adm&a=GC'>
+			<h2>".Settings::_("jsaccounts","addgroup")."</h2>
+			<div class='pure-control-group'>
+			<label>Group name : </label><input type='text' name='group' placeholder='".Settings::_("jsaccounts","groupname")."' />
+			</div>
+			<div class='pure-controls'>
+			<input type='submit' class='pure-button button-success' value='".Settings::_("jsaccounts","addgroup")."' />
+			</div>
+			</form>";
+
+		echo "<form class='pure-form pure-form-aligned' method='post' action='?t=Adm&a=GEd'>";
+		echo "<h2>".Settings::_("jsaccounts","groups")."</h2>";
+
+		foreach(Group::findAll() as $g){
+			$gn = $g['name'];
+			$group = htmlentities($gn, ENT_QUOTES ,'UTF-8');
+
+			echo "<div class='pure-g' style='border-bottom: 1px solid #ccc; padding-bottom: 15px; margin: 20px;'>";
+			echo "<div class='pure-u-1-1 pure-u-md-1-3'>";
+			echo "<h3><a href=\"?t=Adm&a=GDe&g=".urlencode($gn)."\" class='pure-button button-error button-small'><i class='fa fa-trash-o '></i></a> ".htmlentities($gn, ENT_QUOTES ,'UTF-8')."</h3>";
+			echo "</div>";
+			echo "<div class='pure-u-1-1 pure-u-md-2-3'>";
+
+
+			foreach(Account::findAll() as $acc){
+				$login = htmlentities($acc["login"],ENT_QUOTES ,'UTF-8');
+				$checked = in_array($gn,$acc["groups"])?"checked":"";
+
+				echo "<div class='pure-controls'>";
+				echo "<label><input type='checkbox' name=\"$group"."[]\" value=\"$login\" $checked > $login</label>";
+				echo "</div>";
+			}
+			
+			echo "</div>";
+			echo "</div>";
+
+
+		}
+			echo "<div class='pure-controls'><input type='submit' class='pure-button pure-button-primary'></div>";
+
+
+			echo "</form>";
+	}
 }
 
 ?>

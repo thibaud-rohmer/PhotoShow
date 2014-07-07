@@ -1,9 +1,25 @@
-# PhotoShow
+# PhotoShow 3.0
 
 
 ## Overview
 
 **PhotoShow**, *your* web gallery. **PhotoShow** is a *free* and *open source* web gallery, that you can very easily install on your web server. It doesn't even require a database !
+
+## What's new ?
+
+Wow, well, loads. Here is a quick list.
+* "Material design" : applied most of the guidelines from Google's new design paradigm. And if you don't like it....
+* ... Themes ! You can add your own themes in the user/themes/ folder, and select them in the Settings.
+* Responsive Layout : you can now access and manage your PhotoShow from your phone !
+* PhotoSpheres support : put your photosheres in a folder named "PhotoSpheres" and... enjoy
+* RSS Feed : automatically adds items when generating a thumb for them (meaning they're new), only if they are publicly accessible. Also, if you change the access rights later on, they will apply to the feed.
+* Administration : removed most of the drag'n'drop stuff (clunky and unusable from a phone) : now, most of your modifications can be done from the Information panel (right menu)
+* Settings overhaul
+* Comments deleting : Now, you can. Sorry this took so long.
+* Thumbnails size can be edited in the admin section.
+* Loads of code removed for a faster, more reliable PhotoShow. Hopefully.
+* Uploaders have lost a load of rights. Basically, all they can do is upload. No file removing anymore.
+* Rights management SHOULD be the same as before. But, just in case, please check after updating
 
 ## Installation
 

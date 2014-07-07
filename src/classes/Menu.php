@@ -73,7 +73,7 @@ class Menu implements HTMLObject
 			$dir = Settings::$photos_dir;
 			
 		/// Check rights
-		if(!(Judge::view($dir) || Judge::searchDir($dir))){
+		if(!Judge::view($dir) || Judge::searchDir($dir) == NULL ){
 			return;
 		}	
 
@@ -122,19 +122,29 @@ class Menu implements HTMLObject
 	 */
 	public function toHTML(){
 		if(isset($this->webdir) && isset($this->title)){
-			echo 	"<div class='menu_item $this->class'>\n";
+			echo 	"<ul class='menu_item $this->class'>\n";
 			
-			echo 	"<div class='menu_title'>\n";
+			if($this->selected){
+			$currentSelected = "currentSelected";
+				foreach($this->items as $item){
+					if($item->selected){
+						$currentSelected="";
+					}
+				}
+				echo 	"<li class='menu_title selected $currentSelected'>\n";
+			}else{
+				echo 	"<li class='menu_title'>\n";
+			}
 
 			echo 	"<span class='name hidden'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</span>";
 			echo 	"<span class='path hidden'>".htmlentities($this->path, ENT_QUOTES ,'UTF-8')."</span>";
 			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
-			echo 	"</div>\n";
+			echo 	"</li>\n";
 
 			foreach($this->items as $item)
 				$item->toHTML();
 
-			echo 	"</div>\n";
+			echo 	"</ul>\n";
 		}	
 	}
 	

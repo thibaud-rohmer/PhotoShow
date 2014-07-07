@@ -50,6 +50,8 @@ class MenuBar implements HTMLObject{
 	/// True if user is admin
 	private $admin		= false;
 	
+
+
 	/**
 	 * Create menubar
 	 *
@@ -57,7 +59,6 @@ class MenuBar implements HTMLObject{
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct(){
-
 	}
 	
 	/**
@@ -67,34 +68,28 @@ class MenuBar implements HTMLObject{
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		echo "<div id='menubar'>\n";
-
-		echo "<div class='align_left'>\n";
-		echo "<a href='.'>PhotoShow</a>\n";
+		echo "<div id='menuright-header'>";
+		//echo "<a class='pure-button button-xsmall' href='http://www.photoshow-gallery.com'>PhotoShow - © Thibaud Rohmer </a>";
+		echo "<div class='buttongroup-vertical'>";
 		if(isset(CurrentUser::$account)){
 			// User logged in
-			echo "<div class='menubar-button'>- ".Settings::_("menubar","logged")." <a href='?t=Acc'>".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."</a></div>\n";
-			echo "</div><div class='align_right'>\n";
-			echo "<a href='?t=Log'>".Settings::_("menubar","logout")."</a>\n";
-			
+			echo "<a class='pure-button button-small' href='#'><i class='fa fa-user fa-lg' style='float:left;'></i> ".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')." <div style='float:right;'><i class='fa fa-caret-down fa-lg'></i></div></a>";
 			if(CurrentUser::$admin){
-				echo "<a href='?t=Adm'>".Settings::_("menubar","admin")."</a>\n";
+				echo "<a class='pure-button button-small button-hidden hidden' href='?t=Adm'><i class='fa fa-cogs fa-lg' style='float:left;'></i> ".Settings::_("menubar","admin")."</a>";
 			}
+			echo "<a class='pure-button button-small button-hidden hidden' href='?t=Acc'><i class='fa fa-wrench fa-lg' style='float:left;'></i> Edit </a>";
+			echo "<a class='pure-button button-small button-hidden hidden' href='?t=Logout'><i class='fa fa-sign-out fa-lg' style='float:left;'></i> ".Settings::_("menubar","logout")."</a>\n";
 			
 		}else{
+			echo "<a class='pure-button button-small' href='#'><i class='fa fa-user fa-lg' style='float:left;'></i> Not logged in ! <div style='float:right;'><i class='fa fa-caret-down fa-lg'></i></div></a>";
+
 			// User not logged in
-			echo "</div><div class='align_right'>\n";
-			echo "<a class='login' href='?t=Log'>".Settings::_("menubar","login")."</a>\n";
+			echo "<a class='pure-button button-small  button-hidden hidden' href='?t=Login'><i class='fa fa-sign-in fa-lg' style='float:left;'></i> ".Settings::_("menubar","login")."</a>";
 			if(!Settings::$noregister){
-				echo "<a class='register' href='?t=Reg'>".Settings::_("menubar","register")."</a>\n";
+				echo "<a class='pure-button button-small  button-hidden hidden' href='?t=Reg'><i class='fa fa-smile-o fa-lg' style='float:left;'></i> ".Settings::_("menubar","register")."</a>\n";
 			}
 		}
-		
-		//echo "<a href='?a=rss'>RSS <img src='./inc/rss.png' height='11px'></a>\n";
-		echo "</div>\n";
-
-		echo "<span>".Settings::_("menubar","powered")." <a href='http://www.photoshow-gallery.com'>PhotoShow</a> - © 2011 Thibaud Rohmer</span>";
-
+		echo "</div>";
 		echo "</div>\n";
 	}
 }

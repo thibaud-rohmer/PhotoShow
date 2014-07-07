@@ -340,39 +340,35 @@ class GuestToken extends Page
      */
     public function toHTML(){
         if (!CurrentUser::$admin){
-            // Only admin can see the tokens for now
+            // Only admin can see the tokens
             return false;
         }
 
-        echo "<div id='tokensblock' class='section'>";
-        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
-        echo "<div>";
+        echo "<div class='header'>";
+        echo "<h1>".Settings::_("token","tokens")."</h1>\n";
+        echo "</div>";
         
         // We still want to display the title so the page is not empty
         if ( !file_exists(CurrentUser::$tokens_file)){
             return false;
         }
-
-        foreach(self::findAll() as $t){
+            echo "<ul>";
             echo "<table>";
             echo "<tbody>";
+        foreach(self::findAll() as $t){
             echo "<tr>";
-            echo "<td>".$t['key']."</td>";
             echo "<td>";
             echo "<form action='?t=Adm&a=DTk' method='post'>\n";
             echo "<input type='hidden' name='tokenkey' value='".$t['key']."' />";
-            echo "<input type='submit' class='button blue' value='".Settings::_("token","deletetoken")."' />";
+            echo "<input type='submit' class='pure-button button-error' value='".Settings::_("token","deletetoken")."' />";
             echo "</form>";
             echo "</td>";
+            echo "<td><a href='".self::get_url($t['key'])."' >".$t['path']."</a></td>";
             echo "</tr>";
-
-            echo "<tr><td>".$t['path']."</td></tr>\n";
-            echo "<tr><td><a href='".self::get_url($t['key'])."' >".self::get_url($t['key'])."</a></td></tr>\n";
-
         }
         echo "</tbody>";
         echo "</table>";
-        echo "</div>";
+        echo "</ul>";
         echo "</div>";
     }
 

@@ -1,0 +1,21 @@
+body {
+    color: black;
+    font-family: "Roboto-Regular", sans-serif;
+    background-color:#f9f9f9;
+}
+
+h2{
+	color: #00bcd4;
+}
+
+h3{
+	color: #00bcd4;
+}
+
+#menu{
+	background:white;
+}
+
+#menuright{
+	background: #efefef;
+}

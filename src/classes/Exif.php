@@ -73,9 +73,10 @@ class Exif implements HTMLObject
 		if(!Judge::view($file))
 			return;
 
+
 		/// No exif extension installed
 		if (!in_array("exif", get_loaded_extensions())) {
-			$infos['']="Exif extension is not installed on the server available";
+			$infos['']="Exif extension is not installed on the server";
 			return;
 		}
 
@@ -121,8 +122,7 @@ class Exif implements HTMLObject
 	 */
 	public function toHTML(){
 		if($this->exif){
-			echo "<div class='section'>";
-			echo '<h2>Exif</h2>';
+			echo '<h3>Exif</h3>';
 			echo "<table>";		
 			foreach($this->exif as $name=>$value){
 				echo "<tr><td class='td_data'>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td>";

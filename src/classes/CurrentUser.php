@@ -159,6 +159,7 @@ class CurrentUser
 		if(isset($_GET['t'])){
 			switch($_GET['t']){
 
+				case "Rss"  :
 				case "Page"	:
 				case "Img"	:
 				case "Vid"	:
@@ -177,6 +178,28 @@ class CurrentUser
 										echo "Error creating account.";
 									}
 								}
+
+				case "Login":	if(isset($_POST['login']) && isset($_POST['password'])){
+									try{
+										if(!CurrentUser::login($_POST['login'],$_POST['password'])){
+											echo "Wrong password";
+										}
+									}catch(Exception $e){
+										echo "Account not found";
+									}
+								}
+								if(!isset(CurrentUser::$account)){
+									CurrentUser::$action = $_GET['t'];
+								}
+								break;
+
+
+				case "Logout":	if(isset($_SESSION['login'])){
+									CurrentUser::logout();
+									echo "logged out";
+								}
+								break;
+
 
 				case "Log"	:	if(isset($_SESSION['login'])){
 									CurrentUser::logout();

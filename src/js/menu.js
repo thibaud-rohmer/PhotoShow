@@ -27,70 +27,20 @@
  * @license	  http://www.gnu.org/licenses/
  * @link	  http://github.com/thibaud-rohmer/PhotoShow
  */
-function init_admin(){
-	// Dummy function
-}
+
 
 function init_infos(){
 	// Dummy function
 }
 
 
-
-function init_menu(){
-		/**
-	 * Clicking on an item in the menu
-	 */
-	$("#menu a").click(function(){
-
-		// Change selected item
-		$(".menu .selected").removeClass("selected");
-		$(this).parents(".menu_item").addClass("selected");			
-
-		hr = $(this).attr("href");
-		// Load page
-		if ($(".infos").length > 0){
-			$(".infos").load(hr+"&j=Inf",function(){
-				init_infos();
-				$(".panel").load(hr+"&j=Pan",init_panel);
-			}); 
-		}else{
-			$(".panel").load(hr+"&j=Pan",init_panel);
-		}
-
-
-		update_url($(this).attr("href"),$(this).text());
-		return false;
-	});
-	init_panel();
-
-	init_menubar();
-}
-
-
-function init_menubar(){
-	$("#menubar a").unbind();
-
-	$("#menubar a.login").click(function(){
-		$(".panel").load("?j=Log",function(){
-			$(".inline").first().click(function(){
-				$(".panel").load("?j=Reg");
-				return false;
-			});
-		});
-		return false;
-	});
-
-	$("#menubar a.register").click(function(){
-		$(".panel").load("?j=Reg");
-		return false;
-	});
-}
-
 function update_url(url,name){
-	if(typeof history.pushState == 'function') { 
-		var stateObj = { foo: "bar" };
-		history.pushState(stateObj, "PhotoShow - " + name, url);
+	var doc = window.document;
+	if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+		if(typeof history.pushState == 'function') { 
+			var stateObj = { foo: "bar" };
+			history.pushState(stateObj, "PhotoShow - " + name, url);
+		}
 	}
 }
 

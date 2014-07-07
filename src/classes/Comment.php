@@ -76,24 +76,24 @@ class Comment implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){
+	public function toHTML($id=0){
 		$login		=	stripslashes(htmlentities( $this->login , ENT_QUOTES ,'UTF-8'));
 		$content	=	stripslashes(htmlentities( $this->content , ENT_QUOTES ,'UTF-8'));
 		$date		=	$this->date;
 
-		echo "<div class='comment'>\n";
-		// Not implemented yet.
-		if(false && (CurrentUser::$admin || $login == CurrentUser::$account->login)){
-			echo "<div class='delete'>
-							<form action='?t=Adm&a=CDe' method='post'>
+		echo "<div class='pure-g'>\n";
+
+		echo "<div class='pure-u-1-3 commentauthor'>$login</div>\n";
+		echo "<div class='pure-u-2-3 commentcontent'>$content\n";
+		if(CurrentUser::$admin){
+			echo "<div class='commentdelete'><form action='?t=Adm&a=CDe' method='post'>
 								<input type='hidden' name='image' value='".htmlentities(File::a2r($this->file), ENT_QUOTES ,'UTF-8')."'>
-								<input type='hidden' name='date' value='$date'>
-								<input type='submit' value='x'>
-							</form>
-						</div>";
+								<input type='hidden' name='id' value='$id'>
+								<input type='submit' class='pure-button button-xsmall button-warning' value='x'>
+							</form></div>";
 		}
-		echo "<div class='login name'>$login</div>\n";
-		echo "<div class='content'>$content</div>\n";
+		echo "</div>\n";
+
 		echo "</div>\n";
 	}
 }

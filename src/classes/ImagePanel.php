@@ -129,13 +129,15 @@ class ImagePanel implements HTMLObject
 		echo "<div id='exif' class='box'>\n";
 		$this->exif->toHTML();
          */
-
+		
 		if(isset($this->image)){
 			echo "<div id='bigimage'>\n";
+
 			$this->image->toHTML();
 			echo "</div>\n";
 		}
         elseif(isset($this->video)){
+
 			echo "<div id='bigvideo'>\n";
 			$this->video->toHTML();
 			echo "</div>\n";
@@ -144,13 +146,6 @@ class ImagePanel implements HTMLObject
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();
 		echo "</div>\n";
-/*
-		echo "<div id='comments' class='box'>\n";
-		if(!Settings::$nocomments){
-			$this->comments->toHTML();
-		}
-		echo "</div>\n";
-*/
 	}
 	
 }

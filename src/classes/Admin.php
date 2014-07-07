@@ -75,7 +75,6 @@
 		 								AdminUpload::upload();
 		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
 		 							}
-		 							$this->page = new AdminFiles();
 		 							break;
 				
 				case "Mov"		:	if(isset($_POST['pathFrom'])){
@@ -85,7 +84,7 @@
 											CurrentUser::$path = Settings::$photos_dir;
 										}
 									}
-	 								AdminMove::move();
+	 								Admin::move();
 	 								
 	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
 										try{
@@ -97,7 +96,6 @@
 										}
 									}
 		 							
-									$this->page = new AdminFiles();
 									break;
 
 				case "Del"		:	if(isset($_POST['del'])){
@@ -106,9 +104,8 @@
 										}else{
 			 								CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['del'][0])));
 										}
-		 								AdminDelete::delete();
+		 								Admin::delete();
 		 							}
-									$this->page = new AdminFiles();
 									break;
 	 		}
 	 	}
@@ -145,11 +142,11 @@
 									break;
 
 				case "GC"		:	Group::create($_POST['group']);
-									$this->page = new JSAccounts();
+									$this->page = new Group();
 									break;
 
 				case "AAc"		:	Account::create($_POST['login'],$_POST['password'],$_POST['verif']);
-									$this->page = new JSAccounts();
+									$this->page = new Group();
 									break;
 				
 				case "AGA"		:	$a = new Account($_POST['acc']);
@@ -165,24 +162,25 @@
 									break;
 
 				case "ADe"		:	Account::delete($_POST['name']);
-									$this->page = new JSAccounts();
+									$this->page = new Group();
 									break;
 
-				case "GDe"		:	Group::delete($_POST['name']);
-									$this->page = new JSAccounts();
+				case "GEd"		:	Group::edit($_POST);
+									$this->page = new Group();
+									break;
+
+				case "GDe"		:	Group::delete($_GET['g']);
+									$this->page = new Group();
 									break;
 
 				case "CDe"		:	CurrentUser::$path = File::r2a($_POST['image']);
-									Comments::delete($_POST['image'],$_POST['date']);
+									Comments::delete($_POST['id']);
 									$this->page = new MainPage();
-									break;
-
-				case "Fil"		:	$this->page = new AdminFiles();
 									break;
 
 				case "JS"		:	break;
 
-				case "EdA"		:	$this->page = new JSAccounts();
+				case "EdA"		:	$this->page = new Group();
 									break;
 				
 				case "GAl"		:	if(isset($_POST['path'])){
@@ -197,13 +195,112 @@
 		}
 		
 		if(!isset($this->page)){
-			$this->page = new AdminStats();			
+			$this->page = new AdminAbout();			
 		}
 
 	 	/// Create menu
 	 	$this->menu = new AdminMenu();
 
 	}
+
+ 	/**
+ 	 * Move files on the server
+ 	 * 
+ 	 * @author Thibaud Rohmer
+ 	 */
+ 	public static function move(){
+
+ 		/// Just to be really sure... 
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
+ 			return;
+ 		}
+
+ 		$from 	= File::r2a(stripslashes($_POST['pathFrom']));
+ 		$to  	= File::r2a(stripslashes($_POST['pathTo']));
+ 		$type 	= $_POST['move'];
+
+ 		if($from == $to){
+ 			return;
+ 		}
+
+ 		if($type == "rename"){
+ 			$thumbsDir = Settings::$thumbs_dir."/".stripslashes($_POST['pathFrom']);
+ 			@rename($from,dirname($from)."/".stripslashes($_POST['pathTo']));
+ 			@rename($thumbsDir,dirname($thumbsDir)."/".stripslashes($_POST['pathTo']));
+ 			return;
+ 		}
+
+ 		if(is_file($from) || $type=="directory"){
+ 			@rename($from,$to."/".basename($from));
+ 			return;
+ 		}
+
+
+
+ 		/// We are moving multiple files
+ 		$files = scandir($from);
+ 		foreach($files as $file){
+ 			if($file != "." && $file!=".."){
+	 			@rename($from."/".$file,$to."/".$file);
+	 		}
+ 		}
+
+ 		return;
+	}
+
+
+ 	/**
+ 	 * Delete files on the server
+ 	 * 
+ 	 * @author Thibaud Rohmer
+ 	 */
+ 	public function delete(){
+
+ 		/// Just to be really sure... 
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
+ 			return;
+ 		}
+
+ 		if(!is_array($_POST['del'])){
+	 		$del 	=	File::r2a(stripslashes($_POST['del']));
+	 		return 	Admin::rec_del($del);
+ 		}else{
+ 			foreach($_POST['del'] as $todel){
+		 		$del 	=	File::r2a(stripslashes($todel));
+		 		Admin::rec_del($del);
+ 			}
+ 		}
+	}
+
+	/**
+	 * Reccursively delete all files in $dir
+	 * 
+	 * @param string $dir
+	 * @author Thibaud Rohmer
+	 */
+	public function rec_del($dir){
+ 		if($dir == Settings::$photos_dir){
+ 			return;
+ 		}
+
+		if(is_file($dir)){
+			return unlink($dir);
+		}
+
+		$dirs 	=	Menu::list_dirs($dir);
+		$files 	= 	Menu::list_files($dir,false,true);
+
+		foreach($dirs as $d){
+			Admin::rec_del($d);
+		}
+		
+		foreach($files as $f){
+			unlink($f);
+		}
+
+		return rmdir($dir);
+	}
+
 
 	 /**
 	  * Display admin page
@@ -212,18 +309,26 @@
 	  */
 	public function toHTML(){
 		$this->header();
-		echo "<div class='menu'>\n";
+		echo "<body>";
+
+		echo "<div id='layout'>\n";	
+
+		echo "<a href='#menu' id='menuLink' class='menu-link'><span></span></a>";
+		echo "<div id='menu'><div class='pure-menu menu pure-menu-open'>\n";
+		
  		$this->menu->toHTML();
  		echo "</div>\n";
+	 	echo "</div>";
 
-		echo "<div class='center'>\n";
 		if(isset($_GET['a']) && $_GET['a']=="JS"){
 			$this->page = new JS();
 		}else{
 		 	$this->page->toHTML();			
 		}
+
 	 	echo "</div>";
-	 
+		echo "<script src='inc/ui.js'></script>\n";
+ 
 	}
 
  }

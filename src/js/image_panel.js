@@ -53,9 +53,7 @@ function init_image_panel(){
 				update_url($("#back a").attr("href"),$(".header h1").text());
 			});
 
-			$(".infos").load($(".menu .selected:last a").attr("href")+"&j=Inf",function(){
-				init_infos();	
-			});
+			$(".infos").load($(".menu .selected:last a").attr("href")+"&j=Inf");
 		});
 		
 		if(slideshow_status != 0){
@@ -76,9 +74,7 @@ function init_image_panel(){
 		});
 
 		// Load infos
-		$(".infos").load($(this).attr("href")+"&j=Inf",function(){
-			init_infos();	
-		});
+		$(".infos").load($(this).attr("href")+"&j=Inf");
 
 		return false;
 	});
@@ -112,12 +108,21 @@ function init_image_panel(){
 		});
 		 
 		// Load infos
-		$(".infos").load(new_url+"&j=Inf",function(){
-			init_infos();	
-		});
+		$(".infos").load(new_url+"&j=Inf");
 
 		return false;
 	});
+
+
+	// Photosphere
+	$("#image_bar #photosphere").click(function(e){
+		e.preventDefault();
+		sphere = new Photosphere($("#imageurl").val());
+		sphere.loadPhotosphere(document.getElementById("image_big"));
+		return false;
+	});
+
+
 
 	// On clicking PREV
 	$("#image_bar #prev a").click(function(){
@@ -149,9 +154,7 @@ function init_image_panel(){
 		});
 
 		// Load infos
-		$(".infos").load(new_url+"&j=Inf",function(){
-			init_infos();	
-		});
+		$(".infos").load(new_url+"&j=Inf");
 
 		return false;
 	});

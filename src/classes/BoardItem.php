@@ -63,7 +63,7 @@ class BoardItem implements HTMLObject
 	 * @param string $ratio 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($file,$ratio){
+	public function __construct($file,$ratio=0){
 		$this->path 	= 	$file;
 		$this->file		=	urlencode(File::a2r($file));
 		$this->ratio	=	$ratio;
@@ -77,35 +77,18 @@ class BoardItem implements HTMLObject
 	 */
 	public function toHTML(){
 		
-		/// If item is small, display its thumb. Else, display the item
-		$getfile =	$this->width>25 
-					? "t=Img&f=$this->file" 
-					: "t=Thb&f=$this->file";
-				
-		/// We display the image as a background
-		echo 	"<div class='item";
-		if(CurrentUser::$path == $this->path){
-			echo " selected ";
-		}
-		echo 	" '";
-		echo 	" style='";
-		echo 	" width: 			$this->width%;";
-		echo 	" background: 		url(\"?$getfile\") no-repeat center center;";
-		echo 	" -webkit-background-size: cover;";
-		echo 	" -moz-background-size: cover;";
-		echo 	" -o-background-size: cover;";
-		echo 	" background-size: 	cover;";
-		echo 	"'>\n";
+		$getfile =	"t=Thb&f=$this->file";
 
-		echo 	"<span class='name hidden'>".htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8')."</span>";
-		echo 	"<span class='path hidden'>".htmlentities(File::a2r($this->path), ENT_QUOTES ,'UTF-8')."</span>";
-		
+		echo "<div class='item $lgcls pure-u-1-2 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4 pure-u-xl-1-8'>";
 		echo 	"<a href='?f=$this->file'>";
-		echo 	"<img src='./inc/img.png' width='100%' height='100%'>";
+		echo 	"<img src='?$getfile'>";
 		echo 	"</a>\n";
-		echo 	"</div>\n";
+		echo "</div>\n";
+
 	}
-	
+
+
+
 	/**
 	 * Calculate width (in percent) of the item : 
 	 * 90 * item_ratio / line_ratio

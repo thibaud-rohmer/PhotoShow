@@ -52,6 +52,9 @@ class BoardDir implements HTMLObject
 
 	/// Images representing the dir
 	public $images;
+
+	/// URL for loading the image
+	private $img;
 	
 	/**
 	 * Construct BoardItem
@@ -60,13 +63,14 @@ class BoardDir implements HTMLObject
 	 * @param string $ratio 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($dir,$img=array()){
+	public function __construct($dir,$img){
 		$this->path 	= 	$dir;
 		$this->url		=	urlencode(File::a2r($dir));
-		if(sizeof($img) == 0){
-			$this->images 	= array();
+		if($img == NULL){
+			$this->img='inc/folder.png';
 		}else{
-			$this->images	=	$img;
+					$this->img = "?t=Thb&f=".urlencode(File::a2r($img));
+
 		}
 	}
 	
@@ -77,61 +81,18 @@ class BoardDir implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		
-		if(sizeof($this->images) > 0){
-			$getfile =	"t=Thb&f=".urlencode(File::a2r($this->images[0]));
-		}else{
-			$getfile = 	"";
-		}			
-		
-		/// We display the image as a background
-		echo 	"<div class='directory'>";
-
-		echo 	"<span class='name hidden'>".htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8')."</span>";
-		echo 	"<span class='path hidden'>".htmlentities(File::a2r($this->path), ENT_QUOTES ,'UTF-8')."</span>";
-
-		echo 	"<div class='dir_img'";
-		echo 	" style='";
-		echo 	" background: 		url(\"?$getfile\") no-repeat center center;";
-		echo 	" -webkit-background-size: cover;";
-		echo 	" -moz-background-size: cover;";
-		echo 	" -o-background-size: cover;";
-		echo 	" background-size: 	cover;";
-		echo 	"'>\n";
-		echo 	"<span class='img_bg hidden'></span>";
-
-		/// Images in the directory
-		if( sizeof($this->images) > Settings::$max_img_dir ){
-			for($i=0;$i < Settings::$max_img_dir;$i++){
-				
-				$pos = floor(sizeof($this->images) *  $i / Settings::$max_img_dir );
-				
-				if(Judge::view($this->images[$pos])){
-					echo "<div class='alt_dir_img hidden'>".urlencode(File::a2r($this->images[$pos]))."</div>";
-				}
-
-			}
-		}else{
-			foreach($this->images as $img){
-				if(Judge::view($img)){
-					echo 	"<div class='alt_dir_img hidden'>".urlencode(File::a2r($img))."</div>";
-				}
-			}
-		}
-		echo 	"<a href='?f=$this->url'>";
-		echo 	"<img src='./inc/img.png' width='100%' height='100%'>";
-		echo 	"</a>\n";
-		echo 	"</div>\n";
-		echo 	"<div class='dirname'>";
-
-		// Fix when 1st letter is É,À, ... .
-		//echo 	htmlentities(basename($this->path), ENT_QUOTES ,'UTF-8');
+		echo "<div class=' pure-u-1-3 pure-u-sm-1-3 pure-u-lg-1-4 pure-u-xl-1-8'>";
+		echo "<div class='directory'>";
+		echo 	"<a href=\"?f=$this->url\">";
+		echo 	"<img src=\"$this->img\"/ >";
+		echo "<div class='dirname'>";
 		(array)$name = explode('/', $this->path);
 		echo 	htmlentities(end($name), ENT_QUOTES ,'UTF-8');
+		echo "</div>";
+		echo 	"</a>\n";
+		echo "</div>\n";
+		echo "</div>";
 
-
-		echo 	"</div>\n";
-		echo 	"</div>\n";
 	}
 }
 

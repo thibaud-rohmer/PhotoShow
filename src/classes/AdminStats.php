@@ -89,37 +89,38 @@
 
  	public function toHTML(){
 		self::Calculate() ;
- 		echo "<div class='adminblock'>";
- 		echo "<h3>Stats</h3>";
- 		echo "<div>";
- 		echo "<table>";
+
+ 		echo "<div class='header'>";
+ 		echo "<h1>Statistics</h1>";
+ 		echo "</div>";
+
+ 		echo "<h2>Stats</h2>";
+ 		echo "<ul>";
+ 		echo "<table class='pure-table pure-table-striped'>";
  		echo "<tbody>";
  		foreach($this->stats as $name=>$val){
  			echo "<tr><td>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td><td>".htmlentities($val, ENT_QUOTES ,'UTF-8')."</td></tr>"; 			
  		}
  		echo "</tbody>";
  		echo "</table>";
- 		echo "</div>";
- 		echo "</div>";
+ 		echo "</ul>";
 
- 		echo "<div class='adminblock'>";
- 		echo "<h3>Accounts (by age)</h3>";
- 		echo "<div>";
- 		echo "<table>";
+
+ 		echo "<h2>Accounts (by age)</h2>";
+ 		echo "<ul>";
+ 		echo "<table class='pure-table pure-table-striped'>";
  		echo "<tbody>";
  		foreach($this->accounts as $acc){
  			echo "<tr><td>".htmlentities($acc['login'], ENT_QUOTES ,'UTF-8')."</td></tr>"; 			
  		}
  		echo "</tbody>";
  		echo "</table>";
- 		echo "</div>";
- 		echo "</div>";
+ 		echo "</ul>";
 
 
- 		echo "<div id='commentsblock' class='adminblock'>";
- 		echo "<h3>Comments (by age)</h3>";
- 		echo "<div>";
- 		echo "<table>";
+ 		echo "<h2>Comments (by age)</h2>";
+ 		echo "<ul>";
+ 		echo "<table class='pure-table pure-table-striped'>";
  		echo "<tbody>";
 
 		$len = sizeof($this->comments);
@@ -135,8 +136,7 @@
 
  		echo "</tbody>";
  		echo "</table>";
- 		echo "</div>";
- 		echo "</div>";
+ 		echo "</ul>";
 
  	}
  }

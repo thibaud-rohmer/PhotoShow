@@ -70,6 +70,10 @@ class Judge
 	/// Are we working with multiple items ?
 	private $multi;
 
+
+	/// Used to display some file infos
+	private $infos;
+
 	/**
 	 * Create a Judge for a specific file.
 	 *
@@ -95,13 +99,17 @@ class Judge
 			foreach ($f as $file) {
 				$this->webpath .= "&f[]=".urlencode(File::a2r($file));
 			}
+	        $this->infos 		= "";
 		}else{
 			$this->multi = false;
 			$this->set_path($f);
 			if($read_rights){
 				$this->set_rights();
 			}
+	        $this->infos 		= $this->infodirtoHTML($f);
+
 		}
+
 	}
 	
 	/**
@@ -166,7 +174,7 @@ class Judge
 			}catch(Exception $e){
 				
 				// We are as high as possible
-				$this->public	=	false;
+				$this->public	=	true;
 				$this->groups	=	array();
 				$this->users	=	array();		
 			}
@@ -187,41 +195,23 @@ class Judge
 
 
 	/**
-	 * Check if a file is viewable in a folder, and returns path to that file.
+	 * Check recursively if a file is viewable in a folder, and returns path to that file.
 	 */
 	public static function searchDir($dir,$public_search = false){
-		$rightsdir = File::r2a(File::a2r($dir),Settings::$thumbs_dir);
-		$rightsfiles=glob($rightsdir."/.*ights.xml");
 
-		// Check files
-		if(isset($rightsfiles) && count($rightsfiles) > 0){
-			foreach($rightsfiles as $rf){
-				$f = Judge::associated_file($rf);
-	            if(($public_search and Judge::is_public($f))
-	                or (!$public_search and Judge::view($f))){
-	                    if(is_file($f)){
-	                        return $f;
-	                    }else{
-	                        foreach(Menu::list_files($f,true) as $p){
-	                            if(($public_search and Judge::is_public($p))
-	                                or (!$public_search and Judge::view($p))){
-	                                    return $p;
-	                                }
-	                        }
-	                    }
-	                }
-	        }
-			$rightsfiles = NULL;
-		}
-
-		// Check subdirs
-		foreach(Menu::list_dirs($dir) as $d){
-			if(($f=Judge::searchDir($d, $public_search))){
+		foreach(Menu::list_files($dir) as $f){
+			if(Judge::view($f)){
 				return $f;
 			}
 		}
 
-		return false;
+		foreach(Menu::list_dirs($dir) as $d){
+			if(($f=Judge::searchDir($d, $public_search)) != NULL){
+				return $f;
+			}
+		}
+
+		return NULL;
 	}
 
 	/**
@@ -363,6 +353,7 @@ class Judge
             }
         }
         
+
 		return false;
 	}
 
@@ -378,6 +369,46 @@ class Judge
         return($judge->public);
     }
 
+
+
+	public function infodirtoHTML($dir){
+		$w 	= File::a2r($dir);
+		$ret = "";
+
+		if(strlen($w)>1){
+		$ret .= 	"<form class='pure-form' action='?a=Mov' method='post'>
+					<input type='hidden' name='move' value='rename'>
+					<input type='hidden' name='pathFrom' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
+					<div class='pure-g'>
+						<div class=' pure-u-1-2'>
+							<input type='text' class='toto' name='pathTo' value=\"".htmlentities(basename($w), ENT_QUOTES ,'UTF-8')."\">
+						</div>
+						<div class='pure-u-1-2'>
+							<input class='pure-button pure-button-primary' type='submit' value='".Settings::_("adminpanel","rename")."'>
+						</div>
+					</div>
+				</form>";
+		}
+
+		/// Folder name
+		if(is_dir($dir)){
+		$ret .=	"<form class='niceform pure-form' action='?a=Upl' method='post'>
+						<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
+
+						<div class='pure-g'>
+							<div class=' pure-u-1-2'>
+								<input id='foldername' name='newdir' style='max-width:100%;' type='text' value='".Settings::_("adminpanel","new")."'>
+							</div>
+							<div class='pure-u-1-2'>
+								<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("adminpanel","create")."'>
+							</div>
+						</div>
+					</form>";
+		}
+
+		return $ret;
+	}
+
 	/**
 	 * Display the rights on website, and let
 	 * the admin edit them.
@@ -387,79 +418,73 @@ class Judge
 	public function toHTML(){
 		
 		echo "<div class='adminrights'>\n";
-		echo "<div class='section'>";
-
-		echo "<h2>".htmlentities($this->filename, ENT_QUOTES ,'UTF-8')."</h2>\n";
 
 
-		if(!$this->multi){
-			if($this->public){
 
-				echo "<form action='?t=Pri$this->webpath' method='post'>\n";
-				echo Settings::_("judge","public");
-				echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopriv")."' /></fieldset>";
-				echo "</form>";
-				echo "</div>";
-				return;
+		echo "<h3>Infos</h3>";
 
-			}else{
-				echo "<form action='?t=Pub$this->webpath' method='post'>\n";
-				echo Settings::_("judge","priv");
-				echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","gopub")."' /></fieldset>";
-				echo "</form>";
-			}
+		echo $this->infos;
+
+		echo "<h3>Access</h3>";
+		if($this->public){
+			echo "<div class='pure-g'><div class='pure-u-1-3'>";
+				echo "<a href='?t=Pri$this->webpath'class='button-round button-success'><i class='fa fa-unlock'></i></a></div>";
+			echo "<div class='pure-u-2-3'>".Settings::_("judge","public")."</div></div>";
 		}else{
-				echo "<form action='?t=Pub$this->webpath' method='post'>\n";
-				echo "<fieldset><input type='submit' class='button blue' value='"."Set those items as Public"."' /></fieldset>";
-				echo "</form>";
+			echo "<div class='pure-g'><div class='pure-u-1-3'>";
+				echo "<a href='?t=Pub$this->webpath'class='button-round button-error'><i class='fa fa-lock'></i></a></div>";
+			echo "<div class='pure-u-2-3'>".Settings::_("judge","priv")."</div></div>";
 		}
 
-		echo "<form action='?t=Rig$this->webpath' method='post'>\n";
-		echo "<h2>".Settings::_("judge","accounts")."</h2>";
-
-		foreach(Account::findAll() as $account){
+		echo "<form action='?t=Rig$this->webpath' method='post' class='pure-form pure-form-aligned'>";
+		if(! $this->public){
+			echo "<h3>".Settings::_("judge","accounts")."</h3>";
+			echo "<ul>";
+			foreach(Account::findAll() as $account){
 			
-			if(in_array($account['login'], $this->users)){
-				$checked = "checked";
-			}else{
-				$checked = "";
+				if(in_array($account['login'], $this->users)){
+					$checked = "checked";
+				}else{
+					$checked = "";
+				}
+
+			echo "<label class='pure-checkbox'><input type='checkbox'  value='".$account['login']."' name='users[]' $checked > ".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label>";
 			}
+			echo "</ul>";
 
-			echo "<div><label><input type='checkbox' value='".$account['login']."' name='users[]' $checked >".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."</label></div>";
-		}
-
-		echo "<h2>".Settings::_("judge","groups")."</h2>";
-
-		foreach(Group::findAll() as $group){
-			if($group['name'] == "root"){
-				continue;
+			echo "<h3>".Settings::_("judge","groups")."</h3>";
+			echo "<ul>";
+			foreach(Group::findAll() as $group){
+				if($group['name'] == "root"){
+					continue;
+				}
+				if(in_array($group['name'], $this->groups)){
+					$checked = "checked";
+				}else{
+					$checked = "";
+				}
+				echo "<label class='pure-checkbox'><input type='checkbox'   value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
 			}
-			if(in_array($group['name'], $this->groups)){
-				$checked = "checked";
-			}else{
-				$checked = "";
-			}
-
-			echo "<div><label><input type='checkbox' value='".$group['name']."' name='groups[]' $checked > ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label></div>";
-		}
-
-		echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("judge","set")."'></fieldset>\n";
-		echo "</form>\n";
-        
-        if(!$this->multi){
+			echo "<input type='submit' class='pure-button pure-button-primary button-small' value='".Settings::_("judge","set")."'>\n";
+        	echo "</ul>";
+        	
+    	    echo "<h3>Guest Tokens</h3>";
+    	    if(!$this->multi){
 	        // Token creation
-	        echo "<h2>".Settings::_("token","tokens")."</h2>\n";
 	        $tokens = GuestToken::find_for_path($this->file);
-	        if ($tokens && !empty($tokens)){
-	            foreach($tokens as $token){
-	                echo "<a href='".GuestToken::get_url($token['key'])."' >".$token['key']."</a><br />\n";
-	            }
-	        }
-	        echo "<form action='?t=CTk$this->webpath' method='post'>\n";
-	        echo "<fieldset><input type='submit' class='button blue' value='".Settings::_("token","createtoken")."' /></fieldset>";
-	        echo "</form>";
-			echo "</div>";
+	   			if ($tokens && !empty($tokens)){
+	        		echo "<ul>";
+	        		$i=0;
+	        	    foreach($tokens as $token){
+	        	    	$i++;
+	        	        echo "<a class='pure-button button-small button-warning' href='".GuestToken::get_url($token['key'])."' >Guest Token $i</a><br />\n";
+	        	    }
+	        	    echo "</ul>";
+	    	    }
+	    	    echo "<ul><a href='?t=CTk$this->webpath' class='pure-button button-secondary button-small'>".Settings::_("token","createtoken")."</a></ul>";
+	    	}
 		}
+		echo "</form>\n";
 
         echo "</div>\n";
     }

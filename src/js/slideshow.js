@@ -35,13 +35,31 @@ function run_slideshow(){
 	$("#next a").click();
 }
 
-function start_slideshow(){
+function toggleFullScreen() {
+  var doc = window.document;
+  var docEl = doc.getElementById("image_panel");
+
+  var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+  var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+  if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+    requestFullScreen.call(docEl);
+  }
+  else {
+    cancelFullScreen.call(doc);
+  }
+}
+
+function start_slideshow(){	
 	slideshow_status = 1;
 	timer = setInterval('run_slideshow()',7000);
 	$(".image_panel").css("position","fixed");
-	$(".image_panel").css("z-index",1000);
+	$(".image_panel").css("z-index",5000);
 	$(".image_panel").animate({bottom:'0'},200);
 	hide_links();
+
+	toggleFullScreen();
+
 }
 
 function play_pause_slideshow(){
@@ -68,10 +86,11 @@ function pause_slideshow(){
 function stop_slideshow(){
 	slideshow_status = 0;
 	clearInterval(timer);
-	$(".image_panel").animate({bottom:'120'},200);
+	$(".image_panel").animate({bottom:'150'},200);
 	$(".image_panel").css("position","absolute");
 	$(".image_panel").css("z-index",50);
 	show_links();
+	toggleFullScreen();
 }
 
 function init_slideshow_panel(){

@@ -111,7 +111,7 @@ class MainPage extends Page
 		$this->menu			=	new Menu();
 
 		$this->infos 		= 	new Infos();
-		
+	
 	}
 	
 	/**
@@ -121,68 +121,55 @@ class MainPage extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
+
 		$this->header($this->header_content);
 		echo "<body>";
 
-		echo "<div id='container'>\n";		
+		echo "<div id='layout'>\n";		
 
+
+
+		// Menu left
+		echo "<div id='menu'>\n";
+		echo "<span id='rss'><a href='?t=Rss'><i class='fa fa-rss fa-lg'></i></a></span>";
+		echo "<span id='logo'>".Settings::$name."</span>\n";
+		echo "<div class='pure-menu menu pure-menu-open'>\n";
+		$this->menu->toHTML();
+		echo "</div></div>\n";
+
+		echo "<a href='#menuright' class='menuright-link'><span></span></a>";
+		// Menu right
+		echo "<div id='menuright'>";
 		$this->menubar->toHTML();
+		echo "<div class='infos'>";
+		$this->infos->toHTML();
+		echo "</div>";
+		echo "</div>";
 
+
+		// Main page
 		echo "<div id='page'>\n";
 
-		/// Start menu
-		echo "<div id='menu' class='menu'>\n";
-
-		$this->menu->toHTML();
-
-		echo "</div>\n";
 		if(CurrentUser::$admin || CurrentUser::$uploader){
-			echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
+	//		echo "<div class='bin'><img src='inc/bin.png'>".Settings::_("bin","delete")."</div>";
 		}
-		/// Stop menu
 
-
-		echo "<div id='menu_hide'></div>";
-
-		echo "<div class='center selectzone'>";
-		/// Start Panel
-		echo "<div class='$this->panel_class'>\n";
-			$this->panel->toHTML();
-		echo "</div>\n";
-		/// Stop Panel
-
-		/// Start ImagePanel
-		echo "<div class='$this->image_panel_class'>\n";
+		// ImagePanel
+		echo "<div id='image_panel' class='$this->image_panel_class'>\n";
 		$this->image_panel->toHTML();
 		echo "</div>\n";
-		/// Stop ImagePanel
+
+		// Panel
+		echo "<div class='$this->panel_class'>\n";
+		$this->panel->toHTML();
 		echo "</div>\n";
 
-		echo "<div id='infos_hide'></div>";
-
-		echo "<div class='infos'>\n";
-		$this->infos->toHTML();
-		echo "</div>\n";
 
 		echo "</div>\n";
-		
 		echo "</div>\n";
 
-		if (Settings::$hide_menu){
-		echo '
-		<script language="javascript" type="text/javascript">
-		menu_hide();
-		</script>
-		';
-		}
-		if (Settings::$hide_infos){
-		echo '
-		<script language="javascript" type="text/javascript">
-		info_hide();
-		</script>
-		';
-		}
-		
+		echo "<script src='inc/ui.js'></script>\n";
+
 		echo "</body>";
 	}
 }

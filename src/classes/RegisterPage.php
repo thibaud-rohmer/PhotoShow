@@ -77,66 +77,53 @@ class RegisterPage extends Page
         }else{
 
             if(!$this->included){
-                echo "<div class='center'>\n";
 
                 $this->header();
 
+                echo "<form method='post' action='?t=Reg' class='pure-form pure-form-aligned'>\n";
+            echo "<div class='header'>";
 
                 if($this->admin_account){
                     echo "<h1>".Settings::_("register","mainacc")."</h1>";						
                 }else{
                     echo "<h1>".Settings::_("register","register")."</h1>";
                 }
+            echo "</div>";
+            echo "<div class='center'>\n";
 
-                echo "<form method='post' action='?t=Reg'>\n";
             }else{
-                echo "<form class='adduser' method='post' action='?t=Adm&a=AAc'>\n";
+                echo "<form class='pure-form pure-form-aligned' method='post' action='?t=Adm&a=AAc'>\n";
             }
-            echo "<div class='section'><h2>".Settings::_("account","createaccount")."</h2>";
 
-            /// Login
             echo "<fieldset>
-                <div class='fieldname'>
-                    <span>".Settings::_("register","logintxt")."</span>
-                </div>
-                <div class='fieldoptions'>
+            <h2>".Settings::_("account","createaccount")."</h2>
+                <div class='pure-control-group'>
+                    <label>".Settings::_("register","logintxt")."</label>
                     <input type='text' name='login' value=''>
                 </div>
-            </fieldset>\n";
+            ";
 
 
             /// Password
-            echo "<fieldset>
-                <div class='fieldname'>
-                    <span>".Settings::_("register","passtxt")."</span>
-                </div>
-                <div class='fieldoptions'>
+            echo "<div class='pure-control-group'>
+                    <label>".Settings::_("register","passtxt")."</label>
                     <input type='password' name='password' value=''>
-                </div>
-            </fieldset>\n";
+                </div>";
 
             /// Verif
-            echo "<fieldset>
-                <div class='fieldname'>
-                    <span>".Settings::_("register","veriftxt")."</span>
-                </div>
-                <div class='fieldoptions'>
+            echo "<div class='pure-control-group'>
+                    <label>".Settings::_("register","veriftxt")."</label>
                     <input type='password' name='verif' value=''>
-                </div>
-            </fieldset>\n";
+                </div>";
 
 
-            echo "<fieldset class='alignright'><input type='submit' value='".Settings::_("register","submit")."'> ";
-
-            if(!$this->included){
-                echo Settings::_("register","or")." <a class='inline' href='.'>".Settings::_("register","back")."</a>";
-            }
+            echo "<div class='pure-controls'><input class='pure-button button-success' type='submit' value='".Settings::_("register","submit")."'></div>";
             echo "</fieldset></form>\n";
-            echo "</div>";
 
             if(!$this->included){
-                echo "</div>\n";
+                echo " <a class='pure-button button-warning' href='.'>".Settings::_("register","back")."</a>";
             }
+
         }
     }
 }

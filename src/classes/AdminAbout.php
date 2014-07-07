@@ -59,30 +59,36 @@
  	 * @author Thibaud Rohmer
  	 */
  	public function toHTML(){
+
+ 		echo "<div class='header'>";
  		echo "<h1>About</h1>";
+ 		echo "</div>";
+
  		echo "<h2>PhotoShow</h2>";
- 		echo "<ul style='text-align:center;'>";
- 		echo "<li><a href='http://www.photoshow-gallery.com'>PhotoShow-Gallery.com</a></li>\n";
- 		echo "<li><a href='https://github.com/thibaud-rohmer/PhotoShow'>PhotoShow on GitHub</a></li>\n";
- 		echo "<li><a href='https://github.com/thibaud-rohmer/PhotoShow/wiki/Tips'>Tips !</a></li>\n";
- 		echo "</ul>\n";
+ 		echo "<div class='pure-g'><div id='me' class='pure-u-1-5' style='text-align:right;'></div>";
+ 		echo "<div class='pure-u-4-5'><ul>";
+ 		echo "<a href='http://www.photoshow-gallery.com'>PhotoShow-Gallery.com</a><br/>\n";
+ 		echo "<a href='https://github.com/thibaud-rohmer/PhotoShow'>PhotoShow on GitHub</a><br/>\n";
+ 		echo "<a href='https://github.com/thibaud-rohmer/PhotoShow/wiki/Tips'>Tips !</a><br/>\n";
+ 		echo "</ul></div></div>\n";
 
  		echo "<h2>Me</h2>";
- 		echo "<div id='me' style='margin:auto; text-align:center;'><img src='inc/me.jpg' width='150px' style='border-radius:5px; -moz-border-radius:5px;'></div>";
+ 		echo "<div class='pure-g'><div id='me' class='pure-u-1-5' style='text-align:right;'><img src='inc/me.jpg' width='100px' style='border-radius:5px; -moz-border-radius:5px;'></div>";
  		
- 		echo "<ul style='text-align:center;'>";
- 		echo "<li><a href='mailto:thibaud.rohmer@gmail.com'>email</a></li>\n";
- 		echo "<li><a href='http://twitter.com/#osi_iien'>Twitter</a></li>\n";
- 		echo "<li><a href='https://github.com/thibaud-rohmer/'>GitHub</a></li>\n";
- 		echo "<li><a href='https://plus.google.com/114933352963292387937/about'>Google Profile</a></li>\n";
- 		echo "</ul>\n";
+ 		echo "<div class='pure-u-4-5'><ul>";
+ 		echo "<a href='mailto:thibaud.rohmer@gmail.com'>email</a><br/>\n";
+ 		echo "<a href='http://twitter.com/#osi_iien'>Twitter</a><br/>\n";
+ 		echo "<a href='https://github.com/thibaud-rohmer/'>GitHub</a><br/>\n";
+ 		echo "<a href='https://plus.google.com/114933352963292387937/about'>Google Profile</a><br/>\n";
+ 		echo "</ul></div></div>\n";
 
  		echo "<h2>If you like PhotoShow ... </h2>";
 
- 		echo "<ul style='text-align:center;'>";
- 		echo "<li>Spread the word ! Tell it to your friends :)</li>\n";
- 		echo "<li>Tweet/Post/Blog/Whatever about it (#photoshow)</li>\n";
- 		echo "<li></li>";
+ 		echo "<div class='pure-g'><div id='me' class='pure-u-1-5' style='text-align:right;'></div>";
+ 		echo "<div class='pure-u-4-5'><ul>";
+ 		echo "Spread the word ! Tell it to your friends :)<br/>\n";
+		echo "Make sure to go to <a class='pure-button pure-button-primary' href='www.photoshow-gallery.com'>PhotoShow-Gallery</a> and like/+1/tweet the page.<br/>";
+ 		echo "<br/>";
  		echo '	<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		<input type="hidden" name="cmd" value="_s-xclick">
 		<input type="hidden" name="hosted_button_id" value="EJCH63L4226YN">
@@ -90,7 +96,8 @@
 		<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 	</form>';
 	 		echo "</ul>\n";
-
+	 	echo "</div>";	 	
+	 	echo "</div>";
  	}
 
  }

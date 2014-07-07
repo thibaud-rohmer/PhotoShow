@@ -144,24 +144,11 @@ class Comments implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function delete($date){
+	public static function delete($id){
 		$c 			=	new Comments(CurrentUser::$path);
 		$xml		=	simplexml_load_file($c->commentsfile);
-
-		$i=-1;
-		$found=false;
-		foreach( $xml as $comment ){
-			$i++;
-			if((string)$comment->date == $date){
-				$found = true;
-				continue;
-			}
-		}
 		
-		if($found){
-			unset($xml->group[$i]);
-		}
-
+		unset($xml->comment[(int)$id]);
 		$xml->asXML($c->commentsfile);
 	}
 
@@ -232,24 +219,24 @@ class Comments implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){	
-		echo '<h2>'.Settings::_("comments","comments").'</h2>';
+		echo '<h3>'.Settings::_("comments","comments").'</h3>';
 
 		echo "<div class='display_comments'>";	
 		/// Display each comment
+		$id=0;
 		foreach($this->comments as $com){
-			$com->toHTML();
+			$com->toHTML($id);
+			$id++;
 		}
 		echo "</div>";
 		
-		echo "<form action='?t=Com&f=".$this->webfile."' id='comments_form' method='post'><fieldset class='transparent'>\n";
-			if(isset(CurrentUser::$account)){
-				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly></fieldset>\n";			
-			}else{
-				echo "<fieldset><input type='text' class='visible' name='login' id='login' value='".Settings::_("comments","anonymous")."'></fieldset>\n";					
-			}
-			echo "<textarea name='content' id='content'></textarea>\n";
-			echo "<input type='submit' value='".Settings::_("comments","submit")."'></fieldset>\n";
-		echo "</form>\n";	
+		if(isset(CurrentUser::$account)){
+			echo "<form action='?t=Com&f=".$this->webfile."' class='pure-form pure-form-stacked' id='comments_form' method='post'><fieldset class='transparent'>\n";
+			echo "<input type='hidden' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly>";			
+			echo "<textarea name='content' id='content' placeholder='Comment'></textarea>\n";
+			echo "<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("comments","submit")."'></fieldset>\n";
+			echo "</form>\n";	
+		}
 		
 	}
 }

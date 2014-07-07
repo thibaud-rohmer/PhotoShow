@@ -62,11 +62,17 @@ class Index
 		/// Check what to do
 		switch (CurrentUser::$action){
 
+			case "Rss":		$r = new RSS(Settings::$conf_dir."/photos_feed.txt");
+							$r->toXML();
+							break;
+
 			case "Judge":	// Same as page
 			case "Page":	$page = new MainPage();
 							$page->toHTML();
 							break;
-							
+			
+			case "Logout":
+			case "Login":			
 			case "Log":		$page = new LoginPage();
 							$page->toHTML();
 							break;

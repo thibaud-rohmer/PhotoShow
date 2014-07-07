@@ -69,31 +69,28 @@ class AdminPanel
 		$w 	= File::a2r($dir);
 		$ret = "";
 
+//		$ret .=	"<input type='submit' id='multiselectbutton' value='".Settings::_("adminpanel","multiselect")."'>";
+
+
 		/// Folder name
-		if(strlen($w)>1){
-		$ret .=	"<form class='rename' action='?a=Mov' method='post'>
+		if(strlen($w)>1  && $this->isfile){
+		$ret .=	"<form class='niceform pure-form' action='?a=Mov' method='post'>
 					<input type='hidden' name='move' value='rename'>
 					<input type='hidden' name='pathFrom' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
-				<fieldset>
-					<input type='text' name='pathTo' value=\"".htmlentities(basename($w), ENT_QUOTES ,'UTF-8')."\">
-					<input type='submit' value='".Settings::_("adminpanel","rename")."'>
-				</fieldset>
+					<input type='text' name='pathTo' style='max-width:100%; white-space: normal;' value=\"".htmlentities(basename($w), ENT_QUOTES ,'UTF-8')."\">
+					<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("adminpanel","rename")."'>
 				</form>";
-		}
-
-		$ret .=	"<input type='submit' id='multiselectbutton' value='".Settings::_("adminpanel","multiselect")."'>";
-
-		if(!($this->isfile)){
-			$ret .=	"<form class='create' action='?a=Upl' method='post'>
-					<fieldset>
+		}else{
+			$ret .=	"<form class='niceform pure-form' action='?a=Upl' method='post'>
 						<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
-						<input id='foldername' name='newdir' type='text' value='".Settings::_("adminpanel","new")."'>
-						<input type='submit' value='".Settings::_("adminpanel","create")."'>
-					</fieldset>
+						<input id='foldername' name='newdir' style='max-width:100%;' type='text' value='".Settings::_("adminpanel","new")."'>
+						<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("adminpanel","create")."'>
 					</form>";
 
 			/// Upload Images form
-			$ret .= "<div id='files'></div>";
+			
+
+			/*$ret .= "<div id='files'></div>";
 			$w=File::a2r(CurrentUser::$path);
 			$ret .= "<form class='dropzone' id=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\" 
 				action='?a=Upl' method='POST' enctype='multipart/form-data'>
@@ -103,6 +100,7 @@ class AdminPanel
 				<button>Upload</button>
 				<div>".Settings::_("adminpanel","upload")."</div>
 				</form>";
+				*/
 		}
 		return $ret;
 
@@ -110,13 +108,12 @@ class AdminPanel
 
 	public function toHTML(){
 
-        if (CurrentUser::$uploader) {
-    		echo $this->infos;
-        }
+
 
 		if(CurrentUser::$admin){
 			echo $this->j->toHTML();
 		}
+
 	}
 }
 
