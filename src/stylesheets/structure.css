@@ -190,18 +190,21 @@ div.linear_panel {
 	z-index: 10;
 }
 
-div.linear_panel > .sectionvid,
-div.linear_panel > .sectiondir,
+.linear_panel > .header,
+.linear_panel  h1,
+.linear_panel  h2,
+.linear_panel > .sectionvid,
+.linear_panel > .sectiondir
 {
-	display: none;
+	display: none !important;
 }
 
-div.linear_panel > .line {
+div.linear_panel  .line {
 	display: inline-block;
 	overflow: hidden;
 }
 
-div.linear_panel > .line > .item , div.linear_panel > .line > .item-video {
+div.linear_panel  .line > .item , div.linear_panel  .line > .item-video {
 	width: 100px !important;
 	height: 100px;
 }
