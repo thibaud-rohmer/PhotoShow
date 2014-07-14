@@ -293,7 +293,7 @@ class Account extends Page
 		}
 
 		/// Edit attributes
-		if(isset($password) && sizeof($password) > 4 ){
+		if(isset($password) && strlen($password) > 4 ){
 			$acc->password = Account::password($password);
 		}
 
