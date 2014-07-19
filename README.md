@@ -60,4 +60,5 @@ First, you need to copy the repository into whatever you like (here, toto)
 `git clone https://github.com/thibaud-rohmer/PhotoShow.git toto`
 
 Then build and run Photoshow Docker container:
+
 `cd toto/docker; ./runPhotoshow.sh`
