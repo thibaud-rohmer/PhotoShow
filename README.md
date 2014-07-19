@@ -50,3 +50,14 @@ Edit the file `config.php` that is inside your PhotoShow folder. It is advised t
 Now, use your favorite web browser to go to your PhotoShow website. You should be asked to create the main account. This account will be the admin of the website.
 
 > Your website is now ready.
+
+## Run with Docker
+
+Docker **must be installed and available** on you system !
+
+First, you need to copy the repository into whatever you like (here, toto)
+
+`git clone https://github.com/thibaud-rohmer/PhotoShow.git toto`
+
+Then build and run Photoshow Docker container:
+`cd toto/docker; ./runPhotoshow.sh`
