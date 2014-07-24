@@ -151,82 +151,109 @@ class Provider
         readfile($path);
     }
 
-	public static function thumb($file){
-        require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
+    public static function thumb($file)
+    {
+        require_once dirname(__FILE__).'/../phpthumb/phpthumb.class.php';
 
         $path = File::r2a(File::a2r($file),Settings::$thumbs_dir);
 
         // We check that the thumb already exists, was created after the image, at the right size
         $goodThumb = false;
-        if(file_exists($path) && filectime($file) < filectime($path) ){
-        	$dim = getimagesize($path);
-        	$goodThumb = ($dim[0] == Settings::$thumbs_size && $dim[1] == Settings::$thumbs_size );
+        if (file_exists($path) && filectime($file) < filectime($path)) {
+            $dim = getimagesize($path);
+            $goodThumb = ($dim[0] == Settings::$thumbs_size && $dim[1] == Settings::$thumbs_size );
         }
 
-        if( !$goodThumb ){
-        	/// If we need to create a thumb, then this is a new picture
+        /// If we need to create a thumb, then this is a new picture
+        if (!$goodThumb) {
 
-        	if(Judge::is_public($file)){
-	        	$r = new RSS(Settings::$conf_dir."/photos_feed.txt");
-	        	$webpath = Settings::$site_address."?f=".urlencode(File::a2r($file));
-	        	$r->add(basename($file),$webpath, "<img src='$webpath&t=Thb' />");
-	        }
+            if (Judge::is_public($file)) {
+                $r = new RSS(Settings::$conf_dir."/photos_feed.txt");
+                $webpath = Settings::$site_address."?f=".urlencode(File::a2r($file));
+                $r->add(basename($file),$webpath, "<img src='$webpath&t=Thb' />");
+            }
 
             /// Create directories
-            if(!file_exists(dirname($path))){
+            if (!file_exists(dirname($path))) {
                 @mkdir(dirname($path),0750,true);
             }
 
             /// Create thumbnail
-			$thumb = PhpThumbFactory::create($file);
-			$thumb->adaptiveResize(Settings::$thumbs_size, Settings::$thumbs_size);
+            $thumb = new phpthumb();
+            $thumb->setSourceImageResource($thumb->ImageCreateFromFilename($file));
+            $thumb->CalculateThumbnailDimensions();
+            $thumb->w = Settings::$thumbs_size;
+            $thumb->h = Settings::$thumbs_size;
+            $thumb->zc = Settings::$thumbs_size;
+            $thumb->q = Settings::$quality_mini;
 
-			if(File::Type($file)=="Image"){
-				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees ($file));	
-			}
-			$thumb->save($path);
-			chmod($path,0775);
-		}
+            if (!empty(Settings::$imagemagick_path)) {
+                $thumb->config_imagemagick_path = Settings::$imagemagick_path;
+            }
 
-		/* Implementation of webp... for later.
-		$webp = $path.".webp";
-		if(!file_exists($webp) ||  filectime($webp) < filectime($path) ){
-			imagewebp(imagecreatefromjpeg($path),$webp);
-		}
-		*/
+            if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
+                $thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->Rotate();
+            }
 
-		return $path;
-	}
+            $thumb->GenerateThumbnail();
+            $thumb->RenderToFile($path);
+            chmod($path,0775);
+        }
 
-	public static function small($file){
-		require_once dirname(__FILE__).'/../phpthumb/ThumbLib.inc.php';
+        /* Implementation of webp... for later.
+        $webp = $path.".webp";
+        if(!file_exists($webp) ||  filectime($webp) < filectime($path) ){
+            imagewebp(imagecreatefromjpeg($path),$webp);
+        } */
 
-		$basefile	= 	new File($file);
-		$basepath	=	File::a2r($file);
-		$webimg	=	dirname($basepath)."/".$basefile->name."_small.".$basefile->extension;
-		
-		list($x,$y) = getimagesize($file);
-		if($x <= 1200 && $y <= 1200){
-			return $file;
-		}
-		
-		$path =	File::r2a($webimg,Settings::$thumbs_dir);
+        return $path;
+    }
 
-		if(!file_exists($path) || filectime($file) > filectime($path)  ){
-			/// Create smaller image
-			if(!file_exists(dirname($path))){
-				@mkdir(dirname($path),0755,true);
-			}
-			$options = array('resizeUp' => true, 'jpegQuality' => 70);
-			$thumb = PhpThumbFactory::create($file,$options);
-			$thumb->resize(1200, 1200);
-			if(File::Type($file)=="Image"){
-				$thumb->rotateImageNDegrees(Provider::get_orientation_degrees($file));	
-			}
-			$thumb->save($path);
-		}
-		return $path;
-	}
+    public static function small($file)
+    {
+        require_once dirname(__FILE__).'/../phpthumb/phpthumb.class.php';
+
+        $basefile = new File($file);
+        $basepath = File::a2r($file);
+        $webimg = dirname($basepath) . "/" . $basefile->name . "_small." . $basefile->extension;
+
+        list($x,$y) = getimagesize($file);
+        if($x <= 1200 && $y <= 1200){
+            return $file;
+        }
+
+        $path = File::r2a($webimg, Settings::$thumbs_dir);
+
+        /// Create smaller image
+        if (!file_exists($path) || filectime($file) > filectime($path)) {
+
+            if (!file_exists(dirname($path))) {
+                @mkdir(dirname($path),0755,true);
+            }
+
+            $thumb = new phpthumb();
+            $thumb->setSourceImageResource($thumb->ImageCreateFromFilename($file));
+            $thumb->CalculateThumbnailDimensions();
+            $thumb->w = 1200;
+            $thumb->h = 1200;
+            $thumb->q = Settings::$quality_small;
+
+            if (!empty(Settings::$imagemagick_path)) {
+                $thumb->config_imagemagick_path = Settings::$imagemagick_path;
+            }
+
+            if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
+                $thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->Rotate();
+            }
+
+            $thumb->GenerateThumbnail();
+            $thumb->RenderToFile($path);
+        }
+
+        return $path;
+    }
 
 	/**
 	 * Provide an image to the user, if he is allowed to
@@ -239,7 +266,7 @@ class Provider
 	 * @author Thibaud Rohmer
 	 */
 	public static function Image($file,$thumb=false,$large=false,$output=true,$dl=false){
-		
+
 		if( !Judge::view($file)){
 			return;
 		}
