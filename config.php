@@ -40,4 +40,11 @@ $config->ps_generated   = "path_where_photoshow_generates_files_goes_here";
 // Local timezone. Default one is "Europe/Paris".
 #$config->timezone = "Europe/Paris";
 
-?>
+// ImageMagick (convert tool) path.
+#$config->imagemagick_path = '/usr/local/bin/convert';
+
+// Quality for small pictures, scala: 0-100
+#$config->quality_small = 90;
+
+/// Quality of mini thumbnails in overview, scala: 0-100
+#$config->quality_mini = 90;
