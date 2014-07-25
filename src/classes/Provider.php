@@ -183,18 +183,18 @@ class Provider
             if (!empty(Settings::$imagemagick_path)) {
                 $thumb->config_imagemagick_path = Settings::$imagemagick_path;
             }
-            if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
-                $thumb->setSourceImageResource($thumb->ImageCreateFromFilename($file));
-                $thumb->ra = Provider::get_orientation_degrees($file);
-                $thumb->Rotate();
-            } else {
-                $thumb->setSourceData(file_get_contents($file));
-            }
+            $thumb->setSourceData(file_get_contents($file));
+            $thumb->SourceImageToGD();
             $thumb->CalculateThumbnailDimensions();
             $thumb->w = Settings::$thumbs_size;
             $thumb->h = Settings::$thumbs_size;
             $thumb->zc = Settings::$thumbs_size;
             $thumb->q = Settings::$quality_mini;
+
+            if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
+                //$thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->Rotate();
+            }
 
             $thumb->GenerateThumbnail();
             $thumb->RenderToFile($path);
@@ -236,18 +236,17 @@ class Provider
             if (!empty(Settings::$imagemagick_path)) {
                 $thumb->config_imagemagick_path = Settings::$imagemagick_path;
             }
-            if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
-                $thumb->setSourceImageResource($thumb->ImageCreateFromFilename($file));
-                $thumb->ra = Provider::get_orientation_degrees($file);
-                $thumb->Rotate();
-            } else {
-                $thumb->setSourceData(file_get_contents($file));
-            }
+            $thumb->setSourceData(file_get_contents($file));
+            $thumb->SourceImageToGD();
             $thumb->CalculateThumbnailDimensions();
             $thumb->w = 1200;
             $thumb->h = 1200;
             $thumb->q = Settings::$quality_small;
 
+            if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
+                //$thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->Rotate();
+            }
 
             $thumb->GenerateThumbnail();
             $thumb->RenderToFile($path);
