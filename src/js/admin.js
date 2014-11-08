@@ -30,7 +30,7 @@
 
 
 function init_dropzone(){
-		$('.dropzone').fileUploadUI({
+		$('.dropzone:not(.fileUploadInitialized)').addClass('fileUploadInitialized').fileUploadUI({
 		uploadTable: 		$('#files'),
 		downloadTable: 		$('#files'),
 		buildUploadRow: 	function (files, index) {
