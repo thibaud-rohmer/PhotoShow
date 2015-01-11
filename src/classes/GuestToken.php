@@ -281,7 +281,7 @@ class GuestToken extends Page
         }
 
         if (self::exist($key)){
-            $url = Settings::$site_address."?f=".urlencode(self::get_path($key))."&token=".$key;
+            $url = "?f=".urlencode(self::get_path($key))."&token=".$key;
         }
 
         return $url;
