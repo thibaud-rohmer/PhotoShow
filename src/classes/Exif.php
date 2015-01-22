@@ -109,7 +109,7 @@ class Exif implements HTMLObject
 		$this->wanted['Make'][]			=	'Make';
 		$this->wanted['Expo'][]			=	'ExposureTime';
 		$this->wanted['Focal Length'][]	=	'FocalLength';
-		$this->wanted['Aperture'][]		=	'ApertureValue';
+		$this->wanted['Aperture'][]		=	'FNumber';
 		$this->wanted['ISO'][]			=	'ISOSpeedRatings';
 		$this->wanted['Original Date'][]=	'DateTimeOriginal';
 	}
@@ -184,8 +184,8 @@ class Exif implements HTMLObject
 									break;
 			case 'FocalLength':		$v		=	$this->frac2float($raw_exif[$d])." mm";
 									break;
-			case 'ApertureValue':	if($a = number_format($this->frac2float($raw_exif[$d]),"1") > 0){
-										$v = "1/".$a;
+			case 'FNumber':	        if(($a = number_format($this->frac2float($raw_exif[$d]),"1")) > 0){
+										$v = "f".$a;
 									}else{
 										$v='Unknown';
 									}
