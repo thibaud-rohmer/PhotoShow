@@ -1,0 +1,29 @@
+upstream php5-fpm-sock {
+    server unix:/var/run/php5-fpm.sock;
+}
+
+server {
+  listen   80;
+  server_name  bm.blue-mind.net;
+
+  error_log /var/log/nginx/photoshow.log info;
+
+  location / {
+    alias /var/www/PhotoShow/;
+    index index.php;
+    client_max_body_size 0;   
+
+	  location ~* \.php$ {
+		#try_files $uri =404;
+		allow all;
+		include fastcgi_params;
+		fastcgi_pass php5-fpm-sock;
+		fastcgi_param SCRIPT_FILENAME /var/www/PhotoShow/$fastcgi_script_name;
+		fastcgi_param QUERY_STRING $query_string;
+#	    fastcgi_param PHP_VALUE "include_path=/usr/share/bm-webmail/bm_libs";
+#    	fastcgi_index index.php;
+		fastcgi_intercept_errors off;
+		client_max_body_size 0;   
+	  }
+  }
+}
