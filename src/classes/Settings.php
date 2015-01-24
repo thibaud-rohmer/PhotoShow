@@ -193,13 +193,15 @@ class Settings extends Page
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
 		Settings::$imagemagick_path = $config->imagemagick_path;
 
-		Settings::$quality_small = 70;
-		if ($config->quality_small >= 0 && $config->quality_small <= 100) {
+		if (isset($config->imagemagick_path) && is_file($config->imagemagick_path)) {
+			Settings::$imagemagick_path = $config->imagemagick_path;
+		}
+
+		if (isset($config->quality_small) && $config->quality_small >= 0 && $config->quality_small <= 100) {
 			Settings::$quality_small = $config->quality_small;
 		}
 
-		Settings::$quality_mini = 70;
-		if ($config->quality_mini >= 0 && $config->quality_mini <= 100) {
+		if (isset($config->quality_mini) && $config->quality_mini >= 0 && $config->quality_mini <= 100) {
 			Settings::$quality_mini = $config->quality_mini;
 		}
 
