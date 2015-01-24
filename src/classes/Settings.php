@@ -58,13 +58,13 @@ class Settings extends Page
 	static public $admin_settings_file;
 
 	/// Path to imagemagick convert tool
-	static public $imagemagick_path;
+	static public $imagemagick_path = '/usr/local/bin/convert';
 
 	/// Quality of small pictures, scala: 0-100
-	static public $quality_small;
+	static public $quality_small = 90;
 
 	/// Quality of mini thumbnails in overview, scala: 0-100
-	static public $quality_mini;
+	static public $quality_mini = 90;
 
 
 	/**** Admin Settings ****/
