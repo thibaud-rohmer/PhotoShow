@@ -191,7 +191,6 @@ class Settings extends Page
 		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
 		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
-		Settings::$imagemagick_path = $config->imagemagick_path;
 
 		if (isset($config->imagemagick_path) && is_file($config->imagemagick_path)) {
 			Settings::$imagemagick_path = $config->imagemagick_path;
