@@ -233,9 +233,7 @@ class Provider
             }
 
             $thumb = new phpthumb();
-            if (!empty(Settings::$imagemagick_path)) {
-                $thumb->config_imagemagick_path = Settings::$imagemagick_path;
-            }
+            $thumb->config_imagemagick_path = Settings::$imagemagick_path;
             $thumb->setSourceData(file_get_contents($file));
             $thumb->CalculateThumbnailDimensions();
             $thumb->w = 1200;
