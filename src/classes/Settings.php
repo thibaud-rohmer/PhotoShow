@@ -57,6 +57,15 @@ class Settings extends Page
 	/// File where the admin settings are stored
 	static public $admin_settings_file;
 
+	/// Path to imagemagick convert tool
+	static public $imagemagick_path = '/usr/local/bin/convert';
+
+	/// Quality of small pictures, scala: 0-100
+	static public $quality_small = 90;
+
+	/// Quality of mini thumbnails in overview, scala: 0-100
+	static public $quality_mini = 90;
+
 
 	/**** Admin Settings ****/
 
@@ -166,13 +175,13 @@ class Settings extends Page
 
 		if(!isset($config)) $config = (object)array();
 
-        /// Set default values for $config
-        $config->timezone = "Europe/Paris";
+		/// Set default values for $config
+		$config->timezone = "Europe/Paris";
 
 		/// Load config.php file 
-        if (!isset($config_file)){
-            $config_file		=	realpath(dirname(__FILE__)."/../../config.php");
-        }
+		if (!isset($config_file)){
+			$config_file		=	realpath(dirname(__FILE__)."/../../config.php");
+		}
 		if(!include($config_file)){
 			throw new Exception("You need to create a configuration file.");
 		}
@@ -182,6 +191,18 @@ class Settings extends Page
 		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
 		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
+
+		if (isset($config->imagemagick_path) && is_file($config->imagemagick_path)) {
+			Settings::$imagemagick_path = $config->imagemagick_path;
+		}
+
+		if (isset($config->quality_small) && $config->quality_small >= 0 && $config->quality_small <= 100) {
+			Settings::$quality_small = $config->quality_small;
+		}
+
+		if (isset($config->quality_mini) && $config->quality_mini >= 0 && $config->quality_mini <= 100) {
+			Settings::$quality_mini = $config->quality_mini;
+		}
 
 		/// Set TimeZone
 		date_default_timezone_set($config->timezone);

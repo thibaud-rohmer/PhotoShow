@@ -23,6 +23,9 @@ Wow, well, loads. Here is a quick list.
 * Loads of code removed for a faster, more reliable PhotoShow. Hopefully.
 * Uploaders have lost a load of rights. Basically, all they can do is upload. No file removing anymore.
 * Rights management SHOULD be the same as before. But, just in case, please check after updating
+* Updated phpThumb library
+* Added configuration values for `quality_small` and `quality_mini` thumbnails with default of `90` - change them through your own config.php, like `$config->quality_small = 90;`  
+* Make usage of your imagick installation, as it will result in better thumbnail quality! If the convert tool isn't located at `/usr/local/bin/convert` define your convert tool location through config.php by adding: `$config->imagemagick_path = '/your/path/to/convert';`
 
 ## Installation
 
