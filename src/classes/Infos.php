@@ -84,20 +84,20 @@ class Infos implements HTMLObject
 		$this->w 		= 	File::a2r(CurrentUser::$path);
 
 		if(is_file(CurrentUser::$path)){
-			$this->thumb ="<img src=\"?t=Thb&f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
-			$this->dl = "?t=BDl&f=$this->path";
+			$this->thumb ="<img src=\"?t=Thb&amp;f=".urlencode(File::a2r(CurrentUser::$path))."\" alt='' />";
+			$this->dl = "?t=BDl&amp;f=$this->path";
 		}else{
-			$this->thumb ="<img src='inc/folder.png' />";
-			$this->dl = "?t=Zip&f=$this->path";
+			$this->thumb ="<img src='inc/folder.png' alt='' />";
+			$this->dl = "?t=Zip&amp;f=$this->path";
 		}
 
 		if(CurrentUser::$admin){
 
 		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post'>
-				<input type='hidden' name='del' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
-						<button class='button-round button-error' type='submit'><i class='fa fa-trash-o'></i></button>
-				</form>
-				</div>";
+			<input type='hidden' name='del' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
+				<button class='button-round button-error' type='submit'><i class='fa fa-trash-o'></i></button>
+			</form>
+			</div>";
 		}
 	}
 
@@ -119,8 +119,10 @@ class Infos implements HTMLObject
 		/// Upload Images form
 			echo "<h3>Upload</h3>";
 			echo "<div id='files'></div>";
-			echo "<form class='dropzone' id=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\" 
-				action='?a=Upl' method='POST' enctype='multipart/form-data'>
+			//$form_id = (!empty($this->w)) ? "id=" . htmlentities($this->w, ENT_QUOTES ,'UTF-8') : "";
+			$form_id = (!empty($this->w)) ? "id='" . urlencode($this->w) . "'" : "";
+			echo "<form class='dropzone' " . $form_id .
+				" action='?a=Upl' method='POST' enctype='multipart/form-data'>
 				<input type='hidden' name='path' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
 				<input type='hidden' name='inherit' value='1' />
 				<input type='file' name='images[]' multiple >
@@ -156,10 +158,6 @@ class Infos implements HTMLObject
 
 
 		echo "</div>";
-
-
-
-		echo 	"</span>\n";
 
 		echo "</div>";
 

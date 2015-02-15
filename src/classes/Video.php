@@ -300,7 +300,7 @@ class Video implements HTMLObject
         if ($control) {
             $c = ' controls="controls"';
         }
-        echo '<video'.$wh.$c.'><source src="?t=Vid&f='.$this->fileweb.'" type="video/webm" />';
+        echo '<video'.$wh.$c.'><source src="?t=Vid&amp;f='.$this->fileweb.'" type="video/webm" />';
         echo 'Your browser does not support the video tag.<br />';
         echo 'Please upgrade your brower or Download the codec <a href="http://tools.google.com/dlpage/webmmf">Download</a>';
         echo '</video>';
