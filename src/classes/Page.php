@@ -67,12 +67,12 @@ abstract class Page implements HTMLObject
 			echo "<link rel='stylesheet' href='inc/stylesheets/pure-grid.css'/>\n";
 			echo "<link rel='stylesheet' href='inc/stylesheets/font-awesome.min.css'/>\n";
 			
-			echo "<link rel='stylesheet' href='src/stylesheets/structure.css' type='text/css' media='screen' charset='utf-8'/>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/buttons.css' type='text/css' media='screen' charset='utf-8'/>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/theme.css' type='text/css' media='screen' charset='utf-8'/>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/side-menu.css' type='text/css' media='screen' charset='utf-8'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/structure.css' type='text/css' media='screen'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/buttons.css' type='text/css' media='screen'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/theme.css' type='text/css' media='screen'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/side-menu.css' type='text/css' media='screen'/>\n";
 
-			echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css' type='text/css' media='screen' charset='utf-8'/>\n";
+			echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css' type='text/css' media='screen'/>\n";
 
 			/// Trick to hide "only-script" parts
 	 		echo "<noscript><style type='text/css'>.noscript_hidden { display: none; }</style></noscript>";
