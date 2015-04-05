@@ -75,7 +75,7 @@ abstract class Page implements HTMLObject
 			echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css' type='text/css' media='screen' charset='utf-8'>\n";
 
 			/// Trick to hide "only-script" parts
-	 		echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>";
+	 		echo "<noscript><style type='text/css'>.noscript_hidden { display: none; }</style></noscript>";
 
 			/// JS
 			echo "<script src='inc/jquery.js'></script>\n";
