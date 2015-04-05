@@ -166,7 +166,6 @@ class MainPage extends Page
 
 
 		echo "</div>\n";
-		echo "</div>\n";
 
 		echo "<script src='inc/ui.js'></script>\n";
 

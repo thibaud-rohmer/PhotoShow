@@ -84,11 +84,11 @@ class Infos implements HTMLObject
 		$this->w 		= 	File::a2r(CurrentUser::$path);
 
 		if(is_file(CurrentUser::$path)){
-			$this->thumb ="<img src=\"?t=Thb&f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
-			$this->dl = "?t=BDl&f=$this->path";
+			$this->thumb ="<img src=\"?t=Thb&amp;f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
+			$this->dl = "?t=BDl&amp;f=$this->path";
 		}else{
 			$this->thumb ="<img src='inc/folder.png' />";
-			$this->dl = "?t=Zip&f=$this->path";
+			$this->dl = "?t=Zip&amp;f=$this->path";
 		}
 
 		if(CurrentUser::$admin){
