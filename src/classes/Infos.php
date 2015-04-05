@@ -87,7 +87,7 @@ class Infos implements HTMLObject
 			$this->thumb ="<img src=\"?t=Thb&f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
 			$this->dl = "?t=BDl&f=$this->path";
 		}else{
-			$this->thumb ="<img src='inc/folder.png' />";
+			$this->thumb ="<img src='inc/folder.png' alt='Folder' />";
 			$this->dl = "?t=Zip&f=$this->path";
 		}
 
@@ -146,7 +146,6 @@ class Infos implements HTMLObject
 		
 		echo "<div>";
 
-
 		// Outputting Facebook Like Button
 		if(Settings::$like){				
 			$rootURL = Settings::$site_address;
@@ -154,12 +153,7 @@ class Infos implements HTMLObject
 			echo '<iframe src="//www.facebook.com/plugins/like.php?href='.$pageURL.'&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>';
 		}
 
-
 		echo "</div>";
-
-
-
-		echo 	"</span>\n";
 
 		echo "</div>";
 
