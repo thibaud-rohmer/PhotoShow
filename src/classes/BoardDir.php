@@ -69,7 +69,7 @@ class BoardDir implements HTMLObject
 		if($img == NULL){
 			$this->img='inc/folder.png';
 		}else{
-					$this->img = "?t=Thb&f=".urlencode(File::a2r($img));
+			$this->img = "?t=Thb&amp;f=".urlencode(File::a2r($img));
 
 		}
 	}
@@ -84,7 +84,7 @@ class BoardDir implements HTMLObject
 		echo "<div class=' pure-u-1-3 pure-u-sm-1-3 pure-u-lg-1-4 pure-u-xl-1-8'>";
 		echo "<div class='directory'>";
 		echo 	"<a href=\"?f=$this->url\">";
-		echo 	"<img src=\"$this->img\"/ >";
+		echo 	"<img src=\"$this->img\" alt=\"\"/ >";
 		echo "<div class='dirname'>";
 		(array)$name = explode('/', $this->path);
 		echo 	htmlentities(end($name), ENT_QUOTES ,'UTF-8');
