@@ -125,7 +125,7 @@ class MainPage extends Page
 		$this->header($this->header_content);
 		echo "<body>";
 
-		echo "<div id='layout'>\n";		
+		echo "<div id='layout'>\n";
 
 
 
@@ -165,6 +165,7 @@ class MainPage extends Page
 		echo "</div>\n";
 
 
+		echo "</div>\n";
 		echo "</div>\n";
 
 		echo "<script src='inc/ui.js'></script>\n";
