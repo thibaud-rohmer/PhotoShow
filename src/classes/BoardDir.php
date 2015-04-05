@@ -84,7 +84,7 @@ class BoardDir implements HTMLObject
 		echo "<div class=' pure-u-1-3 pure-u-sm-1-3 pure-u-lg-1-4 pure-u-xl-1-8'>";
 		echo "<div class='directory'>";
 		echo 	"<a href=\"?f=$this->url\">";
-		echo 	"<img src=\"$this->img\" alt=\"\"/ >";
+		echo 	"<img src=\"$this->img\" alt=\"\" />";
 		echo "<div class='dirname'>";
 		(array)$name = explode('/', $this->path);
 		echo 	htmlentities(end($name), ENT_QUOTES ,'UTF-8');
