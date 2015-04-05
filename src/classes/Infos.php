@@ -87,7 +87,7 @@ class Infos implements HTMLObject
 			$this->thumb ="<img src=\"?t=Thb&amp;f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
 			$this->dl = "?t=BDl&amp;f=$this->path";
 		}else{
-			$this->thumb ="<img src='inc/folder.png' />";
+			$this->thumb ="<img src='inc/folder.png' alt='Folder' />";
 			$this->dl = "?t=Zip&amp;f=$this->path";
 		}
 
