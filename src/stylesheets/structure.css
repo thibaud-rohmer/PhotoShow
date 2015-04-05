@@ -342,12 +342,8 @@ li {
 	color: black;
 }
 
-li.currentSelected{
-
-}
-
-li.currentSelected a{
-	color: #0085be !important;
+currentSelected a{
+	color: #0085be;
 }
 
 
