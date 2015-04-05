@@ -56,23 +56,23 @@ abstract class Page implements HTMLObject
 			echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
 			echo "<html>";
 			echo "<head>\n";
-			echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n";
-			echo "<meta name='viewport' content='width=device-width, initial-scale=1'>\n";
+			echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>\n";
+			echo "<meta name='viewport' content='width=device-width, initial-scale=1'/>\n";
 			echo "<title>".Settings::$name."</title>\n";
-			echo "<meta name='author' content='Thibaud Rohmer'>\n";
-			echo "<link rel='icon' type='image/ico' href='inc/favico.ico'>";
+			echo "<meta name='author' content='Thibaud Rohmer'/>\n";
+			echo "<link rel='icon' type='image/ico' href='inc/favico.ico'/>";
 
 			/// CSS
-			echo "<link rel='stylesheet' href='inc/stylesheets/pure-min.css'>\n";
-			echo "<link rel='stylesheet' href='inc/stylesheets/pure-grid.css'>\n";
-			echo "<link rel='stylesheet' href='inc/stylesheets/font-awesome.min.css'>\n";
+			echo "<link rel='stylesheet' href='inc/stylesheets/pure-min.css'/>\n";
+			echo "<link rel='stylesheet' href='inc/stylesheets/pure-grid.css'/>\n";
+			echo "<link rel='stylesheet' href='inc/stylesheets/font-awesome.min.css'/>\n";
 			
-			echo "<link rel='stylesheet' href='src/stylesheets/structure.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/buttons.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/theme.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/side-menu.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/structure.css' type='text/css' media='screen' charset='utf-8'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/buttons.css' type='text/css' media='screen' charset='utf-8'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/theme.css' type='text/css' media='screen' charset='utf-8'/>\n";
+			echo "<link rel='stylesheet' href='src/stylesheets/side-menu.css' type='text/css' media='screen' charset='utf-8'/>\n";
 
-			echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css' type='text/css' media='screen' charset='utf-8'/>\n";
 
 			/// Trick to hide "only-script" parts
 	 		echo "<noscript><style type='text/css'>.noscript_hidden { display: none; }</style></noscript>";
@@ -96,7 +96,7 @@ abstract class Page implements HTMLObject
 
 
 			if(CurrentUser::$admin || CurrentUser::$uploader){
-				echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
+				echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'/>\n";
 				echo "<script src='inc/jquery.fileupload-ui.js'></script>\n";
 				echo "<script src='src/js/admin.js'></script>\n";
 			}
