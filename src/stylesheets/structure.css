@@ -318,7 +318,7 @@ div.commentdelete {
 
 
 /* Menu */
-ul.selected > ul{
+ul.selected > li > ul{
 	position: relative;
 	visibility: visible;
 	left: auto;
@@ -336,7 +336,7 @@ li {
 	padding: 0;
 }
 
-.pure-menu li a{
+.pure-menu a{
 	font-family: 'Roboto-Bold',sans-serif;
 	font-size: 13px;
 	color: black;

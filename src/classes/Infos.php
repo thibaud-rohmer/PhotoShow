@@ -159,7 +159,7 @@ class Infos implements HTMLObject
 
 
 
-		echo 	"</span>\n";
+		//echo 	"</span>\n";
 
 		echo "</div>";
 
