@@ -115,7 +115,7 @@ class Infos implements HTMLObject
 		}
 		echo "</div>";
 
-		if(CurrentUser::$admin && is_dir(CurrentUser::$path)){
+		if((CurrentUser::$admin || CurrentUser::$uploader) && is_dir(CurrentUser::$path)){
 		/// Upload Images form
 			echo "<h3>Upload</h3>";
 			echo "<div id='files'></div>";
