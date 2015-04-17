@@ -92,6 +92,7 @@ abstract class Page implements HTMLObject
 			echo "<script src='src/js/slideshow.js'></script>\n";
 			echo "<script src='src/js/image_panel.js'></script>\n";
 			echo "<script src='src/js/keyboard.js'></script>\n";
+			echo "<script src='src/js/confirmation.js'></script>\n";
 
 
 

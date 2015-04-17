@@ -1,14 +1,3 @@
-<script type="text/javascript">
-function executeOnSubmit()
-{
-	var res = confirm("Do you really wish to Delete this item?");
-    if(res)
-		return true;
-   	else
-       	return false;
-}
-</script>
-
 <?php
 /**
  * This file implements the class Infos.
@@ -55,6 +44,8 @@ function executeOnSubmit()
  * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
  
+ 
+
 class Infos implements HTMLObject
 {
 	private $info;
@@ -103,7 +94,7 @@ class Infos implements HTMLObject
 
 		if(CurrentUser::$admin){
 
-		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post' onsubmit='return executeOnSubmit();'>
+		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post' onsubmit='return executeOnSubmit(`delete`);'>
 				<input type='hidden' name='del' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
 						<button class='button-round button-error' type='submit'><i class='fa fa-trash-o'></i></button>
 				</form>
@@ -137,7 +128,6 @@ class Infos implements HTMLObject
 				<button>Upload</button>
 				<div>".Settings::_("adminpanel","upload")."</div>
 				</form>";
-
 		}
 
 		if(CurrentUser::$admin || CurrentUser::$uploader ){
