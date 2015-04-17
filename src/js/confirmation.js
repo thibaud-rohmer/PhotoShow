@@ -30,7 +30,20 @@
 
 function executeOnSubmit(button)
 {
-	var res = confirm("Do you really wish to "+button+" this item?");
+	switch(button){
+		case 'rename':
+		case 'create':
+		case 'download':
+		case 'delete':
+			var res = confirm("Do you really wish to "+button+" this item?")
+			break;
+		case 'permissions':
+			var res = confirm("Do you want to change Permissions?")
+			break;
+		case 'token':
+			var res = confirm("Do you want to create a guest token?")
+			break;
+	};
     if(res)
 		return true;
    	else
