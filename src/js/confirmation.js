@@ -43,6 +43,9 @@ function executeOnSubmit(button)
 		case 'token':
 			var res = confirm("Do you want to create a guest token?")
 			break;
+		case 'tokenDelete':
+			var res = confirm("Do you want to delete this guest token?")
+			break;
 	};
     if(res)
 		return true;
