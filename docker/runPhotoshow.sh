@@ -49,7 +49,11 @@ sleep 5
 docker rm ${dockerContainerName}
 docker run --name ${dockerContainerName} -p 8080:80 -p 2222:22 -d -i -t ${dockerImageName}
 
-clear
-echo 'PhotoShow is running ! To stop it run: docker stop photoshow-demo'
-echo 'Connect to http://localhost:8080/'
-echo "SSH: ssh -i ${dockerDir}/photoshow.key -p 2222 root@localhost"
+if [ $# -eq 0 ]; then
+    clear
+    echo 'PhotoShow is running ! To stop it run: docker stop '${dockerContainerName}
+    echo 'Connect to http://localhost:8080/'
+    echo "SSH: ssh -i ${dockerDir}/photoshow.key -p 2222 root@localhost"
+else
+    echo 'PhotoShow fail to start'
+fi

@@ -20,15 +20,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
     
 RUN git clone https://github.com/thibaud-rohmer/PhotoShow.git /var/www/PhotoShow
 RUN cd /var/www/PhotoShow && sed -i -e 's/$config->photos_dir.\+/$config->photos_dir = "\/opt\/PhotoShow\/Photos";/' config.php
-RUN cd /var/www/PhotoShow && sed -i -e 's/$config->ps_generated.\+/$config->ps_generated = "\/opt\/PhotoShow\/thumbnails";/' config.php
+RUN cd /var/www/PhotoShow && sed -i -e 's/$config->ps_generated.\+/$config->ps_generated = "\/opt\/PhotoShow\/generated";/' config.php
     
 RUN sed -i -e 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 ADD supervisor-photoshow.conf /etc/supervisor/conf.d/photoshow.conf
 
 RUN mkdir -p /var/www/PhotoShow
 RUN mkdir -p /opt/PhotoShow/Photos
-RUN mkdir -p /opt/PhotoShow/thumbnails
-RUN chown -R www-data:www-data /opt/PhotoShow/Photos /opt/PhotoShow/thumbnails
+RUN mkdir -p /opt/PhotoShow/generated
+RUN chown -R www-data:www-data /opt/PhotoShow/Photos /opt/PhotoShow/generated
 
 RUN mkdir -p /root/.ssh
 ADD photoshow.key.pub /root/.ssh/authorized_keys
@@ -43,5 +43,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/run/sshd
 
+VOLUME ["/opt/PhotoShow", "/var/log"]
 EXPOSE 80 22
 CMD /usr/bin/supervisord
