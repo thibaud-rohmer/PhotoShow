@@ -82,7 +82,7 @@ class Menu implements HTMLObject
 		}
 
 		/// Set variables
-		$this->title = basename($dir);
+		$this->title = end(explode('/', $dir));
 		$this->webdir= urlencode(File::a2r($dir));
 		$this->path  = File::a2r($dir);
 
