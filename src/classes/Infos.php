@@ -95,7 +95,7 @@ class Infos implements HTMLObject
 
 		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post'>
 				<input type='hidden' name='del' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
-						<button class='button-round button-error' type='submit'><i class='fa fa-trash-o'></i></button>
+						<button class='button-round button-error' type='submit' ".(Settings::$button_title ? "title='".Settings::_("bin","delete")."'" : "")."><i class='fa fa-trash-o'></i></button>
 				</form>
 				</div>";
 		}
@@ -111,7 +111,7 @@ class Infos implements HTMLObject
 		echo "<div class='infos_title'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</div>";
 		if(!Settings::$nodownload){
 			/// Zip button
-			echo 	"<a href='$this->dl' class='floating-action'><i class='fa fa-arrow-down fa-large'></i></a>\n";
+			echo 	"<a href='$this->dl' class='floating-action' ".(Settings::$button_title ? "title='".Settings::_("buttons","get")."'" : "")."><i class='fa fa-arrow-down fa-large'></i></a>\n";
 		}
 		echo "</div>";
 

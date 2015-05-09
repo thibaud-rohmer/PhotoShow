@@ -110,7 +110,7 @@ class ImageBar
 	 */
 	 public function toHTML(){
 	 	foreach($this->buttons as $name=>$url){
-	 		echo "<span id='$name'><a href='$url'>".$this->awesome[$name]."</a></span>";
+			echo "<span id='$name'><a href='$url' ".(Settings::$button_title ? "title='".Settings::_("buttons",$name)."'" : "").">".$this->awesome[$name]."</a></span>";
 	 	}
 	 }
 
