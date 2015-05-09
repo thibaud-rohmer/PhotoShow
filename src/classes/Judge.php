@@ -182,19 +182,6 @@ class Judge
 	}
 
 	/**
-	 * Returns path to associated file
-	 */
-	public static function associated_file($rf){
-		$associated_dir = File::r2a(File::a2r(dirname($rf),Settings::$thumbs_dir),Settings::$photos_dir);
-		if(basename($rf) == ".rights.xml"){
-			return $associated_dir;
-		}else{
-			return $associated_dir."/".substr(basename($rf),1,-11);
-		}		
-	}
-
-
-	/**
 	 * Check recursively if a file is viewable in a folder, and returns path to that file.
 	 */
 	public static function searchDir($dir,$public_search = false){

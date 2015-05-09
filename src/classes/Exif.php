@@ -51,9 +51,6 @@ class Exif implements HTMLObject
 	/// Exif values, nice and clean
 	private $exif=array();
 	
-	/// Name of the file
-	private $filename;
-
 	/**
 	 * Create Exif class
 	 *
@@ -94,7 +91,6 @@ class Exif implements HTMLObject
 				}
 			}
 		}	
-		$this->filename = basename($file);
 	}
 	
 	/**
