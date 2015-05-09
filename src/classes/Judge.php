@@ -415,11 +415,11 @@ class Judge
 		echo "<h3>Access</h3>";
 		if($this->public){
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
-				echo "<a href='?t=Pri" . $this->webpath . "'class='button-round button-success' onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-unlock'></i></a></div>";
+				echo "<a href='?t=Pri$this->webpath'class='button-round button-success' ".(Settings::$button_title ? "title='".Settings::_("judge","gopriv")."'" : "")." onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-unlock'></i></a></div>";
 			echo "<div class='pure-u-2-3'>".Settings::_("judge","public")."</div></div>";
 		}else{
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
-				echo "<a href='?t=Pub" . $this->webpath . "'class='button-round button-error' onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-lock'></i></a></div>";
+				echo "<a href='?t=Pub$this->webpath'class='button-round button-error' ".(Settings::$button_title ? "title='".Settings::_("judge","gopub")."'" : "")." onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-lock'></i></a></div>";
 			echo "<div class='pure-u-2-3'>".Settings::_("judge","priv")."</div></div>";
 		}
 

@@ -120,6 +120,9 @@ class Settings extends Page
 	/// Activate l33t
 	static private $l33t 		=	false;
 
+	/// Activate title on buttons
+	static public $button_title	=	false;
+
 	/**** Other ****/
 
 	/// Folders list
@@ -258,6 +261,7 @@ class Settings extends Page
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 			Settings::$rss	=	isset($admin_settings['rss']);
+			Settings::$button_title	=	isset($admin_settings['button_title']);
 
 
 
@@ -383,7 +387,8 @@ class Settings extends Page
 	    "ffmpeg_option",
 	    "user_theme",
 	    "thumbs_size",
-   	    "rss"
+   	    "rss",
+	    "button_title"
 	    );
 		$f = fopen(Settings::$admin_settings_file,"w");
 
@@ -472,7 +477,7 @@ class Settings extends Page
 		echo "</div>";
 
 		echo "<h2>Options</h2>";
-		$options = array("noregister","forcehttps","nocomments","nodownload","reverse_menu","l33t","rss");
+		$options = array("noregister","forcehttps","nocomments","nodownload","reverse_menu","l33t","rss","button_title");
 		foreach($options as $val){
 			$c = (Settings::$$val)?"checked":"";
 				echo "<div class='pure-controls'><label><input type='checkbox' name='$val' $c> ".Settings::_("settings",$val)."</label></div>\n";
