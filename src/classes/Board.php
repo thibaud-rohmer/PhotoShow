@@ -46,9 +46,6 @@
  */
 class Board implements HTMLObject
 {
-	/// Board title : name of the directory listed
-	private $title;
-    
     /// Header
     public $header_content;
 	
@@ -90,8 +87,7 @@ class Board implements HTMLObject
 			$this->path		=	dirname($path);
 		}
 		
-		$this->title	=	basename($this->path);
-		$this->header	=	new BoardHeader($this->title,$this->path);
+		$this->header	=	new BoardHeader();
 		$this->files	=	Menu::list_files($this->path);
 		$this->dirs		=	Menu::list_dirs($this->path);
 
