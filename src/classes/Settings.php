@@ -501,7 +501,7 @@ class Settings extends Page
 		/// Facebook Button
 		$c = (Settings::$like)?"checked":"";
 		echo "<div class='pure-controls'>
-				<label><input type='checkbox' name='like' $c>".Settings::_("settings","fb")."</label>
+				<label><input type='checkbox' name='like' $c> ".Settings::_("settings","fb")."</label>
 			</div>\n";
 
 
@@ -517,7 +517,7 @@ class Settings extends Page
 		echo "<span>".Settings::_("settings","video_comment")."</span>";
 		echo "<div class='pure-controls'>";
 		$c = (Settings::$encode_video)?"checked":"";
-		echo "<label><input type='checkbox' name='encode_video' $c>Encode Video</label>\n";
+		echo "<label><input type='checkbox' name='encode_video' $c> Encode Video</label>\n";
 		echo "</div>";
 
 		
