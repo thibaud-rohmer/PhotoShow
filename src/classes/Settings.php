@@ -543,7 +543,7 @@ class Settings extends Page
 		echo "<option value='.'>".Settings::_("settings","all")."</option>";
 		foreach($this->folders as $f){
 			$p = htmlentities(File::a2r($f), ENT_QUOTES ,'UTF-8');
-			echo "<option value=\"".addslashes($p)."\">".basename($p)."</option>";
+			echo "<option value=\"".addslashes($p)."\">".mb_basename($p)."</option>";
 		}
 		echo "</select>";
 		echo "<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("settings","submit")."'/>\n";

@@ -86,7 +86,7 @@ class Comments implements HTMLObject
 
 		/// Build relative path to comments file
 		if(is_file($file)){
-			$comments	=	dirname($basepath)."/.".basename($file)."_comments.xml";
+			$comments	=	dirname($basepath)."/.".mb_basename($file)."_comments.xml";
 		}else{
 			$comments 	=	$basepath."/.comments.xml";
 		}

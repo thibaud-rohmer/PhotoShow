@@ -129,7 +129,7 @@
 		        $name = $_FILES["images"]["name"][$key];
 				
 				$info = pathinfo($name);
-				$base_name =  basename($name,'.'.$info['extension']);
+				$base_name =  mb_basename($name,'.'.$info['extension']);
 		
 				// Check filetype
 				if(!in_array(strtolower($info['extension']),$allowedExtensions)){

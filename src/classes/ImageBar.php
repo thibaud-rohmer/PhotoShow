@@ -63,7 +63,7 @@ class ImageBar
 
 		$file = urlencode(File::a2r(CurrentUser::$path));
 
-		$this->photosphere = (basename(dirname(CurrentUser::$path)) == "PhotoSpheres");
+		$this->photosphere = (mb_basename(dirname(CurrentUser::$path)) == "PhotoSpheres");
 
 		$this->buttons['prev'] = 	"?p=p&f=".$file;
 		$this->awesome['prev'] = 	"<i class='fa fa-chevron-left fa-lg'></i>";
