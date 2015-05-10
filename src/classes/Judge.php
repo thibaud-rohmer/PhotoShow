@@ -408,11 +408,11 @@ class Judge
 
 
 
-		echo "<h3>Infos</h3>";
+		echo "<h3>".Settings::_("judge","infos")."</h3>";
 
 		echo $this->infos;
 
-		echo "<h3>Access</h3>";
+		echo "<h3>".Settings::_("judge","access")."</h3>";
 		if($this->public){
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
 				echo "<a href='?t=Pri$this->webpath'class='button-round button-success' ".(Settings::$button_title ? "title='".Settings::_("judge","gopriv")."'" : "")."><i class='fa fa-unlock'></i></a></div>";
@@ -455,7 +455,7 @@ class Judge
 			echo "<input type='submit' class='pure-button pure-button-primary button-small' value='".Settings::_("judge","set")."'>\n";
         	echo "</ul>";
         	
-    	    echo "<h3>Guest Tokens</h3>";
+    	    echo "<h3>".Settings::_("token","tokens")."</h3>";
     	    if(!$this->multi){
 	        // Token creation
 	        $tokens = GuestToken::find_for_path($this->file);
@@ -464,7 +464,7 @@ class Judge
 	        		$i=0;
 	        	    foreach($tokens as $token){
 	        	    	$i++;
-	        	        echo "<a class='pure-button button-small button-warning' href='".GuestToken::get_url($token['key'])."' >Guest Token $i</a><br />\n";
+	        	        echo "<a class='pure-button button-small button-warning' href='".GuestToken::get_url($token['key'])."' >".Settings::_("token","token")." $i</a><br />\n";
 	        	    }
 	        	    echo "</ul>";
 	    	    }

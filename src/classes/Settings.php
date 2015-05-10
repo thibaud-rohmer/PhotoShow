@@ -429,12 +429,12 @@ class Settings extends Page
 	public function toHTML(){
 
  		echo "<div class='header'>";
- 		echo "<h1>Settings</h1>";
+ 		echo "<h1>".Settings::_("settings","settings")."</h1>";
  		echo "</div>";
 
 		/// Site Title
 		echo "<form class='niceform pure-form pure-form-aligned' action='?t=Adm&a=Set' method='post'>\n";
-		echo "<h2>Global</h2>
+		echo "<h2>".Settings::_("settings","global")."</h2>
 				<div class='pure-control-group'>
 					<label for='name'>".Settings::_("settings","title")."</label>
 					<input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\">
@@ -476,7 +476,7 @@ class Settings extends Page
 		echo "</select>";			
 		echo "</div>";
 
-		echo "<h2>Options</h2>";
+		echo "<h2>".Settings::_("settings","options")."</h2>";
 		$options = array("noregister","forcehttps","nocomments","nodownload","reverse_menu","l33t","rss","button_title");
 		foreach($options as $val){
 			$c = (Settings::$$val)?"checked":"";
@@ -496,7 +496,7 @@ class Settings extends Page
 					<input type='text' name='thumbs_size' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
 				</div>\n";
 
-		echo "<h2>Social Networks</h2>";
+		echo "<h2>".Settings::_("settings","s_networks")."</h2>";
 
 		/// Facebook Button
 		$c = (Settings::$like)?"checked":"";
@@ -510,14 +510,14 @@ class Settings extends Page
 					<label>".Settings::_("settings","facebook_appid")."</label>
 					<input type='text' name='fbappid' value=\"".htmlentities(Settings::$fbappid, ENT_QUOTES ,'UTF-8')."\">
 				</div>";
-		echo "<h2>Video</h2>";
 
+		echo "<h2>".Settings::_("settings","video")."</h2>";
 
 		/// Encode Video
 		echo "<span>".Settings::_("settings","video_comment")."</span>";
 		echo "<div class='pure-controls'>";
 		$c = (Settings::$encode_video)?"checked":"";
-		echo "<label><input type='checkbox' name='encode_video' $c> Encode Video</label>\n";
+		echo "<label><input type='checkbox' name='encode_video' $c> ".Settings::_("settings","encode_video")."</label>\n";
 		echo "</div>";
 
 		

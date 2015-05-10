@@ -118,7 +118,7 @@ class Exif implements HTMLObject
 	 */
 	public function toHTML(){
 		if($this->exif){
-			echo '<h3>Exif</h3>';
+			echo '<h3>'.Settings::_("judge","exif").'</h3>';
 			echo "<table>";		
 			foreach($this->exif as $name=>$value){
 				echo "<tr><td class='td_data'>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td>";

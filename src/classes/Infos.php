@@ -117,7 +117,7 @@ class Infos implements HTMLObject
 
 		if(CurrentUser::$admin && is_dir(CurrentUser::$path)){
 		/// Upload Images form
-			echo "<h3>Upload</h3>";
+			echo "<h3>".Settings::_("adminpanel","upload_heading")."</h3>";
 			echo "<div id='files'></div>";
 			echo "<form class='dropzone' id=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\" 
 				action='?a=Upl' method='POST' enctype='multipart/form-data'>

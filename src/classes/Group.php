@@ -280,12 +280,12 @@ class Group
 		$groupaccounts = array();
 
 
-		echo "<div class='header'><h1>Groups</h1></div>";
+		echo "<div class='header'><h1>".Settings::_("jsaccounts","groups")."</h1></div>";
 
 		echo "<form class='pure-form pure-form-aligned' method='post' action='?t=Adm&a=GC'>
 			<h2>".Settings::_("jsaccounts","addgroup")."</h2>
 			<div class='pure-control-group'>
-			<label>Group name : </label><input type='text' name='group' placeholder='".Settings::_("jsaccounts","groupname")."' />
+			<label>".Settings::_("jsaccounts","groupname_label")."</label><input type='text' name='group' placeholder='".Settings::_("jsaccounts","groupname")."' />
 			</div>
 			<div class='pure-controls'>
 			<input type='submit' class='pure-button button-success' value='".Settings::_("jsaccounts","addgroup")."' />
