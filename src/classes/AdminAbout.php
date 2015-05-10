@@ -61,7 +61,7 @@
  	public function toHTML(){
 
  		echo "<div class='header'>";
- 		echo "<h1>About</h1>";
+ 		echo "<h1>".Settings::_("adminmenu","about")."</h1>";
  		echo "</div>";
 
  		echo "<h2>PhotoShow</h2>";
