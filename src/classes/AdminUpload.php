@@ -43,34 +43,6 @@
  */
  class AdminUpload
  {
- 	/// Directories where we can upload
- 	public $dirs = array();
-
- 	/// What have we done ?
- 	public $done;
-
- 	/// Currently selected dir
- 	private $selected_dir;
-
- 	/**
- 	 * Create upload page
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	public function __construct(){
-
- 		/// Get all subdirs
- 		$list_dirs = Menu::list_dirs(Settings::$photos_dir,true);
-
- 		foreach ($list_dirs as $dir){
- 			$this->dirs[] = File::a2r($dir);
- 		}
-
- 		if(isset(CurrentUser::$path)){
- 			$this->selected_dir = File::a2r(CurrentUser::$path);
- 		}
-
- 	}
 
  	/**
  	 * Upload files on the server
@@ -160,49 +132,6 @@
 			}
 		}
 	}
-
- 	/**
- 	 * Display upload page on website
- 	 * 
- 	 * @author Thibaud Rohmer
- 	 */
- 	public function toHTML(){
- 		echo 	"<h1>Upload</h1>";
-
- 		echo 	"<form action='?t=Adm&a=Upl' method='post' enctype='multipart/form-data'>";
- 		echo 	"<fieldset><span>Images</span><div><input  name='images[]' type='file' multiple /></div></fieldset>";
- 		echo 	"<fieldset><span>Location</span><div><select name='path'>";
- 		echo 	"<option value='.'>.</option>";
-
- 		foreach($this->dirs as $dir){
- 				if($dir == $this->selected_dir){
- 					$selected = "selected";
- 				}else{
- 					$selected = "";
- 				}
- 				echo "<option value='".htmlentities($dir, ENT_QUOTES ,'UTF-8')."' $selected>".htmlentities($dir, ENT_QUOTES ,'UTF-8')."</option>\n";
- 		}
-
- 		echo 	"</select></div></fieldset>";
- 		echo 	"<fieldset><span>New Dir</span><div><input name='newdir' type='text' /></div></fieldset>";
- 	 	echo 	"<fieldset><span>Rights</span><div><label><input type='checkbox' name='inherit' checked /> Inherit</label></div></fieldset>";
- 		echo 	"<fieldset><span>Public</span><div><label><input type='checkbox' name='public' checked /> Public</label></div></fieldset>";
- 		echo 	"<fieldset><span>Groups</span><div>";
- 		foreach(Group::findAll() as $group){
- 			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')."' checked /> ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
- 		}
- 		echo 	"</div></fieldset>";
- 	
- 		echo 	"<fieldset><span>Users</span><div>";
- 		foreach(Account::findAll() as $account){
- 			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."' checked /> ".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')." </label>";
- 		}
- 		echo 	"</div></fieldset>";
- 		echo 	"<fieldset><input type='submit' class='button blue' /></fieldset>";
-
- 		echo 	"</form>";
-
- 	}
 
  }
  ?>
