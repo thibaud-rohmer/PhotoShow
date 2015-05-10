@@ -289,6 +289,13 @@ display: inline-block;
 width: 50px;
 }
 
+div#loading_spin {
+text-align: center;
+position: relative;
+top: 50%;
+transform: translateY(-50%);
+}
+
 
 /* Comments */
 

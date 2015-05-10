@@ -13,7 +13,7 @@ function Photosphere(image){
 }
 
 Photosphere.prototype.loadPhotosphere = function(holder){
-	holder.innerHTML = "wait...";
+	holder.innerHTML = "<div id='loading_spin'><img src='inc/spiffygif.gif' alt='Loading...'></div>";
 	
 	this.holder = holder;
 
