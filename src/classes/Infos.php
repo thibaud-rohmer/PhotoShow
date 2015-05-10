@@ -81,7 +81,7 @@ class Infos implements HTMLObject
 		}
 
 		$this->path 	=	urlencode(File::a2r(CurrentUser::$path));
-		$this->title 	=	basename(CurrentUser::$path);
+		$this->title 	=	mb_basename(CurrentUser::$path);
 		$this->w 		= 	File::a2r(CurrentUser::$path);
 
 		if(is_file(CurrentUser::$path)){

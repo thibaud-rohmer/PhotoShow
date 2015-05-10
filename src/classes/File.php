@@ -107,9 +107,9 @@ class File
 	public static function Name($file){
 		$info	=	pathinfo($file);
 		if(isset($info['extension'])){
-			return	basename($file,'.'.$info['extension']);
+			return	mb_basename($file,'.'.$info['extension']);
 		}else{
-			return basename($file);
+			return mb_basename($file);
 		}
 	}
 	

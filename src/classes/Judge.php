@@ -128,7 +128,7 @@ class Judge
 		$this->webpath 	= "&f=".urlencode($basepath);
 
 		if(is_file($f)){
-			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
+			$rightsfile	=	dirname($basepath)."/.".mb_basename($f)."_rights.xml";
 		}else{
 			$rightsfile	=	$basepath."/.rights.xml";
 		}
@@ -368,7 +368,7 @@ class Judge
 					<input type='hidden' name='pathFrom' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
 					<div class='pure-g'>
 						<div class=' pure-u-1-2'>
-							<input type='text' class='toto' name='pathTo' value=\"".htmlentities(basename($w), ENT_QUOTES ,'UTF-8')."\">
+							<input type='text' class='toto' name='pathTo' value=\"".htmlentities(mb_basename($w), ENT_QUOTES ,'UTF-8')."\">
 						</div>
 						<div class='pure-u-1-2'>
 							<input class='pure-button pure-button-primary' type='submit' value='".Settings::_("adminpanel","rename")."'>
