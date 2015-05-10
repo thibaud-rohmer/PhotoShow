@@ -493,7 +493,7 @@ class Settings extends Page
 		/// Thumbs size
 		echo "<div class='pure-control-group'>
 					<label>".Settings::_("settings","thumbs_size")."</label>
-					<input type='text' name='max_img_dir' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
+					<input type='text' name='thumbs_size' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
 				</div>\n";
 
 		echo "<h2>Social Networks</h2>";
