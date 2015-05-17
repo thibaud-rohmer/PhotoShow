@@ -30,6 +30,10 @@
 $("document").ready(function(){
 	$("body").keyup(function(event){
 	var keyCode = event.which;
+
+	if ($(event.target).is("input") || $(event.target).is("textarea"))
+		return;
+
 	if (keyCode == 0 && event.keyCode != undefined)
 		keyCode = event.keyCode;
 	
