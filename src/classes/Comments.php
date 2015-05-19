@@ -77,8 +77,6 @@ class Comments implements HTMLObject
 				
 		/// Set variables
 		$this->file	=	$file;
-		$settings	=	new Settings();
-		$basefile	= 	new File($file);
 		$basepath	=	File::a2r($file);
 
 		/// Urlencode basepath
