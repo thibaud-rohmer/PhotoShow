@@ -32,9 +32,7 @@
 /**
  * ImagePanel
  *
- * The ImagePanel contains one image, and the infos
- * about that image (such as EXIF, Comments).
- * If the user is logged, it contains even more stuff.
+ * The ImagePanel contains one image and the navigation buttons.
  *
  * @category  Website
  * @package   Photoshow
@@ -55,12 +53,6 @@ class ImagePanel implements HTMLObject
 	
 	/// Video object
 	private $video;
-	
-	/// Exif object
-	private $exif;
-	
-	/// Comments object
-	private $comments;
 	
 	/// Judge object
 	private $judge;
@@ -91,14 +83,6 @@ class ImagePanel implements HTMLObject
 		/// Create Image object
 		$this->imagebar	=	new ImageBar($file);
 
-		/// Create EXIF object
-		$this->exif		=	new Exif($file);
-		
-		if(!Settings::$nocomments){
-			/// Create Comments object
-			$this->comments	=	new Comments($file);
-		}
-
         $pageURL = Settings::$site_address."/?f=".urlencode(File::a2r($file));
         
         // generate the header - opengraph metatags for facebook
@@ -125,10 +109,6 @@ class ImagePanel implements HTMLObject
         if (!isset($this->image) && !isset($this->video)){
             return;
         }
-        /*
-		echo "<div id='exif' class='box'>\n";
-		$this->exif->toHTML();
-         */
 		
 		if(isset($this->image)){
 			echo "<div id='bigimage'>\n";
