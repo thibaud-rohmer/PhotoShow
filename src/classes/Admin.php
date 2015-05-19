@@ -216,7 +216,7 @@
  		}
 
  		$from 	= File::r2a(stripslashes($_POST['pathFrom']));
- 		$to  	= File::r2a(stripslashes($_POST['pathTo']));
+ 		$to 	= dirname($from)."/".stripslashes($_POST['pathTo']);
  		$type 	= $_POST['move'];
 
  		if($from == $to){
@@ -225,7 +225,7 @@
 
  		if($type == "rename"){
  			$thumbsDir = Settings::$thumbs_dir."/".stripslashes($_POST['pathFrom']);
- 			@rename($from,dirname($from)."/".stripslashes($_POST['pathTo']));
+ 			@rename($from,$to);
  			@rename($thumbsDir,dirname($thumbsDir)."/".stripslashes($_POST['pathTo']));
  			return;
  		}
