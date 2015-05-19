@@ -483,7 +483,7 @@ class Provider
 
 		// Close and send to user
 		header('Content-Type: application/zip');
-		header("Content-Disposition: attachment; filename=\"".htmlentities(mb_basename($dir), ENT_QUOTES ,'UTF-8').".zip\"");
+		header("Content-Disposition: attachment; filename=\"".mb_basename($dir).".zip\"");
 
                 // Store the current working directory and change to the albums directory
 		$cwd = getcwd();
