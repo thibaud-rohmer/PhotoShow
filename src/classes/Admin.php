@@ -223,6 +223,11 @@
  			return;
  		}
 
+		if(file_exists($to)){
+			/// We don't want to overwrite existing data
+			return;
+		}
+
  		if($type == "rename"){
  			$thumbsDir = Settings::$thumbs_dir."/".stripslashes($_POST['pathFrom']);
  			@rename($from,$to);
