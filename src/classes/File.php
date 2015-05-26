@@ -127,7 +127,7 @@ class File
 		}
 
 		$ext	=	self::Extension($file);
-		if(!isset($ext)){
+		if(empty($ext)){
 			return "folder";
 		}
 
