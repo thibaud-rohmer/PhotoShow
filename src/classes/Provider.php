@@ -218,7 +218,7 @@ class Provider
         /// If we need to create a thumb, then this is a new picture
         if (!$goodThumb) {
 
-            if (Judge::is_public($file)) {
+            if (Judge::is_public($file) && Settings::$rss) {
                 $r = new RSS(Settings::$conf_dir."/photos_feed.txt");
                 $webpath = Settings::$site_address."?f=".urlencode(File::a2r($file));
                 $r->add(mb_basename($file),$webpath, "<img src='$webpath&t=Thb' />");
