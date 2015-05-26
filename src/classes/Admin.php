@@ -229,9 +229,10 @@
 		}
 
  		if($type == "rename"){
- 			$thumbsDir = Settings::$thumbs_dir."/".stripslashes($_POST['pathFrom']);
+			/// Metadatas need to be done first: once moved/deleted,
+			/// we won't be able to compute from the original file
+			Admin::manage_metadatas(stripslashes($_POST['pathFrom']), stripslashes($_POST['pathTo']));
  			@rename($from,$to);
- 			@rename($thumbsDir,dirname($thumbsDir)."/".stripslashes($_POST['pathTo']));
  			return;
  		}
 
@@ -239,6 +240,8 @@
  		$files = scandir($from);
  		foreach($files as $file){
  			if($file != "." && $file!=".."){
+				Admin::manage_metadatas(stripslashes($_POST['pathFrom'])."/".$file,
+							stripslashes($_POST['pathTo'])."/".$file);
 	 			@rename($from."/".$file,$to."/".$file);
 	 		}
  		}
@@ -260,12 +263,16 @@
  		}
 
  		if(!is_array($_POST['del'])){
-	 		$del 	=	File::r2a(stripslashes($_POST['del']));
-	 		return 	Admin::rec_del($del);
+			$rela_del = stripslashes($_POST['del']);
+			$del 	=	File::r2a($rela_del);
+			Admin::manage_metadatas($rela_del);
+			Admin::rec_del($del);
  		}else{
  			foreach($_POST['del'] as $todel){
-		 		$del 	=	File::r2a(stripslashes($todel));
-		 		Admin::rec_del($del);
+				$rela_del = stripslashes($todel);
+				$del 	=	File::r2a($rela_del);
+				Admin::manage_metadatas($rela_del);
+				Admin::rec_del($del);
  			}
  		}
 	}
@@ -299,6 +306,71 @@
 		return rmdir($dir);
 	}
 
+	/**
+	 * Manage all metadatas (tokens, _*.xml, thumbnails)
+	 * associated to a file or folder
+	 *
+	 * @param string $file
+	 * @param string $to optional parameter for a rename
+	 */
+	public function manage_metadatas($file, $to = null){
+		$originalFile = File::r2a($file);
+		$thumbFile = Settings::$thumbs_dir.$file;
+		$thumbFile_dirname = dirname($thumbFile);
+		$isVideo = File::Type($originalFile) == "Video";
+
+		/// Tokens
+		/// It doesn't make any sense to rename a token: its link might
+		/// have been already shared, which is now broken because of the
+		/// file deletion/renaming, so delete them in all case
+		GuestToken::delete_file_tokens($file);
+
+		/// XML
+		if(is_file($originalFile)){
+			/// XML of folders are inside them, so they will be moved/deleted with the thumbnails
+			$xml_metadatas = array("comments","rights");
+			foreach($xml_metadatas as $xml_metadata){
+				$xml_metadata = "_".$xml_metadata.".xml";
+				$xml_file = $thumbFile_dirname."/.".mb_basename($file).$xml_metadata;
+				if (file_exists($xml_file)){
+					if (isset($to))
+						rename($xml_file, $thumbFile_dirname."/.".mb_basename($to).$xml_metadata);
+					else
+						unlink($xml_file);
+				}
+			}
+		}
+
+		/// Thumbnails
+		$originalFile_obj = new File($originalFile);
+		if ($isVideo){
+			/// A thumbnail of a picture has the same filename of the original file, but it's a jpg for a video
+			$thumbFile = $thumbFile_dirname."/".$originalFile_obj->name.".jpg";
+			$thumbFileTo = $thumbFile_dirname."/".mb_basename($to, $originalFile_obj->extension)."jpg";
+			$webFile = $thumbFile_dirname."/".$originalFile_obj->name.".webm";
+			$webFileTo = $thumbFile_dirname."/".mb_basename($to, $originalFile_obj->extension)."webm";
+		}
+		else{
+			$thumbFileTo = $thumbFile_dirname."/".$to;
+			$webFile = $thumbFile_dirname."/".$originalFile_obj->name."_small.".$originalFile_obj->extension;
+			$webFileTo = $thumbFile_dirname."/".mb_basename($to, '.'.$originalFile_obj->extension)."_small.".$originalFile_obj->extension;
+		}
+
+		if (!file_exists($thumbFile))
+			return;
+		if (isset($to)){
+			rename($thumbFile, $thumbFileTo);
+			// The webfile might not have been created yet, or $file is < 1200px, or $file is a folder:
+			if (file_exists($webFile))
+				rename($webFile, $webFileTo);
+		}
+		else{
+			Admin::rec_del($thumbFile);
+			if (file_exists($webFile))
+				// Only files can have a webFile, so we don't need rec_del()
+				unlink($webFile);
+		}
+	}
 
 	 /**
 	  * Display admin page
