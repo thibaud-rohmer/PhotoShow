@@ -16,6 +16,7 @@ server {
 		#try_files $uri =404;
 		allow all;
 		include fastcgi_params;
+		fastcgi_index index.php;
 		fastcgi_pass php5-fpm-sock;
 		fastcgi_param SCRIPT_FILENAME /var/www/PhotoShow/$fastcgi_script_name;
 		fastcgi_param QUERY_STRING $query_string;
