@@ -125,6 +125,8 @@ class Board implements HTMLObject
                 if ( $i > 9){
                     break;
                 }
+                if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
+                    continue;
                 $img = Judge::searchDir($d, true);
                 if ($img)
                 {
@@ -170,6 +172,8 @@ class Board implements HTMLObject
 	 */
 	private function foldergrid(){
 		foreach($this->dirs as $d){
+			if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
+				 continue;
 			$firstImg = Judge::searchDir($d);
 			if(!$firstImg){
 				if(CurrentUser::$admin){
