@@ -1,0 +1,10 @@
+web:  
+  build: .
+  volumes:
+    - {{ local_photo_dir }}:/opt/photoshow/photos
+    #- runenv/log:/var/log/photoshow
+    #- runenv/generated/Thumbs:/opt/photoshow/generated/Thumbs
+    #- runenv/generated/Conf:/opt/photoshow/generated/Conf
+  ports:
+    - "{{ photoshow_http_port }}:80"
+    - "{{ photoshow_ssh_port }}:22"

@@ -1,0 +1,27 @@
+---
+
+- name: application config
+  template: src=config.php dest={{ build_dir }}/config.php
+
+- name: supervisord configuration
+  template: src=supervisor-photoshow.conf dest={{ build_dir }}/supervisor-photoshow.conf
+
+- name: nginx
+  template: src=photoshow.nginx dest={{ build_dir }}/photoshow.nginx
+
+- name: fpm
+  copy: src=fpm-photoshow.conf dest={{ build_dir }}/fpm-photoshow.conf
+
+- name: is key generated before?
+  stat: path={{ build_dir }}/photoshow.key
+  register: ssh_key
+
+- name: generate ssh key
+  command: ssh-keygen -t rsa -b 4096 -P '' -f photoshow.key chdir={{ build_dir }}
+  when: ssh_key.stat.exists == false
+
+- name: Dockerfile
+  template: src=Dockerfile dest={{ build_dir }}/Dockerfile
+
+- name: docker-compose.yml
+  template: src=docker-compose.yml dest={{ build_dir }}/docker-compose.yml

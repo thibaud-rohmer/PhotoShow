@@ -1,0 +1,9 @@
+---
+- name: passlib
+  easy_install: name=passlib
+
+- name: accounts
+  template: src=accounts.xml dest={{ build_dir }}/accounts.xml
+
+- name: groups
+  copy: src=groups.xml dest={{ build_dir }}/groups.xml

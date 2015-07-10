@@ -1,0 +1,9 @@
+---
+
+log_dir: /var/log/photoshow
+photo_dir: /opt/photoshow/photos
+generated_dir: /opt/photoshow/generated
+timezone: Europe/Paris
+
+photoshow_http_port: 8080
+photoshow_ssh_port: 2222

@@ -1,0 +1,21 @@
+---
+
+- name: store current git commit hash
+  command: git rev-parse HEAD
+  register: commit_hash
+
+- name: create build directory
+  file: >
+    dest="{{ build_dir }}"
+    state=directory
+
+- name: fill build directory
+  synchronize: >
+    src="{{ project_dir }}/"
+    dest={{ build_dir }}
+    times=yes
+    recursive=yes
+    compress=no
+    copy_links=no
+    rsync_opts="--exclude=.git --exclude=ansible"
+

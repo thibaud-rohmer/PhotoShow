@@ -16,19 +16,31 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 	php5-fpm \
 	php5-gd \
 	libgd2-xpm \
+    ffmpeg \
+    libavcodec-extra-53 \
 	supervisor
     
-RUN git clone https://github.com/thibaud-rohmer/PhotoShow.git /var/www/PhotoShow
-RUN cd /var/www/PhotoShow && sed -i -e 's/$config->photos_dir.\+/$config->photos_dir = "\/opt\/PhotoShow\/Photos";/' config.php
-RUN cd /var/www/PhotoShow && sed -i -e 's/$config->ps_generated.\+/$config->ps_generated = "\/opt\/PhotoShow\/generated";/' config.php
-    
+ADD inc /var/www/photoshow/inc
+ADD src /var/www/photoshow/src
+ADD user /var/www/photoshow/user
+ADD index.php /var/www/photoshow/
+ADD config.php /var/www/photoshow/
+
+# VOLUME ["/opt/photoshow/photos", "{{ generated_dir }}/Thumbs", "{{ generated_dir }}/Conf", "{{ log_dir }}"]
+
 RUN sed -i -e 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 ADD supervisor-photoshow.conf /etc/supervisor/conf.d/photoshow.conf
 
-RUN mkdir -p /var/www/PhotoShow
-RUN mkdir -p /opt/PhotoShow/Photos
-RUN mkdir -p /opt/PhotoShow/generated
-RUN chown -R www-data:www-data /opt/PhotoShow/Photos /opt/PhotoShow/generated
+RUN mkdir -p {{ generated_dir }}/Thumbs
+RUN mkdir -p {{ generated_dir }}/Conf
+RUN mkdir -p {{ log_dir }}/
+
+
+ADD accounts.xml {{ generated_dir }}/Conf/
+ADD groups.xml {{ generated_dir }}/Conf/
+
+# RUN mkdir -p {{ photo_dir }}
+RUN chown -R www-data:www-data {{ generated_dir }}
 
 RUN mkdir -p /root/.ssh
 ADD photoshow.key.pub /root/.ssh/authorized_keys
@@ -43,6 +55,5 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/run/sshd
 
-VOLUME ["/opt/PhotoShow", "/var/log"]
 EXPOSE 80 22
 CMD /usr/bin/supervisord

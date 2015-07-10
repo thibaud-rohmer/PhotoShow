@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<accounts>
+    <account><login>admin</login>
+    <password>{{ password |hash('sha1') }}</password>
+        <name/>
+        <email/>
+        <language/>
+        <key/>
+        <groups>
+            <group>user</group>
+            <group>root</group>
+        </groups>
+    </account>
+</accounts>

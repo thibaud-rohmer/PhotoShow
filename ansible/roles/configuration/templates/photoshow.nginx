@@ -5,10 +5,10 @@ upstream php5-fpm-sock {
 server {
   listen   80;
 
-  error_log /var/log/nginx/photoshow.log info;
+  error_log {{ log_dir }}/nginx.log info;
 
   location / {
-    alias /var/www/PhotoShow/;
+    alias /var/www/photoshow/;
     index index.php;
     client_max_body_size 0;   
 
@@ -18,7 +18,7 @@ server {
 		include fastcgi_params;
 		fastcgi_index index.php;
 		fastcgi_pass php5-fpm-sock;
-		fastcgi_param SCRIPT_FILENAME /var/www/PhotoShow/$fastcgi_script_name;
+		fastcgi_param SCRIPT_FILENAME /var/www/photoshow/$fastcgi_script_name;
 		fastcgi_param QUERY_STRING $query_string;
 		fastcgi_intercept_errors off;
 		client_max_body_size 0;   
