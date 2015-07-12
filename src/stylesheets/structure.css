@@ -256,6 +256,7 @@ left:0;
 right:0;
 z-index:10;
 box-shadow: 0 2px 5px rgba(0,0,0,.35);
+overflow: auto;
 }
 
 div.image_panel * a,
@@ -268,21 +269,23 @@ padding: 20px 5px 0px 5px;
 font-size: 10pt;
 }
 
+div#image_panel_table {
+	display: table;
+	width: 100%;
+	height: 100%;
+	border-spacing: 5px;
+	margin-top: -5px;
+}
+
 	
 div#bigimage{
-	position:absolute;
-	top:0;
-	right:0;
-	bottom:35px;
-	left:0;
+	display: table-row;
+	width: 100%;
+	height: 100%;
 }
 
 div#image_bar {
-position: absolute;
-left: 0;
-right: 0;
-height: 30px;
-bottom: 0;
+display: table-row;
 font-size: 15px;
 text-align: center;
 }

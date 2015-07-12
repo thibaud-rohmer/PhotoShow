@@ -110,6 +110,8 @@ class ImagePanel implements HTMLObject
             return;
         }
 		
+		echo "<div id='image_panel_table'>\n";
+
 		if(isset($this->image)){
 			echo "<div id='bigimage'>\n";
 
@@ -125,6 +127,8 @@ class ImagePanel implements HTMLObject
 
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();
+		echo "</div>\n";
+
 		echo "</div>\n";
 	}
 	
