@@ -54,6 +54,9 @@ class ImagePanel implements HTMLObject
 	/// Video object
 	private $video;
 	
+	/// Description object
+	private $description;
+
 	/// Judge object
 	private $judge;
 
@@ -80,6 +83,11 @@ class ImagePanel implements HTMLObject
             $this->video	=	new Video($file);		
         }		
 		
+		if(!Settings::$nodescription){
+			/// Create Description object
+			$this->description = new Description($file);
+		}
+
 		/// Create Image object
 		$this->imagebar	=	new ImageBar($file);
 
@@ -124,6 +132,12 @@ class ImagePanel implements HTMLObject
 			$this->video->toHTML();
 			echo "</div>\n";
 		}		
+
+		if(!Settings::$nodescription){
+			echo "<div class='description'>";
+			$this->description->toHTML();
+			echo "</div>";
+		}
 
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();

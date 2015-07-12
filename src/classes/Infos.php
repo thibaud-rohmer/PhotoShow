@@ -56,6 +56,8 @@ class Infos implements HTMLObject
 
 	private $comments;
 
+	private $description;
+
 	private $path;
 
 	private $w;
@@ -78,6 +80,10 @@ class Infos implements HTMLObject
 
 		if(!Settings::$nocomments){
 			$this->comments	=	new Comments(CurrentUser::$path);
+		}
+
+		if(!Settings::$nodescription){
+			$this->description	=	new Description(CurrentUser::$path);
 		}
 
 		$this->path 	=	urlencode(File::a2r(CurrentUser::$path));
@@ -139,6 +145,12 @@ class Infos implements HTMLObject
 		echo "<div id='comments' class='box'>\n";
 		if(!Settings::$nocomments){
 			$this->comments->toHTML();
+		}
+		echo "</div>\n";
+
+		echo "<div id='description_form' class='box'>\n";
+		if(!Settings::$nodescription){
+			$this->description->toHTML(true);
 		}
 		echo "</div>\n";
 

@@ -120,6 +120,10 @@ class JS extends Page
 								$f->toHTML();
 								break;
 
+				case "Desc":	$f = new Description(CurrentUser::$path);
+								$f->toHTML();
+								break;
+
 				default:		break;
 			}
 		}
