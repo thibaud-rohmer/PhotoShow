@@ -195,7 +195,8 @@ div.linear_panel {
 .linear_panel  h1,
 .linear_panel  h2,
 .linear_panel > .sectionvid,
-.linear_panel > .sectiondir
+.linear_panel > .sectiondir,
+.linear_panel > .description
 {
 	display: none !important;
 }
@@ -415,3 +416,20 @@ div#deleteform{
 	top: 20px;
 }
 
+
+/* Description */
+
+.panel > .description{
+	padding-left: 40px;
+	padding-top: 20px;
+	font-size: 22px;
+}
+
+#image_panel_table > .description{
+	display: table-row;
+	text-align: center;
+}
+
+.description:empty{
+	display: none !important;
+}

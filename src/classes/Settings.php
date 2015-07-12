@@ -90,6 +90,9 @@ class Settings extends Page
 	/// Remove comments button
 	static public $nocomments 	=	false;
 
+	/// Remove description option
+	static public $nodescription 	=	false;
+
 	/// Remove registering options
 	static public $noregister	=	false;
     
@@ -257,6 +260,7 @@ class Settings extends Page
 			Settings::$noregister	=	isset($admin_settings['noregister']);
 			Settings::$forcehttps   =   isset($admin_settings['forcehttps']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
+			Settings::$nodescription	=	isset($admin_settings['nodescription']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
@@ -378,6 +382,7 @@ class Settings extends Page
             "noregister",
             "forcehttps",
             "nocomments",
+            "nodescription",
             "nodownload",
             "loc",
             "l33t",
@@ -477,7 +482,7 @@ class Settings extends Page
 		echo "</div>";
 
 		echo "<h2>".Settings::_("settings","options")."</h2>";
-		$options = array("noregister","forcehttps","nocomments","nodownload","reverse_menu","l33t","rss","button_title");
+		$options = array("noregister","forcehttps","nocomments","nodescription","nodownload","reverse_menu","l33t","rss","button_title");
 		foreach($options as $val){
 			$c = (Settings::$$val)?"checked":"";
 				echo "<div class='pure-controls'><label><input type='checkbox' name='$val' $c> ".Settings::_("settings",$val)."</label></div>\n";

@@ -328,7 +328,7 @@
 		/// XML
 		if(is_file($originalFile)){
 			/// XML of folders are inside them, so they will be moved/deleted with the thumbnails
-			$xml_metadatas = array("comments","rights");
+			$xml_metadatas = array("comments","rights","description");
 			foreach($xml_metadatas as $xml_metadata){
 				$xml_metadata = "_".$xml_metadata.".xml";
 				$xml_file = $thumbFile_dirname."/.".mb_basename($file).$xml_metadata;

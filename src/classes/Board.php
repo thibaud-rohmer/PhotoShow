@@ -61,6 +61,9 @@ class Board implements HTMLObject
 	/// Board header, containing the title and some buttons
 	private $header;
 	
+	/// Description object, containing the description for the folder
+	private $description;
+	
 	/// Array of each line of the grid
 	private $boarditems=array();
 
@@ -131,6 +134,9 @@ class Board implements HTMLObject
         }
 		
 		$this->foldergrid();
+
+		if(!Settings::$nodescription)
+			$this->description = new Description($this->path);
 	}
 	
 
@@ -195,6 +201,12 @@ class Board implements HTMLObject
 	public function toHTML(){		
 		// Output header
 		$this->header->toHTML();
+
+		if(!Settings::$nodescription){
+			echo "<div class='description'>";
+			$this->description->toHTML();
+			echo "</div>";
+		}
 
 		if(sizeof($this->boardfolders)>0){
 			echo "<div class='section sectiondir'>";
