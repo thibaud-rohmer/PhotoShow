@@ -74,6 +74,10 @@ class Comments implements HTMLObject
 		
 		/// No item, no comment !
 		if(!isset($file) || is_array($file)) return;
+
+		/// No right to view
+		if(!Judge::view($file))
+			return;
 				
 		/// Set variables
 		$this->file	=	$file;
@@ -217,6 +221,9 @@ class Comments implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){	
+		if(!$this->file)
+			return;
+
 		echo '<h3>'.Settings::_("comments","comments").'</h3>';
 
 		echo "<div class='display_comments'>";	
