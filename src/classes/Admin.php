@@ -281,7 +281,7 @@
 		}
 
 		$dirs 	=	Menu::list_dirs($dir);
-		$files 	= 	Menu::list_files($dir,false,true);
+		$files 	= 	Menu::list_files($dir,false,true,false,true);
 
 		foreach($dirs as $d){
 			Admin::rec_del($d);
