@@ -372,7 +372,7 @@ class Provider
 			if(Judge::view($item)){
                                 // Use only the relative path of the filename
 				$item = str_replace('//', '/', $item);
-				$itemsString.=" '".substr($item,$delimPosition+1)."'";
+				$itemsString.=" \"".str_replace( '"' , '\"' , substr( $item , $delimPosition + 1 ) )."\"";
 			}
 		}
 
