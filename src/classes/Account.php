@@ -142,7 +142,7 @@ class Account extends Page
 		}
 
 
-		if( preg_match("/[^a-z0-9]/i", $login) || strlen($password) < 6){
+		if( preg_match("/[^a-z0-9.]/i", $login) || strlen($password) < 6){
 			return false;
 		}
 
