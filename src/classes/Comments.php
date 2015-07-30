@@ -163,7 +163,7 @@ class Comments implements HTMLObject
 			$c = $xml->addChild("comment");
 			$c->addChild("login"	, $comment->login);
 			$c->addChild("date"		, $comment->date);
-			$c->addChild("content"	, $comment->content);
+			$c->content = $comment->content;
 		}
 
 		if(!file_exists(dirname($this->commentsfile))){

@@ -140,7 +140,7 @@ class Description implements HTMLObject
 
 		$xml->addChild("login"	, $this->description['login']);
 		$xml->addChild("date"	, $this->description['date']);
-		$xml->addChild("content", $this->description['content']);
+		$xml->content = $this->description['content'];
 
 		if(!file_exists(dirname($this->descriptionfile))){
 			@mkdir(dirname($this->descriptionfile),0750,true);
