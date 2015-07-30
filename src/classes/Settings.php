@@ -90,6 +90,9 @@ class Settings extends Page
 	/// Remove comments button
 	static public $nocomments 	=	false;
 
+	/// Remove description option
+	static public $nodescription 	=	false;
+
 	/// Remove registering options
 	static public $noregister	=	false;
     
@@ -119,6 +122,9 @@ class Settings extends Page
 
 	/// Activate l33t
 	static private $l33t 		=	false;
+
+	/// Activate title on buttons
+	static public $button_title	=	false;
 
 	/**** Other ****/
 
@@ -254,10 +260,12 @@ class Settings extends Page
 			Settings::$noregister	=	isset($admin_settings['noregister']);
 			Settings::$forcehttps   =   isset($admin_settings['forcehttps']);
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
+			Settings::$nodescription	=	isset($admin_settings['nodescription']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 			Settings::$rss	=	isset($admin_settings['rss']);
+			Settings::$button_title	=	isset($admin_settings['button_title']);
 
 
 
@@ -374,6 +382,7 @@ class Settings extends Page
             "noregister",
             "forcehttps",
             "nocomments",
+            "nodescription",
             "nodownload",
             "loc",
             "l33t",
@@ -383,7 +392,8 @@ class Settings extends Page
 	    "ffmpeg_option",
 	    "user_theme",
 	    "thumbs_size",
-   	    "rss"
+   	    "rss",
+	    "button_title"
 	    );
 		$f = fopen(Settings::$admin_settings_file,"w");
 
@@ -424,12 +434,12 @@ class Settings extends Page
 	public function toHTML(){
 
  		echo "<div class='header'>";
- 		echo "<h1>Settings</h1>";
+ 		echo "<h1>".Settings::_("settings","settings")."</h1>";
  		echo "</div>";
 
 		/// Site Title
 		echo "<form class='niceform pure-form pure-form-aligned' action='?t=Adm&a=Set' method='post'>\n";
-		echo "<h2>Global</h2>
+		echo "<h2>".Settings::_("settings","global")."</h2>
 				<div class='pure-control-group'>
 					<label for='name'>".Settings::_("settings","title")."</label>
 					<input type='text' name='name' value=\"".htmlentities(Settings::$name, ENT_QUOTES ,'UTF-8')."\">
@@ -471,8 +481,8 @@ class Settings extends Page
 		echo "</select>";			
 		echo "</div>";
 
-		echo "<h2>Options</h2>";
-		$options = array("noregister","forcehttps","nocomments","nodownload","reverse_menu","l33t","rss");
+		echo "<h2>".Settings::_("settings","options")."</h2>";
+		$options = array("noregister","forcehttps","nocomments","nodescription","nodownload","reverse_menu","l33t","rss","button_title");
 		foreach($options as $val){
 			$c = (Settings::$$val)?"checked":"";
 				echo "<div class='pure-controls'><label><input type='checkbox' name='$val' $c> ".Settings::_("settings",$val)."</label></div>\n";
@@ -488,15 +498,15 @@ class Settings extends Page
 		/// Thumbs size
 		echo "<div class='pure-control-group'>
 					<label>".Settings::_("settings","thumbs_size")."</label>
-					<input type='text' name='max_img_dir' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
+					<input type='text' name='thumbs_size' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
 				</div>\n";
 
-		echo "<h2>Social Networks</h2>";
+		echo "<h2>".Settings::_("settings","s_networks")."</h2>";
 
 		/// Facebook Button
 		$c = (Settings::$like)?"checked":"";
 		echo "<div class='pure-controls'>
-				<label><input type='checkbox' name='like' $c>".Settings::_("settings","fb")."</label>
+				<label><input type='checkbox' name='like' $c> ".Settings::_("settings","fb")."</label>
 			</div>\n";
 
 
@@ -505,14 +515,14 @@ class Settings extends Page
 					<label>".Settings::_("settings","facebook_appid")."</label>
 					<input type='text' name='fbappid' value=\"".htmlentities(Settings::$fbappid, ENT_QUOTES ,'UTF-8')."\">
 				</div>";
-		echo "<h2>Video</h2>";
 
+		echo "<h2>".Settings::_("settings","video")."</h2>";
 
 		/// Encode Video
 		echo "<span>".Settings::_("settings","video_comment")."</span>";
 		echo "<div class='pure-controls'>";
 		$c = (Settings::$encode_video)?"checked":"";
-		echo "<label><input type='checkbox' name='encode_video' $c>Encode Video</label>\n";
+		echo "<label><input type='checkbox' name='encode_video' $c> ".Settings::_("settings","encode_video")."</label>\n";
 		echo "</div>";
 
 		
@@ -543,7 +553,7 @@ class Settings extends Page
 		echo "<option value='.'>".Settings::_("settings","all")."</option>";
 		foreach($this->folders as $f){
 			$p = htmlentities(File::a2r($f), ENT_QUOTES ,'UTF-8');
-			echo "<option value=\"".addslashes($p)."\">".basename($p)."</option>";
+			echo "<option value=\"".addslashes($p)."\">".mb_basename($p)."</option>";
 		}
 		echo "</select>";
 		echo "<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("settings","submit")."'/>\n";

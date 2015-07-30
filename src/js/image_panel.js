@@ -170,6 +170,7 @@ function init_image_panel(){
 	$(".linear_panel").scrollTo($(".linear_panel .selected")).scrollTo("-="+$(".linear_panel").width()/2);
 
 	init_comments();
+	init_description();
 	init_slideshow_panel();
 }
 
@@ -178,6 +179,15 @@ function init_comments(){
 		$.post($(this).attr('action') + "&j=Comm",$(this).serialize(),function(data){
 			$('#comments').html(data);
 			init_comments();
+		});
+		return false;
+	});
+}
+
+function init_description(){
+	$("#description_form form").submit(function(){
+		$.post($(this).attr('action') + "&j=Desc",$(this).serialize(),function(data){
+			$('.description').html(data);
 		});
 		return false;
 	});

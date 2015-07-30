@@ -157,6 +157,17 @@ class GuestToken extends Page
     }
 
     /**
+     * Delete all tokens linked to a file
+     *
+     * @param string $file (relative path)
+     */
+    public static function delete_file_tokens($file){
+        foreach( self::find_for_path($file, true) as $token ) {
+            self::delete($token['key']);
+        }
+    }
+
+    /**
      * Check if a token already exists
      *
      * @param string $key

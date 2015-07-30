@@ -63,6 +63,13 @@ function protect_user_send_var($var){
 		return addslashes($var);
 }
 
+/// workaround for splitting basename whith beginning utf8 multibyte char
+/// See https://bugs.php.net/bug.php?id=37268
+function mb_basename($filepath, $suffix = NULL) {
+	$splited = preg_split ( '/\//', rtrim ( $filepath, '/ ' ) );
+	return substr ( basename ( 'X' . $splited [count ( $splited ) - 1], $suffix ), 1 );
+}
+
 
 if (!get_magic_quotes_gpc()){
 	$_POST = protect_user_send_var($_POST);

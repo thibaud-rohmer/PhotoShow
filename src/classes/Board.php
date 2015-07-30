@@ -46,9 +46,6 @@
  */
 class Board implements HTMLObject
 {
-	/// Board title : name of the directory listed
-	private $title;
-    
     /// Header
     public $header_content;
 	
@@ -63,6 +60,9 @@ class Board implements HTMLObject
 	
 	/// Board header, containing the title and some buttons
 	private $header;
+	
+	/// Description object, containing the description for the folder
+	private $description;
 	
 	/// Array of each line of the grid
 	private $boarditems=array();
@@ -90,8 +90,7 @@ class Board implements HTMLObject
 			$this->path		=	dirname($path);
 		}
 		
-		$this->title	=	basename($this->path);
-		$this->header	=	new BoardHeader($this->title,$this->path);
+		$this->header	=	new BoardHeader();
 		$this->files	=	Menu::list_files($this->path);
 		$this->dirs		=	Menu::list_dirs($this->path);
 
@@ -137,6 +136,9 @@ class Board implements HTMLObject
         }
 		
 		$this->foldergrid();
+
+		if(!Settings::$nodescription)
+			$this->description = new Description($this->path);
 	}
 	
 
@@ -203,6 +205,12 @@ class Board implements HTMLObject
 	public function toHTML(){		
 		// Output header
 		$this->header->toHTML();
+
+		if(!Settings::$nodescription){
+			echo "<div class='description'>";
+			$this->description->toHTML();
+			echo "</div>";
+		}
 
 		if(sizeof($this->boardfolders)>0){
 			echo "<div class='section sectiondir'>";

@@ -444,7 +444,7 @@ class Account extends Page
 	 	$this->header();
 
  		echo "<div class='header'>";
- 		echo "<h1>Account</h1>";
+ 		echo "<h1>".Settings::_("jsaccounts","accounts")."</h1>";
  		echo "</div>";
 
 		if(CurrentUser::$admin){
@@ -509,9 +509,9 @@ class Account extends Page
 		}
 		echo	"</select>\n";
 
-		/// Login
+		/// Key
 		echo "<div class='pure-control-group'>
-					<label>".Settings::_("account","Key")."</label>
+					<label>".Settings::_("account","key")."</label>
 					<input type='text' name='key' readonly='readonly' value=\"".htmlentities($this->get_key(), ENT_QUOTES ,'UTF-8')."\">
 				</div>";
 

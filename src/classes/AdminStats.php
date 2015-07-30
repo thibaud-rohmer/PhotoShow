@@ -87,26 +87,43 @@
 	
 	}
 
+	private function _getRealName($name) {
+		switch ($name) {
+			case "Users":
+				return Settings::_("jsaccounts","accounts");
+			case "Groups":
+				return Settings::_("jsaccounts","groups");
+			case "Items":
+				return Settings::_("statistics","items");
+			case "Generated items":
+				return Settings::_("statistics","gen_items");
+			case "Albums":
+				return Settings::_("board","albums");
+			default:
+				return $name;
+		}
+	}
+
  	public function toHTML(){
 		self::Calculate() ;
 
  		echo "<div class='header'>";
- 		echo "<h1>Statistics</h1>";
+ 		echo "<h1>".Settings::_("statistics","heading")."</h1>";
  		echo "</div>";
 
- 		echo "<h2>Stats</h2>";
+ 		echo "<h2>".Settings::_("statistics","summary")."</h2>";
  		echo "<ul>";
  		echo "<table class='pure-table pure-table-striped'>";
  		echo "<tbody>";
  		foreach($this->stats as $name=>$val){
- 			echo "<tr><td>".htmlentities($name, ENT_QUOTES ,'UTF-8')."</td><td>".htmlentities($val, ENT_QUOTES ,'UTF-8')."</td></tr>"; 			
+ 			echo "<tr><td>".AdminStats::_getRealName($name)."</td><td>".htmlentities($val, ENT_QUOTES ,'UTF-8')."</td></tr>";
  		}
  		echo "</tbody>";
  		echo "</table>";
  		echo "</ul>";
 
 
- 		echo "<h2>Accounts (by age)</h2>";
+ 		echo "<h2>".Settings::_("jsaccounts","accounts")." ".Settings::_("statistics","by_age")."</h2>";
  		echo "<ul>";
  		echo "<table class='pure-table pure-table-striped'>";
  		echo "<tbody>";
@@ -118,7 +135,7 @@
  		echo "</ul>";
 
 
- 		echo "<h2>Comments (by age)</h2>";
+ 		echo "<h2>".Settings::_("comments","comments")." ".Settings::_("statistics","by_age")."</h2>";
  		echo "<ul>";
  		echo "<table class='pure-table pure-table-striped'>";
  		echo "<tbody>";

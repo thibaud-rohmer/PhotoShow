@@ -32,9 +32,7 @@
 /**
  * ImagePanel
  *
- * The ImagePanel contains one image, and the infos
- * about that image (such as EXIF, Comments).
- * If the user is logged, it contains even more stuff.
+ * The ImagePanel contains one image and the navigation buttons.
  *
  * @category  Website
  * @package   Photoshow
@@ -56,12 +54,9 @@ class ImagePanel implements HTMLObject
 	/// Video object
 	private $video;
 	
-	/// Exif object
-	private $exif;
-	
-	/// Comments object
-	private $comments;
-	
+	/// Description object
+	private $description;
+
 	/// Judge object
 	private $judge;
 
@@ -88,16 +83,13 @@ class ImagePanel implements HTMLObject
             $this->video	=	new Video($file);		
         }		
 		
+		if(!Settings::$nodescription){
+			/// Create Description object
+			$this->description = new Description($file);
+		}
+
 		/// Create Image object
 		$this->imagebar	=	new ImageBar($file);
-
-		/// Create EXIF object
-		$this->exif		=	new Exif($file);
-		
-		if(!Settings::$nocomments){
-			/// Create Comments object
-			$this->comments	=	new Comments($file);
-		}
 
         $pageURL = Settings::$site_address."/?f=".urlencode(File::a2r($file));
         
@@ -125,11 +117,9 @@ class ImagePanel implements HTMLObject
         if (!isset($this->image) && !isset($this->video)){
             return;
         }
-        /*
-		echo "<div id='exif' class='box'>\n";
-		$this->exif->toHTML();
-         */
 		
+		echo "<div id='image_panel_table'>\n";
+
 		if(isset($this->image)){
 			echo "<div id='bigimage'>\n";
 
@@ -143,8 +133,16 @@ class ImagePanel implements HTMLObject
 			echo "</div>\n";
 		}		
 
+		if(!Settings::$nodescription){
+			echo "<div class='description'>";
+			$this->description->toHTML();
+			echo "</div>";
+		}
+
 		echo "<div id='image_bar'>\n";
 		$this->imagebar->toHTML();
+		echo "</div>\n";
+
 		echo "</div>\n";
 	}
 	

@@ -54,6 +54,8 @@ class Infos implements HTMLObject
 
 	private $comments;
 
+	private $description;
+
 	private $path;
 
 	private $w;
@@ -79,8 +81,12 @@ class Infos implements HTMLObject
 			$this->comments	=	new Comments(CurrentUser::$path);
 		}
 
+		if(!Settings::$nodescription){
+			$this->description	=	new Description(CurrentUser::$path);
+		}
+
 		$this->path 	=	urlencode(File::a2r(CurrentUser::$path));
-		$this->title 	=	basename(CurrentUser::$path);
+		$this->title 	=	mb_basename(CurrentUser::$path);
 		$this->w 		= 	File::a2r(CurrentUser::$path);
 
 		if(is_file(CurrentUser::$path)){
@@ -95,7 +101,7 @@ class Infos implements HTMLObject
 
 		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post'>
 				<input type='hidden' name='del' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
-						<button class='button-round button-error' type='submit'><i class='fa fa-trash-o'></i></button>
+						<button class='button-round button-error' type='submit' ".(Settings::$button_title ? "title='".Settings::_("bin","delete")."'" : "")."><i class='fa fa-trash-o'></i></button>
 				</form>
 				</div>";
 		}
@@ -111,13 +117,13 @@ class Infos implements HTMLObject
 		echo "<div class='infos_title'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</div>";
 		if(!Settings::$nodownload){
 			/// Zip button
-			echo 	"<a href='$this->dl' class='floating-action'><i class='fa fa-arrow-down fa-large'></i></a>\n";
+			echo 	"<a href='$this->dl' class='floating-action' ".(Settings::$button_title ? "title='".Settings::_("buttons","get")."'" : "")."><i class='fa fa-arrow-down fa-large'></i></a>\n";
 		}
 		echo "</div>";
 
 		if(CurrentUser::$admin && is_dir(CurrentUser::$path)){
 		/// Upload Images form
-			echo "<h3>Upload</h3>";
+			echo "<h3>".Settings::_("adminpanel","upload_heading")."</h3>";
 			echo "<div id='files'></div>";
 			echo "<form class='dropzone' id=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\" 
 				action='?a=Upl' method='POST' enctype='multipart/form-data'>
@@ -138,6 +144,12 @@ class Infos implements HTMLObject
 		echo "<div id='comments' class='box'>\n";
 		if(!Settings::$nocomments){
 			$this->comments->toHTML();
+		}
+		echo "</div>\n";
+
+		echo "<div id='description_form' class='box'>\n";
+		if(!Settings::$nodescription){
+			$this->description->toHTML(true);
 		}
 		echo "</div>\n";
 

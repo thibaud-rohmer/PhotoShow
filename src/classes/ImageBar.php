@@ -63,7 +63,7 @@ class ImageBar
 
 		$file = urlencode(File::a2r(CurrentUser::$path));
 
-		$this->photosphere = (basename(dirname(CurrentUser::$path)) == "PhotoSpheres");
+		$this->photosphere = (mb_basename(dirname(CurrentUser::$path)) == "PhotoSpheres");
 
 		$this->buttons['prev'] = 	"?p=p&f=".$file;
 		$this->awesome['prev'] = 	"<i class='fa fa-chevron-left fa-lg'></i>";
@@ -110,7 +110,7 @@ class ImageBar
 	 */
 	 public function toHTML(){
 	 	foreach($this->buttons as $name=>$url){
-	 		echo "<span id='$name'><a href='$url'>".$this->awesome[$name]."</a></span>";
+			echo "<span id='$name'><a href='$url' ".(Settings::$button_title ? "title='".Settings::_("buttons",$name)."'" : "").">".$this->awesome[$name]."</a></span>";
 	 	}
 	 }
 
