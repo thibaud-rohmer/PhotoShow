@@ -50,7 +50,7 @@ class Video implements HTMLObject
 	 * Create Video
 	 *
 	 * @param string $file 
-	 * @author Cédric Levasseur
+	 * @author Cï¿½dric Levasseur
 	 */
 	public function __construct($file=NULL,$forcebig = false){
 	
@@ -77,7 +77,7 @@ class Video implements HTMLObject
 	 *
 	 * @param string $file 
      * @return pid of the executed command (only linux)
-	 * @author Cédric Levasseur/Franck Royer
+	 * @author Cï¿½dric Levasseur/Franck Royer
 	 */	
 	public function ExecInBackground($cmd) {	
 		error_log('DEBUG/Video: Background Execution : '.$cmd,0);
@@ -165,7 +165,7 @@ class Video implements HTMLObject
 	 *   
 	 * Use ffmpeg for conversion
 	 * @return void
-	 * @author Cédric Levasseur
+	 * @author Cï¿½dric Levasseur
 	 */
     public static function FastEncodeVideo($file) {
 
@@ -308,10 +308,10 @@ class Video implements HTMLObject
 	 * Display the video on the website
 	 *
 	 * @return void
-	 * @author Cédric Levasseur
+	 * @author Cï¿½dric Levasseur
 	 */
 	public function toHTML(){	
-        self::VideoDiv(320,'',true);
+        self::VideoDiv(400,400,true);
 	}
 
 }
