@@ -106,7 +106,7 @@ class ImagePanel implements HTMLObject
             ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
             ."<meta property=\"og:type\" content=\"website\"/>\n"
             ."<meta property=\"og:title\" content=\"".Settings::$name.": ".File::a2r($file)."\"/>\n"
-            ."<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
+            ."<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&amp;f=".urlencode(File::a2r($file))."\"/>\n";
         if (Settings::$fbappid){
             $this->page_header .= "<meta property=\"fb:app_id\" content=\"".Settings::$fbappid."\"/>\n";
         }

@@ -164,8 +164,6 @@ class MainPage extends Page
 		$this->panel->toHTML();
 		echo "</div>\n";
 
-
-		echo "</div>\n";
 		echo "</div>\n";
 
 		echo "<script src='inc/ui.js'></script>\n";

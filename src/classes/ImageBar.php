@@ -65,17 +65,17 @@ class ImageBar
 
 		$this->photosphere = (basename(dirname(CurrentUser::$path)) == "PhotoSpheres");
 
-		$this->buttons['prev'] = 	"?p=p&f=".$file;
+		$this->buttons['prev'] = 	"?p=p&amp;f=".$file;
 		$this->awesome['prev'] = 	"<i class='fa fa-chevron-left fa-lg'></i>";
 		
 		$this->buttons['back'] = 	"?f=".urlencode(File::a2r(dirname(CurrentUser::$path)));
 		$this->awesome['back']  = 	"<i class='fa fa-reply fa-lg'></i>";
 
 		if(!Settings::$nodownload){
-			$this->buttons['img']  = 	"?t=Big&f=".$file;
+			$this->buttons['img']  = 	"?t=Big&amp;f=".$file;
 			$this->awesome['img']  = 	"<i class='fa fa-eye fa-lg'></i>";
 
-			$this->buttons['get']  = 	"?t=BDl&f=".$file;
+			$this->buttons['get']  = 	"?t=BDl&amp;f=".$file;
 			$this->awesome['get']  = 	"<i class='fa fa-download fa-lg'></i>";
 		}
 
@@ -84,10 +84,10 @@ class ImageBar
 
 		if($this->photosphere){
 			$this->buttons['pshere'] =   "#' id='photosphere";
-			$this->awesome['pshere'] =   "<img height='20px' src='inc/photosphere_logo.png'/>";
+			$this->awesome['pshere'] =   "<img height='20' src='inc/photosphere_logo.png'/>";
 		}
 
-		$this->buttons['next'] = 	"?p=n&f=".$file;
+		$this->buttons['next'] = 	"?p=n&amp;f=".$file;
 		$this->awesome['next'] = 	"<i class='fa fa-chevron-right fa-lg'></i>";
 
 		$this->buttons['pause'] = 	"?f=".$file;
