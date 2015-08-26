@@ -129,7 +129,7 @@ class Provider
 
         $basefile	= 	new File($file);
         $basepath	=	File::a2r($file);
-        $path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".webm";	
+        $path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".mp4";
 
         if(!isset($path) || !file_exists($path)){
             error_log('ERROR/Provider::Video: path:'.$path.' does not exist, using '.$file);
@@ -147,7 +147,7 @@ class Provider
         header("Etag: $etag"); 
         header("Cache-Control: maxage=".$expires);
         header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-        header('Content-type: video/webm');
+        header('Content-type: video/mp4');
         readfile($path);
     }
 
