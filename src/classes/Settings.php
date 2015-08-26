@@ -149,7 +149,7 @@ class Settings extends Page
 	static public $ffmpeg_path 		=	"/usr/bin/ffmpeg";
 	
 	///FFMPEG Option
-	static public $ffmpeg_option	=	"-threads 4 -c:v libx264 -c:a libmp3lame";
+	static public $ffmpeg_option	=	"-threads 4 -vcodec libx264 -acodec libfdk_aac";
 
 
 	/**
