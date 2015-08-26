@@ -314,7 +314,7 @@ class Video implements HTMLObject
 	 * @author Cédric Levasseur
 	 */
 	public function toHTML(){	
-        self::VideoDiv('',400,true);
+        self::VideoDiv(320,'',true);
 	}
 
 }
