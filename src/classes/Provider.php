@@ -326,8 +326,8 @@ class Provider
 				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 			}
 
-	        header('Content-type: image/jpeg');
             if(File::Type($path)=="Image"){
+                header('Content-type: image/jpeg');
             	readfile($path);
             	return;
                 try {
@@ -337,6 +337,7 @@ class Provider
                     readfile($path);
                 }
             }else{
+                header('Content-type: video/mp4');
                 readfile($path);
             }
         }
