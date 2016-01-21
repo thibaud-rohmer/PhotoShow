@@ -149,7 +149,7 @@ class Settings extends Page
 	static public $ffmpeg_path 		=	"/usr/bin/ffmpeg";
 	
 	///FFMPEG Option
-	static public $ffmpeg_option	=	"-threads 4 -qmax 40 -acodec libvorbis -ab 128k -ar 41000 -vcodec libvpx";	
+	static public $ffmpeg_option	=	"-threads 4 -vcodec libx264 -acodec libfdk_aac";
 
 
 	/**

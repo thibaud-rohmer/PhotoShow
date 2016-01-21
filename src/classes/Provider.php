@@ -129,7 +129,7 @@ class Provider
 
         $basefile	= 	new File($file);
         $basepath	=	File::a2r($file);
-        $path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".webm";	
+        $path	=	Settings::$thumbs_dir.dirname($basepath)."/".$basefile->name.".mp4";
 
         if(!isset($path) || !file_exists($path)){
             error_log('ERROR/Provider::Video: path:'.$path.' does not exist, using '.$file);
@@ -147,8 +147,59 @@ class Provider
         header("Etag: $etag"); 
         header("Cache-Control: maxage=".$expires);
         header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-        header('Content-type: video/webm');
-        readfile($path);
+        header('Content-type: video/mp4');
+        $fp = @fopen($path, 'rb');
+
+        $size   = filesize($path); // File size
+        $length = $size;           // Content length
+        $start  = 0;               // Start byte
+        $end    = $size - 1;       // End byte
+
+        header("Accept-Ranges: 0-$length");
+        if (isset($_SERVER['HTTP_RANGE'])) {
+
+            $c_start = $start;
+            $c_end   = $end;
+
+            list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
+            if (strpos($range, ',') !== false) {
+                header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                header("Content-Range: bytes $start-$end/$size");
+                exit;
+            }
+            if ($range == '-') {
+                $c_start = $size - substr($range, 1);
+            }else{
+                $range  = explode('-', $range);
+                $c_start = $range[0];
+                $c_end   = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
+            }
+            $c_end = ($c_end > $end) ? $end : $c_end;
+            if ($c_start > $c_end || $c_start > $size - 1 || $c_end >= $size) {
+                header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                header("Content-Range: bytes $start-$end/$size");
+                exit;
+            }
+            $start  = $c_start;
+            $end    = $c_end;
+            $length = $end - $start + 1;
+            fseek($fp, $start);
+            header('HTTP/1.1 206 Partial Content');
+	    }
+        header("Content-Range: bytes $start-$end/$size");
+        header("Content-Length: ".$length);
+
+        $buffer = 1024 * 8;
+	    while(!feof($fp) && ($p = ftell($fp)) <= $end) {
+
+            if ($p + $buffer > $end) {
+                $buffer = $end - $p + 1;
+            }
+            set_time_limit(0);
+            echo fread($fp, $buffer);
+            flush();
+	    }
+        fclose($fp);
     }
 
     public static function thumb($file)
@@ -326,8 +377,8 @@ class Provider
 				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
 			}
 
-	        header('Content-type: image/jpeg');
             if(File::Type($path)=="Image"){
+                header('Content-type: image/jpeg');
             	readfile($path);
             	return;
                 try {
@@ -337,7 +388,61 @@ class Provider
                     readfile($path);
                 }
             }else{
-                readfile($path);
+                $fp = @fopen($path, 'rb');
+
+                $size   = filesize($path); // File size
+                $length = $size;           // Content length
+                $start  = 0;               // Start byte
+                $end    = $size - 1;       // End byte
+
+                header('Content-type: video/mp4');
+                header("Accept-Ranges: 0-$length");
+                if (isset($_SERVER['HTTP_RANGE'])) {
+
+                    $c_start = $start;
+                    $c_end   = $end;
+
+                    list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
+                    if (strpos($range, ',') !== false) {
+                        header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                        header("Content-Range: bytes $start-$end/$size");
+                        exit;
+                    }
+                    if ($range == '-') {
+                        $c_start = $size - substr($range, 1);
+                    }else{
+                        $range  = explode('-', $range);
+                        $c_start = $range[0];
+                        $c_end   = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
+                    }
+                    $c_end = ($c_end > $end) ? $end : $c_end;
+                    if ($c_start > $c_end || $c_start > $size - 1 || $c_end >= $size) {
+                        header('HTTP/1.1 416 Requested Range Not Satisfiable');
+                        header("Content-Range: bytes $start-$end/$size");
+                        exit;
+                    }
+                    $start  = $c_start;
+                    $end    = $c_end;
+                    $length = $end - $start + 1;
+                    fseek($fp, $start);
+                    header('HTTP/1.1 206 Partial Content');
+                }
+                header("Content-Range: bytes $start-$end/$size");
+                header("Content-Length: ".$length);
+
+
+                $buffer = 1024 * 8;
+                while(!feof($fp) && ($p = ftell($fp)) <= $end) {
+
+                    if ($p + $buffer > $end) {
+                        $buffer = $end - $p + 1;
+                    }
+                    set_time_limit(0);
+                    echo fread($fp, $buffer);
+                    flush();
+                }
+
+                fclose($fp);
             }
         }
     }
