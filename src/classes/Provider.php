@@ -90,7 +90,7 @@ class Provider
 	{
 		$raw_image = imagecreatefromjpeg($filename);
 		$degrees = Provider::get_orientation_degrees ($filename);
-		if($degrees > 0){
+		if($degrees != 0){
 			$rotated_image = imagerotate($raw_image, $degrees, 0);
 			if($rotated_image == NULL){
 				return $raw_image;
