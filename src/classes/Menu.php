@@ -138,12 +138,12 @@ class Menu implements HTMLObject
 
 			echo 	"<span class='name hidden'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</span>";
 			echo 	"<span class='path hidden'>".htmlentities($this->path, ENT_QUOTES ,'UTF-8')."</span>";
-			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
-			echo 	"</li>\n";
+			echo 	"<a href='?f=" . $this->webdir . "'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
 
 			foreach($this->items as $item)
 				$item->toHTML();
 
+			echo 	"</li>\n";
 			echo 	"</ul>\n";
 		}	
 	}

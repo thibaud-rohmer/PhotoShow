@@ -115,7 +115,7 @@ class Board implements HTMLObject
                 }
                 if (Judge::is_public($file))
                 {
-                    $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($file))."\"/>\n";
+                    $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&amp;f=".urlencode(File::a2r($file))."\"/>\n";
                     $i++;
                 }
             }
@@ -130,7 +130,7 @@ class Board implements HTMLObject
                 $img = Judge::searchDir($d, true);
                 if ($img)
                 {
-                    $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&f=".urlencode(File::a2r($img))."\"/>\n";
+                    $this->page_header .= "<meta property=\"og:image\" content=\"".Settings::$site_address."/?t=Thb&amp;f=".urlencode(File::a2r($img))."\"/>\n";
                     $i++;
                 }
             }

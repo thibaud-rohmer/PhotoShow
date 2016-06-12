@@ -358,7 +358,7 @@ class GuestToken extends Page
         foreach(self::findAll() as $t){
             echo "<tr>";
             echo "<td>";
-            echo "<form action='?t=Adm&a=DTk' method='post'>\n";
+            echo "<form action='?t=Adm&a=DTk' method='post' onsubmit='return executeOnSubmit(`tokenDelete`);'>\n";
             echo "<input type='hidden' name='tokenkey' value='".$t['key']."' />";
             echo "<input type='submit' class='pure-button button-error' value='".Settings::_("token","deletetoken")."' />";
             echo "</form>";

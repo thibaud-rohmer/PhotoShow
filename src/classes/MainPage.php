@@ -125,7 +125,7 @@ class MainPage extends Page
 		$this->header($this->header_content);
 		echo "<body>";
 
-		echo "<div id='layout'>\n";		
+		echo "<div id='layout'>\n";
 
 
 

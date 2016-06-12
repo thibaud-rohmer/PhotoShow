@@ -125,7 +125,7 @@ class Judge
 		$basepath	=	File::a2r($f);
 
 		$this->filename = $basefile->name;
-		$this->webpath 	= "&f=".urlencode($basepath);
+		$this->webpath 	= "&amp;f=".urlencode($basepath);
 
 		if(is_file($f)){
 			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
@@ -376,7 +376,7 @@ class Judge
 		$ret = "";
 
 		if(strlen($w)>1){
-		$ret .= 	"<form class='pure-form' action='?a=Mov' method='post'>
+		$ret .= 	"<form class='pure-form' action='?a=Mov' method='post' onsubmit='return executeOnSubmit(`rename`);'>
 					<input type='hidden' name='move' value='rename'>
 					<input type='hidden' name='pathFrom' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
 					<div class='pure-g'>
@@ -392,7 +392,7 @@ class Judge
 
 		/// Folder name
 		if(is_dir($dir)){
-		$ret .=	"<form class='niceform pure-form' action='?a=Upl' method='post'>
+		$ret .=	"<form class='niceform pure-form' action='?a=Upl' method='post'  onsubmit='return executeOnSubmit(`create`);'>
 						<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
 
 						<div class='pure-g'>
@@ -428,15 +428,15 @@ class Judge
 		echo "<h3>Access</h3>";
 		if($this->public){
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
-				echo "<a href='?t=Pri$this->webpath'class='button-round button-success'><i class='fa fa-unlock'></i></a></div>";
+				echo "<a href='?t=Pri" . $this->webpath . "'class='button-round button-success' onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-unlock'></i></a></div>";
 			echo "<div class='pure-u-2-3'>".Settings::_("judge","public")."</div></div>";
 		}else{
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
-				echo "<a href='?t=Pub$this->webpath'class='button-round button-error'><i class='fa fa-lock'></i></a></div>";
+				echo "<a href='?t=Pub" . $this->webpath . "'class='button-round button-error' onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-lock'></i></a></div>";
 			echo "<div class='pure-u-2-3'>".Settings::_("judge","priv")."</div></div>";
 		}
 
-		echo "<form action='?t=Rig$this->webpath' method='post' class='pure-form pure-form-aligned'>";
+		echo "<form action='?t=Rig$this->webpath' method='post' class='pure-form pure-form-aligned' onsubmit='return executeOnSubmit(`permissions`);'>";
 		if(! $this->public){
 			echo "<h3>".Settings::_("judge","accounts")."</h3>";
 			echo "<ul>";
@@ -481,7 +481,7 @@ class Judge
 	        	    }
 	        	    echo "</ul>";
 	    	    }
-	    	    echo "<ul><a href='?t=CTk$this->webpath' class='pure-button button-secondary button-small'>".Settings::_("token","createtoken")."</a></ul>";
+	    	    echo "<ul><a href='?t=CTk$this->webpath' class='pure-button button-secondary button-small' onclick='return executeOnSubmit(`token`)'>".Settings::_("token","createtoken")."</a></ul>";
 	    	}
 		}
 		echo "</form>\n";

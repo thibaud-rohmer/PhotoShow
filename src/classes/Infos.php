@@ -43,6 +43,8 @@
  * @license   http://www.gnu.org/licenses/
  * @link      http://github.com/thibaud-rohmer/PhotoShow
  */
+ 
+ 
 
 class Infos implements HTMLObject
 {
@@ -74,7 +76,6 @@ class Infos implements HTMLObject
 		
 		$this->exif = new Exif(CurrentUser::$path);
 
-
 		if(!Settings::$nocomments){
 			$this->comments	=	new Comments(CurrentUser::$path);
 		}
@@ -84,20 +85,20 @@ class Infos implements HTMLObject
 		$this->w 		= 	File::a2r(CurrentUser::$path);
 
 		if(is_file(CurrentUser::$path)){
-			$this->thumb ="<img src=\"?t=Thb&f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
-			$this->dl = "?t=BDl&f=$this->path";
+			$this->thumb ="<img src=\"?t=Thb&amp;f=".urlencode(File::a2r(CurrentUser::$path))."\" />";
+			$this->dl = "?t=BDl&amp;f=$this->path";
 		}else{
-			$this->thumb ="<img src='inc/folder.png' />";
-			$this->dl = "?t=Zip&f=$this->path";
+			$this->thumb ="<img src='inc/folder.png' alt='Folder' />";
+			$this->dl = "?t=Zip&amp;f=$this->path";
 		}
 
 		if(CurrentUser::$admin){
 
-		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post'>
+		$this->deleteform = "<div id='deleteform'><form class='pure-form' action='?a=Del' method='post' onsubmit='return executeOnSubmit(`delete`);'>
 				<input type='hidden' name='del' value=\"".htmlentities($this->w, ENT_QUOTES ,'UTF-8')."\">
 						<button class='button-round button-error' type='submit'><i class='fa fa-trash-o'></i></button>
 				</form>
-				</div>";
+				</div>";         	
 		}
 	}
 
@@ -111,11 +112,11 @@ class Infos implements HTMLObject
 		echo "<div class='infos_title'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</div>";
 		if(!Settings::$nodownload){
 			/// Zip button
-			echo 	"<a href='$this->dl' class='floating-action'><i class='fa fa-arrow-down fa-large'></i></a>\n";
+			echo 	"<a href='$this->dl' class='floating-action' onclick='return executeOnSubmit(`download`)'><i class='fa fa-arrow-down fa-large'></i></a>\n";
 		}
 		echo "</div>";
 
-		if(CurrentUser::$admin && is_dir(CurrentUser::$path)){
+		if(CurrentUser::$admin || CurrentUser::$uploader && is_dir(CurrentUser::$path)){
 		/// Upload Images form
 			echo "<h3>Upload</h3>";
 			echo "<div id='files'></div>";
@@ -159,7 +160,7 @@ class Infos implements HTMLObject
 
 
 
-		echo 	"</span>\n";
+		//echo 	"</span>\n";
 
 		echo "</div>";
 
