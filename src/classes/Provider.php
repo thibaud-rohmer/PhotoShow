@@ -66,7 +66,7 @@ class Provider
 					break;
 				case 5:
 				case 6: 
-					$degrees = -90; 
+					$degrees = 270; 
 					break;
 				case 7:
 				case 8: 
@@ -243,7 +243,7 @@ class Provider
 
             if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
                 $thumb->SourceImageToGD();
-                //$thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->ra = 360 - Provider::get_orientation_degrees($file);
                 $thumb->Rotate();
             }
 
@@ -293,7 +293,7 @@ class Provider
 
             if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
                 $thumb->SourceImageToGD();
-                //$thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->ra = 360 - Provider::get_orientation_degrees($file);
                 $thumb->Rotate();
             }
 
