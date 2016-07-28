@@ -128,13 +128,10 @@ class Video implements HTMLObject
         //TODO Windows
         exec(Settings::$ffmpeg_path." -i ".escapeshellarg($file)." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
         $line = $output[0];
-        preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
-        $match = $matches[0];
+        preg_match('/, ([0-9]+)x([0-9]+), /', $line, $matches);
+        $orig_x = intval($matches[1]);
+        $orig_y = intval($matches[2]);
 
-
-        $dimensions_array = explode('x', $match);
-        $orig_x = intval($dimensions_array[0]);
-        $orig_y = intval($dimensions_array[1]);
         //error_log('DEBUG/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
 
         //If for some reason ffmpeg cannot get the dimension
