@@ -103,7 +103,7 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Duration', $output);
+        exec(Settings::$ffmpeg_path.' -i '.escapeshellarg($file).' 2>&1|grep Duration', $output);
         $duration = $output[0];
 
         $duration_array = explode(':', $duration);
@@ -126,7 +126,7 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path." -i ".$file." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
+        exec(Settings::$ffmpeg_path." -i ".escapeshellarg($file)." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
         $line = $output[0];
         preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
         $match = $matches[0];
@@ -196,7 +196,7 @@ class Video implements HTMLObject
             $offset = self::GetDuration($file)/2;
             $dimensions = self::GetScaledDimension($file, 320);
             
-            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s '.$dimensions['x'].'x'.$dimensions['y'].' -y "'.$thumb_path_jpg.'"';
+            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i '.escapeshellarg($file).' -vcodec mjpeg -vframes 1 -an -f rawvideo -s '.$dimensions['x'].'x'.$dimensions['y'].' -y '.escapeshellarg($thumb_path_jpg);
             self::ExecInBackground($u);
         }
 
@@ -206,7 +206,7 @@ class Video implements HTMLObject
                 if ($file_file->extension !="mp4") {
                     ///Convert video to mp4 format in Thumbs folder
                     //TODO: Max job limit
-                    $u = Settings::$ffmpeg_path.' -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$thumb_path_mp4.'"';
+                    $u = Settings::$ffmpeg_path.' -i '.escapeshellarg($file).' '.Settings::$ffmpeg_option.' -y '.escapeshellarg($thumb_path_mp4);
                     $pid = self::ExecInBackground($u);
                     self::CreateJob($file, $pid);
                 }
