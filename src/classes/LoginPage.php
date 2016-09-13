@@ -84,17 +84,14 @@ class LoginPage extends Page
                     <input type='password' name='password' value='' placeholder='".Settings::_("login","pass")."'>
                     </div>
                  <div class='pure-control-group'>
-                    <input type='submit' class='pure-button pure-button-primary' value='".Settings::_("login","submit")."'>
-                </div>
-            </fieldset>
-            </form>\n";
+					<label></label>
+                    <input type='submit' class='pure-button pure-button-primary' value='".Settings::_("login","submit")."'>";
 
-	   
-            if (!Settings::$noregister){
-               echo " <a class='pure-button button-success' href='?t=Reg'>".Settings::_("login","register")."</a> ".Settings::_("login","or");
-            }
-            echo " <a class='pure-button button-warning' href='.'>".Settings::_("login","back")."</a>"; echo "</fieldset></form>\n";
-            echo "</div>\n";
+		 			if (!Settings::$noregister){
+				       echo " ".Settings::_("login","or")." <a class='pure-button button-success' href='?t=Reg'>".Settings::_("login","register")."</a> ";
+				    }
+
+            echo "</div>\n</fieldset>\n</form>\n</div>\n";
         }
     }
 }
