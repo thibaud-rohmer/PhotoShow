@@ -269,6 +269,9 @@ class CurrentUser
 			}
 		}else{
 			CurrentUser::$action = "Page";
+
+			// User is not logged in => display login page
+			if( !isset(CurrentUser::$account) && !isset(CurrentUser::$token) )	CurrentUser::$action = "Login";
 		}
 
 		if(isset($_GET['a']) && CurrentUser::$action != "Adm"){
