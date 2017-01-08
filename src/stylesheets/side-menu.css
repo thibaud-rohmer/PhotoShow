@@ -162,7 +162,7 @@ This is the parent `<div>` that contains the menu and the content area.
 }
 
 .menuright-link {
-    right: 0; /* "#menu width" */
+    right: 10px; /* "#menu width" */
 }
 
 .header {

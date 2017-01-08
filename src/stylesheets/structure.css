@@ -57,7 +57,7 @@ h3{
 span#rss{
 	position: absolute;
 	top: 15px;
-	right : -4px;
+	right : 4px;
 	z-index:200;
 	background: orange;
 	padding: 8px;
