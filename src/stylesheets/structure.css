@@ -80,6 +80,10 @@ span#logo{
 	height: 60px;
 	overflow: hidden;
 }
+span#logo a{
+	text-decoration: none;
+	color: inherit;
+}
 
 div#menuright-header{
 	border-bottom: 1px solid #e0e0e0;
