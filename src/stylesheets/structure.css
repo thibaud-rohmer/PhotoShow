@@ -317,6 +317,10 @@ div.commentdelete {
 
 
 /* Menu */
+.pure-menu {
+	padding-bottom: 20px;
+}
+
 ul.selected > ul{
 	position: relative;
 	visibility: visible;
