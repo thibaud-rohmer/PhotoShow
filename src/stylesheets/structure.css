@@ -98,7 +98,7 @@ div#menuright-header{
 	margin:auto;
 	overflow:hidden;
     font-family: "Roboto-Regular", sans-serif;
-    margin: 0 auto;
+    margin: 0 15px 0 0;
     background-color: #00bcd4;
     height: 60px;
     box-shadow: 0 2px 5px rgba(0,0,0,.26);
