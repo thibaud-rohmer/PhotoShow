@@ -131,7 +131,9 @@ class MainPage extends Page
 
 		// Menu left
 		echo "<div id='menu'>\n";
-		echo "<span id='rss'><a href='?t=Rss'><i class='fa fa-rss fa-lg'></i></a></span>";
+		if (Settings::$rss) {
+			echo "<span id='rss'><a href='?t=Rss'><i class='fa fa-rss fa-lg'></i></a></span>";
+		}
 		echo "<span id='logo'>".Settings::$name."</span>\n";
 		echo "<div class='pure-menu menu pure-menu-open'>\n";
 		$this->menu->toHTML();
