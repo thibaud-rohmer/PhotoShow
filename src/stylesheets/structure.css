@@ -412,3 +412,6 @@ div#deleteform{
 	top: 20px;
 }
 
+.infos .pure-g > .pure-u-1-2 > input[type=text] {
+	width: 100%;
+}
