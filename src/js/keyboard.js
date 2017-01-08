@@ -68,7 +68,9 @@ $("document").ready(function(){
 				break;
 
 			case $.ui.keyCode.ESCAPE :
-				if($("#image_bar #stop").is(":visible")){
+				if($("#image_bar #back").is(":visible")){
+					$("#image_bar #back").click();
+				}else if($("#image_bar #stop").is(":visible")){
 					$("#image_bar #stop").click();
 				}
 				event.preventDefault();
