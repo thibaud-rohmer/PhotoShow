@@ -240,6 +240,9 @@ class CurrentUser
 				case "Com"	:	Comments::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
 								break;
 
+				case "Des"	:	Description::add(CurrentUser::$path,$_POST['content'],$_POST['login']);
+								break;
+
 				case "Rig"	:	Judge::edit(CurrentUser::$path,$_POST['users'],isset($_POST['groups'])?$_POST['groups']:null,true);
 								CurrentUser::$action = "Judge";
 								break;
@@ -269,6 +272,9 @@ class CurrentUser
 			}
 		}else{
 			CurrentUser::$action = "Page";
+
+			// User is not logged in => display login page only if gallery is private
+			if( !isset(CurrentUser::$account) && !isset(CurrentUser::$token) && !Judge::view( Settings::$photos_dir ) )	CurrentUser::$action = "Login";
 		}
 
 		if(isset($_GET['a']) && CurrentUser::$action != "Adm"){

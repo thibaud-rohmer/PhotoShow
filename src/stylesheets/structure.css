@@ -57,7 +57,7 @@ h3{
 span#rss{
 	position: absolute;
 	top: 15px;
-	right : -4px;
+	right : 4px;
 	z-index:200;
 	background: orange;
 	padding: 8px;
@@ -80,6 +80,10 @@ span#logo{
 	height: 60px;
 	overflow: hidden;
 }
+span#logo a{
+	text-decoration: none;
+	color: inherit;
+}
 
 div#menuright-header{
 	border-bottom: 1px solid #e0e0e0;
@@ -98,7 +102,7 @@ div#menuright-header{
 	margin:auto;
 	overflow:hidden;
     font-family: "Roboto-Regular", sans-serif;
-    margin: 0 auto;
+    margin: 0 15px 0 0;
     background-color: #00bcd4;
     height: 60px;
     box-shadow: 0 2px 5px rgba(0,0,0,.26);
@@ -173,7 +177,6 @@ div.directory .dirname
 
 div.directory img{
 	width:100%;
-	max-height: 150px;
 }
 
 /* Linear Panel */
@@ -195,7 +198,8 @@ div.linear_panel {
 .linear_panel  h1,
 .linear_panel  h2,
 .linear_panel > .sectionvid,
-.linear_panel > .sectiondir
+.linear_panel > .sectiondir,
+.linear_panel > .description
 {
 	display: none !important;
 }
@@ -253,6 +257,7 @@ left:0;
 right:0;
 z-index:10;
 box-shadow: 0 2px 5px rgba(0,0,0,.35);
+overflow: auto;
 }
 
 div.image_panel * a,
@@ -265,21 +270,24 @@ padding: 20px 5px 0px 5px;
 font-size: 10pt;
 }
 
+div#image_panel_table {
+	display: table;
+	width: 100%;
+	height: 100%;
+	border-spacing: 5px;
+	margin-top: -5px;
+}
+
 	
-div#bigimage{
-	position:absolute;
-	top:0;
-	right:0;
-	bottom:35px;
-	left:0;
+div#bigimage,
+div#bigvideo{
+	display: table-row;
+	width: 100%;
+	height: 100%;
 }
 
 div#image_bar {
-position: absolute;
-left: 0;
-right: 0;
-height: 30px;
-bottom: 0;
+display: table-row;
 font-size: 15px;
 text-align: center;
 }
@@ -287,6 +295,18 @@ text-align: center;
 div#image_bar > span {
 display: inline-block;
 width: 50px;
+}
+
+div#loading_spin {
+text-align: center;
+position: relative;
+top: 50%;
+transform: translateY(-50%);
+}
+
+div#bigvideo > video {
+min-width: 100%;
+min-height: 100%;
 }
 
 
@@ -318,7 +338,11 @@ div.commentdelete {
 
 
 /* Menu */
-ul.selected > ul{
+.pure-menu {
+	padding-bottom: 20px;
+}
+
+ul.selected > li > ul{
 	position: relative;
 	visibility: visible;
 	left: auto;
@@ -336,7 +360,7 @@ li {
 	padding: 0;
 }
 
-.pure-menu li a{
+.pure-menu a{
 	font-family: 'Roboto-Bold',sans-serif;
 	font-size: 13px;
 	color: black;
@@ -346,7 +370,7 @@ li.currentSelected{
 
 }
 
-li.currentSelected a{
+li.currentSelected > a{
 	color: #0085be !important;
 }
 
@@ -405,3 +429,23 @@ div#deleteform{
 	top: 20px;
 }
 
+.infos .pure-g > .pure-u-1-2 > input[type=text] {
+	width: 100%;
+}
+
+/* Description */
+
+.panel > .description{
+	padding-left: 40px;
+	padding-top: 20px;
+	font-size: 22px;
+}
+
+#image_panel_table > .description{
+	display: table-row;
+	text-align: center;
+}
+
+.description:empty{
+	display: none !important;
+}

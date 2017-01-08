@@ -82,7 +82,7 @@ class Menu implements HTMLObject
 		}
 
 		/// Set variables
-		$this->title = end(explode('/', $dir));
+		$this->title = mb_basename($dir);
 		$this->webdir= urlencode(File::a2r($dir));
 		$this->path  = File::a2r($dir);
 
@@ -138,12 +138,12 @@ class Menu implements HTMLObject
 
 			echo 	"<span class='name hidden'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</span>";
 			echo 	"<span class='path hidden'>".htmlentities($this->path, ENT_QUOTES ,'UTF-8')."</span>";
-			echo 	"<a href='?f=$this->webdir'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
-			echo 	"</li>\n";
+			echo 	"<a href='?f=" . $this->webdir . "'>".htmlentities($this->title, ENT_QUOTES ,'UTF-8')."</a>";
 
 			foreach($this->items as $item)
 				$item->toHTML();
 
+			echo 	"</li>\n";
 			echo 	"</ul>\n";
 		}	
 	}
@@ -200,7 +200,7 @@ class Menu implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public static function list_files($dir,$rec = false, $hidden = false, $stopatfirst = false){
+	public static function list_files($dir,$rec = false, $hidden = false, $stopatfirst = false, $all_file_type = false){
 		/// Directories list
 		$list=array();
 		
@@ -222,7 +222,7 @@ class Menu implements HTMLObject
 			/// Content isn't hidden and is a file
 			if($content[0] != '.' || $hidden){
 				if(is_file($path=$dir."/".$content)){
-					if(File::Type($path) && (File::Type($path) == "Image" || File::Type($path)=="Video")){
+					if((File::Type($path) && (File::Type($path) == "Image" || File::Type($path)=="Video")) || $all_file_type){
 						/// Add content to list
 						$list[]=$path;
 

@@ -157,6 +157,17 @@ class GuestToken extends Page
     }
 
     /**
+     * Delete all tokens linked to a file
+     *
+     * @param string $file (relative path)
+     */
+    public static function delete_file_tokens($file){
+        foreach( self::find_for_path($file, true) as $token ) {
+            self::delete($token['key']);
+        }
+    }
+
+    /**
      * Check if a token already exists
      *
      * @param string $key
@@ -358,7 +369,7 @@ class GuestToken extends Page
         foreach(self::findAll() as $t){
             echo "<tr>";
             echo "<td>";
-            echo "<form action='?t=Adm&a=DTk' method='post'>\n";
+            echo "<form action='?t=Adm&a=DTk' method='post' onsubmit='return executeOnSubmit(`tokenDelete`);'>\n";
             echo "<input type='hidden' name='tokenkey' value='".$t['key']."' />";
             echo "<input type='submit' class='pure-button button-error' value='".Settings::_("token","deletetoken")."' />";
             echo "</form>";

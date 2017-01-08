@@ -30,6 +30,10 @@
 $("document").ready(function(){
 	$("body").keyup(function(event){
 	var keyCode = event.which;
+
+	if ($(event.target).is("input") || $(event.target).is("textarea"))
+		return;
+
 	if (keyCode == 0 && event.keyCode != undefined)
 		keyCode = event.keyCode;
 	
@@ -68,7 +72,9 @@ $("document").ready(function(){
 				break;
 
 			case $.ui.keyCode.ESCAPE :
-				if($("#image_bar #stop").is(":visible")){
+				if($("#image_bar #back").is(":visible")){
+					$("#image_bar #back").click();
+				}else if($("#image_bar #stop").is(":visible")){
 					$("#image_bar #stop").click();
 				}
 				event.preventDefault();

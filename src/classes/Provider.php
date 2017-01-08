@@ -66,7 +66,7 @@ class Provider
 					break;
 				case 5:
 				case 6: 
-					$degrees = -90; 
+					$degrees = 270; 
 					break;
 				case 7:
 				case 8: 
@@ -90,7 +90,7 @@ class Provider
 	{
 		$raw_image = imagecreatefromjpeg($filename);
 		$degrees = Provider::get_orientation_degrees ($filename);
-		if($degrees > 0){
+		if($degrees != 0){
 			$rotated_image = imagerotate($raw_image, $degrees, 0);
 			if($rotated_image == NULL){
 				return $raw_image;
@@ -218,10 +218,10 @@ class Provider
         /// If we need to create a thumb, then this is a new picture
         if (!$goodThumb) {
 
-            if (Judge::is_public($file)) {
+            if (Judge::is_public($file) && Settings::$rss) {
                 $r = new RSS(Settings::$conf_dir."/photos_feed.txt");
                 $webpath = Settings::$site_address."?f=".urlencode(File::a2r($file));
-                $r->add(basename($file),$webpath, "<img src='$webpath&t=Thb' />");
+                $r->add(mb_basename($file),$webpath, "<img src='$webpath&t=Thb' />");
             }
 
             /// Create directories
@@ -243,7 +243,7 @@ class Provider
 
             if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
                 $thumb->SourceImageToGD();
-                //$thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->ra = 360 - Provider::get_orientation_degrees($file);
                 $thumb->Rotate();
             }
 
@@ -293,7 +293,7 @@ class Provider
 
             if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
                 $thumb->SourceImageToGD();
-                //$thumb->ra = Provider::get_orientation_degrees($file);
+                $thumb->ra = 360 - Provider::get_orientation_degrees($file);
                 $thumb->Rotate();
             }
 
@@ -362,7 +362,7 @@ class Provider
 
         if($output){
 			if($dl){
-				header('Content-Disposition: attachment; filename="'.basename($file).'"');
+				header('Content-Disposition: attachment; filename="'.mb_basename($file).'"');
 			}else{
 				$expires = 60*60*24*14;
 				$last_modified_time = filemtime($path); 
@@ -483,7 +483,7 @@ class Provider
 
 		// Close and send to user
 		header('Content-Type: application/zip');
-		header("Content-Disposition: attachment; filename=\"".htmlentities(basename($dir), ENT_QUOTES ,'UTF-8').".zip\"");
+		header("Content-Disposition: attachment; filename=\"".mb_basename($dir).".zip\"");
 
                 // Store the current working directory and change to the albums directory
 		$cwd = getcwd();

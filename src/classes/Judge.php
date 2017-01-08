@@ -128,7 +128,7 @@ class Judge
 		$this->webpath 	= "&f=".urlencode($basepath);
 
 		if(is_file($f)){
-			$rightsfile	=	dirname($basepath)."/.".basename($f)."_rights.xml";
+			$rightsfile	=	dirname($basepath)."/.".mb_basename($f)."_rights.xml";
 		}else{
 			$rightsfile	=	$basepath."/.rights.xml";
 		}
@@ -180,19 +180,6 @@ class Judge
 			}
 		}
 	}
-
-	/**
-	 * Returns path to associated file
-	 */
-	public static function associated_file($rf){
-		$associated_dir = File::r2a(File::a2r(dirname($rf),Settings::$thumbs_dir),Settings::$photos_dir);
-		if(basename($rf) == ".rights.xml"){
-			return $associated_dir;
-		}else{
-			return $associated_dir."/".substr(basename($rf),1,-11);
-		}		
-	}
-
 
 	/**
 	 * Check recursively if a file is viewable in a folder, and returns path to that file.
@@ -376,12 +363,12 @@ class Judge
 		$ret = "";
 
 		if(strlen($w)>1){
-		$ret .= 	"<form class='pure-form' action='?a=Mov' method='post'>
+		$ret .= 	"<form class='pure-form' action='?a=Mov' method='post' onsubmit='return executeOnSubmit(`rename`);'>
 					<input type='hidden' name='move' value='rename'>
 					<input type='hidden' name='pathFrom' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
 					<div class='pure-g'>
 						<div class=' pure-u-1-2'>
-							<input type='text' class='toto' name='pathTo' value=\"".htmlentities(basename($w), ENT_QUOTES ,'UTF-8')."\">
+							<input type='text' class='toto' name='pathTo' value=\"".htmlentities(mb_basename($w), ENT_QUOTES ,'UTF-8')."\">
 						</div>
 						<div class='pure-u-1-2'>
 							<input class='pure-button pure-button-primary' type='submit' value='".Settings::_("adminpanel","rename")."'>
@@ -392,7 +379,7 @@ class Judge
 
 		/// Folder name
 		if(is_dir($dir)){
-		$ret .=	"<form class='niceform pure-form' action='?a=Upl' method='post'>
+		$ret .=	"<form class='niceform pure-form' action='?a=Upl' method='post'  onsubmit='return executeOnSubmit(`create`);'>
 						<input type='hidden' name='path' value=\"".htmlentities($w, ENT_QUOTES ,'UTF-8')."\">
 
 						<div class='pure-g'>
@@ -421,22 +408,22 @@ class Judge
 
 
 
-		echo "<h3>Infos</h3>";
+		echo "<h3>".Settings::_("judge","infos")."</h3>";
 
 		echo $this->infos;
 
-		echo "<h3>Access</h3>";
+		echo "<h3>".Settings::_("judge","access")."</h3>";
 		if($this->public){
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
-				echo "<a href='?t=Pri$this->webpath'class='button-round button-success'><i class='fa fa-unlock'></i></a></div>";
+				echo "<a href='?t=Pri$this->webpath'class='button-round button-success' ".(Settings::$button_title ? "title='".Settings::_("judge","gopriv")."'" : "")." onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-unlock'></i></a></div>";
 			echo "<div class='pure-u-2-3'>".Settings::_("judge","public")."</div></div>";
 		}else{
 			echo "<div class='pure-g'><div class='pure-u-1-3'>";
-				echo "<a href='?t=Pub$this->webpath'class='button-round button-error'><i class='fa fa-lock'></i></a></div>";
+				echo "<a href='?t=Pub$this->webpath'class='button-round button-error' ".(Settings::$button_title ? "title='".Settings::_("judge","gopub")."'" : "")." onclick='return executeOnSubmit(`permissions`)'><i class='fa fa-lock'></i></a></div>";
 			echo "<div class='pure-u-2-3'>".Settings::_("judge","priv")."</div></div>";
 		}
 
-		echo "<form action='?t=Rig$this->webpath' method='post' class='pure-form pure-form-aligned'>";
+		echo "<form action='?t=Rig$this->webpath' method='post' class='pure-form pure-form-aligned' onsubmit='return executeOnSubmit(`permissions`);'>";
 		if(! $this->public){
 			echo "<h3>".Settings::_("judge","accounts")."</h3>";
 			echo "<ul>";
@@ -468,7 +455,7 @@ class Judge
 			echo "<input type='submit' class='pure-button pure-button-primary button-small' value='".Settings::_("judge","set")."'>\n";
         	echo "</ul>";
         	
-    	    echo "<h3>Guest Tokens</h3>";
+    	    echo "<h3>".Settings::_("token","tokens")."</h3>";
     	    if(!$this->multi){
 	        // Token creation
 	        $tokens = GuestToken::find_for_path($this->file);
@@ -477,11 +464,11 @@ class Judge
 	        		$i=0;
 	        	    foreach($tokens as $token){
 	        	    	$i++;
-	        	        echo "<a class='pure-button button-small button-warning' href='".GuestToken::get_url($token['key'])."' >Guest Token $i</a><br />\n";
+	        	        echo "<a class='pure-button button-small button-warning' href='".GuestToken::get_url($token['key'])."' >".Settings::_("token","token")." $i</a><br />\n";
 	        	    }
 	        	    echo "</ul>";
 	    	    }
-	    	    echo "<ul><a href='?t=CTk$this->webpath' class='pure-button button-secondary button-small'>".Settings::_("token","createtoken")."</a></ul>";
+	    	    echo "<ul><a href='?t=CTk$this->webpath' class='pure-button button-secondary button-small' onclick='return executeOnSubmit(`token`)'>".Settings::_("token","createtoken")."</a></ul>";
 	    	}
 		}
 		echo "</form>\n";

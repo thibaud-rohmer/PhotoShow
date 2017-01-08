@@ -50,7 +50,7 @@ class Video implements HTMLObject
 	 * Create Video
 	 *
 	 * @param string $file 
-	 * @author Cédric Levasseur
+	 * @author Cï¿½dric Levasseur
 	 */
 	public function __construct($file=NULL,$forcebig = false){
 	
@@ -77,7 +77,7 @@ class Video implements HTMLObject
 	 *
 	 * @param string $file 
      * @return pid of the executed command (only linux)
-	 * @author Cédric Levasseur/Franck Royer
+	 * @author Cï¿½dric Levasseur/Franck Royer
 	 */	
 	public function ExecInBackground($cmd) {	
 		error_log('DEBUG/Video: Background Execution : '.$cmd,0);
@@ -103,7 +103,7 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path.' -i '.$file.' 2>&1|grep Duration', $output);
+        exec(Settings::$ffmpeg_path.' -i '.escapeshellarg($file).' 2>&1|grep Duration', $output);
         $duration = $output[0];
 
         $duration_array = explode(':', $duration);
@@ -126,15 +126,12 @@ class Video implements HTMLObject
         }
 
         //TODO Windows
-        exec(Settings::$ffmpeg_path." -i ".$file." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
+        exec(Settings::$ffmpeg_path." -i ".escapeshellarg($file)." 2>&1|grep 'Stream #...([^)]*): Video:'", $output);
         $line = $output[0];
-        preg_match('/ [0-9]+x[0-9]+/', $line, $matches);
-        $match = $matches[0];
+        preg_match('/, ([0-9]+)x([0-9]+), /', $line, $matches);
+        $orig_x = intval($matches[1]);
+        $orig_y = intval($matches[2]);
 
-
-        $dimensions_array = explode('x', $match);
-        $orig_x = intval($dimensions_array[0]);
-        $orig_y = intval($dimensions_array[1]);
         //error_log('DEBUG/Video: dimension of '.$file.' is '.$orig_x.'x'.$orig_y);
 
         //If for some reason ffmpeg cannot get the dimension
@@ -168,7 +165,7 @@ class Video implements HTMLObject
 	 *   
 	 * Use ffmpeg for conversion
 	 * @return void
-	 * @author Cédric Levasseur
+	 * @author Cï¿½dric Levasseur
 	 */
     public static function FastEncodeVideo($file) {
 
@@ -196,7 +193,7 @@ class Video implements HTMLObject
             $offset = self::GetDuration($file)/2;
             $dimensions = self::GetScaledDimension($file, 320);
             
-            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i "'.$file.'" -vcodec mjpeg -vframes 1 -an -f rawvideo -s '.$dimensions['x'].'x'.$dimensions['y'].' -y "'.$thumb_path_jpg.'"';
+            $u=Settings::$ffmpeg_path.' -itsoffset -'.$offset.'  -i '.escapeshellarg($file).' -vcodec mjpeg -vframes 1 -an -f rawvideo -s '.$dimensions['x'].'x'.$dimensions['y'].' -y '.escapeshellarg($thumb_path_jpg);
             self::ExecInBackground($u);
         }
 
@@ -206,7 +203,7 @@ class Video implements HTMLObject
                 if ($file_file->extension !="mp4") {
                     ///Convert video to mp4 format in Thumbs folder
                     //TODO: Max job limit
-                    $u = Settings::$ffmpeg_path.' -i "'.$file.'" '.Settings::$ffmpeg_option.' -y "'.$thumb_path_mp4.'"';
+                    $u = Settings::$ffmpeg_path.' -i '.escapeshellarg($file).' '.Settings::$ffmpeg_option.' -y '.escapeshellarg($thumb_path_mp4);
                     $pid = self::ExecInBackground($u);
                     self::CreateJob($file, $pid);
                 }
@@ -311,10 +308,10 @@ class Video implements HTMLObject
 	 * Display the video on the website
 	 *
 	 * @return void
-	 * @author Cédric Levasseur
+	 * @author Cï¿½dric Levasseur
 	 */
 	public function toHTML(){	
-        self::VideoDiv(320,'',true);
+        self::VideoDiv(400,400,true);
 	}
 
 }

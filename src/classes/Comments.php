@@ -74,11 +74,13 @@ class Comments implements HTMLObject
 		
 		/// No item, no comment !
 		if(!isset($file) || is_array($file)) return;
+
+		/// No right to view
+		if(!Judge::view($file))
+			return;
 				
 		/// Set variables
 		$this->file	=	$file;
-		$settings	=	new Settings();
-		$basefile	= 	new File($file);
 		$basepath	=	File::a2r($file);
 
 		/// Urlencode basepath
@@ -86,7 +88,7 @@ class Comments implements HTMLObject
 
 		/// Build relative path to comments file
 		if(is_file($file)){
-			$comments	=	dirname($basepath)."/.".basename($file)."_comments.xml";
+			$comments	=	dirname($basepath)."/.".mb_basename($file)."_comments.xml";
 		}else{
 			$comments 	=	$basepath."/.comments.xml";
 		}
@@ -161,7 +163,7 @@ class Comments implements HTMLObject
 			$c = $xml->addChild("comment");
 			$c->addChild("login"	, $comment->login);
 			$c->addChild("date"		, $comment->date);
-			$c->addChild("content"	, $comment->content);
+			$c->content = $comment->content;
 		}
 
 		if(!file_exists(dirname($this->commentsfile))){
@@ -219,6 +221,9 @@ class Comments implements HTMLObject
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){	
+		if(!$this->file)
+			return;
+
 		echo '<h3>'.Settings::_("comments","comments").'</h3>';
 
 		echo "<div class='display_comments'>";	
@@ -233,7 +238,7 @@ class Comments implements HTMLObject
 		if(isset(CurrentUser::$account)){
 			echo "<form action='?t=Com&f=".$this->webfile."' class='pure-form pure-form-stacked' id='comments_form' method='post'><fieldset class='transparent'>\n";
 			echo "<input type='hidden' name='login' id='login' value='".htmlentities(CurrentUser::$account->login, ENT_QUOTES ,'UTF-8')."' readonly>";			
-			echo "<textarea name='content' id='content' placeholder='Comment'></textarea>\n";
+			echo "<textarea name='content' id='content' placeholder='".Settings::_("comments","comment")."'></textarea>\n";
 			echo "<input type='submit' class='pure-button pure-button-primary' value='".Settings::_("comments","submit")."'></fieldset>\n";
 			echo "</form>\n";	
 		}

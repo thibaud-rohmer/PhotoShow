@@ -81,7 +81,7 @@ class BoardItem implements HTMLObject
 
 		echo "<div class='item $lgcls pure-u-1-2 pure-u-sm-1-2 pure-u-md-1-3 pure-u-lg-1-4 pure-u-xl-1-8'>";
 		echo 	"<a href='?f=$this->file'>";
-		echo 	"<img src='?$getfile'>";
+		echo 	"<img src='?$getfile' alt=\"\" />";
 		echo 	"</a>\n";
 		echo "</div>\n";
 
