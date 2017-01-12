@@ -136,17 +136,8 @@ class Provider
             $path = $file;
         }
 
-        $expires = 60*60*24*14;
-        $last_modified_time = filemtime($path); 
-        $last_modified_time = 0;
-        $etag = md5_file($file); 
+        static::HTTP_Cache($path);
 
-        header("Last-Modified: " . 0 . " GMT");
-        header("Pragma: public");
-        header("Cache-Control: max-age=360000");
-        header("Etag: $etag"); 
-        header("Cache-Control: maxage=".$expires);
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
         header('Content-type: video/mp4');
         $fp = @fopen($path, 'rb');
 
@@ -364,17 +355,7 @@ class Provider
 			if($dl){
 				header('Content-Disposition: attachment; filename="'.mb_basename($file).'"');
 			}else{
-				$expires = 60*60*24*14;
-				$last_modified_time = filemtime($path); 
-				$last_modified_time = 0;
-				$etag = md5_file($file); 
-
-		    	header("Last-Modified: " . 0 . " GMT");
-				header("Pragma: public");
-				header("Cache-Control: max-age=360000");
-				header("Etag: $etag"); 
-				header("Cache-Control: maxage=".$expires);
-				header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+			    static::HTTP_Cache($path);
 			}
 
             if(File::Type($path)=="Image"){
@@ -445,6 +426,29 @@ class Provider
                 fclose($fp);
             }
         }
+    }
+
+    /**
+     * Handle HTTP caching.
+     *
+     * Will either return 304, if the resource did not change since the least time it was loaded,
+     * or Cache-Control, Last-Modified, and Expires HTTP headers will be returned in the response,
+     * to allow the client to cache the resource.
+     *
+     * @param string $path Path to the file that was requested.
+     */
+    public static function HTTP_Cache($path) {
+        $if_modified_since = @$_SERVER['HTTP_IF_MODIFIED_SINCE'];
+        $last_modified_time = filemtime($path);
+        if (!empty($if_modified_since) && (strtotime($if_modified_since) == $last_modified_time)) {
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT', true, 304);
+            exit();
+        }
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT');
+        //header("ETag: " . md5_file($file));
+        $expires = Settings::$cache_max_age;
+        header("Cache-Control: private; max-age=" . $expires);
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
     }
 
 	/**

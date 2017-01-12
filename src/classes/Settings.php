@@ -146,6 +146,9 @@ class Settings extends Page
 	/// Size of the thumbs in pixels
 	static public $thumbs_size = 200;
 
+	/// Max-age of cache for images (and videos), including thumbnails
+	static public $cache_max_age = 14*24*60*60;
+
 	/*** Video ***/
 	
 	///Video encode enable/disable
@@ -197,6 +200,10 @@ class Settings extends Page
 		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
 		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
+
+        if (isset($config->cache_max_age)) {
+            Settings::$cache_max_age = (int) $config->cache_max_age;
+		}
 
 		if (isset($config->imagemagick_path) && is_file($config->imagemagick_path)) {
 			Settings::$imagemagick_path = $config->imagemagick_path;
