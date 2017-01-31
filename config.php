@@ -40,4 +40,7 @@ $config->ps_generated   = "path_where_photoshow_generates_files_goes_here";
 // Local timezone. Default one is "Europe/Paris".
 #$config->timezone = "Europe/Paris";
 
+// If you want to inject a tracking code (or anything really) in your pages <head>, use this to refer to a file containing that:
+#$config->tracking_code_include = '/path/to/something.html';
+
 ?>

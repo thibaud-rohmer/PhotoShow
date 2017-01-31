@@ -149,6 +149,8 @@ class Settings extends Page
 	/// Max-age of cache for images (and videos), including thumbnails
 	static public $cache_max_age = 14*24*60*60;
 
+	static public $tracking_code_include = NULL;
+
 	/*** Video ***/
 	
 	///Video encode enable/disable
@@ -203,6 +205,14 @@ class Settings extends Page
 
         if (isset($config->cache_max_age)) {
             Settings::$cache_max_age = (int) $config->cache_max_age;
+		}
+
+		if (isset($config->tracking_code_include)) {
+        	if (file_exists($config->tracking_code_include)) {
+                Settings::$tracking_code_include = $config->tracking_code_include;
+			} else {
+        		error_log("Warning: specified 'tracking_code_include' file doesn't exists.");
+			}
 		}
 
 		if (isset($config->imagemagick_path) && is_file($config->imagemagick_path)) {
