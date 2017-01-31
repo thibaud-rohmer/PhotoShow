@@ -108,6 +108,10 @@ abstract class Page implements HTMLObject
 				echo $head_content;
 			}
 
+			if (!empty(Settings::$tracking_code_include)) {
+				readfile(Settings::$tracking_code_include);
+			}
+
 			echo "</head>";
 
 		}
