@@ -147,7 +147,7 @@ class Settings extends Page
 	static public $thumbs_size = 200;
 
 	/// Max-age of cache for images (and videos), including thumbnails
-	static public $cache_max_age = 14*24*60*60;
+	static public $cache_max_age = 1209600; // 14*24*60*60
 
 	static public $tracking_code_include = NULL;
 
