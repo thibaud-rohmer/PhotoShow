@@ -91,6 +91,9 @@ class Exif implements HTMLObject
 				}
 			}
 		}	
+
+		/// File size is not an EXIF property, but it's still relevant to the end user
+        $this->exif['File Size'] = number_format(filesize($file)/1024/1024, 1) . " " . "MB";
 	}
 	
 	/**
@@ -108,6 +111,8 @@ class Exif implements HTMLObject
 		$this->wanted['Aperture'][]		=	'FNumber';
 		$this->wanted['ISO'][]			=	'ISOSpeedRatings';
 		$this->wanted['Original Date'][]=	'DateTimeOriginal';
+        $this->wanted['Width'][]		=	'ExifImageWidth';
+        $this->wanted['Height'][]		=	'ExifImageLength';
 	}
 	
 	/**
@@ -166,7 +171,7 @@ class Exif implements HTMLObject
 		
 		/// Values that don't need to be processed
         $untouched=array('FileName','Model','Make','ISOSpeedRatings',
-            'DateTimeOriginal', 'DateTimeDigitized', 'DateTime');
+            'DateTimeOriginal', 'DateTimeDigitized', 'DateTime', 'ExifImageWidth', 'ExifImageLength');
 		
 		/// If value doesn't need to be processed, return it
 		if(in_array($d,$untouched)) 
