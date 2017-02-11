@@ -53,13 +53,14 @@ class Group
 {
 	public $name;
 	public $rights;
-	
-	/**
-	 * Find group in base.
-	 *
-	 * @param string $name 
-	 * @author Thibaud Rohmer
-	 */
+
+    /**
+     * Find group in base.
+     *
+     * @param string $name
+     * @throws Exception
+     * @author Thibaud Rohmer
+     */
 	public function __construct($name = NULL){
 		
 		/// Check if group file exists
@@ -98,14 +99,15 @@ class Group
 			Group::create("user");
 	}
 
-	/**
-	 * Create group and save into base
-	 *
-	 * @param string $name 
-	 * @param string $rights 
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
+    /**
+     * Create group and save into base
+     *
+     * @param string $name
+     * @param array $rights
+     * @return void
+     * @throws Exception
+     * @author Thibaud Rohmer
+     */
 	public static function create($name,$rights=array()){
 		if(!isset($name)||strlen($name)<1){
 			return;
@@ -160,12 +162,12 @@ class Group
 		$xml->asXML($xml_infos);
 	}
 
-	/**
-	 * Save group into base
-	 *
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
+    /**
+     * Save group into base
+     * @return void
+     * @throws Exception
+     * @author Thibaud Rohmer
+     */
 	public function save(){
 		/// Load file
 		$xml		=	simplexml_load_file(CurrentUser::$groups_file);
@@ -211,14 +213,15 @@ class Group
 		
 		return false;
 	}
-	
-	/**
-	 * Returns the rights of the group
-	 *
-	 * @param string $name 
-	 * @return void
-	 * @author Thibaud Rohmer
-	 */
+
+    /**
+     * Returns the rights of the group
+     *
+     * @param string $name
+     * @return array
+     * @throws Exception
+     * @author Thibaud Rohmer
+     */
 	public static function rights($name){
 		$rights		=	array();
 
