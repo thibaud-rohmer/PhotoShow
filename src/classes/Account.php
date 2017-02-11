@@ -281,8 +281,11 @@ class Account extends Page
 			return;
 		}
 
-		if(isset($login) && (preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) ){
-			$acc = new Account($login);
+		if(isset($login)){
+            $acc = new Account($login);
+			if(!$acc){
+                throw new Exception("Error: user with username '$login' not found.");
+			}
 		}else{
 			$acc = CurrentUser::$account;
 		}
