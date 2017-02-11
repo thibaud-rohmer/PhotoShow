@@ -128,7 +128,7 @@ class Group
 		$xml_rights=$g->addChild('rights');
 		
 		foreach($rights as $r)
-			$xml_right->addChild($r);
+			$xml_rights->addChild($r);
 		
 		$xml->asXML(CurrentUser::$groups_file);
 	}
