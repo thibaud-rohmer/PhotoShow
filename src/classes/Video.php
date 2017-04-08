@@ -299,7 +299,7 @@ class Video implements HTMLObject
         }
         echo '<video'.$wh.$c.'><source src="?t=Vid&f='.$this->fileweb.'" type="video/mp4"/>';
         echo 'Your browser does not support the video tag.<br />';
-        echo 'Please upgrade your brower or Download the codec <a href="http://tools.google.com/dlpage/webmmf">Download</a>';
+        echo 'Please upgrade your browser or Download the codec <a href="http://tools.google.com/dlpage/webmmf">Download</a>';
         echo '</video>';
         //TODO: verify the message above works/do translations
 	}	

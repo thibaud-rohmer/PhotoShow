@@ -232,7 +232,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * create a token and give you the ouput
+     * create a token and give you the output
      * actually it's a bit of cheating
      * if a token already exist for the given path we return it
      * otherwise, we create a new one
