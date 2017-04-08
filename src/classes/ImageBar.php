@@ -33,7 +33,7 @@
  * ImageBar
  *
  * The ImageBar contains some buttons insanely awesome
- * buttons, incredibly usefull. Yeah, it rocks.
+ * buttons, incredibly useful. Yeah, it rocks.
  * 
  *
  * @category  Website
