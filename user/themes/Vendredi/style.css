@@ -1,0 +1,59 @@
+body {
+	background-color: #333;
+	color: white;
+}
+h2, h3, a {
+	color: #ff0056;
+}
+#logo, .infos {
+	color: #333;
+}
+.header {
+	background-color: #ff0056;
+	margin-right: 0;
+}
+div.directory .dirname {
+	background-color: #ff0056;
+}
+
+#menuright {
+	box-shadow: 0 0px 15px rgba(255,255,255,.50);
+}
+div#menuright-header, div.infos_img > div.infos_title {
+	background-color: #ff0056;
+}
+.infos table, #comments_form, #description_form {
+	margin-left: 5px;
+}
+
+.floating-action {
+	background-color: #333;
+}
+.floating-action:hover {
+	background-color: White;
+	color: #ff0056;
+}
+
+li.currentSelected > a {
+	color: #ff0056 !important;
+}
+li.currentSelected > a:hover {
+	color: White !important;
+}
+
+#menu .pure-menu li a:hover, #menu .pure-menu li a:focus {
+	background-color: #ff0056;
+	color: White;
+}
+.pure-g {
+	padding: 2%;
+}
+.pure-button-primary, .pure-button-selected, a.pure-button-primary, a.pure-button-selected {
+	background-color: #ff0056;
+}
+.pure-table-striped tr:nth-child(2n-1) td {
+	color: #333;
+}
+
+
+
