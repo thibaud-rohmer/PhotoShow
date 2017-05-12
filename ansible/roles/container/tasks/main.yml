@@ -1,0 +1,26 @@
+---
+# Commands are used instead of the Anisble docker modules
+# because this works with boot2docker as well.
+
+- name: check for docker
+  shell: which docker
+  register: docker
+
+- name: docker should be installed ( https://docs.docker.com/installation/ )
+  assert: { that: "docker.stdout != ''" }
+
+- name: check for docker-compose
+  shell: which docker-compose
+  register: docker_compose
+
+- name: docker compose should be installed (https://docs.docker.com/compose/install/)
+  assert: { that: "docker_compose.stdout != ''" }
+
+- name: stop and remove previous image
+  command: docker-compose rm -f chdir={{ build_dir }}
+
+- name: build image
+  command: docker-compose build chdir={{ build_dir }}
+
+- name: run image
+  command: docker-compose up -d chdir={{ build_dir }}

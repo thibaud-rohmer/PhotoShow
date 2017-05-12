@@ -1,0 +1,34 @@
+---
+
+# Run locally
+- hosts: local
+
+  vars:
+
+    # Directory that will contain all files needed to build the docker container
+    # The directory name is used for the container name by docker-compose.
+    # (in this case it will result in the name "photoshow_web")
+    build_dir: "/tmp/ansible-build/photoshow/"
+
+    # Directory containing photos
+    local_photo_dir: "{{ project_dir }}/runenv/photos"
+
+  vars_prompt:
+    - name: "password"
+      prompt: "Enter password for PhotoShow admin user (will be written SHA1 encoded in accounts.xml)"
+      private: yes
+      confirm: yes
+
+  roles:
+    # Copy all relevant files to a directory
+    - build_directory
+
+    # Setup all configuration so that a docker container can be built
+    - configuration
+
+    # Create the initial admin user
+    # Comment out this step to use PhotoShow's built-in admin account creation page
+    - admin_user
+
+    # Run in a docker container
+    - container

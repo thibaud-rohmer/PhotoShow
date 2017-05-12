@@ -1,0 +1,14 @@
+<groups>
+    <group>
+        <name>root</name>
+        <rights/>
+    </group>
+    <group>
+        <name>uploaders</name>
+        <rights/>
+    </group>
+    <group>
+        <name>user</name>
+        <rights/>
+    </group>
+</groups>

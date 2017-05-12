@@ -56,12 +56,9 @@ Now, use your favorite web browser to go to your PhotoShow website. You should b
 
 ## Run with Docker
 
-Docker **must be installed and available** on you system !
+```
+cd ansible
+./run.sh
+```
 
-First, you need to copy the repository into whatever you like (here, toto)
-
-`git clone https://github.com/thibaud-rohmer/PhotoShow.git toto`
-
-Then build and run Photoshow Docker container:
-
-`cd toto/docker; ./runPhotoshow.sh`
+See ansible/README.md for details
