@@ -1,4 +1,0 @@
-Build and start Photoshow docker container.
-
-Run:
-$ sudo ./runPhotoshow.bash

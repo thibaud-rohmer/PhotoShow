@@ -49,8 +49,13 @@ fi
 docker stop ${dockerContainerName}
 sleep 5
 docker rm ${dockerContainerName}
-docker run --name ${dockerContainerName} -p $hostHttpPort:80 -p $hostSshPort:22 -d -i -t ${dockerImageName}
 
+if [ -n "$PHOTOSHOW_HOST_DIRECTORY" ]
+then
+    volumeMapping=' -v "${PHOTOSHOW_HOST_DIRECTORY}:/opt/PhotoShow"'
+fi
+
+eval docker run --name ${dockerContainerName} ${volumeMapping} -p $hostHttpPort:80 -p $hostSshPort:22 -d -i -t ${dockerImageName}
 if [ $# -eq 0 ]; then
     clear
     echo "PhotoShow is running ! To stop it run: sudo docker stop ${dockerContainerName}"
