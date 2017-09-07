@@ -24,10 +24,10 @@ The host directory must have the two following sub directories:
       Example: `sudo chmod -R +r /home/data/photoshow/Photos`.
  * `generated`
     * Where Photoshow will store its internal data.
-    * Folder and sub folders must be owned by `www-data` with permissions: `rwx`.<br/>
+    * Folder and sub folders must be owned by UID `33` which is user: `www-data` in container and owner permissions set to: `rwx`.<br/>
       Example:
 ```bash
-sudo chown -R www-data /home/data/photoshow/generated
+sudo chown -R 33 /home/data/photoshow/generated
 sudo chmod -R u+rwx /home/data/photoshow/generated
 ```
 
