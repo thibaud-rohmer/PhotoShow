@@ -181,6 +181,14 @@ class Judge
 		}
 	}
 
+	public static function searchAlbumImage($dir){
+		foreach(Menu::list_files($dir,false,true,true) as $f){
+			if(basename($f) == Settings::$album_coverfilename){
+				return $f;
+			}
+		}
+	}
+
 	/**
 	 * Check recursively if a file is viewable in a folder, and returns path to that file.
 	 */

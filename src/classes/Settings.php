@@ -146,6 +146,9 @@ class Settings extends Page
 	/// Size of the thumbs in pixels
 	static public $thumbs_size = 200;
 
+	//// Name of cover image
+	static public $album_coverfilename = ".cover.jpg";
+
 	/// Max-age of cache for images (and videos), including thumbnails
 	static public $cache_max_age = 1209600; // 14*24*60*60
 
@@ -293,6 +296,11 @@ class Settings extends Page
 			if(isset($admin_settings['thumbs_size'])){
 				Settings::$thumbs_size = 	$admin_settings['thumbs_size'] + 0;
 			}
+			
+			if(isset($admin_settings['album_coverfilename'])){
+                                Settings::$album_coverfilename =        $admin_settings['album_coverfilename'];
+                        }
+
 
 			if(isset($admin_settings['loc'])){
 				Settings::$loc = $admin_settings['loc'];
@@ -409,6 +417,7 @@ class Settings extends Page
 	    "ffmpeg_option",
 	    "user_theme",
 	    "thumbs_size",
+	    "album_coverfilename",
    	    "rss",
 	    "button_title"
 	    );
@@ -518,7 +527,17 @@ class Settings extends Page
 					<input type='text' name='thumbs_size' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
 				</div>\n";
 
+                /// Album Cover
+
+                echo "<div class='pure-control-group'>
+                        <label>".Settings::_("settings","album_coverfilename")."</label>
+			<input type='text' name='album_coverfilename' value=\"".htmlentities(Settings::$album_coverfilename, ENT_QUOTES ,'UTF-8')."\">
+                        </div>\n";
+
+
+
 		echo "<h2>".Settings::_("settings","s_networks")."</h2>";
+
 
 		/// Facebook Button
 		$c = (Settings::$like)?"checked":"";

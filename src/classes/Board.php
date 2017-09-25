@@ -177,6 +177,7 @@ class Board implements HTMLObject
 			if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
 				 continue;
 			$firstImg = Judge::searchDir($d);
+			$firstImg = Judge::searchAlbumImage($d);
 			if(!$firstImg){
 				if(CurrentUser::$admin){
 					$firstImg = NULL;
