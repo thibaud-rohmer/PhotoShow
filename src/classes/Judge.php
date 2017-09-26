@@ -419,6 +419,18 @@ class Judge
 		echo "<h3>".Settings::_("judge","infos")."</h3>";
 
 		echo $this->infos;
+		
+		echo "<form class='pure-form' action='?a=Cpy' method='post' onsubmit='return executeOnSubmit(`setAlbumCover`);'>
+					<input type='hidden' name='copy' value='copy'>
+					<input type='hidden' name='pathFrom' value='".File::a2r($this->file)."'>
+					<input type='hidden' name='pathTo' value='.cover.jpg'>
+
+					<div class='pure-g'>
+						<div class='pure-u-1-1 center'>
+							<input class='pure-button pure-button-primary' type='submit' value='Set as album cover'>
+						</div>
+					</div>
+				</form>";
 
 		echo "<h3>".Settings::_("judge","access")."</h3>";
 		if($this->public){
