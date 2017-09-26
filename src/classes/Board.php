@@ -176,18 +176,18 @@ class Board implements HTMLObject
 		foreach($this->dirs as $d){
 			if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
 				 continue;
-			$firstImg = Judge::searchDir($d);
-			$firstImg = Judge::searchAlbumImage($d);
-			if(!$firstImg){
+			
+			$albumCover = Judge::searchAlbumImage($d);
+			if(!$albumCover){
 				if(CurrentUser::$admin){
-					$firstImg = NULL;
+					$albumCover = NULL;
 				}else{
 					continue;
 				}
 			}
 
 
-			$item = new BoardDir($d,$firstImg);
+			$item = new BoardDir($d,$albumCover);
 			$this->boardfolders[] = $item;
 
 		}
