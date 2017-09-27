@@ -46,6 +46,9 @@ function executeOnSubmit(button)
 		case 'tokenDelete':
 			var res = confirm("Do you want to delete this guest token?")
 			break;
+		case 'setAlbumCover':
+			var res = confirm("Do you want to set this image as album cover ?")
+			break;
 	};
     if(res)
 		return true;
