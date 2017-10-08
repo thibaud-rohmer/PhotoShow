@@ -441,6 +441,9 @@ class Provider
         $if_modified_since = @$_SERVER['HTTP_IF_MODIFIED_SINCE'];
         $last_modified_time = filemtime($path);
         if (!empty($if_modified_since) && (strtotime($if_modified_since) == $last_modified_time)) {
+	    $expires = 240;
+	    header("Cache-Control: private; max-age=" . $expires);
+	    header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT', true, 304);
             exit();
         }
