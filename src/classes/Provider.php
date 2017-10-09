@@ -440,15 +440,19 @@ class Provider
     public static function HTTP_Cache($path) {
         $if_modified_since = @$_SERVER['HTTP_IF_MODIFIED_SINCE'];
         $last_modified_time = filemtime($path);
+        $expires = Settings::$cache_max_age;
+
+        header("Pragma: private");
+        header("Cache-Control: private; max-age=" . $expires);
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
+
         if (!empty($if_modified_since) && (strtotime($if_modified_since) == $last_modified_time)) {
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT', true, 304);
             exit();
         }
+
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT');
         //header("ETag: " . md5_file($file));
-        $expires = Settings::$cache_max_age;
-        header("Cache-Control: private; max-age=" . $expires);
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
     }
 
 	/**
