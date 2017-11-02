@@ -81,6 +81,9 @@ function init_image_panel(){
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
+		if(slideshow_status == 1){
+			clearInterval(timer);
+		}
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.next();
 

@@ -55,6 +55,18 @@ function isFullScreen() {
   return (doc.fullscreenElement || doc.mozFullScreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement);
 }
 
+function show_image(){	
+	slideshow_status = -1;
+	$(".image_panel").css("position","fixed");
+	$(".image_panel").css("z-index",5000);
+	$(".image_panel").animate({bottom:'0'},200);
+	hide_links();
+	
+	if(!isFullScreen()) {
+	  toggleFullScreen();
+	}
+}
+
 function start_slideshow(){	
 	slideshow_status = 1;
 	timer = setInterval('run_slideshow()',3000);
@@ -108,6 +120,12 @@ function init_slideshow_panel(){
 	$("#image_bar #play").hide();
 	$("#image_bar #stop").hide();
 
+	$("#img").unbind();
+	$("#img").click(function(){
+		show_image();
+		return false;
+	});
+
 	$("#slideshow").unbind();
 	$("#slideshow").click(function(){
 		start_slideshow();
@@ -149,7 +167,10 @@ function hide_links(){
 	$('#image_bar #get').hide();
 	$('#image_bar #slideshow').hide();
 	$('#image_bar #stop').show();
-	if(slideshow_status == 1){
+	if(slideshow_status == -1){
+		$('#image_bar #play').hide();
+		$('#image_bar #pause').hide();		
+	} else if(slideshow_status == 1){
 		$('#image_bar #pause').show();
 		$('#image_bar #play').hide();
 	}else{
