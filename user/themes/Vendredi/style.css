@@ -48,6 +48,10 @@ li.currentSelected > a:hover {
 .pure-g {
 	padding: 2%;
 }
+.pure-g .item {
+	margin: 3px;
+}
+
 .pure-button-primary, .pure-button-selected, a.pure-button-primary, a.pure-button-selected {
 	background-color: #ff0056;
 }

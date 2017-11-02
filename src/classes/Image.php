@@ -111,7 +111,7 @@ class Image implements HTMLObject
 		echo 		" background: black url(\"?t=".$this->t."&f=$this->fileweb\") no-repeat center center;";
 		echo 		" background-size: contain;";
 		echo 		" -moz-background-size: contain;";
-		echo 		" height:100%;";
+		echo 		" height:100%; display: none;";
 		echo 	"';>";
 
 		echo "<input type='hidden' id='imageurl' value='?t=Big&f=$this->fileweb'>";
