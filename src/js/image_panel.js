@@ -92,7 +92,7 @@ function init_image_panel(){
 		}
 
 		if(! new_select.length){
-			new_select = $(".linear_panel .item").last();
+			new_select = $(".linear_panel .item").first();
 		}
 		
 		new_url = new_select.children("a").attr("href");
@@ -137,7 +137,7 @@ function init_image_panel(){
 		}
 		
 		if(! new_select.length){
-			new_select = $(".linear_panel .item").first();
+			new_select = $(".linear_panel .item").last();
 		}
 		
 		new_url = new_select.children("a").attr("href")
