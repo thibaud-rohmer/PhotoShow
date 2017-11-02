@@ -170,6 +170,14 @@ function init_image_panel(){
 		}
 	});
 
+	// On scroll
+	$("#page").scroll(function(){
+		instance.update();
+	});
+	$(".linear_panel").scroll(function(){
+		instance.update();
+	});
+	
 	$(".linear_panel").scrollTo($(".linear_panel .selected")).scrollTo("-="+$(".linear_panel").width()/2);
 
 	init_comments();
@@ -196,6 +204,12 @@ function init_description(){
 	});
 }
 
-$("document").ready(function(){
+var instance;
+
+$("document").ready(function(){    
+	instance = $('.lazy').lazy({
+        chainable: false
+    });
+
 	init_image_panel();
 });
