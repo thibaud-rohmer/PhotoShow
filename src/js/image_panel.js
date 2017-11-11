@@ -47,7 +47,7 @@ function init_image_panel(){
 	$('#image_big').waitForImages().done(function() {
 	  $("#image_big").fadeIn('slow', function(){
 		if(slideshow_status == 1){
-			timer = setInterval('run_slideshow()',3000);
+			play_slideshow();
 		}
 	  });
 	});
@@ -92,9 +92,6 @@ function init_image_panel(){
 
 	// On clicking NEXT
 	$("#image_bar #next a").click(function(){
-		if(slideshow_status == 1){
-			clearInterval(timer);
-		}
 		var curr_select = $(".linear_panel .selected");
 		var new_select 	= curr_select.next();
 

@@ -29,11 +29,30 @@
  */
 
 var slideshow_status = 0;
-var timer = 0;
+var timer = {
+    id : 0,
 
-function run_slideshow(){
-	$("#next a").click();
-}
+    make : function ( fun, delay ) {
+		if ((typeof id  !== 'undefined') && (id > 0)) {
+			 clearInterval(id);
+		}
+		
+        id = setInterval.apply(
+            window,
+            [ fun, delay ].concat( [].slice.call(arguments, 2) )
+        );
+
+        return id;
+    },
+	
+    clear : function () {
+		if (typeof id  !== 'undefined') {
+			var old = id;
+			id = 0;
+			return clearInterval( old );
+		}
+    }
+};
 
 function toggleFullScreen() {
   var doc = window.document;
@@ -68,16 +87,20 @@ function show_image(){
 }
 
 function start_slideshow(){	
-	slideshow_status = 1;
-	timer = setInterval('run_slideshow()',3000);
 	$(".image_panel").css("position","fixed");
 	$(".image_panel").css("z-index",5000);
 	$(".image_panel").animate({bottom:'0'},200);
-	hide_links();
-
+	
 	if(!isFullScreen()) {
 	  toggleFullScreen();
 	}
+	
+	play_slideshow();
+}
+
+function run_slideshow(){
+	timer.clear();
+	$("#next a").click();
 }
 
 function play_pause_slideshow(){
@@ -89,30 +112,33 @@ function play_pause_slideshow(){
 }
 
 function play_slideshow(){
+	//timer = setInterval('run_slideshow()',3000);
+	timer.make('run_slideshow()',3000);
 	slideshow_status = 1;
-	timer = setInterval('run_slideshow()',3000);
-	$("#pause").show();
-	$("#play").hide();
+	
+	hide_links();
 }
 
 function pause_slideshow(){
+	timer.clear();
 	slideshow_status = 2;
-	clearInterval(timer);
-	$("#play").show();
-	$("#pause").hide();
+	
+	hide_links();
 }
 
 function stop_slideshow(){
+	timer.clear();
 	slideshow_status = 0;
-	clearInterval(timer);
+
 	$(".image_panel").animate({bottom:'150'},200);
 	$(".image_panel").css("position","absolute");
 	$(".image_panel").css("z-index",50);
-	show_links();
 	
 	if(isFullScreen()) {
 	  toggleFullScreen();
 	}	
+	
+	show_links();
 }
 
 function init_slideshow_panel(){
@@ -159,6 +185,8 @@ function show_links(){
 	$('#image_bar #pause').hide();
 	$('#image_bar #play').hide();
 	$('#image_bar #stop').hide();
+	$('#image_bar #prev').show();
+	$('#image_bar #next').show();
 }
 
 function hide_links(){
@@ -168,13 +196,22 @@ function hide_links(){
 	$('#image_bar #slideshow').hide();
 	$('#image_bar #stop').show();
 	if(slideshow_status == -1){
+		// show image full scren
 		$('#image_bar #play').hide();
-		$('#image_bar #pause').hide();		
+		$('#image_bar #pause').hide();
+		$('#image_bar #prev').show();
+		$('#image_bar #next').show();	
 	} else if(slideshow_status == 1){
+		// play slideshow
 		$('#image_bar #pause').show();
 		$('#image_bar #play').hide();
+		//$('#image_bar #prev').hide();
+		//$('#image_bar #next').hide();	
 	}else{
+		//pause slideshow
 		$('#image_bar #play').show();
 		$('#image_bar #pause').hide();
+		$('#image_bar #prev').show();
+		$('#image_bar #next').show();	
 	}	
 }
