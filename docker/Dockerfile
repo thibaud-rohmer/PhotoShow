@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:stretch-slim
 MAINTAINER CYOSP <cyosp@cyosp.com>
 
 RUN apt-get update
