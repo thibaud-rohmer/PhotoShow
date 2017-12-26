@@ -6,11 +6,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 	--no-install-recommends \
-	ca-certificates \
 	git-core \
 	vim \
-	openssh-server \
-	openssh-client \
 	less \
 	nginx \
 	php-fpm \
@@ -32,9 +29,6 @@ RUN mkdir -p /opt/PhotoShow/Photos
 RUN mkdir -p /opt/PhotoShow/generated
 RUN chown -R www-data:www-data /opt/PhotoShow/Photos /opt/PhotoShow/generated
 
-RUN mkdir -p /root/.ssh
-ADD photoshow.key.pub /root/.ssh/authorized_keys
-
 ADD fpm-photoshow.conf /etc/php/7.0/fpm/pool.d/photoshow.conf
 RUN sed -i -e 's/^.\+daemonize.\+$/daemonize = no/' /etc/php/7.0/fpm/php-fpm.conf
 
@@ -43,8 +37,8 @@ RUN rm -f /etc/nginx/sites-enabled/default
 RUN ln -s /etc/nginx/sites-available/photoshow /etc/nginx/sites-enabled/photoshow
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/run/sshd /var/run/php
+RUN mkdir -p /var/run/php
 
 VOLUME ["/opt/PhotoShow", "/var/log"]
-EXPOSE 80 22
+EXPOSE 80
 CMD /usr/bin/supervisord

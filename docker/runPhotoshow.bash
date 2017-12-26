@@ -26,7 +26,6 @@ dockerImageName='photoshow'
 dockerContainerName='photoshow-demo'
 dockerOpt=""
 hostHttpPort=8080
-hostSshPort=2222
 
 if [ $# -ne 0 ]; then
 	readParam $*
@@ -34,10 +33,6 @@ fi
 
 dockerDir=`dirname $0`
 pushd ${dockerDir}
-
-if [ ! -e photoshow.key ] || [ ! -e photoshow.key.pub ]; then
-	ssh-keygen -t rsa -b 4096 -P '' -f photoshow.key
-fi
 
 docker build ${dockerOpt} -t ${dockerImageName} .
 
@@ -55,12 +50,11 @@ then
     volumeMapping=' -v "${PHOTOSHOW_HOST_DIRECTORY}:/opt/PhotoShow"'
 fi
 
-eval docker run --name ${dockerContainerName} ${volumeMapping} -p $hostHttpPort:80 -p $hostSshPort:22 -d -i -t ${dockerImageName}
+eval docker run --name ${dockerContainerName} ${volumeMapping} -p $hostHttpPort:80 -d -i -t ${dockerImageName}
 if [ $# -eq 0 ]; then
     clear
     echo "PhotoShow is running ! To stop it run: sudo docker stop ${dockerContainerName}"
     echo "Connect to http://localhost:$hostHttpPort/"
-    echo "SSH: sudo ssh -i ${dockerDir}/photoshow.key -p $hostSshPort root@localhost"
 else
     echo 'PhotoShow fail to start'
 fi
