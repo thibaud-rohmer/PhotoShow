@@ -30,9 +30,8 @@ RUN chown -R www-data:www-data /opt/PhotoShow/Photos /opt/PhotoShow/generated
 ADD fpm-photoshow.conf /etc/php/7.0/fpm/pool.d/photoshow.conf
 RUN sed -i -e 's/^.\+daemonize.\+$/daemonize = no/' /etc/php/7.0/fpm/php-fpm.conf
 
-ADD photoshow.nginx /etc/nginx/sites-available/photoshow
 RUN rm -f /etc/nginx/sites-enabled/default
-RUN ln -s /etc/nginx/sites-available/photoshow /etc/nginx/sites-enabled/photoshow
+ADD nginx.conf /etc/nginx/conf.d/site.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/run/php
