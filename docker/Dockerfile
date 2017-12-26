@@ -7,8 +7,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 	--no-install-recommends \
 	git-core \
-	vim \
-	less \
 	nginx \
 	php-fpm \
 	php-gd \
@@ -41,4 +39,5 @@ RUN mkdir -p /var/run/php
 
 VOLUME ["/opt/PhotoShow", "/var/log"]
 EXPOSE 80
+
 CMD /usr/bin/supervisord
