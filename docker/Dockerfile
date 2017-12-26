@@ -20,7 +20,7 @@ RUN cd /var/www/PhotoShow && sed -i -e 's/$config->photos_dir.\+/$config->photos
 RUN cd /var/www/PhotoShow && sed -i -e 's/$config->ps_generated.\+/$config->ps_generated = "\/opt\/PhotoShow\/generated";/' config.php
 
 RUN sed -i -e 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
-ADD supervisor-photoshow.conf /etc/supervisor/conf.d/photoshow.conf
+ADD supervisor.conf /etc/supervisor/conf.d/photoshow.conf
 
 RUN mkdir -p /var/www/PhotoShow
 RUN mkdir -p /opt/PhotoShow/Photos
