@@ -16,15 +16,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq \
 	exiftran
 
 RUN git clone https://github.com/thibaud-rohmer/PhotoShow.git /var/www/PhotoShow
-RUN cd /var/www/PhotoShow && sed -i -e 's/$config->photos_dir.\+/$config->photos_dir = "\/opt\/PhotoShow\/Photos";/' config.php
-RUN cd /var/www/PhotoShow && sed -i -e 's/$config->ps_generated.\+/$config->ps_generated = "\/opt\/PhotoShow\/generated";/' config.php
-
+RUN sed -i -e 's/$config->photos_dir.\+/$config->photos_dir = "\/opt\/PhotoShow\/Photos";/' /var/www/PhotoShow/config.php
+RUN sed -i -e 's/$config->ps_generated.\+/$config->ps_generated = "\/opt\/PhotoShow\/generated";/' /var/www/PhotoShow/config.php
+    
 RUN sed -i -e 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
 ADD supervisor.conf /etc/supervisor/conf.d/photoshow.conf
 
-RUN mkdir -p /var/www/PhotoShow
-RUN mkdir -p /opt/PhotoShow/Photos
-RUN mkdir -p /opt/PhotoShow/generated
+RUN mkdir -p /opt/PhotoShow/Photos /opt/PhotoShow/generated
 RUN chown -R www-data:www-data /opt/PhotoShow/Photos /opt/PhotoShow/generated
 
 ADD fpm-photoshow.conf /etc/php/7.0/fpm/pool.d/photoshow.conf
