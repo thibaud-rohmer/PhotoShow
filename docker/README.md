@@ -1,20 +1,50 @@
-# Photoshow and Docker
+# PhotoShow and Docker
 
-## Build and Run
+To have PhotoShow running with Docker it's necessary to:
+ * Build the PhotoShow image which will be used to run a container
+ * Create a container based on image built
+ 
+More details about [Docker options](https://www.docker.com)
 
-Build and run Photoshow docker container running:
+## Build
+
+Build PhotoShow image with the following command:
 
 ```bash
-sudo ./runPhotoshow.bash
+sudo docker build -t photoshow .
 ```
 
-### Host directory mapping
+## Create and run a dedicated PhotoShow container
+
+When PhotoShow image has been built, the following command allows to create and run a dedicated Photoshow container named `photoshow_1`:
+
+```bash
+sudo docker run --name photoshow_1 -p 8080:80 -d -i -t photoshow
+```
+
+PhotoShow is now available on: http://localhost:8080/"
+
+### Stop container
+
+PhotoShow container can be stopped with:
+
+```bash
+docker stop photoshow_1
+```
+
+### Remove container
+
+PhotoShow container can be removed with:
+
+```bash
+docker rm photoshow_1
+```
+
+## Run container with host directory mapping
 
 It's also possible to run the container with a host directory mapping of `/opt/PhotoShow` container directory.
 
 This allows to store photos and Photoshow data outside docker.
-
-Thus it's necessary to export the `PHOTOSHOW_HOST_DIRECTORY` variable with the absolute host directory path.<br/>
 Host directory path example: `/home/data/photoshow`.
 
 The host directory must have the two following sub directories:
@@ -34,6 +64,9 @@ sudo chmod -R u+rwx /home/data/photoshow/generated
 Once host directory is configured run:
 
 ```bash
-export PHOTOSHOW_HOST_DIRECTORY="/home/data/photoshow"
-sudo -E ./runPhotoshow.bash
+sudo docker run --name photoshow_2 -v "/home/data/photoshow:/opt/PhotoShow" -p 8080:80 -d -i -t photoshow
 ```
+
+## Logs
+
+If you want access to logs, a volume can be map to container directory: `/var/log`
