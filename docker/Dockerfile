@@ -5,6 +5,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && apt-get upgrade -yq
 
 RUN DEBIAN_FRONTEND=noninteractive apt install -yq \
 	--no-install-recommends \
+	ca-certificates \
 	git-core \
 	nginx \
 	php-fpm \
