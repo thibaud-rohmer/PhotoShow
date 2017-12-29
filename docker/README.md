@@ -4,7 +4,7 @@ To have PhotoShow running with Docker it's necessary to:
  * Build the PhotoShow image which will be used to run a container
  * Create a container based on image built
  
-More details about [Docker options](https://www.docker.com)
+More details about [Docker command line](https://docs.docker.com/engine/reference/commandline/cli/)
 
 ## Build
 
@@ -16,17 +16,17 @@ sudo docker build -t photoshow .
 
 ## Create and run a dedicated PhotoShow container
 
-When PhotoShow image has been built, the following command allows to create and run a dedicated Photoshow container named `photoshow_1`:
+When PhotoShow image has been built, the following command allows to create and run a dedicated PhotoShow container named `photoshow_1`:
 
 ```bash
 sudo docker run --name photoshow_1 -p 8080:80 -d -i -t photoshow
 ```
 
-PhotoShow is now available on: http://localhost:8080/"
+PhotoShow is now available on: http://localhost:8080
 
 ### Stop container
 
-PhotoShow container can be stopped with:
+Previous PhotoShow container can be stopped with:
 
 ```bash
 docker stop photoshow_1
@@ -34,7 +34,7 @@ docker stop photoshow_1
 
 ### Remove container
 
-PhotoShow container can be removed with:
+Previous PhotoShow container can be removed with:
 
 ```bash
 docker rm photoshow_1
@@ -44,7 +44,7 @@ docker rm photoshow_1
 
 It's also possible to run the container with a host directory mapping of `/opt/PhotoShow` container directory.
 
-This allows to store photos and Photoshow data outside docker.
+This allows to store photos and PhotoShow data outside docker.
 Host directory path example: `/home/data/photoshow`.
 
 The host directory must have the two following sub directories:
