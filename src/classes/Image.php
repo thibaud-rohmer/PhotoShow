@@ -128,7 +128,7 @@ class Image implements HTMLObject
 					return;
 			}
 			if(Settings::$rotate_image){
-				exec(Settings::$exiftran_path."-ai ".escapeshellarg($file)." 2>&1", $output);
+				exec(Settings::$exiftran_path." -ai ".escapeshellarg($file)." 2>&1", $output);
 			}
 	}
 
