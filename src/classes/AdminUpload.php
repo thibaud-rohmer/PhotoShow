@@ -100,12 +100,12 @@
 				// Name on the website
 		        $name = $_FILES["images"]["name"][$key];
 
-				$info = pathinfo($name);
-				$base_name =  mb_basename($name,'.'.$info['extension']);
+  				$info = pathinfo($name);
+  				$base_name =  mb_basename($name,'.'.$info['extension']);
 
-				// Check filetype
-				if(!in_array(strtolower($info['extension']),$allowedExtensions)){
-					continue;
+  				// Check filetype
+  				if(!in_array(strtolower($info['extension']),$allowedExtensions)){
+  					continue;
 				}
 
 				// Rename until this name isn't taken
@@ -118,8 +118,8 @@
 				// Save the files
 		        if(move_uploaded_file($tmp_name, "$path/$name")){
 		    	//	$done .= "Successfully uploaded $name";
-				Video::FastEncodeVideo("$path/$name");
-        Image::AutoRotateImage("$path/$name");
+      				Video::FastEncodeVideo("$path/$name");
+              Image::AutoRotateImage("$path/$name");
 		        }
 
 		        /// Setup rights

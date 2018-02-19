@@ -128,8 +128,8 @@ class Image implements HTMLObject
 			if(!File::Type($file) || File::Type($file) != "Image"){
 					return;
 			}
-			if(Settings::rotate_image){
-				exec("`which exiftran ` -ai ".escapeshellarg($file)." 2>&1", $output);
+			if(Settings::$rotate_image){
+				exec(Setings::$exiftran_path."-ai ".escapeshellarg($file)." 2>&1", $output);
 			}
 	}
 
