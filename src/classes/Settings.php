@@ -420,6 +420,7 @@ class Settings extends Page
 	    "encode_video",
 	    "ffmpeg_path",
 	    "ffmpeg_option",
+			"rotate_image",
 			"exiftran_path",
 	    "user_theme",
 	    "thumbs_size",
