@@ -578,7 +578,6 @@ class Settings extends Page
 		echo "<label><input type='checkbox' name='rotate_image' $c> ".Settings::_("settings","rotate_image")."</label>\n";
 		echo "</div>";
 
-
 		/// ExifTran Path
 		echo "<div class='pure-control-group'>
 					<label>".Settings::_("settings","exiftran_path")."</label>
