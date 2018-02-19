@@ -116,11 +116,11 @@
 				}
 
 				// Save the files
-		        if(move_uploaded_file($tmp_name, "$path/$name")){
-		    	//	$done .= "Successfully uploaded $name";
-      				Video::FastEncodeVideo("$path/$name");
-              Image::AutoRotateImage("$path/$name");
-		        }
+        if(move_uploaded_file($tmp_name, "$path/$name")){
+    	//	$done .= "Successfully uploaded $name";
+  				Video::FastEncodeVideo("$path/$name");
+          Image::AutoRotateImage("$path/$name");
+        }
 
 		        /// Setup rights
 	 			if(!$already_set_rights && !isset($_POST['inherit'])){

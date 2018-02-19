@@ -118,10 +118,9 @@ class Image implements HTMLObject
 	}
 
 	/**
-	 * Compute the dimension of a video using ffmpeg
+	 * Rotate image with exiftran
 	 *
-	 * @return the dimension in a array of int
-	 * @author Franck Royer
+	 * @author Guglielmo Saggiorato
 	 */
 	public function AutoRotateImage($file){
 
@@ -129,7 +128,7 @@ class Image implements HTMLObject
 					return;
 			}
 			if(Settings::$rotate_image){
-				exec(Setings::$exiftran_path."-ai ".escapeshellarg($file)." 2>&1", $output);
+				exec(Settings::$exiftran_path."-ai ".escapeshellarg($file)." 2>&1", $output);
 			}
 	}
 
