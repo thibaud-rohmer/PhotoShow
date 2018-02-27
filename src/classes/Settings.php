@@ -291,7 +291,7 @@ class Settings extends Page
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
 			Settings::$nodescription	=	isset($admin_settings['nodescription']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
-			Settings::$overwriteonupload	=	isset($overwriteonupload['overwriteonupload']);
+			Settings::$overwriteonupload	=	isset($admin_settings['overwriteonupload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 			Settings::$rss	=	isset($admin_settings['rss']);
