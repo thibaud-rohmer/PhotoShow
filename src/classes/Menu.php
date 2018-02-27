@@ -166,6 +166,7 @@ class Menu implements HTMLObject
 			
 		/// Directory content
 		$dir_content = scandir($dir);
+		natsort($dir_content);
 
         if (empty($dir_content)){
             // Directory is empty or no right to read
