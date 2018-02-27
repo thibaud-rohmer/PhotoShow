@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class AdminUpload.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -46,13 +46,13 @@
 
  	/**
  	 * Upload files on the server
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public function upload(){
 
  		$allowedExtensions = array("tiff","jpg","jpeg","gif","png");
-		
+
 		/// Just to be really sure ffmpeg is enabled - necessary to generate thumbnail jpg and webm
 		if (Settings::$encode_video) {
 			array_push($allowedExtensions,"flv","mov","mpg","mp4","ogv","mts","3gp","webm");
@@ -60,14 +60,14 @@
 
 		$already_set_rights = false;
 
- 		/// Just to be really sure... 
+ 		/// Just to be really sure...
  		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 
  		/// Set upload path
  		$path = stripslashes(File::r2a($_POST['path']));
- 		
+
  		/// Create dir and update upload path if required
  		if(strlen(stripslashes($_POST['newdir']))>0 && !strpos(stripslashes($_POST['newdir']),'..')){
 
@@ -82,7 +82,7 @@
  				if(isset($_POST['public'])){
  					Judge::edit($path);
  				}else{
- 					Judge::edit($path,$_POST['users'],$_POST['groups']);					
+ 					Judge::edit($path,$_POST['users'],$_POST['groups']);
  				}
  			}
  			$already_set_rights = true;
@@ -96,18 +96,18 @@
 
 				// Name of the stored file
 		        $tmp_name = $_FILES["images"]["tmp_name"][$key];
-		
+
 				// Name on the website
 		        $name = $_FILES["images"]["name"][$key];
-				
-				$info = pathinfo($name);
-				$base_name =  mb_basename($name,'.'.$info['extension']);
-		
-				// Check filetype
-				if(!in_array(strtolower($info['extension']),$allowedExtensions)){
-					continue;
+
+  				$info = pathinfo($name);
+  				$base_name =  mb_basename($name,'.'.$info['extension']);
+
+  				// Check filetype
+  				if(!in_array(strtolower($info['extension']),$allowedExtensions)){
+  					continue;
 				}
-				
+
 				// Rename until this name isn't taken
 				$i=1;
 				while(file_exists("$path/$name")){
@@ -116,17 +116,18 @@
 				}
 
 				// Save the files
-		        if(move_uploaded_file($tmp_name, "$path/$name")){
-		    	//	$done .= "Successfully uploaded $name";
-				Video::FastEncodeVideo("$path/$name");
-		        }
+        if(move_uploaded_file($tmp_name, "$path/$name")){
+    	//	$done .= "Successfully uploaded $name";
+  				Video::FastEncodeVideo("$path/$name");
+          Image::AutoRotateImage("$path/$name");
+        }
 
 		        /// Setup rights
 	 			if(!$already_set_rights && !isset($_POST['inherit'])){
  					if(isset($_POST['public'])){
  						Judge::edit("$path/$name");
  					}else{
- 						Judge::edit("$path/$name",$_POST['users'],$_POST['groups']);					
+ 						Judge::edit("$path/$name",$_POST['users'],$_POST['groups']);
  					}
  				}
 			}

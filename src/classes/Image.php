@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class Image.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -47,38 +47,38 @@ class Image implements HTMLObject
 {
 	/// URLencoded version of the relative path to file
 	static public $fileweb;
-	
+
 	/// URLencoded version of the relative path to directory containing file
 	private $dir;
-	
+
 	/// Width of the image
 	private $x;
-	
+
 	/// Height of the image
 	private $y;
 
 	/// Force big image or not
 	private $t;
-	
-	
+
+
 	/**
 	 * Create image
 	 *
-	 * @param string $file 
+	 * @param string $file
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($file=NULL,$forcebig = false){
-		
+
 		/// Check file type
 		if(!isset($file) || !File::Type($file) || File::Type($file) != "Image")
 			return;
-		
+
 		/// Set relative path (url encoded)
 		$this->fileweb	=	urlencode(File::a2r($file));
-		
+
 		/// Set relative path to parent dir (url encoded)
 		$this->dir	=	urlencode(dirname(File::a2r($file)));
-		
+
 		/// Get image dimensions
 		list($this->x,$this->y)=getimagesize($file);
 
@@ -97,8 +97,42 @@ class Image implements HTMLObject
 			}
 		}
 	}
-	
-	
+
+	/**
+	 * Create Asynchrone Execution (compatibles Linux/Windows)
+	 *
+	 * @param string $file
+     * @return pid of the executed command (only linux)
+	 * @author C�dric Levasseur/Franck Royer
+	 */
+	public function ExecInBackground($cmd) {
+		error_log('DEBUG/Video: Background Execution : '.$cmd,0);
+        $pid = 0;
+		if (substr(php_uname(), 0, 7) == "Windows"){
+		   pclose(popen('start /b '.$cmd.' 2>&1', 'r'));
+		} else {
+		    exec($cmd . " > /dev/null 2>&1 & echo $!", $output);
+            $pid = intval($output[0]);
+		}
+        return $pid;
+	}
+
+	/**
+	 * Rotate image with exiftran
+	 *
+	 * @author Guglielmo Saggiorato
+	 */
+	public function AutoRotateImage($file){
+
+			if(!File::Type($file) || File::Type($file) != "Image"){
+					return;
+			}
+			if(Settings::$rotate_image){
+				exec(Settings::$exiftran_path." -ai ".escapeshellarg($file)." 2>&1", $output);
+			}
+	}
+
+
 	/**
 	 * Display the image on the website
 	 *
@@ -115,7 +149,7 @@ class Image implements HTMLObject
 		echo 	"';>";
 
 		echo "<input type='hidden' id='imageurl' value='?t=Big&f=$this->fileweb'>";
-		echo 	"<a href='?f=$this->dir'>"; 
+		echo 	"<a href='?f=$this->dir'>";
 		echo 	"<img src='inc/img.png' style='opacity:0;' alt=\"\">";
 		echo 	"</a>";
 		echo	"</div>";
