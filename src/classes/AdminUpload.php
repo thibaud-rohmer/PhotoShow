@@ -109,18 +109,20 @@
 				}
 
 				// Rename until this name isn't taken
-				$i=1;
-				while(file_exists("$path/$name")){
-					$name=$base_name."-".$i.".".$info['extension'];
-					$i++;
-				}
-
+        if (!Settings::$overwriteonupload){
+  				$i=1;
+  				while(file_exists("$path/$name")){
+  					$name=$base_name."-".$i.".".$info['extension'];
+  					$i++;
+  				}
+        }
 				// Save the files
         if(move_uploaded_file($tmp_name, "$path/$name")){
     	//	$done .= "Successfully uploaded $name";
   				Video::FastEncodeVideo("$path/$name");
           Image::AutoRotateImage("$path/$name");
         }
+
 
 		        /// Setup rights
 	 			if(!$already_set_rights && !isset($_POST['inherit'])){
