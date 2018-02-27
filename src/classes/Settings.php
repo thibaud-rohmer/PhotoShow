@@ -164,10 +164,10 @@ class Settings extends Page
 
 	/*** Image ***/
 
-	///Video encode enable/disable
+	/// Image rotate enable/disable
 	static public $rotate_image	=	true;
 
-	/// FFMPEg path (unix : /usr/bin/ffmpeg or win : c:\ffmpeg.exe)
+	/// ExifTran path 
 	static public $exiftran_path =	"/usr/bin/exiftran";
 
 	/**
