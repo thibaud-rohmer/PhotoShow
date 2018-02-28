@@ -111,14 +111,15 @@ class Account extends Page
 		//throw new Exception("Login $login not found");
 		return false;
 	}
-	
-	/**
-	 * Creates a new account in the base
-	 *
-	 * @param string $login 
-	 * @param string $password 
-	 * @author Thibaud Rohmer
-	 */ 
+
+    /**
+     * Creates a new account in the base
+     *
+     * @param string $login
+     * @param string $password
+     * @author Thibaud Rohmer
+     * @return bool
+     */
 	public static function create($login, $password, $verif, $groups=array(),$name='',$email=''){
 		
 		// Check if login already exists
@@ -162,7 +163,7 @@ class Account extends Page
 	 * Encrypt password
 	 *
 	 * @param string $password 
-	 * @return void
+	 * @return string
 	 * @author Thibaud Rohmer
 	 */
 	public static function password($password){
@@ -172,7 +173,7 @@ class Account extends Page
 	/**
 	 * Generate key
 	 *
-	 * @return void
+	 * @return string
 	 * @author Thibaud Rohmer
 	 */
 	private function key(){
@@ -265,24 +266,30 @@ class Account extends Page
 		$xml->asXML($xml_infos);
 	}
 
-	/**
-	 * Edit an account
-	 * 
-	 * @param string $login
-	 * @param string $old_password
-	 * @param string $password
-	 * @param string $name
-	 * @param string $email
-	 * @author Thibaud Rohmer
-	 */
+    /**
+     * Edit an account
+     *
+     * @param string $login
+     * @param string $old_password
+     * @param string $password
+     * @param string $name
+     * @param string $email
+     * @param array $groups
+     * @param string|null $language
+     * @throws Exception
+     * @author Thibaud Rohmer
+     */
 	public static function edit($login=NULL, $old_password=NULL, $password=NULL, $name=NULL, $email=NULL, $groups=array(), $language=NULL){
 		/// Only the admin can modify other accounts
 		if( !CurrentUser::$admin && $login != CurrentUser::$account->login ){
 			return;
 		}
 
-		if(isset($login) && (preg_match("/^[A-Z][a-zA-Z -]+$/", $login) === 0) ){
-			$acc = new Account($login);
+		if(isset($login)){
+            $acc = new Account($login);
+			if(!$acc){
+                throw new Exception("Error: user with username '$login' not found.");
+			}
 		}else{
 			$acc = CurrentUser::$account;
 		}
@@ -415,7 +422,7 @@ class Account extends Page
 	 * Returns the rights of an account
 	 *
 	 * @param string $login 
-	 * @return void
+	 * @return array
 	 * @author Thibaud Rohmer
 	 */
 	public static function rights($login){
