@@ -1,5 +1,6 @@
 FROM arm32v7/debian:stretch
-MAINTAINER CYOSP <cyosp@cyosp.com>
+MAINTAINER astyonax <astyonax@gmail.com>
+# raspbian Dockerfile inspired from CYOSP's debian Dockerfile
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -yq
