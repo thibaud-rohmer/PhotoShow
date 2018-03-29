@@ -1,0 +1,31 @@
+upstream php7-fpm-sock {
+    server unix:/var/run/php/php7.0-fpm.sock;
+}
+
+server {
+  listen   443 ssl;
+  ssl_certificate /etc/nginx/ssl/nginx.crt;
+  ssl_certificate_key /etc/nginx/ssl/nginx.key;
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+  
+  error_log /var/log/nginx/photoshow.log info;
+
+  location / {
+    alias /var/www/PhotoShow/;
+    index index.php;
+    client_max_body_size 0;   
+
+	  location ~* \.php$ {
+		#try_files $uri =404;
+		allow all;
+		include fastcgi_params;
+		fastcgi_index index.php;
+		fastcgi_pass php7-fpm-sock;
+		fastcgi_param SCRIPT_FILENAME /var/www/PhotoShow/$fastcgi_script_name;
+		fastcgi_param QUERY_STRING $query_string;
+		fastcgi_intercept_errors off;
+		client_max_body_size 0;   
+	  }
+  }
+}

@@ -102,6 +102,9 @@ class Settings extends Page
 	/// Remove download options
 	static public $nodownload	=	false;
 
+	/// Overwrite on upload
+	static public $overwriteonupload = false;
+
 	/// Max number of comments
 	static public $max_comments	=	50;
 
@@ -167,8 +170,10 @@ class Settings extends Page
 	/// Image rotate enable/disable
 	static public $rotate_image	=	true;
 
-	/// ExifTran path 
+	/// ExifTran path
 	static public $exiftran_path =	"/usr/bin/exiftran";
+
+
 
 	/**
 	 * Create Settings page
@@ -286,11 +291,11 @@ class Settings extends Page
 			Settings::$nocomments	=	isset($admin_settings['nocomments']);
 			Settings::$nodescription	=	isset($admin_settings['nodescription']);
 			Settings::$nodownload	=	isset($admin_settings['nodownload']);
+			Settings::$overwriteonupload	=	isset($admin_settings['overwriteonupload']);
 			Settings::$l33t 		=	isset($admin_settings['l33t']);
 			Settings::$reverse_menu	=	isset($admin_settings['reverse_menu']);
 			Settings::$rss	=	isset($admin_settings['rss']);
 			Settings::$button_title	=	isset($admin_settings['button_title']);
-
 
 
 			if(isset($admin_settings['max_comments'])){
@@ -414,6 +419,7 @@ class Settings extends Page
             "nocomments",
             "nodescription",
             "nodownload",
+						"overwriteonupload",
             "loc",
             "l33t",
             "reverse_menu",
@@ -514,7 +520,7 @@ class Settings extends Page
 		echo "</div>";
 
 		echo "<h2>".Settings::_("settings","options")."</h2>";
-		$options = array("noregister","forcehttps","nocomments","nodescription","nodownload","reverse_menu","l33t","rss","button_title");
+		$options = array("noregister","forcehttps","nocomments","nodescription","nodownload","overwriteonupload","reverse_menu","l33t","rss","button_title");
 		foreach($options as $val){
 			$c = (Settings::$$val)?"checked":"";
 				echo "<div class='pure-controls'><label><input type='checkbox' name='$val' $c> ".Settings::_("settings",$val)."</label></div>\n";
