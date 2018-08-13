@@ -4,6 +4,7 @@ MAINTAINER CYOSP <cyosp@cyosp.com>
 RUN DEBIAN_FRONTEND=noninteractive apt update && apt upgrade -yq && apt install -yq \
 	--no-install-recommends \
 	ca-certificates \
+	zip \
 	git \
 	nginx \
 	php-fpm \
