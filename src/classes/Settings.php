@@ -66,6 +66,9 @@ class Settings extends Page
 	/// Quality of mini thumbnails in overview, scala: 0-100
 	static public $quality_mini = 90;
 
+    /// The user can enable this to allow symlinks in his photos_dir to point to files outside his photos_dir
+    static public $allow_symlinks_outside_photos_dir = false;
+
 
 	/**** Admin Settings ****/
 
@@ -214,6 +217,10 @@ class Settings extends Page
 		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
 		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
+
+        if (isset($config->allow_symlinks_outside_photos_dir)) {
+            Settings::$allow_symlinks_outside_photos_dir = (bool) $config->allow_symlinks_outside_photos_dir;
+        }
 
         if (isset($config->cache_max_age)) {
             Settings::$cache_max_age = (int) $config->cache_max_age;

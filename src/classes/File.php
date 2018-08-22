@@ -179,6 +179,10 @@ class File
 		
 		if($rf==$rd) return "";
 
+		if(Settings::$allow_symlinks_outside_photos_dir && substr($rf,0,strlen($rd)) != $rd && is_file($rf) ){
+            return substr($file,strlen($dir) + 1 );
+        }
+
 		if( substr($rf,0,strlen($rd)) != $rd ){
 			throw new Exception("This file is not inside the photos folder !<br/>");
 		}
