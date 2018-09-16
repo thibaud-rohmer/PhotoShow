@@ -39,6 +39,7 @@ $config->ps_generated   = "/data/generated/";
 
 // Local timezone. Default one is "Europe/Paris".
 #$config->timezone = "Europe/Paris";
+setlocale(LC_TIME, 'fr_FR.utf8','fra');
 
 // If you want to inject a tracking code (or anything really) in your pages <head>, use this to refer to a file containing that:
 #$config->tracking_code_include = '/path/to/something.html';
