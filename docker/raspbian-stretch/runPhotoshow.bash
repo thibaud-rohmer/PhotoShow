@@ -39,6 +39,10 @@ if [ ! -e photoshow.key ] || [ ! -e photoshow.key.pub ]; then
 	ssh-keygen -t rsa -b 4096 -P '' -f photoshow.key
 fi
 
+if [ ! -e nginx.crt ] || [ ! -e nginx.key ]; then
+        sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt
+fi
+
 docker build ${dockerOpt} -t ${dockerImageName} .
 
 if [ $? -ne 0 ]; then
@@ -53,13 +57,14 @@ docker rm ${dockerContainerName}
 if [ -n "$PHOTOSHOW_HOST_DIRECTORY" ]
 then
     volumeMapping=' -v "${PHOTOSHOW_HOST_DIRECTORY}:/opt/PhotoShow"'
+    echo ${volumeMapping}
 fi
 
-eval docker run --name ${dockerContainerName} ${volumeMapping} -p $hostHttpPort:80 -p $hostSshPort:22 -d -i -t ${dockerImageName}
+eval docker run --name ${dockerContainerName} ${volumeMapping} -p $hostHttpPort:443 -p $hostSshPort:22 -d -i -t ${dockerImageName}
 if [ $# -eq 0 ]; then
     clear
     echo "PhotoShow is running ! To stop it run: sudo docker stop ${dockerContainerName}"
-    echo "Connect to http://localhost:$hostHttpPort/"
+    echo "Connect to https://localhost:$hostHttpPort/"
     echo "SSH: sudo ssh -i ${dockerDir}/photoshow.key -p $hostSshPort root@localhost"
 else
     echo 'PhotoShow fail to start'

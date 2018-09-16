@@ -470,8 +470,10 @@ class Provider
 		}	
 
 
-                // Get the relative path of the files
+		$dir = str_replace('//', '/', $dir);
+        // Get the relative path of the files
 		$delimPosition = strrpos($dir, '/');
+
 		if (strlen($dir) == $delimPosition) {
 		        echo "Error: Directory has a slash at the end";
 		        return;
@@ -483,17 +485,19 @@ class Provider
 
 		foreach($items as $item){
 			if(Judge::view($item)){
-                                // Use only the relative path of the filename
+                // Use only the relative path of the filename
 				$item = str_replace('//', '/', $item);
 				$itemsString.=" \"".str_replace( '"' , '\"' , substr( $item , $delimPosition + 1 ) )."\"";
+				
 			}
 		}
 
+		error_log($itemsString);
 		// Close and send to user
 		header('Content-Type: application/zip');
 		header("Content-Disposition: attachment; filename=\"".mb_basename($dir).".zip\"");
 
-                // Store the current working directory and change to the albums directory
+        // Store the current working directory and change to the albums directory
 		$cwd = getcwd();
 		chdir(substr($dir,0,$delimPosition));
 

@@ -19,9 +19,10 @@ Host directory path example: `/home/data/photoshow`.
 
 The host directory must have the two following sub directories:
  * `Photos`
-    * Where photos will be read by Photoshow.
+    * Where photos will be read and written by Photoshow.
     * Folder and sub folders must have read permission set for everyone.<br/>
-      Example: `sudo chmod -R +r /home/data/photoshow/Photos`.
+      Example: `sudo chmod -R +r /home/data/photoshow/Photos` + `sudo chown -R 33 /home/data/photoshow/Phots/` 
+      
  * `generated`
     * Where Photoshow will store its internal data.
     * Folder and sub folders must be owned by UID `33` which is user: `www-data` in container and owner permissions set to: `rwx`.<br/>

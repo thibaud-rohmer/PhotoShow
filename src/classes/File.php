@@ -56,6 +56,9 @@ class File
 	/// File type
 	public $type;
 	
+	/// File date
+	public $filedate;
+	
 	/**
 	 * Check that file exists, and parse its infos (extension,name,type)
 	 *
@@ -74,6 +77,7 @@ class File
 		$this->name			=	self::Name($path);	
 		$this->type			=	self::Type($path);
 		$this->root			=	self::Root();		
+		$this->filedate		=	self::FileDate($path);		
 	}
 	
 	/**
@@ -159,6 +163,15 @@ class File
 		}
 		return 0;
 
+	}
+	
+	
+	public static function FileDate($file){
+		if (!in_array("exif", get_loaded_extensions())) {
+			return 'exif error';
+		}else{
+			return 	@exif_read_data($file)['DateTimeOriginal'];		
+		}
 	}
 	
 	/**

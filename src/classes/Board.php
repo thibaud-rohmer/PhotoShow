@@ -162,7 +162,7 @@ class Board implements HTMLObject
 				continue;
 			}
 
-			$this->boarditems[] = new BoardItem($file);
+			$this->boarditems[] = new BoardItem($file,0,File::FileDate($file));
 		}
 	}
 
@@ -227,10 +227,32 @@ class Board implements HTMLObject
 		$this->grid("Image");
 		if(sizeof($this->boarditems)>0){
 			echo "<div class='section sectionimg'>";
-			echo "<h2>".Settings::_("board","images")."</h2>";
+			
+			$years = [];
+			foreach($this->boarditems as $item){
+				$year = substr($item->datefile,0,4);
+				if(!in_array($year,$years) and $year != '') $years[]=$year;
+			}	
+			//echo "<p>".print_r($years)."</p>";
+			
+			
+			foreach($years as $year){
+				echo "<h2>$year</h2>";
+				echo "<div class='pure-g line'>";
+					foreach($this->boarditems as $item){
+						if( $year == substr($item->datefile,0,4)){
+							$item->toHTML();	
+						}
+					}
+				echo "</div>";
+			}
+			
+			
+			echo "<h2>".Settings::_("board","images")." sans dates exif</h2>";
 			echo "<div class='pure-g line'>";
 			foreach($this->boarditems as $item){
-				$item->toHTML();
+				if (substr($item->datefile,0,4) == '')
+					$item->toHTML();
 			}
 			echo "</div>";
 			echo "</div>";
