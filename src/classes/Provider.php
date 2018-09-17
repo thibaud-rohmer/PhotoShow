@@ -492,7 +492,6 @@ class Provider
 			}
 		}
 
-		error_log($itemsString);
 		// Close and send to user
 		header('Content-Type: application/zip');
 		header("Content-Disposition: attachment; filename=\"".mb_basename($dir).".zip\"");
