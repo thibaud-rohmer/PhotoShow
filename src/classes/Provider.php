@@ -233,7 +233,7 @@ class Provider
             $thumb->q = Settings::$quality_mini;
 
             if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
-                $thumb->ra = 360 - Provider::get_orientation_degrees($file);
+                $thumb->ra = Provider::get_orientation_degrees($file);
             }
 
             $thumb->GenerateThumbnail();
@@ -281,7 +281,7 @@ class Provider
             $thumb->q = Settings::$quality_small;
 
             if (File::Type($file) == 'Image' && Provider::get_orientation_degrees($file) != 0) {
-                $thumb->ra = 360 - Provider::get_orientation_degrees($file);
+                $thumb->ra = Provider::get_orientation_degrees($file);
             }
 
             $thumb->GenerateThumbnail();
