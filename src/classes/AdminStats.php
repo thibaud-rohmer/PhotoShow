@@ -72,7 +72,7 @@
 
  		$this->stats['Items'] = sizeof(Menu::list_files(Settings::$photos_dir,true));
 
- 		$this->stats['Generated items'] = sizeof(Menu::list_files(Settings::$thumbs_dir,true));
+ 		$this->stats['Generated items'] = sizeof(Menu::list_files(Settings::$thumbs_dir,true)) + sizeof(Menu::list_files(Settings::$small_dir,true));
 
  		$this->stats['Albums'] = sizeof(Menu::list_dirs(Settings::$photos_dir,true));
 
