@@ -1,9 +1,5 @@
 # PhotoShow 3.0
 
-## Website
-
-[PhotoShow-Gallery](http://www.photoshow-gallery.com)
-
 ## Overview
 
 **PhotoShow**, *your* web gallery. **PhotoShow** is a *free* and *open source* web gallery, that you can very easily install on your web server. It doesn't even require a database !
