@@ -31,11 +31,11 @@
 
 // Folder where your pictures are stored.
 // Must be at least readable by web server process
-$config->photos_dir   = "/Pictures";
+$config->photos_dir   = "path_to_your_photos_dir_goes_here";
 
 // Folder where PhotoShow parameters and thumbnails are stored.
 // Must be writable by web server process
-$config->ps_generated   = "/Thumbs";
+$config->ps_generated   = "path_where_photoshow_generates_files_goes_here";
 
 // Local timezone. Default one is "Europe/Paris".
 #$config->timezone = "Europe/Paris";
