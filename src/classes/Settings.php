@@ -341,7 +341,7 @@ class Settings extends Page
 			/*** Image ***/
 			Settings::$rotate_image	=	isset($admin_settings['rotate_image']);
 			if(isset($admin_settings['exiftran_path'])){
-				Settings::$ffmpeg_path	=	$admin_settings['exiftran_path'];
+				Settings::$exiftran_path	=	$admin_settings['exiftran_path'];
 			}
 		}
 
