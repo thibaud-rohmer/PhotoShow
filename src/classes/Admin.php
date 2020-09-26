@@ -154,6 +154,11 @@
 		 		case "Acc"		:	if(isset($_POST['edit'])){
 										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email'],NULL,$_POST['language']);
 									}
+									if(isset($_POST['delete'])){
+										if (CurrentUser::$account != $_POST['login']){
+											Account::delete($_POST['login']);
+										}
+									}
 									if(isset($_POST['login'])){
 										$this->page = new Account($_POST['login']);
 									}else{

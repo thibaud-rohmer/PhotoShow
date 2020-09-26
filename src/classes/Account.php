@@ -544,6 +544,13 @@ class Account extends Page
 			</div>";
 
 	 	echo "</form>\n";
+	 	echo "<form class='niceform pure-form pure-form-aligned' method='post' action='#'>\n";
+	 	echo "<div class='pure-controls'>
+	 	        <input type='hidden' name='login' value=\"".htmlentities($this->login, ENT_QUOTES ,'UTF-8')."\">
+	 			<input type='hidden' name='delete' value='plop' />
+	 			<input type='submit' class='pure-button button-error' value='Delete account'/>
+	 		  </div>";
+	 	echo "</form>\n";
 	 	echo "</div>\n";
 	 }
 
