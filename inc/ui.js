@@ -11,4 +11,6 @@
 		$(this).parent().children(".button-hidden").toggleClass("hidden");
 	});
 
-
+	$('#menu').animate({
+	      scrollTop: ($('li.menu_title ul.selected').offset().top-$(window).height()/2)
+	    }, 500);
