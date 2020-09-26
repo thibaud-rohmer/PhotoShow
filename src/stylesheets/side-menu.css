@@ -19,24 +19,34 @@ This is the parent `<div>` that contains the menu and the content area.
 #layout {
     position: relative;
     padding-left: 0;
+    margin-left:300px;
 }
     #layout.active {
         position: relative;
-        left: 240px;
+        left: 0px;
+        margin-left:0px;
     }
         #layout.active #menu {
-            left: 240px;
-            width: 240px;
+            left: 0px;
+            width: 0px;
         }
 
         #layout.active .menu-link {
-            left: 240px;
+            left: 0px;
+        }
+        
+        #layout.active #page {
+            left: 0px;
         }
 
-    #layout.active #image-panel{
-        left:240px;
-    }
+        #layout.active div.panel > .header  {
+            left: 0px;
+        }        
 
+    #layout.active #image-panel{
+        left:00px;
+    }
+    
 #menuright {
     margin-right: -240px; /* "#menu" width */
     width: 240px;
@@ -73,8 +83,8 @@ This is the parent `<div>` that contains the menu and the content area.
 
 #menu {
     border-right: 1px solid #e0e0e0;
-    margin-left: -241px; /* "#menu" width */
-    width: 240px;
+    margin-left: -301px; /* "#menu" width */
+    width: 300px;
     position: fixed;
     top: 0;
     left: 0;
@@ -181,33 +191,34 @@ This is the parent `<div>` that contains the menu and the content area.
     }
 
     #layout {
-        padding-left: 240px; /* left col width "#menu" */
+        padding-left: 0px; /* left col width "#menu" */
         left: 0;
     }
 
     #menu {
-        left: 241px;
+        left: 301px;
     }
 
     .menu-link {
         position: fixed;
-        left: 240px;
-        display: none;
+        left: 300px;
+        /*display: none;*/
     }
 
     #layout.active .menu-link {
-        left: 240px;
+        left: 0px;
     }
 
     #page{
-        left:240px;
+        left:300px;
     }
 
     .item a{
-    opacity:.7;
+        opacity:.7;
     }
-
-    .panel > .header{
-        left: 240px !important;
+    
+    div.panel > .header 
+    { 
+        left: 300px;
     }
 }
