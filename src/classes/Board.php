@@ -247,12 +247,16 @@ class Board implements HTMLObject
 				echo "</div>";
 			}
 			
-			
-			echo "<h2>".Settings::_("board","images")." sans dates exif</h2>";
-			echo "<div class='pure-g line'>";
+			$hideexif = false;
 			foreach($this->boarditems as $item){
-				if (substr($item->datefile,0,4) == '')
+				if (substr($item->datefile,0,4) == ''){
+				        if($hideexif == false) {
+        	                                echo "<h2>".Settings::_("board","images")." sans dates exif</h2>";
+	                                        echo "<div class='pure-g line'>";
+                                        	$hideexif = true;
+                                	}
 					$item->toHTML();
+				}
 			}
 			echo "</div>";
 			echo "</div>";

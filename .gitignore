@@ -1,2 +1,5 @@
+.gitignore
 config.php
 *~
+.c9
+path_where_photoshow_generates_files_goes_here
