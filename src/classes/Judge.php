@@ -181,6 +181,14 @@ class Judge
 		}
 	}
 
+	public static function searchAlbumImage($dir){
+		foreach(Menu::list_files($dir,false,true,true) as $f){
+			if(basename($f) == Settings::$album_coverfilename){
+				return $f;
+			}
+		}
+	}
+
 	/**
 	 * Check recursively if a file is viewable in a folder, and returns path to that file.
 	 */
@@ -411,6 +419,18 @@ class Judge
 		echo "<h3>".Settings::_("judge","infos")."</h3>";
 
 		echo $this->infos;
+		
+		echo "<form class='pure-form' action='?a=Cpy' method='post' onsubmit='return executeOnSubmit(`setAlbumCover`);'>
+					<input type='hidden' name='copy' value='copy'>
+					<input type='hidden' name='pathFrom' value='".File::a2r($this->file)."'>
+					<input type='hidden' name='pathTo' value='".settings::$album_coverfilename."'>
+
+					<div class='pure-g'>
+						<div class='pure-u-1-1 center'>
+							<input class='pure-button pure-button-primary' type='submit' value='".settings::_("adminpanel","cover")."'>
+						</div>
+					</div>
+				</form>";
 
 		echo "<h3>".Settings::_("judge","access")."</h3>";
 		if($this->public){
