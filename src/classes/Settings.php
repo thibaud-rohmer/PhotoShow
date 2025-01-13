@@ -51,6 +51,9 @@ class Settings extends Page
 	/// Directory where the thumbs are stored
 	static public $thumbs_dir;
 
+	/// Directory where the small images are stored
+	static public $small_dir;
+
 	/// Directory where the configuration files are stored
 	static public $conf_dir;
 
@@ -212,6 +215,7 @@ class Settings extends Page
 		/// Setup variables
 		Settings::$photos_dir	=	$config->photos_dir;
 		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
+		Settings::$small_dir    =   $config->ps_generated."/Small/";
 		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
 
@@ -252,6 +256,12 @@ class Settings extends Page
 		if(!file_exists(Settings::$thumbs_dir)){
 			if(! @mkdir(Settings::$thumbs_dir,0750,true)){
 				throw new Exception("PS_GENERATED dir '".Settings::$thumbs_dir."' doesn't exist or doesn't have the good rights.");
+			}
+		}
+
+		if(!file_exists(Settings::$small_dir)){
+			if(! @mkdir(Settings::$small_dir,0750,true)){
+				throw new Exception("PS_GENERATED dir '".Settings::$small_dir."' doesn't exist or doesn't have the good rights.");
 			}
 		}
 

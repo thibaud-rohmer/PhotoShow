@@ -256,16 +256,12 @@ class Provider
     {
         require_once dirname(__FILE__).'/../phpthumb/phpthumb.class.php';
 
-        $basefile = new File($file);
-        $basepath = File::a2r($file);
-        $webimg = dirname($basepath) . "/" . $basefile->name . "_small." . $basefile->extension;
-
         list($x,$y) = getimagesize($file);
         if($x <= 1200 && $y <= 1200){
             return $file;
         }
 
-        $path = File::r2a($webimg, Settings::$thumbs_dir);
+        $path = File::r2a(File::a2r($file),Settings::$small_dir);
 
         /// Create smaller image
         if (!file_exists($path) || filectime($file) > filectime($path)) {
