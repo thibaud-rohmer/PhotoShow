@@ -43,6 +43,14 @@ function init_image_panel(){
 		url = url.slice(url.indexOf('f='));
 		$('.linear_panel a[href$="' + url + '"]').parent().addClass("selected");
 	}
+	
+	$('#image_big').waitForImages().done(function() {
+	  $("#image_big").fadeIn('slow', function(){
+		if(slideshow_status == 1){
+			play_slideshow();
+		}
+	  });
+	});
 
 	// On clicking the bigimage
 	$("#bigimage a, #image_bar #back").click(function(){
@@ -68,9 +76,12 @@ function init_image_panel(){
 		$(".linear_panel .selected").removeClass("selected");
 		$(this).parent().addClass("selected");
 		update_url($(this).attr("href"),"Image");
-
-		$(".image_panel").load($(this).attr("href")+"&j=Pan",function(){
-			init_image_panel();
+		
+		var elem = $(this);		
+		$("#image_big").fadeOut('normal', function(){
+		  $(".image_panel").load(elem.attr("href")+"&j=Pan",function(){
+  			init_image_panel();
+		  });
 		});
 
 		// Load infos
@@ -89,12 +100,14 @@ function init_image_panel(){
 		}
 
 		if(! new_select.length){
-			new_select = $(".linear_panel .item").last();
+			new_select = $(".linear_panel .item").first();
 		}
 		
 		new_url = new_select.children("a").attr("href");
 		
-		$(".image_panel").load(new_url + "&j=Pan",function(){
+		var elem = $(this);		
+		$("#image_big").fadeOut('normal', function(){
+		  $(".image_panel").load(new_url + "&j=Pan",function(){
 			update_url(new_url,"Image");
 			
 			curr_select.removeClass("selected");
@@ -105,6 +118,7 @@ function init_image_panel(){
 			if(slideshow_status != 0){
 				hide_links();
 			}
+		  });
 		});
 		 
 		// Load infos
@@ -134,12 +148,14 @@ function init_image_panel(){
 		}
 		
 		if(! new_select.length){
-			new_select = $(".linear_panel .item").first();
+			new_select = $(".linear_panel .item").last();
 		}
 		
 		new_url = new_select.children("a").attr("href")
 		
-		$(".image_panel").load(new_url+"&j=Pan",function(){
+		var elem = $(this);		
+		$("#image_big").fadeOut('normal', function(){
+ 		  $(".image_panel").load(new_url+"&j=Pan",function(){
 
 			update_url(new_url,"Image");
 
@@ -151,6 +167,7 @@ function init_image_panel(){
 			if(slideshow_status != 0){
 				hide_links();
 			}
+		  });
 		});
 
 		// Load infos
@@ -167,6 +184,14 @@ function init_image_panel(){
 		}
 	});
 
+	// On scroll
+	$("#page").scroll(function(){
+		instance.update();
+	});
+	$(".linear_panel").scroll(function(){
+		instance.update();
+	});
+	
 	$(".linear_panel").scrollTo($(".linear_panel .selected")).scrollTo("-="+$(".linear_panel").width()/2);
 
 	init_comments();
@@ -193,6 +218,12 @@ function init_description(){
 	});
 }
 
-$("document").ready(function(){
+var instance;
+
+$("document").ready(function(){    
+	instance = $('.lazy').lazy({
+        chainable: false
+    });
+
 	init_image_panel();
 });
