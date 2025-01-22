@@ -66,6 +66,9 @@ class Settings extends Page
 	/// Quality of mini thumbnails in overview, scala: 0-100
 	static public $quality_mini = 90;
 
+    /// The user can enable this to allow symlinks in his photos_dir to point to files outside his photos_dir
+    static public $allow_symlinks_outside_photos_dir = false;
+
 
 	/**** Admin Settings ****/
 
@@ -149,6 +152,9 @@ class Settings extends Page
 	/// Size of the thumbs in pixels
 	static public $thumbs_size = 200;
 
+	//// Name of cover image
+	static public $album_coverfilename = ".cover.jpg";
+
 	/// Max-age of cache for images (and videos), including thumbnails
 	static public $cache_max_age = 1209600; // 14*24*60*60
 
@@ -214,6 +220,10 @@ class Settings extends Page
 		Settings::$thumbs_dir	=	$config->ps_generated."/Thumbs/";
 		Settings::$conf_dir		=	$config->ps_generated."/Conf/";
 		Settings::$admin_settings_file = $config->ps_generated."/Conf/admin_settings.ini";
+
+        if (isset($config->allow_symlinks_outside_photos_dir)) {
+            Settings::$allow_symlinks_outside_photos_dir = (bool) $config->allow_symlinks_outside_photos_dir;
+        }
 
         if (isset($config->cache_max_age)) {
             Settings::$cache_max_age = (int) $config->cache_max_age;
@@ -305,6 +315,11 @@ class Settings extends Page
 			if(isset($admin_settings['thumbs_size'])){
 				Settings::$thumbs_size = 	$admin_settings['thumbs_size'] + 0;
 			}
+			
+			if(isset($admin_settings['album_coverfilename'])){
+                                Settings::$album_coverfilename =        $admin_settings['album_coverfilename'];
+                        }
+
 
 			if(isset($admin_settings['loc'])){
 				Settings::$loc = $admin_settings['loc'];
@@ -326,7 +341,7 @@ class Settings extends Page
 			/*** Image ***/
 			Settings::$rotate_image	=	isset($admin_settings['rotate_image']);
 			if(isset($admin_settings['exiftran_path'])){
-				Settings::$ffmpeg_path	=	$admin_settings['exiftran_path'];
+				Settings::$exiftran_path	=	$admin_settings['exiftran_path'];
 			}
 		}
 
@@ -430,6 +445,7 @@ class Settings extends Page
 			"exiftran_path",
 	    "user_theme",
 	    "thumbs_size",
+	    "album_coverfilename",
    	    "rss",
 	    "button_title"
 	    );
@@ -539,7 +555,17 @@ class Settings extends Page
 					<input type='text' name='thumbs_size' value=\"".htmlentities(Settings::$thumbs_size, ENT_QUOTES ,'UTF-8')."\">
 				</div>\n";
 
+                /// Album Cover
+
+                echo "<div class='pure-control-group'>
+                        <label>".Settings::_("settings","album_coverfilename")."</label>
+			<input type='text' name='album_coverfilename' value=\"".htmlentities(Settings::$album_coverfilename, ENT_QUOTES ,'UTF-8')."\">
+                        </div>\n";
+
+
+
 		echo "<h2>".Settings::_("settings","s_networks")."</h2>";
+
 
 		/// Facebook Button
 		$c = (Settings::$like)?"checked":"";

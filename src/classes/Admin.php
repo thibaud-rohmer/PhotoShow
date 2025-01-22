@@ -107,6 +107,27 @@
 		 								Admin::delete();
 		 							}
 									break;
+									
+				case "Cpy"		:	if(isset($_POST['pathFrom'])){
+										try{
+	 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
+										}catch(Exception $e){
+											CurrentUser::$path = Settings::$photos_dir;
+										}
+									}
+	 								Admin::copyFile();
+	 								
+	 								if(isset($_POST['copy']) && $_POST['copy']=="copy"){
+										try{
+											if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
+	 											CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+	 										}
+										}catch(Exception $e){
+											CurrentUser::$path = Settings::$photos_dir;
+										}
+									}
+		 							
+									break;
 	 		}
 	 	}
 
@@ -132,6 +153,11 @@
 
 		 		case "Acc"		:	if(isset($_POST['edit'])){
 										Account::edit($_POST['login'],$_POST['old_password'],$_POST['password'],$_POST['name'],$_POST['email'],NULL,$_POST['language']);
+									}
+									if(isset($_POST['delete'])){
+										if (CurrentUser::$account != $_POST['login']){
+											Account::delete($_POST['login']);
+										}
 									}
 									if(isset($_POST['login'])){
 										$this->page = new Account($_POST['login']);
@@ -248,7 +274,48 @@
 
  		return;
 	}
+	
+	
+ 	/**
+ 	 * Copy files on the server
+ 	 * 
+ 	 * @author Alesc from Thibaud Rohmer move() function
+ 	 */
+ 	public static function copyFile(){
 
+ 		/// Just to be really sure... 
+ 		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
+ 			return;
+ 		}
+
+ 		$from 	= File::r2a(stripslashes($_POST['pathFrom']));
+ 		$to 	= dirname($from)."/".stripslashes($_POST['pathTo']);
+ 		$type 	= $_POST['copy'];
+
+ 		if($from == $to){
+ 			return;
+ 		}
+
+ 		if($type == "copy"){
+			/// Metadatas need to be done first: once moved/deleted,
+			/// we won't be able to compute from the original file
+			Admin::manage_metadatas(stripslashes($_POST['pathFrom']), stripslashes($_POST['pathTo']));
+ 			@copy($from,$to);
+ 			return;
+ 		}
+
+ 		/// We are moving multiple files
+ 		$files = scandir($from);
+ 		foreach($files as $file){
+ 			if($file != "." && $file!=".."){
+				Admin::manage_metadatas(stripslashes($_POST['pathFrom'])."/".$file,
+							stripslashes($_POST['pathTo'])."/".$file);
+	 			@copy($from."/".$file,$to."/".$file);
+	 		}
+ 		}
+
+ 		return;
+	}
 
  	/**
  	 * Delete files on the server

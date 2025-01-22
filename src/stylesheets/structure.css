@@ -53,6 +53,20 @@ h3{
 	text-align: center;
 }
 
+
+/* PURE CSS bypass on very small screen */
+@media screen and (max-width: 480px){
+
+	.pure-form-aligned .pure-control-group label
+	{
+		text-align:center;
+	}
+	
+	.pure-control-group input[type=text], .pure-control-group input[type=password] {
+		margin: auto;
+	}
+}
+
 /* Logo */
 span#rss{
 	position: absolute;
@@ -307,6 +321,8 @@ transform: translateY(-50%);
 div#bigvideo > video {
 min-width: 100%;
 min-height: 100%;
+width: 100%;
+height: 100%;
 }
 
 

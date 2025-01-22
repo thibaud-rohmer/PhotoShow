@@ -56,6 +56,9 @@ class File
 	/// File type
 	public $type;
 	
+	/// File date
+	public $filedate;
+	
 	/**
 	 * Check that file exists, and parse its infos (extension,name,type)
 	 *
@@ -74,6 +77,7 @@ class File
 		$this->name			=	self::Name($path);	
 		$this->type			=	self::Type($path);
 		$this->root			=	self::Root();		
+		$this->filedate		=	self::FileDate($path);		
 	}
 	
 	/**
@@ -161,6 +165,15 @@ class File
 
 	}
 	
+	
+	public static function FileDate($file){
+		if (!in_array("exif", get_loaded_extensions())) {
+			return 'exif error';
+		}else{
+			return 	@exif_read_data($file)['DateTimeOriginal'];		
+		}
+	}
+	
 	/**
 	 * Absolute path comes in, relative path goes out !
 	 *
@@ -178,6 +191,10 @@ class File
 		$rd =	realpath($dir);
 		
 		if($rf==$rd) return "";
+
+		if(Settings::$allow_symlinks_outside_photos_dir && substr($rf,0,strlen($rd)) != $rd && is_file($rf) ){
+            return substr($file,strlen($dir) + 1 );
+        }
 
 		if( substr($rf,0,strlen($rd)) != $rd ){
 			throw new Exception("This file is not inside the photos folder !<br/>");

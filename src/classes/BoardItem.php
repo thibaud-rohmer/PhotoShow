@@ -56,6 +56,9 @@ class BoardItem implements HTMLObject
 	/// Item width
 	public $width;
 	
+	/// Item date
+	public $datefile;
+	
 	/**
 	 * Construct BoardItem
 	 *
@@ -63,10 +66,11 @@ class BoardItem implements HTMLObject
 	 * @param string $ratio 
 	 * @author Thibaud Rohmer
 	 */
-	public function __construct($file,$ratio=0){
+	public function __construct($file,$ratio=0,$datefile=''){
 		$this->path 	= 	$file;
 		$this->file		=	urlencode(File::a2r($file));
 		$this->ratio	=	$ratio;
+		$this->datefile	=	$datefile;
 	}
 	
 	/**

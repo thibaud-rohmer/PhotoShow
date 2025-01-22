@@ -162,7 +162,7 @@ class Board implements HTMLObject
 				continue;
 			}
 
-			$this->boarditems[] = new BoardItem($file);
+			$this->boarditems[] = new BoardItem($file,0,File::FileDate($file));
 		}
 	}
 
@@ -176,17 +176,18 @@ class Board implements HTMLObject
 		foreach($this->dirs as $d){
 			if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
 				 continue;
-			$firstImg = Judge::searchDir($d);
-			if(!$firstImg){
+			
+			$albumCover = Judge::searchAlbumImage($d);
+			if(!$albumCover){
 				if(CurrentUser::$admin){
-					$firstImg = NULL;
+					$albumCover = NULL;
 				}else{
 					continue;
 				}
 			}
 
 
-			$item = new BoardDir($d,$firstImg);
+			$item = new BoardDir($d,$albumCover);
 			$this->boardfolders[] = $item;
 
 		}
@@ -226,10 +227,36 @@ class Board implements HTMLObject
 		$this->grid("Image");
 		if(sizeof($this->boarditems)>0){
 			echo "<div class='section sectionimg'>";
-			echo "<h2>".Settings::_("board","images")."</h2>";
-			echo "<div class='pure-g line'>";
+			
+			$years = [];
 			foreach($this->boarditems as $item){
-				$item->toHTML();
+				$year = substr($item->datefile,0,4);
+				if(!in_array($year,$years) and $year != '') $years[]=$year;
+			}	
+			//echo "<p>".print_r($years)."</p>";
+			
+			
+			foreach($years as $year){
+				echo "<h2>$year</h2>";
+				echo "<div class='pure-g line'>";
+					foreach($this->boarditems as $item){
+						if( $year == substr($item->datefile,0,4)){
+							$item->toHTML();	
+						}
+					}
+				echo "</div>";
+			}
+			
+			$hideexif = false;
+			foreach($this->boarditems as $item){
+				if (substr($item->datefile,0,4) == ''){
+				        if($hideexif == false) {
+        	                                echo "<h2>".Settings::_("board","images")." sans dates exif</h2>";
+	                                        echo "<div class='pure-g line'>";
+                                        	$hideexif = true;
+                                	}
+					$item->toHTML();
+				}
 			}
 			echo "</div>";
 			echo "</div>";
